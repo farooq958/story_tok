@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:spotify_clone/components/page_uploader.dart';
 
 class MyStorilyPage extends StatelessWidget {
   @override
@@ -88,6 +88,7 @@ class MyStorilyPageUI extends StatelessWidget {
                 ),
                 MaterialButton(
                     onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PageUploader()));
                       /*Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(
                         child: ChangeNotifierProvider(
                           create: (_)=>Admin(),
