@@ -54,29 +54,42 @@ class PageUploaderState extends State<PageUploader> {
                   crossAxisCount: 2,
                   children: List.generate(4, (index) {
                     //return Center(child:Text('Item $index', style: Theme.of(context).textTheme.headline4,));
-                    return Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                        color: Colors.red[200]),
-                    child: _image != null
-                        ? Image.file(
-                      _image,
-                      width: 200.0,
-                      height: 200.0,
-                      fit: BoxFit.fitHeight,
-                    )
-                        : Container(
-                      decoration: BoxDecoration(
-                          color: Colors.red[200]),
-                      width: 200,
-                      height: 200,
-                      child: Icon(
-                        Icons.camera_alt,
-                        color: Colors.grey[800],
-                      ),
-                    ),
-                  );
+                    return GestureDetector(
+                        onTap: () async {
+                          /*var source = type == ImageSourceType.camera
+                              ? ImageSource.camera
+                              : ImageSource.gallery;
+                          XFile image = await imagePicker.pickImage(
+                              source: source, imageQuality: 50, preferredCameraDevice: CameraDevice.front);
+                          setState(() {
+                            _image = File(image.path);
+                          });*/
+                          await _handleURLButtonPress(context, ImageSourceType.gallery);
+                        },
+                        child: Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                            color: Colors.red[200]),
+                        child: _image != null
+                            ? Image.file(
+                          _image,
+                          width: 200.0,
+                          height: 200.0,
+                          fit: BoxFit.fitHeight,
+                        )
+                            : Container(
+                          decoration: BoxDecoration(
+                              color: Colors.red[200]),
+                          width: 200,
+                          height: 200,
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.grey[800],
+                          ),
+                        ),
+                      )
+                    );
                   }
                   )
               ),
