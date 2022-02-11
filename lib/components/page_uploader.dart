@@ -41,54 +41,73 @@ class PageUploaderState extends State<PageUploader> {
         appBar: AppBar(
           title: Text("Pick book pages"),
         ),
-        body: Center(
+
+
+      body: Center(
+
+
           child: Column(
+
             children: [
+              GridView.count(
+                shrinkWrap: true,
+                  crossAxisCount: 2,
+                  children: List.generate(4, (index) {
+                    //return Center(child:Text('Item $index', style: Theme.of(context).textTheme.headline4,));
+                    return Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                        color: Colors.red[200]),
+                    child: _image != null
+                        ? Image.file(
+                      _image,
+                      width: 200.0,
+                      height: 200.0,
+                      fit: BoxFit.fitHeight,
+                    )
+                        : Container(
+                      decoration: BoxDecoration(
+                          color: Colors.red[200]),
+                      width: 200,
+                      height: 200,
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.grey[800],
+                      ),
+                    ),
+                  );
+                  }
+                  )
+              ),
               Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                    color: Colors.red[200]),
-                child: _image != null
-                    ? Image.file(
-                  _image,
-                  width: 200.0,
-                  height: 200.0,
-                  fit: BoxFit.fitHeight,
-                )
-                    : Container(
-                  decoration: BoxDecoration(
-                      color: Colors.red[200]),
-                  width: 200,
-                  height: 200,
-                  child: Icon(
-                    Icons.camera_alt,
-                    color: Colors.grey[800],
-                  ),
+                child: Column(
+                  children: <Widget>[
+                    MaterialButton(
+                      color: Colors.blue,
+                      child: Text(
+                        "Pick Image from Gallery",
+                        style: TextStyle(
+                            color: Colors.white70, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        _handleURLButtonPress(context, ImageSourceType.gallery);
+                      },
+                    ),
+                    MaterialButton(
+                      color: Colors.blue,
+                      child: Text(
+                        "Pick Image from Camera",
+                        style: TextStyle(
+                            color: Colors.white70, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        _handleURLButtonPress(context, ImageSourceType.camera);
+                      },
+                    ),
+                ]
                 ),
-              ),
-              MaterialButton(
-                color: Colors.blue,
-                child: Text(
-                  "Pick Image from Gallery",
-                  style: TextStyle(
-                      color: Colors.white70, fontWeight: FontWeight.bold),
-                ),
-                onPressed: () {
-                  _handleURLButtonPress(context, ImageSourceType.gallery);
-                },
-              ),
-              MaterialButton(
-                color: Colors.blue,
-                child: Text(
-                  "Pick Image from Camera",
-                  style: TextStyle(
-                      color: Colors.white70, fontWeight: FontWeight.bold),
-                ),
-                onPressed: () {
-                  _handleURLButtonPress(context, ImageSourceType.camera);
-                },
-              ),
+              )
             ],
           ),
         ));
