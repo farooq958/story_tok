@@ -12,9 +12,19 @@ class PageUploader extends StatefulWidget {
 }
 
 class PageUploaderState extends State<PageUploader> {
-  var _image;
+  var _images = <File>[];
+  var total = 0;
   var imagePicker;
-  void _handleURLButtonPress(BuildContext context, var type) async  {
+
+  void _addImage(BuildContext context, var type) async
+  {
+
+    _images.add(null);
+    _handleURLButtonPress(context, type, total);
+    total ++;
+  }
+
+  void _handleURLButtonPress(BuildContext context, var type, var i) async  {
    /* Navigator.push(context,
         MaterialPageRoute(builder: (context) => ImageFromGalleryEx(type)));*/
 
@@ -24,7 +34,7 @@ class PageUploaderState extends State<PageUploader> {
       XFile image = await imagePicker.pickImage(
           source: source, imageQuality: 50, preferredCameraDevice: CameraDevice.front);
       setState(() {
-        _image = File(image.path);
+        _images[i] = File(image.path);
       });
   }
 
@@ -52,7 +62,7 @@ class PageUploaderState extends State<PageUploader> {
               GridView.count(
                 shrinkWrap: true,
                   crossAxisCount: 2,
-                  children: List.generate(4, (index) {
+                  children: List.generate(total, (index) {
                     //return Center(child:Text('Item $index', style: Theme.of(context).textTheme.headline4,));
                     return GestureDetector(
                         onTap: () async {
@@ -64,16 +74,16 @@ class PageUploaderState extends State<PageUploader> {
                           setState(() {
                             _image = File(image.path);
                           });*/
-                          await _handleURLButtonPress(context, ImageSourceType.gallery);
+                          await _handleURLButtonPress(context, ImageSourceType.gallery, index);
                         },
                         child: Container(
                         width: 200,
                         height: 200,
                         decoration: BoxDecoration(
                             color: Colors.red[200]),
-                        child: _image != null
+                        child: _images[index] != null
                             ? Image.file(
-                          _image,
+                          _images[index],
                           width: 200.0,
                           height: 200.0,
                           fit: BoxFit.fitHeight,
@@ -104,10 +114,9 @@ class PageUploaderState extends State<PageUploader> {
                             color: Colors.white70, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
-                        _handleURLButtonPress(context, ImageSourceType.gallery);
+                        _addImage(context, ImageSourceType.gallery);
                       },
-                    ),
-                    MaterialButton(
+                    ),/*MaterialButton(
                       color: Colors.blue,
                       child: Text(
                         "Pick Image from Camera",
@@ -115,9 +124,10 @@ class PageUploaderState extends State<PageUploader> {
                             color: Colors.white70, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
-                        _handleURLButtonPress(context, ImageSourceType.camera);
+                        _handleURLButtonPress(context, ImageSourceType.camera, 0);
                       },
-                    ),
+                    ),*/
+
                 ]
                 ),
               )
