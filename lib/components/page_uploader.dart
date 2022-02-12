@@ -57,66 +57,111 @@ class PageUploaderState extends State<PageUploader> {
 
 
           child: Column(
-
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              GridView.count(
-                shrinkWrap: true,
-                  crossAxisCount: 2,
-                  children: List.generate(total, (index) {
-                    //return Center(child:Text('Item $index', style: Theme.of(context).textTheme.headline4,));
-                    return GestureDetector(
-                        onTap: () async {
-                          /*var source = type == ImageSourceType.camera
-                              ? ImageSource.camera
-                              : ImageSource.gallery;
-                          XFile image = await imagePicker.pickImage(
-                              source: source, imageQuality: 50, preferredCameraDevice: CameraDevice.front);
-                          setState(() {
-                            _image = File(image.path);
-                          });*/
-                          await _handleURLButtonPress(context, ImageSourceType.gallery, index);
-                        },
-                        child: Container(
-                        width: 200,
-                        height: 200,
-                        decoration: BoxDecoration(
-                            color: Colors.red[200]),
-                        child: _images[index] != null
-                            ? Image.file(
-                          _images[index],
-                          width: 200.0,
-                          height: 200.0,
-                          fit: BoxFit.fitHeight,
-                        )
-                            : Container(
-                          decoration: BoxDecoration(
-                              color: Colors.red[200]),
-                          width: 200,
-                          height: 200,
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: Colors.grey[800],
-                          ),
-                        ),
+              Expanded(
+                flex:8,
+                child: Container(
+                  child: GridView.count(
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    crossAxisCount: 2,
+                    children: List.generate(total + 1, (index) {
+                        //return Center(child:Text('Item $index', style: Theme.of(context).textTheme.headline4,));
+
+                        if(index == total) {
+                          return GestureDetector(
+                              onTap: () async {
+                                /*var source = type == ImageSourceType.camera
+                                  ? ImageSource.camera
+                                  : ImageSource.gallery;
+                              XFile image = await imagePicker.pickImage(
+                                  source: source, imageQuality: 50, preferredCameraDevice: CameraDevice.front);
+                              setState(() {
+                                _image = File(image.path);
+                              });*/
+                                await _addImage(
+                                    context, ImageSourceType.gallery);
+                              },
+                              child: Container(
+                                width: 200,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                    color: Colors.red[200]),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.red[200]),
+                                  width: 200,
+                                  height: 200,
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.grey[800],
+                                  ),
+                                ),
+                              )
+                          );
+                        }
+                        else
+                          {
+                            return GestureDetector(
+                                onTap: () async {
+                                  /*var source = type == ImageSourceType.camera
+                                  ? ImageSource.camera
+                                  : ImageSource.gallery;
+                              XFile image = await imagePicker.pickImage(
+                                  source: source, imageQuality: 50, preferredCameraDevice: CameraDevice.front);
+                              setState(() {
+                                _image = File(image.path);
+                              });*/
+                                  await _handleURLButtonPress(
+                                      context, ImageSourceType.gallery, index);
+                                },
+                                child: Container(
+                                  width: 200,
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                      color: Colors.red[200]),
+                                  child: _images[index] != null
+                                      ? Image.file(
+                                    _images[index],
+                                    width: 200.0,
+                                    height: 200.0,
+                                    fit: BoxFit.fitHeight,
+                                  )
+                                      : Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.red[200]),
+                                    width: 200,
+                                    height: 200,
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.grey[800],
+                                    ),
+                                  ),
+                                )
+                            );
+                          }
+                      }
                       )
-                    );
-                  }
-                  )
+                  ),
+                ),
               ),
-              Container(
+             /* Container(
                 child: Column(
                   children: <Widget>[
                     MaterialButton(
                       color: Colors.blue,
                       child: Text(
-                        "Pick Image from Gallery",
+                        "Add Book page",
                         style: TextStyle(
                             color: Colors.white70, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
                         _addImage(context, ImageSourceType.gallery);
                       },
-                    ),/*MaterialButton(
+                    ),*//*MaterialButton(
                       color: Colors.blue,
                       child: Text(
                         "Pick Image from Camera",
@@ -126,11 +171,44 @@ class PageUploaderState extends State<PageUploader> {
                       onPressed: () {
                         _handleURLButtonPress(context, ImageSourceType.camera, 0);
                       },
-                    ),*/
+                    ),*//*
 
                 ]
                 ),
+              ),*/
+            //],
+              Expanded(
+                flex : 2,
+              child: MaterialButton(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>PageUploader()));
+
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100.0),
+                    ),
+                    margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.mail_outline, color: Colors.black,),
+                        SizedBox(
+                          width: 5.0,
+                        ),
+                        Text("RECORD STORIES", style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),),
+                      ],
+                    ),
+                  )
               )
+              ),
             ],
           ),
         ));

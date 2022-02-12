@@ -38,7 +38,7 @@ class MyStorilyPageUI extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Image.asset('./images/spotify_logo_banner_black.png', height: MediaQuery.of(context).size.height*0.12,),
-          Text("Millions of Story. \n Free on Storily.", style: TextStyle(
+          Text("Millions of Stories. \n Free on Storily.", style: TextStyle(
             fontFamily: 'Proxima Nova',
             fontSize: 30.0,
             fontWeight: FontWeight.w900,
@@ -111,7 +111,7 @@ class MyStorilyPageUI extends StatelessWidget {
                           SizedBox(
                             width: 5.0,
                           ),
-                          Text("RECORD STORIES", style: TextStyle(
+                          Text("ADD NEW STORY", style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
