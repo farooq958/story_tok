@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:spotify_clone/components/voice_recording.dart';
 
 enum ImageSourceType { gallery, camera }
 
@@ -74,14 +75,7 @@ class PageUploaderState extends State<PageUploader> {
                         if(index == total) {
                           return GestureDetector(
                               onTap: () async {
-                                /*var source = type == ImageSourceType.camera
-                                  ? ImageSource.camera
-                                  : ImageSource.gallery;
-                              XFile image = await imagePicker.pickImage(
-                                  source: source, imageQuality: 50, preferredCameraDevice: CameraDevice.front);
-                              setState(() {
-                                _image = File(image.path);
-                              });*/
+
                                 await _addImage(
                                     context, ImageSourceType.gallery);
                               },
@@ -107,14 +101,7 @@ class PageUploaderState extends State<PageUploader> {
                           {
                             return GestureDetector(
                                 onTap: () async {
-                                  /*var source = type == ImageSourceType.camera
-                                  ? ImageSource.camera
-                                  : ImageSource.gallery;
-                              XFile image = await imagePicker.pickImage(
-                                  source: source, imageQuality: 50, preferredCameraDevice: CameraDevice.front);
-                              setState(() {
-                                _image = File(image.path);
-                              });*/
+
                                   await _handleURLButtonPress(
                                       context, ImageSourceType.gallery, index);
                                 },
@@ -181,7 +168,7 @@ class PageUploaderState extends State<PageUploader> {
                 flex : 2,
               child: MaterialButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>PageUploader()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>VoiceRecorder()));
 
                   },
                   child: Container(
@@ -215,14 +202,15 @@ class PageUploaderState extends State<PageUploader> {
   }
 }
 
-class ImageFromGalleryEx extends StatefulWidget {
+/*class ImageFromGalleryEx extends StatefulWidget {
   final type;
   ImageFromGalleryEx(this.type);
 
   @override
   ImageFromGalleryExState createState() => ImageFromGalleryExState(this.type);
-}
+}*/
 
+/*
 class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
   var _image;
   var imagePicker;
@@ -289,4 +277,4 @@ class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
       ),
     );
   }
-}
+}*/
