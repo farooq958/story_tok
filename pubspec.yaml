@@ -32,7 +32,8 @@ dependencies:
   firebase_core: ^1.11.0
   firebase_auth: ^3.3.5
   flutter_sound: ^9.1.2
-
+  permission_handler: ^6.0.1
+  audio_session:
 
 
 dev_dependencies:
