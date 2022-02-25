@@ -1,12 +1,14 @@
+import 'dart:async';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:audio_session/audio_session.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:spotify_clone/components/recording_preview.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -36,9 +38,9 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   bool _mPlayerIsInited = false;
   bool _mRecorderIsInited = false;
   bool _mplaybackReady = false;
-
+  Stopwatch _timer  = Stopwatch();
   //slider
-  
+  Map<int, int> _pageTime = Map();
 
 
 
@@ -117,7 +119,9 @@ class VoiceRecorderState extends State<VoiceRecorder> {
       audioSource: theSource,
     )
         .then((value) {
-      setState(() {});
+      setState(() {
+        _timer.start();
+      });
     });
   }
 
@@ -126,6 +130,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
       setState(() {
         //var url = value;
         _mplaybackReady = true;
+        _timer.stop();
       });
     });
   }
@@ -169,11 +174,70 @@ class VoiceRecorderState extends State<VoiceRecorder> {
     return _mPlayer.isStopped ? play : stopPlayer;
   }
 
+  //final CarouselController _controller = CarouselController();
+
+  final List<Widget> imageSliders = imgList
+      .map((item) => Container(
+    child: Container(
+      margin: EdgeInsets.all(5.0),
+      child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          child: Stack(
+            children: <Widget>[
+              Image.network(item, fit: BoxFit.cover, width: 1000.0),
+              Positioned(
+                bottom: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color.fromARGB(200, 0, 0, 0),
+                        Color.fromARGB(0, 0, 0, 0)
+                      ],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                    ),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 20.0),
+                  child: Text(
+                    'No. ${imgList.indexOf(item)} image',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )),
+    ),
+  ))
+      .toList();
+
   @override
   Widget build(BuildContext context) {
     Widget makeBody() {
       return Column(
         children: [
+          Container(
+            child: CarouselSlider(
+              options: CarouselOptions(
+                //autoPlay: true,
+                aspectRatio: 2.0,
+                enableInfiniteScroll: false,
+                enlargeCenterPage: true,
+                onPageChanged: (index, reason){
+                  _pageTime.addAll({index: _timer.elapsedMilliseconds});
+
+                }
+              ),
+              items: imageSliders,
+            ),
+          ),
           Container(
             margin: const EdgeInsets.all(3),
             padding: const EdgeInsets.all(3),
@@ -192,7 +256,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                 onPressed: getRecorderFn(),
                 //color: Colors.white,
                 //disabledColor: Colors.grey,
-                child: Text(_mRecorder.isRecording ? 'Stop' : 'Record'),
+                child: Text(_mRecorder.isRecording ? 'Done' : 'Record'),
               ),
               SizedBox(
                 width: 20,
@@ -202,6 +266,42 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                   : 'Recorder is stopped'),
             ]),
           ),
+          MaterialButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RecordingPreview(pageTime : _pageTime)));
+              },
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(100.0),
+                ),
+                margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.mail_outline,
+                      color: Colors.black,
+                    ),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Text(
+                      "Preview",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ],
+                ),
+              )),
           Container(
             margin: const EdgeInsets.all(3),
             padding: const EdgeInsets.all(3),
@@ -237,7 +337,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
     return Scaffold(
       backgroundColor: Colors.blue,
       appBar: AppBar(
-        title: const Text('Simple Recorder'),
+        title: const Text('Record your book'),
       ),
       body: makeBody(),
     );
