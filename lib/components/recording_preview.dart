@@ -24,10 +24,12 @@ const theSource = AudioSource.microphone;
 class RecordingPreview extends StatefulWidget {
 
   Map<int, int> pageTime;
-  RecordingPreview({this.pageTime}): super();
+  List<File> images = <File>[];
+
+  RecordingPreview({this.pageTime, this.images}): super();
 
   @override
-  RecordingPreviewState createState() => RecordingPreviewState(pageTime : pageTime);
+  RecordingPreviewState createState() => RecordingPreviewState(pageTime : pageTime, cachedImages: images);
 }
 
 class RecordingPreviewState extends State<RecordingPreview> {
@@ -42,11 +44,13 @@ class RecordingPreviewState extends State<RecordingPreview> {
   StreamSubscription _playerSubscription;
   //slider
   final CarouselController _controller = CarouselController();
-
+  List<File> cachedImages = <File>[];
   Map<int, int> pageTime;
+  List<Widget> imageSliders;
   int currentPage = 1;
-  RecordingPreviewState({this.pageTime}): super();
-//() => _controller.nextPage(),
+
+  RecordingPreviewState({this.pageTime, this.cachedImages}): super();
+
 
   @override
   void initState() {
@@ -84,6 +88,8 @@ class RecordingPreviewState extends State<RecordingPreview> {
 
 
     });
+
+    InitImageSliders();
     super.initState();
   }
 
@@ -201,104 +207,108 @@ class RecordingPreviewState extends State<RecordingPreview> {
 
   //final CarouselController _controller = CarouselController();
 
-  final List<Widget> imageSliders = imgList
-      .map((item) => Container(
-    child: Container(
-      margin: EdgeInsets.all(5.0),
-      child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-          child: Stack(
-            children: <Widget>[
-              Image.network(item, fit: BoxFit.cover, width: 1000.0),
-              Positioned(
-                bottom: 0.0,
-                left: 0.0,
-                right: 0.0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromARGB(200, 0, 0, 0),
-                        Color.fromARGB(0, 0, 0, 0)
-                      ],
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
+  void InitImageSliders() {
+    imageSliders = cachedImages
+        .map((item) =>
+        Container(
+          child: Container(
+            margin: EdgeInsets.all(5.0),
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                child: Stack(
+                  children: <Widget>[
+                    Image.file(item, fit: BoxFit.cover, width: 1000.0),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(200, 0, 0, 0),
+                              Color.fromARGB(0, 0, 0, 0)
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        child: Text(
+                          'No. ${cachedImages.indexOf(item)} image',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 20.0),
-                  child: Text(
-                    'No. ${imgList.indexOf(item)} image',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  ],
+                )),
+          ),
+        ))
+        .toList();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      Widget makeBody() {
+        return Column(
+          children: [
+            Container(
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  //autoPlay: true,
+                  aspectRatio: 2.0,
+                  enableInfiniteScroll: false,
+                  enlargeCenterPage: true,
+                ),
+                items: imageSliders,
+                carouselController: _controller,
+              ),
+            ),
+
+            Container(
+              margin: const EdgeInsets.all(3),
+              padding: const EdgeInsets.all(3),
+              height: 80,
+              width: double.infinity,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Color(0xFFFAF0E6),
+                border: Border.all(
+                  color: Colors.indigo,
+                  width: 3,
                 ),
               ),
-            ],
-          )),
-    ),
-  ))
-      .toList();
-
-  @override
-  Widget build(BuildContext context) {
-    Widget makeBody() {
-      return Column(
-        children: [
-          Container(
-            child: CarouselSlider(
-              options: CarouselOptions(
-                //autoPlay: true,
-                aspectRatio: 2.0,
-                enableInfiniteScroll: false,
-                enlargeCenterPage: true,
-              ),
-              items: imageSliders,
-              carouselController: _controller,
+              child: Row(children: [
+                ElevatedButton(
+                  onPressed: getPlaybackFn(),
+                  //color: Colors.white,
+                  //disabledColor: Colors.grey,
+                  child: Text(_mPlayer.isPlaying ? 'Stop' : 'Play'),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(_mPlayer.isPlaying
+                    ? 'Playback in progress'
+                    : 'Player is stopped'),
+              ]),
             ),
-          ),
+          ],
+        );
+      }
 
-          Container(
-            margin: const EdgeInsets.all(3),
-            padding: const EdgeInsets.all(3),
-            height: 80,
-            width: double.infinity,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Color(0xFFFAF0E6),
-              border: Border.all(
-                color: Colors.indigo,
-                width: 3,
-              ),
-            ),
-            child: Row(children: [
-              ElevatedButton(
-                onPressed: getPlaybackFn(),
-                //color: Colors.white,
-                //disabledColor: Colors.grey,
-                child: Text(_mPlayer.isPlaying ? 'Stop' : 'Play'),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Text(_mPlayer.isPlaying
-                  ? 'Playback in progress'
-                  : 'Player is stopped'),
-            ]),
-          ),
-        ],
+      return Scaffold(
+        backgroundColor: Colors.blue,
+        appBar: AppBar(
+          title: const Text('Recording Preview'),
+        ),
+        body: makeBody(),
       );
     }
 
-    return Scaffold(
-      backgroundColor: Colors.blue,
-      appBar: AppBar(
-        title: const Text('Recording Preview'),
-      ),
-      body: makeBody(),
-    );
-  }
 }

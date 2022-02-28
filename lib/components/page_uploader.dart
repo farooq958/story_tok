@@ -164,7 +164,7 @@ class PageUploaderState extends State<PageUploader> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VoiceRecorder()));
+                                builder: (context) => VoiceRecorder(images: _images)));
                       },
                       child: Container(
                         padding: EdgeInsets.all(10.0),
