@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:spotify_clone/components/voice_recording.dart';
+import 'package:storily/components/voice_recording.dart';
 
 enum ImageSourceType { gallery, camera }
 

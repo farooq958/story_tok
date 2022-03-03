@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify_clone/components/spotify_home.dart';
-import 'package:spotify_clone/logic/basic_ui.dart';
+import 'package:storily/components/spotify_home.dart';
+import 'package:storily/logic/basic_ui.dart';
 
 
 class SessionManagement extends ChangeNotifier{

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify_clone/components/page_uploader.dart';
+import 'package:storily/components/page_uploader.dart';
 
 class MyStorilyPage extends StatelessWidget {
   @override

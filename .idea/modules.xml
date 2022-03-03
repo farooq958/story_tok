@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/spotify_clone.iml" filepath="$PROJECT_DIR$/spotify_clone.iml" />
       <module fileurl="file://$PROJECT_DIR$/android/spotify_clone_android.iml" filepath="$PROJECT_DIR$/android/spotify_clone_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/storily.iml" filepath="$PROJECT_DIR$/storily.iml" />
     </modules>
   </component>
 </project>

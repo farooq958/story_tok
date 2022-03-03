@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify_clone/components/admin.dart';
-import 'package:spotify_clone/components/spotify_home.dart';
-import 'package:spotify_clone/logic/admin_logic.dart';
-import 'package:spotify_clone/logic/auth_logic.dart';
-import 'package:spotify_clone/logic/basic_ui.dart';
-import 'package:spotify_clone/components/my_storily_page.dart';
+import 'package:storily/components/admin.dart';
+import 'package:storily/components/spotify_home.dart';
+import 'package:storily/logic/admin_logic.dart';
+import 'package:storily/logic/auth_logic.dart';
+import 'package:storily/logic/basic_ui.dart';
+import 'package:storily/components/my_storily_page.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

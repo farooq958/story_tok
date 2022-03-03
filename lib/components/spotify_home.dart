@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify_clone/logic/home_logic.dart';
+import 'package:storily/logic/home_logic.dart';
 
 class SpotifyHome extends StatelessWidget {
   @override

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.spotify_clone">
+    package="com.guri.storily">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -9,7 +9,7 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <application
-        android:label="spotify_clone"
+        android:label="storily"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
