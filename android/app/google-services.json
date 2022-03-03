@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "976276224851",
-    "firebase_url": "https://spotify-clone-596f5.firebaseio.com",
-    "project_id": "spotify-clone-596f5",
-    "storage_bucket": "spotify-clone-596f5.appspot.com"
+    "project_number": "1087902809324",
+    "project_id": "storily-f38a6",
+    "storage_bucket": "storily-f38a6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:976276224851:android:471b41377e3d8b430cffa6",
+        "mobilesdk_app_id": "1:1087902809324:android:5343546cbfc49b6c9379c9",
         "android_client_info": {
           "package_name": "com.guri.storily"
         }
       },
       "oauth_client": [
         {
-          "client_id": "976276224851-suh5dv5299ne3ns3pcb24e1lobcnbg2o.apps.googleusercontent.com",
+          "client_id": "1087902809324-j8gtir3k7udjn8p6bbc8d7dd41anvibb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB1-Finfki62kkmUw0ESlXXjB-2Jb48Cig"
+          "current_key": "AIzaSyDzIGMW4nDyyXlU-NQm_zAL0F4KvcldwGM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "976276224851-suh5dv5299ne3ns3pcb24e1lobcnbg2o.apps.googleusercontent.com",
+              "client_id": "1087902809324-j8gtir3k7udjn8p6bbc8d7dd41anvibb.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
