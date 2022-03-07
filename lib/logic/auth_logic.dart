@@ -72,6 +72,7 @@ class LoginLogic extends ChangeNotifier{
         ],
         child: SpotifyHome(),
       )), (Route<dynamic> route)=>false);
+
     }catch(e){
       final ShowCustomAlertDialog showCustomAlertDialog = ShowCustomAlertDialog();
       print("Catch Error : "+e.message);
@@ -79,6 +80,11 @@ class LoginLogic extends ChangeNotifier{
       isAuthenticating = false;
       loginButton = false;
       notifyListeners();
+    }
+    User user = FirebaseAuth.instance.currentUser;
+
+    if (user!= null && !user.emailVerified) {
+      await user.sendEmailVerification();
     }
   }
 }
@@ -148,6 +154,11 @@ class CreateUserAccount extends ChangeNotifier{
         ],
         child: SpotifyHome(),
       )), (Route<dynamic> route)=>false);
+      User user = FirebaseAuth.instance.currentUser;
+
+      if (user!= null && !user.emailVerified) {
+        await user.sendEmailVerification();
+      }
       return true;
     }catch(e){
       final ShowCustomAlertDialog showCustomAlertDialog = ShowCustomAlertDialog();
@@ -158,7 +169,7 @@ class CreateUserAccount extends ChangeNotifier{
       return false;
     }
 
-    
+
   }
 
 }
