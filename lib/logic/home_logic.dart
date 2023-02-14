@@ -17,12 +17,38 @@ class RecentlyPlayedLogic extends ChangeNotifier{
   
   bool funCalled = false;
 
+
   List<RecentlyPlayedStuff> recntlyPlayedStuff = [];
   void getSongHistory() async{
     final User firebaseUser = FirebaseAuth.instance.currentUser;
     print("Getting Data");
-    QuerySnapshot qsnap = await FirebaseFirestore.instance.collection("users").doc(firebaseUser.uid).collection("songHistory").get();
-    List<DocumentSnapshot> data = qsnap.docs;
+
+    //////
+   /* CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    Future<void> addUser() {
+      // Call the user's CollectionReference to add a new user
+      return users
+          .add({
+        'uid': "testing", // John Doe
+        'name': "testing" , // Stokes and Sons
+
+      })
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+    await addUser();
+    var qsnap1 = await FirebaseFirestore.instance.collection("users").get();
+    List<DocumentSnapshot> data1 = qsnap1.docs;
+
+    for(int i=0; i<data1.length; i++) {
+      print("Id " + data1[i]['uid']);
+    }*/
+    ///////
+
+    QuerySnapshot qsnap = await FirebaseFirestore.instance.collection("users").where('uid', isEqualTo: firebaseUser.uid).get();
+    QuerySnapshot qsnap2 = qsnap.docs[0].get("songHistory");//firebaseUser.uid
+    List<DocumentSnapshot> data = qsnap2.docs;
     recntlyPlayedStuff = [];
     for(int i=0; i<data.length; i++){
       print("Id "+data[i]['songId']);

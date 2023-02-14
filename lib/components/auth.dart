@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:storily/components/DisplayScreen.dart';
 import 'package:storily/components/admin.dart';
 import 'package:storily/components/spotify_home.dart';
 import 'package:storily/logic/admin_logic.dart';
@@ -172,6 +173,34 @@ class AuthUI extends StatelessWidget {
                 MaterialButton(
                     onPressed: (){
                       Navigator.push(context,MaterialPageRoute(builder: (context)=>MyStorilyPage()));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                      margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.mail_outline, color: Colors.black,),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Text("AUTHOR PAGE SHORTCUT", style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),),
+                        ],
+                      ),
+                    )
+                ),
+                MaterialButton(
+                    onPressed: (){
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=>VideoDisplayScreen()));
                     },
                     child: Container(
                       padding: EdgeInsets.all(10.0),

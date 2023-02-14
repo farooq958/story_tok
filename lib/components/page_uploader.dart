@@ -201,6 +201,57 @@ class PageUploaderState extends State<PageUploader> {
   }
 }
 
+// import 'dart:io';
+// import 'package:flutter/material.dart';
+// import 'package:image_picker/image_picker.dart';
+//
+// class ImageUploadScreen extends StatefulWidget {
+//   @override
+//   _ImageUploadScreenState createState() => _ImageUploadScreenState();
+// }
+//
+// class _ImageUploadScreenState extends State<ImageUploadScreen> {
+//   List<File> _images = [];
+//
+//   Future<void> _getImage() async {
+//     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+//
+//     setState(() {
+//       _images.add(image);
+//     });
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("Upload Images"),
+//       ),
+//       body: Container(
+//         child: ReorderableListView(
+//           children: _images
+//               .map((image) => Container(
+//             key: ValueKey(image),
+//             child: Image.file(image),
+//           ))
+//               .toList(),
+//           onReorder: (oldIndex, newIndex) {
+//             setState(() {
+//               File image = _images.removeAt(oldIndex);
+//               _images.insert(newIndex, image);
+//             });
+//           },
+//         ),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: _getImage,
+//         child: Icon(Icons.add_a_photo),
+//       ),
+//     );
+//   }
+// }
+
+
 /*class ImageFromGalleryEx extends StatefulWidget {
   final type;
   ImageFromGalleryEx(this.type);

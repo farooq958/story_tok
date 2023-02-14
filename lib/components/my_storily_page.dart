@@ -74,7 +74,7 @@ class MyStorilyPageUI extends StatelessWidget {
                           SizedBox(
                             width: 5.0,
                           ),
-                          Text("Listen TO STORIES", style: TextStyle(
+                          Text("Listen TO STORIES", style: TextStyle(//this is a short cut
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
