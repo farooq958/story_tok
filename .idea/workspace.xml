@@ -14,8 +14,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9e43f460-0dc0-4c23-ac9b-310613e162b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/DisplayScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/DisplayScreen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/MazeGameScreen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/GameLoader.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/GameLoader.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -63,7 +63,7 @@ class _GameScreenState extends State<GameScreen> {
         if (details.primaryVelocity > 0) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => VideoDisplayScreen()),
+            MaterialPageRoute(builder: (context) => VideoDisplayScreen()), //this needs to be changed to random types, not just video, but it is a start.
             );
           }
         },
