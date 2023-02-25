@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
-import 'package:storily/components/DisplayScreen.dart ';
+import 'package:storily/components/home_video_display_screen.dart';
 import "package:webview_flutter/webview_flutter.dart";
 
 //In this code, the GameScreen widget takes in a gameId parameter,

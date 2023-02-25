@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:video_player/video_player.dart';
-import 'package:storily/components/GameLoader.dart';
+import 'package:storily/components/home_game_loader.dart';
 
 class VideoDisplayScreen extends StatefulWidget {
   final String videoURL;
