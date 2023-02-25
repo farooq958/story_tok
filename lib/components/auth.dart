@@ -2,59 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/DisplayScreen.dart';
-import 'package:storily/components/admin.dart';
-import 'package:storily/components/spotify_home.dart';
+import 'package:storily/components/admin_Deprecated.dart';
+import 'package:storily/components/old_home_Deprecated.dart';
 import 'package:storily/logic/admin_logic.dart';
 import 'package:storily/logic/auth_logic.dart';
 import 'package:storily/logic/basic_ui.dart';
-import 'package:storily/components/my_storily_page.dart';
+import 'package:storily/components/my_storily_author_page.dart';
 
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  Future onloadDecider() async {
-    User user = FirebaseAuth.instance.currentUser;
-    if(user == null){
-      print("No User");
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Material(
-        child: ChangeNotifierProvider(
-          create: (_)=>SessionManagement(),
-          child: FirebaseSession(),
-        ),
-      )));
-    }else{
-      print("Current User : "+user.uid);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Material(
-        child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (_)=>SessionManagement(),),
-          ],
-          child: SpotifyHome(),
-        ),
-      )));
-    }
-  }
-  @override
-  void initState() {
-    Future.delayed(Duration(seconds: 2), (){
-      onloadDecider();
-    });
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Image.asset("./images/spotify_logo_title.png"),
-      ),
-    );
-  }
-}
-
+//authentication page, currently has a short cut to the author center, we need to make the screen automatically enters the home scree(displayscreen) after sign in.
 class FirebaseSession extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -85,7 +40,7 @@ class AuthUI extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Image.asset('./images/spotify_logo_banner_black.png', height: MediaQuery.of(context).size.height*0.12,),
+          Image.asset('./images/bitRead_logo_banner_Placeholder.png', height: MediaQuery.of(context).size.height*0.12,),
           Text("Millions of songs. \n Free on Spotify.", style: TextStyle(
             fontFamily: 'Proxima Nova',
             fontSize: 30.0,
@@ -131,48 +86,48 @@ class AuthUI extends StatelessWidget {
                     ),
                   )
                 ),
+                // SizedBox(
+                //   height: 10.0,
+                // ),
+                // MaterialButton(
+                //   onPressed: (){
+                //     Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(
+                //       child: ChangeNotifierProvider(
+                //         create: (_)=>Admin(),
+                //         child: SpotifyAdmin(),
+                //       ),
+                //     )));
+                //   },
+                //   child: Container(
+                //     padding: EdgeInsets.all(10.0),
+                //     decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(100.0),
+                //     ),
+                //     margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       crossAxisAlignment: CrossAxisAlignment.center,
+                //       children: <Widget>[
+                //         Icon(Icons.mail_outline, color: Colors.black,),
+                //         SizedBox(
+                //           width: 5.0,
+                //         ),
+                //         Text("Admin", style: TextStyle(
+                //           color: Colors.black,
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 16.0,
+                //         ),),
+                //       ],
+                //     ),
+                //   )
+                // ),
                 SizedBox(
                   height: 10.0,
                 ),
                 MaterialButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(
-                      child: ChangeNotifierProvider(
-                        create: (_)=>Admin(),
-                        child: SpotifyAdmin(),
-                      ),
-                    )));
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(100.0),
-                    ),
-                    margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.mail_outline, color: Colors.black,),
-                        SizedBox(
-                          width: 5.0,
-                        ),
-                        Text("Admin", style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),),
-                      ],
-                    ),
-                  )
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                MaterialButton(
-                    onPressed: (){
-                      Navigator.push(context,MaterialPageRoute(builder: (context)=>MyStorilyPage()));
+                    onPressed: (){//this is a short cut to the author's page, not for final product
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=>MyStorilyAuthorPage()));
                     },
                     child: Container(
                       padding: EdgeInsets.all(10.0),
@@ -217,7 +172,7 @@ class AuthUI extends StatelessWidget {
                           SizedBox(
                             width: 5.0,
                           ),
-                          Text("HOME PAGE SHORTCUT", style: TextStyle(
+                          Text("HOME PAGE", style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
@@ -512,7 +467,7 @@ class CreateAccount extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(0.0, 10.0, 5.0, 5.0),
-                  child: Text("This appears on your Spotify profile."),
+                  child: Text("This appears on your BitRead profile."),
                 ),
                 SizedBox(
                   height: 20.0,

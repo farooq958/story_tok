@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/logic/admin_logic.dart';
 
+
+//This is old file, deprecated
 class SpotifyAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

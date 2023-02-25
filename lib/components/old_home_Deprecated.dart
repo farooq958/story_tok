@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/logic/home_logic.dart';
-
+//this is hte old look for hte home screen, it is being deprecated and replaced by the Display Screen.
 class SpotifyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
