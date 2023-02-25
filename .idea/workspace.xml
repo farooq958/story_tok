@@ -13,15 +13,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9e43f460-0dc0-4c23-ac9b-310613e162b0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/images/bitRead_logo_banner_Placeholder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/components/splash_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/admin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/admin_Deprecated.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/auth.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/auth.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/my_storily_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/my_storily_author_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/spotify_home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/old_home_Deprecated.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/logic/auth_logic.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/logic/auth_logic.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/DisplayScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/DisplayScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/MazeGameScreen.dart" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

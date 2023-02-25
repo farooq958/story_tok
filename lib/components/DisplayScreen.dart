@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:video_player/video_player.dart';
-import 'package:storily/components/MazeGameScreen.dart';
+import 'package:storily/components/GameLoader.dart';
 
 class VideoDisplayScreen extends StatefulWidget {
   final String videoURL;
@@ -39,7 +39,7 @@ class _VideoDisplayScreenState extends State<VideoDisplayScreen> {
           if (details.primaryVelocity > 0) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => GameLoader()),
+              MaterialPageRoute(builder: (context) => GameScreen()),
             );
           }
         },
