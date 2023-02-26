@@ -87,6 +87,8 @@ class AddArtist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final adminObj = Provider.of<Admin>(context);
+    final ButtonStyle style =
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Artist"),
@@ -116,8 +118,8 @@ class AddArtist extends StatelessWidget {
                 SizedBox(
                   height: 10.0,
                 ),
-                RaisedButton(
-                  color: Colors.blue,
+                ElevatedButton(
+                  style: style,
                   onPressed: (){
                     adminObj.addArtist(adminObj.name, adminObj.coverUrl);
                   },
@@ -136,6 +138,8 @@ class AddCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final adminObj = Provider.of<Admin>(context);
+    final ButtonStyle style =
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Category"),
@@ -165,8 +169,8 @@ class AddCategory extends StatelessWidget {
                 SizedBox(
                   height: 10.0,
                 ),
-                RaisedButton(
-                  color: Colors.blue,
+                ElevatedButton(
+                  style: style,
                   onPressed: (){
                     adminObj.addCategory(adminObj.catName, adminObj.catImageUrl);
                   },
@@ -188,6 +192,8 @@ class AddSong extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final adminObj = Provider.of<Admin>(context);
+    final ButtonStyle style =
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Song"),
@@ -290,8 +296,8 @@ class AddSong extends StatelessWidget {
                     child: categoriesOfMusic !=null ? Text(categoriesOfMusic.toString()) : Text("Select the Categories"),
                   ),
                 ),
-                RaisedButton(
-                  color: Colors.blue,
+                ElevatedButton(
+                  style: style,
                   onPressed: (){
                     adminObj.addSongs(adminObj.audioName, adminObj.audioUrl, adminObj.performedBy, adminObj.writtenBy, adminObj.producedBy, adminObj.source, artistId, adminObj.songThumbnail, categoriesOfMusic, adminObj.lyrics, adminObj.albumofSong);
                   },
@@ -311,6 +317,8 @@ class AddAlbum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final adminObj = Provider.of<Admin>(context);
+    final ButtonStyle style =
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Album"),
@@ -369,8 +377,8 @@ class AddAlbum extends StatelessWidget {
                 SizedBox(
                   height: 10.0,
                 ),
-                RaisedButton(
-                  color: Colors.blue,
+                ElevatedButton(
+                  style:style,
                   onPressed: (){
                     adminObj.addAlbum(artistId, adminObj.albumTitle, adminObj.copyrightOwnership, adminObj.albumThumbnail);
                   },
@@ -393,6 +401,8 @@ class SelectArtist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final adminObj = Provider.of<Admin>(context);
+    final ButtonStyle style =
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
       appBar: AppBar(
         title: Text("Select Artist"),
@@ -436,8 +446,8 @@ class SelectArtist extends StatelessWidget {
                                       return ListTile(
                                         title: Text(adminObj.qdata[i]['name']),
                                         subtitle: Text(adminObj.qdata[i]['artistId']),
-                                        trailing: RaisedButton(
-                                          color: Colors.black,
+                                        trailing: ElevatedButton(
+                                          style: style,
                                           onPressed: (){
                                             artistId = adminObj.qdata[i]['artistId'].toString();
                                             Navigator.pop(context);
@@ -461,6 +471,8 @@ class SelectCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final adminObj = Provider.of<Admin>(context);
+    final ButtonStyle style =
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
       appBar: AppBar(
         title: Text("Select Categories"),
@@ -505,8 +517,8 @@ class SelectCategories extends StatelessWidget {
                                       return ListTile(
                                         title: Text(adminObj.qcatData[i]['categoryTitle']),
                                         subtitle: Text(adminObj.qcatData[i]['categoryId']),
-                                        trailing: RaisedButton(
-                                          color: Colors.black,
+                                        trailing: ElevatedButton(
+                                          style: style,
                                           onPressed: (){
                                             categoriesOfMusic.add({
                                               "categoryId": adminObj.qcatData[i]['categoryId'],

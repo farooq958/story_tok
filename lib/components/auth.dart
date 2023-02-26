@@ -313,6 +313,8 @@ class CreateAccount extends StatelessWidget {
   Widget build(BuildContext context) {
     final sessionObj = Provider.of<CreateUserAccount>(context);
     final uiComponents = Provider.of<ShowCustomAlertDialog>(context);
+    final ButtonStyle style =
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -358,16 +360,17 @@ class CreateAccount extends StatelessWidget {
                   height: 20.0,
                 ),
                 Center(
-                  child: RaisedButton(
-                    padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
+                  child: ElevatedButton(
+                    //padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
+                    style:style,
                     onPressed: (){
                       FocusScope.of(context).unfocus();
                       sessionObj.emailNextEnabled ? sessionObj.pctrl.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn) : uiComponents.showCustomDialog(context, "Please Enter your Email");
                     },
-                    color: sessionObj.emailNextEnabled ? Colors.white : Colors.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100.0),
-                    ),
+                    //color: sessionObj.emailNextEnabled ? Colors.white : Colors.grey,
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(100.0),
+                    // ),
                     child: Text("NEXT", style: TextStyle(
                       color: Colors.black,
                       fontSize: 18.0,
@@ -417,16 +420,16 @@ class CreateAccount extends StatelessWidget {
                   height: 20.0,
                 ),
                 Center(
-                  child: RaisedButton(
-                    padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
+                  child: ElevatedButton(
+                    style: style,
                     onPressed: (){
                       FocusScope.of(context).unfocus();
                       sessionObj.passNextEnabled ? sessionObj.pctrl.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn) : uiComponents.showCustomDialog(context, "Password must of atleast 8 Charecters") ;
                     },
-                    color: sessionObj.passNextEnabled ? Colors.white : Colors.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100.0),
-                    ),
+                    //color: sessionObj.passNextEnabled ? Colors.white : Colors.grey,
+                    //shape: RoundedRectangleBorder(
+                     // borderRadius: BorderRadius.circular(100.0),
+                    //),
                     child: Text("NEXT", style: TextStyle(
                       color: Colors.black,
                       fontSize: 18.0,
@@ -473,16 +476,17 @@ class CreateAccount extends StatelessWidget {
                   height: 20.0,
                 ),
                 Center(
-                  child: sessionObj.isCreatingAccount ? CircularProgressIndicator() : RaisedButton(
-                    padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
+                  child: sessionObj.isCreatingAccount ? CircularProgressIndicator() : ElevatedButton(
+                    //padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
+                    style:style,
                     onPressed: (){
                       FocusScope.of(context).unfocus();
                       sessionObj.nameNextEnabled ? sessionObj.signUp(context ,sessionObj.name ,sessionObj.email, sessionObj.password) : uiComponents.showCustomDialog(context, "Name should be atleast 6 Charecters");
                     },
-                    color: sessionObj.nameNextEnabled ? Colors.white : Colors.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100.0),
-                    ),
+                    // color: sessionObj.nameNextEnabled ? Colors.white : Colors.grey,
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(100.0),
+                    // ),
                     child: Text("Create", style: TextStyle(
                       color: Colors.black,
                       fontSize: 18.0,
@@ -524,6 +528,8 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final loginLogic = Provider.of<LoginLogic>(context);
     final uiComponents = Provider.of<ShowCustomAlertDialog>(context);
+    final ButtonStyle style =
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -595,16 +601,17 @@ class LoginPage extends StatelessWidget {
               ),
 
             Center(
-                  child: loginLogic.isAuthenticating ? CircularProgressIndicator() : RaisedButton(
-                    padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
+                  child: loginLogic.isAuthenticating ? CircularProgressIndicator() : ElevatedButton(
+                    //padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
+                    style:style,
                     onPressed: (){
                       FocusScope.of(context).unfocus();
                       loginLogic.loginButton ? loginLogic.loginIn(context, loginLogic.email, loginLogic.password) : uiComponents.showCustomDialog(context, "Enter your Email and Password") ;
                     },
-                    color: loginLogic.loginButton ? Colors.white : Colors.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100.0),
-                    ),
+                    // color: loginLogic.loginButton ? Colors.white : Colors.grey,
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(100.0),
+                    // ),
                     child: Text("LOG IN", style: TextStyle(
                       color: Colors.black,
                       fontSize: 18.0,
@@ -650,6 +657,8 @@ class PasswordRecovery extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final forgotObj = Provider.of<ForgotPassword>(context);
+    final ButtonStyle style =
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -698,15 +707,16 @@ class PasswordRecovery extends StatelessWidget {
               height: 20.0,
             ),
             Center(
-              child: RaisedButton(
-                padding: EdgeInsets.fromLTRB(35.0, 20.0, 35.0, 20.0),
-                color: forgotObj.getLinkEnable ? Colors.white : Colors.grey,
+              child: ElevatedButton(
+                //padding: EdgeInsets.fromLTRB(35.0, 20.0, 35.0, 20.0),
+                //color: forgotObj.getLinkEnable ? Colors.white : Colors.grey,
+                style:style,
                 onPressed: ()async{
                   forgotObj.getLinkEnable ? (await forgotObj.sendEmail(context ,forgotObj.email)) ? forgotObj.showCustomAlertDialog.showCustomDialog(context, "An Email was sent to you to reset your Password, Check your inbox.") : print("Something went wrong") : forgotObj.showCustomAlertDialog.showCustomDialog(context, "Please enter valid Email");
                 },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0),
-                ),
+                // shape: RoundedRectangleBorder(
+                //   borderRadius: BorderRadius.circular(100.0),
+                // ),
                 child: Text("GET LINK", style: TextStyle(
                   color: Colors.black,
                   fontSize: 16.0,
