@@ -49,7 +49,7 @@ class _VideoDisplayScreenState extends State<VideoDisplayScreen> {
               : Container(
             child: videoData == null
                 ? CircularProgressIndicator()
-                : VideoPlayer(
+                : VideoPlayerW(
               data: videoData,
             ),
           ),
@@ -59,10 +59,10 @@ class _VideoDisplayScreenState extends State<VideoDisplayScreen> {
   }
 }
 
-class VideoPlayer extends StatefulWidget {
+class VideoPlayerW extends StatefulWidget {
   final Uint8List data;
 
-  VideoPlayer({@required this.data});
+  VideoPlayerW({@required this.data});
 
   @override
   _VideoPlayerState createState() => _VideoPlayerState();
@@ -92,7 +92,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     return _controller.value.isInitialized
         ? AspectRatio(
       aspectRatio: _controller.value.aspectRatio,
-      child: VideoPlayer(_controller),
+      child: VideoPlayer(_controller),//
     )
         : Container();
   }
