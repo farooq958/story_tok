@@ -19,14 +19,14 @@ import 'package:flutter/gestures.dart';
 class FirebaseBookPage extends StatefulWidget {
   final String bookId;
 
-  FirebaseBookPage({required this.bookId});
+  FirebaseBookPage({@required this.bookId});
 
   @override
   _FirebaseBookPageState createState() => _FirebaseBookPageState();
 }
 
 class _FirebaseBookPageState extends State<FirebaseBookPage> {
-  late Future<DocumentSnapshot<Map<String, dynamic>>> _bookData;
+  Future<DocumentSnapshot<Map<String, dynamic>>> _bookData; //late , not null safe currently
   int _currentPage = 0;
   List<String> _pages = [];
 
@@ -56,7 +56,7 @@ class _FirebaseBookPageState extends State<FirebaseBookPage> {
                 child: Text('Error loading book data.'),
               );
             }
-            Map<String, dynamic> bookData = snapshot.data!.data()!;
+            Map<String, dynamic> bookData = snapshot.data.data();//! not null safe
             _pages = List<String>.from(bookData['pages']);
             return GestureDetector(
               onHorizontalDragEnd: (DragEndDetails details) {

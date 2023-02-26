@@ -40,8 +40,8 @@ class AuthUI extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Image.asset('./images/bitRead_logo_banner_Placeholder.png', height: MediaQuery.of(context).size.height*0.12,),
-          Text("Millions of songs. \n Free on Spotify.", style: TextStyle(
+          Image.asset('./images/bitRead_logo_banner_placeholder.png', height: MediaQuery.of(context).size.height*0.12,),
+          Text("Millions of Stories. \n Free on BitRead.", style: TextStyle(
             fontFamily: 'Proxima Nova',
             fontSize: 30.0,
             fontWeight: FontWeight.w900,

@@ -4,7 +4,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:storily/components/home_video_display_screen.dart';
-import "package:webview_flutter/webview_flutter.dart";
+import 'package:webview_flutter/webview_flutter.dart';
+import "package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart";
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 //In this code, the GameScreen widget takes in a gameId parameter,
 // //which is used to retrieve the game data from Firebase using the FirebaseDatabase package.
@@ -122,15 +125,36 @@ class _GameWebViewScreenState extends State<GameWebViewScreen> {
     ]);
     super.dispose();
   }
+  var controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..setBackgroundColor(const Color(0x00000000))
+    ..setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (int progress) {
+        // Update loading bar.
+        },
+        onPageStarted: (String url) {},
+        onPageFinished: (String url) {},
+        onWebResourceError: (WebResourceError error) {},
+        onNavigationRequest: (NavigationRequest request) {
+          if (request.url.startsWith('https://www.youtube.com/')) {
+            return NavigationDecision.prevent;
+          }
+          return NavigationDecision.navigate;
+        },
+      ),
+    )
+  ..loadRequest(Uri.parse('https://flutter.dev'));
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: WebView(
-          initialUrl: widget.url,
-          javascriptMode: JavascriptMode.unrestricted,
-        ),
+        child: WebViewWidget(controller: controller),
+        //   initialUrl: widget.url,
+        //   javascriptMode: JavascriptMode.unrestricted,
+        // ),
       ),
     );
   }
