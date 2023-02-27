@@ -121,7 +121,7 @@ class AddArtist extends StatelessWidget {
                 ElevatedButton(
                   style: style,
                   onPressed: (){
-                    adminObj.addArtist(adminObj.name, adminObj.coverUrl);
+                    adminObj.addArtist(adminObj.name!, adminObj.coverUrl!);
                   },
                   child: Text("Add Artist"),
                 )
@@ -172,7 +172,7 @@ class AddCategory extends StatelessWidget {
                 ElevatedButton(
                   style: style,
                   onPressed: (){
-                    adminObj.addCategory(adminObj.catName, adminObj.catImageUrl);
+                    adminObj.addCategory(adminObj.catName!, adminObj.catImageUrl!);
                   },
                   child: Text("Add Artist"),
                 )
@@ -185,7 +185,7 @@ class AddCategory extends StatelessWidget {
   }
 }
 
-String artistId;
+String? artistId;
 List<Map<String, dynamic>> categoriesOfMusic = [];
 
 class AddSong extends StatelessWidget {
@@ -275,7 +275,7 @@ class AddSong extends StatelessWidget {
                   child: Container(
                     color: Colors.cyan,
                     padding: EdgeInsets.all(10.0),
-                    child: artistId !=null ? Text(artistId) : Text("Select the Artist"),
+                    child: artistId !=null ? Text(artistId!) : Text("Select the Artist"),
                   ),
                 ),
                 SizedBox(
@@ -299,7 +299,7 @@ class AddSong extends StatelessWidget {
                 ElevatedButton(
                   style: style,
                   onPressed: (){
-                    adminObj.addSongs(adminObj.audioName, adminObj.audioUrl, adminObj.performedBy, adminObj.writtenBy, adminObj.producedBy, adminObj.source, artistId, adminObj.songThumbnail, categoriesOfMusic, adminObj.lyrics, adminObj.albumofSong);
+                    adminObj.addSongs(adminObj.audioName!, adminObj.audioUrl!, adminObj.performedBy!, adminObj.writtenBy!, adminObj.producedBy!, adminObj.source!, artistId!, adminObj.songThumbnail!, categoriesOfMusic, adminObj.lyrics, adminObj.albumofSong!);
                   },
                   child: Text("Add Song"),
                 )
@@ -371,7 +371,7 @@ class AddAlbum extends StatelessWidget {
                   child: Container(
                     color: Colors.cyan,
                     padding: EdgeInsets.all(10.0),
-                    child: artistId !=null ? Text(artistId) : Text("Select the Artist"),
+                    child: artistId !=null ? Text(artistId!) : Text("Select the Artist"),
                   ),
                 ),
                 SizedBox(
@@ -380,7 +380,7 @@ class AddAlbum extends StatelessWidget {
                 ElevatedButton(
                   style:style,
                   onPressed: (){
-                    adminObj.addAlbum(artistId, adminObj.albumTitle, adminObj.copyrightOwnership, adminObj.albumThumbnail);
+                    adminObj.addAlbum(artistId!, adminObj.albumTitle!, adminObj.copyrightOwnership!, adminObj.albumThumbnail!);
                   },
                   child: Text("Add Album"),
                 )

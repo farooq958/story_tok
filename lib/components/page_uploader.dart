@@ -16,7 +16,9 @@ class PageUploaderState extends State<PageUploader> {
   var imagePicker;
 
   void _addImage(BuildContext context, var type) async {
-    _images.add(null);
+    // need to work on it
+    //_images.add(null);
+    _images.length;
     _handleURLButtonPress(context, type, total);
     total++;
   }
@@ -69,7 +71,7 @@ class PageUploaderState extends State<PageUploader> {
                           return Stack(children: [
                             GestureDetector(
                               onTap: () async {
-                                await _addImage(
+                                _addImage(
                                     context, ImageSourceType.gallery);
                               },
                               child: Container(
@@ -95,7 +97,7 @@ class PageUploaderState extends State<PageUploader> {
                           return Stack(children: [
                             GestureDetector(
                                 onTap: () async {
-                                  await _handleURLButtonPress(
+                                  _handleURLButtonPress(
                                       context, ImageSourceType.gallery, index);
                                 },
                                 child: Container(

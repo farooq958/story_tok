@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 class Admin extends ChangeNotifier{
 
-  String name, coverUrl;
+  String? name, coverUrl;
   void addArtist(String name, String imageUrl){
     try{
       var ref = FirebaseFirestore.instance.collection("artists").doc();
@@ -21,11 +21,11 @@ class Admin extends ChangeNotifier{
         print(e);
       });
     }catch(e){
-      print(e.message);
+      print(e);
     }
   }
 
-  String catName, catImageUrl;
+  String? catName, catImageUrl;
   void addCategory(String title, String thumbnailUrl){
     var ref = FirebaseFirestore.instance.collection("categories").doc();
     ref.set({
@@ -46,9 +46,9 @@ class Admin extends ChangeNotifier{
   }
 
 
-  String audioName, audioUrl, performedBy, writtenBy, producedBy, source,songThumbnail;
+  String? audioName, audioUrl, performedBy, writtenBy, producedBy, source,songThumbnail;
   List<Map<String, dynamic>> lyrics = [];
-  Map<String, dynamic> albumofSong;
+  Map<String, dynamic>? albumofSong;
 
   //For Searching
   List<DocumentSnapshot> data = [];
@@ -83,7 +83,7 @@ class Admin extends ChangeNotifier{
   }
 
 
-  String albumTitle, copyrightOwnership, albumThumbnail;
+  String? albumTitle, copyrightOwnership, albumThumbnail;
   void addAlbum(String artistId ,String title, String copyrightOwnership, String albumThumbnail){
     var ref = FirebaseFirestore.instance.collection("albums").doc();
     ref.set({

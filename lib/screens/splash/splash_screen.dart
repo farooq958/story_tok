@@ -1,14 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:storily/components/home_video_display_screen.dart';
-import 'package:storily/components/admin_Deprecated.dart';
 import 'package:storily/components/old_home_Deprecated.dart';
-import 'package:storily/logic/admin_logic.dart';
 import 'package:storily/logic/auth_logic.dart';
-import 'package:storily/logic/basic_ui.dart';
-import 'package:storily/components/my_storily_author_page.dart';
-import 'package:storily/components/auth.dart';
+import 'package:storily/screens/auth/auth.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -17,7 +12,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   Future onloadDecider() async {
-    User user = FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
     if(user == null){
       print("No User");
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Material(
@@ -50,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Image.asset("./images/spotify_logo_title.png"),
+        child: Image.asset("assets/images/spotify_logo_title.png"),
       ),
     );
   }

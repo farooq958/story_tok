@@ -2,9 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/home_video_display_screen.dart';
-import 'package:storily/components/admin_Deprecated.dart';
-import 'package:storily/components/old_home_Deprecated.dart';
-import 'package:storily/logic/admin_logic.dart';
 import 'package:storily/logic/auth_logic.dart';
 import 'package:storily/logic/basic_ui.dart';
 import 'package:storily/components/my_storily_author_page.dart';
@@ -40,7 +37,7 @@ class AuthUI extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Image.asset('./images/bitRead_logo_banner_placeholder.png', height: MediaQuery.of(context).size.height*0.12,),
+          Image.asset('assets/images/bitRead_logo_banner_placeholder.png', height: MediaQuery.of(context).size.height*0.12,),
           Text("Millions of Stories. \n Free on BitRead.", style: TextStyle(
             fontFamily: 'Proxima Nova',
             fontSize: 30.0,
@@ -481,7 +478,7 @@ class CreateAccount extends StatelessWidget {
                     style:style,
                     onPressed: (){
                       FocusScope.of(context).unfocus();
-                      sessionObj.nameNextEnabled ? sessionObj.signUp(context ,sessionObj.name ,sessionObj.email, sessionObj.password) : uiComponents.showCustomDialog(context, "Name should be atleast 6 Charecters");
+                      sessionObj.nameNextEnabled ? sessionObj.signUp(context ,sessionObj.name! ,sessionObj.email!, sessionObj.password!) : uiComponents.showCustomDialog(context, "Name should be atleast 6 Charecters");
                     },
                     // color: sessionObj.nameNextEnabled ? Colors.white : Colors.grey,
                     // shape: RoundedRectangleBorder(
@@ -559,7 +556,7 @@ class LoginPage extends StatelessWidget {
               ),
               onChanged: (String text){
                 loginLogic.email = text;
-                loginLogic.loginButtonListener(loginLogic.email, loginLogic.password);
+                loginLogic.loginButtonListener(loginLogic.email!, loginLogic.password!);
               },
             ),
 
@@ -592,7 +589,7 @@ class LoginPage extends StatelessWidget {
               ),
               onChanged: (String text){
                   loginLogic.password = text;
-                  loginLogic.loginButtonListener(loginLogic.email, loginLogic.password);
+                  loginLogic.loginButtonListener(loginLogic.email!, loginLogic.password!);
                 },
               ),
 
@@ -606,7 +603,7 @@ class LoginPage extends StatelessWidget {
                     style:style,
                     onPressed: (){
                       FocusScope.of(context).unfocus();
-                      loginLogic.loginButton ? loginLogic.loginIn(context, loginLogic.email, loginLogic.password) : uiComponents.showCustomDialog(context, "Enter your Email and Password") ;
+                      loginLogic.loginButton ? loginLogic.loginIn(context, loginLogic.email!, loginLogic.password!) : uiComponents.showCustomDialog(context, "Enter your Email and Password") ;
                     },
                     // color: loginLogic.loginButton ? Colors.white : Colors.grey,
                     // shape: RoundedRectangleBorder(
@@ -712,7 +709,7 @@ class PasswordRecovery extends StatelessWidget {
                 //color: forgotObj.getLinkEnable ? Colors.white : Colors.grey,
                 style:style,
                 onPressed: ()async{
-                  forgotObj.getLinkEnable ? (await forgotObj.sendEmail(context ,forgotObj.email)) ? forgotObj.showCustomAlertDialog.showCustomDialog(context, "An Email was sent to you to reset your Password, Check your inbox.") : print("Something went wrong") : forgotObj.showCustomAlertDialog.showCustomDialog(context, "Please enter valid Email");
+                  forgotObj.getLinkEnable ? (await forgotObj.sendEmail(context ,forgotObj.email!)) ? forgotObj.showCustomAlertDialog.showCustomDialog(context, "An Email was sent to you to reset your Password, Check your inbox.") : print("Something went wrong") : forgotObj.showCustomAlertDialog.showCustomDialog(context, "Please enter valid Email");
                 },
                 // shape: RoundedRectangleBorder(
                 //   borderRadius: BorderRadius.circular(100.0),

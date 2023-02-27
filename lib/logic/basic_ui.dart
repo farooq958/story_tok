@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 //Basic UI Classes
 class ShowCustomAlertDialog extends ChangeNotifier{
-  Future<Widget> showCustomDialog(BuildContext context, String message){
+  Future showCustomDialog(BuildContext context, String message){
     final ButtonStyle style =
     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return showDialog(

@@ -24,13 +24,15 @@ const theSource = AudioSource.microphone;
 
 class VoiceRecorder extends StatefulWidget {
 
-  List<File> images = <File>[];
-  VoiceRecorder({this.images}): super();
+   List<File>? images = <File>[];
+  VoiceRecorder({required this.images});
+
   @override
   VoiceRecorderState createState() => VoiceRecorderState(cachedimages: images);
 }
 
 class VoiceRecorderState extends State<VoiceRecorder> {
+ 
   //recorder
   Codec _codec = Codec.aacMP4;
   String _mPath = 'tau_file.mp4';
@@ -42,9 +44,11 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   Stopwatch _timer  = Stopwatch();
   //slider
   Map<int, int> _pageTime = Map();
-  List<Widget> imageSliders;
-  List<File> cachedimages = <File>[];
-  VoiceRecorderState({this.cachedimages}): super();
+  late List<Widget> imageSliders;
+  List<File>? cachedimages = <File>[];
+  VoiceRecorderState({this.cachedimages});
+
+ 
 
   @override
   void initState() {
@@ -68,10 +72,10 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   @override
   void dispose() {
     _mPlayer.closePlayer();
-    _mPlayer = null;
+    _mPlayer;
 
     _mRecorder.closeRecorder();
-    _mRecorder = null;
+    _mRecorder;
     super.dispose();
   }
 
@@ -164,14 +168,14 @@ class VoiceRecorderState extends State<VoiceRecorder> {
 
 // ----------------------------- UI --------------------------------------------
 
-  _Fn getRecorderFn() {
+  _Fn? getRecorderFn() {
     if (!_mRecorderIsInited || !_mPlayer.isStopped) {
       return null;
     }
     return _mRecorder.isStopped ? record : stopRecorder;
   }
 
-  _Fn getPlaybackFn() {
+  _Fn? getPlaybackFn() {
     if (!_mPlayerIsInited || !_mplaybackReady || !_mRecorder.isStopped) {
       return null;
     }
@@ -181,7 +185,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   //final CarouselController _controller = CarouselController();
   void InitImageSliders()
   {
-    imageSliders = cachedimages
+    imageSliders = cachedimages!
         .map((item) => Container(
       child: Container(
         margin: EdgeInsets.all(5.0),
@@ -208,7 +212,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                     padding: EdgeInsets.symmetric(
                         vertical: 10.0, horizontal: 20.0),
                     child: Text(
-                      'No. ${cachedimages.indexOf(item)} image',
+                      'No. ${cachedimages!.indexOf(item)} image',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20.0,
@@ -278,7 +282,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RecordingPreview(pageTime : _pageTime, images: cachedimages,)));
+                        builder: (context) => RecordingPreview(pageTime : _pageTime, images: cachedimages!,)));
               },
               child: Container(
                 padding: EdgeInsets.all(10.0),

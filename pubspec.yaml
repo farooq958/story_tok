@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.16.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -39,6 +39,7 @@ dependencies:
   firebase_storage: ^11.0.14
   firebase_database: ^10.0.14
   webview_flutter: ^4.0.5
+  fluttertoast: ^8.2.1
 
 
 dev_dependencies:
@@ -59,13 +60,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - images/spotify_logo_banner_black.png
-   - images/spotify_logo_title.png
-   - images/spotify_logo_vertical_black.jpg
-   - images/spotify_logo.jpg
-   - images/spotify_smaller.png
-   - images/Spotify_logo_horizontal_black.jpg
-   - images/bitRead_logo_banner_placeholder.png
+   - assets/images/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
@@ -80,10 +75,10 @@ flutter:
   fonts:
     - family: Proxima Nova
       fonts:
-        - asset: fonts/Proxima Nova/Proxima Nova Regular.ttf
+        - asset: assets/fonts/Proxima Nova/Proxima Nova Regular.ttf
     - family: Proxima Nova Bold
       fonts:
-        - asset: fonts/Proxima Nova/Proxima Nova Bold.ttf
+        - asset: assets/fonts/Proxima Nova/Proxima Nova Bold.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:storily/components/home_video_display_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import "package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart";
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 //In this code, the GameScreen widget takes in a gameId parameter,
 // //which is used to retrieve the game data from Firebase using the FirebaseDatabase package.
@@ -17,14 +14,14 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 class GameScreen extends StatefulWidget {
   final String gameId;
 
-  GameScreen({@required this.gameId});
+  GameScreen({required this.gameId});
 
   @override
   _GameScreenState createState() => _GameScreenState();
 }
 
 class _GameScreenState extends State<GameScreen> {
-  String _gameData;
+  String? _gameData;
 
   @override
   void initState() {
@@ -37,7 +34,7 @@ class _GameScreenState extends State<GameScreen> {
     FirebaseDatabase.instance.reference().child('games').child(widget.gameId);
     databaseRef.once().then((snapshot) {//DataSnapshot
       setState(() {
-        _gameData = snapshot.snapshot.value;
+        _gameData = snapshot.snapshot.value as String?;
       });
     });
   }
@@ -51,7 +48,7 @@ class _GameScreenState extends State<GameScreen> {
         ),
       );
     } else {
-      final gameJson = json.decode(_gameData);
+      final gameJson = json.decode(_gameData!);
       final gameName = gameJson['name'];
       final gameImageUrl = gameJson['image_url'];
       final gameUrl = gameJson['game_url'];
@@ -62,10 +59,10 @@ class _GameScreenState extends State<GameScreen> {
         ),
         body: GestureDetector(
         onVerticalDragEnd: (DragEndDetails details) {
-        if (details.primaryVelocity > 0) {
+        if (details.primaryVelocity! > 0) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => VideoDisplayScreen()), //this needs to be changed to random types, not just video, but it is a start.
+            MaterialPageRoute(builder: (context) => VideoDisplayScreen(videoURL: '',)), //this needs to be changed to random types, not just video, but it is a start.
             );
           }
         },
@@ -96,7 +93,7 @@ class _GameScreenState extends State<GameScreen> {
 class GameWebViewScreen extends StatefulWidget {
   final String url;
 
-  GameWebViewScreen({@required this.url});
+  GameWebViewScreen({required this.url});
 
   @override
   _GameWebViewScreenState createState() => _GameWebViewScreenState();

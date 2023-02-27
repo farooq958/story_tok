@@ -8,10 +8,10 @@ import 'package:storily/logic/basic_ui.dart';
 
 
 class SessionManagement extends ChangeNotifier{
-  User fUser;
+  User? fUser;
 
-  Future<User> currentUser()async{
-    User user = FirebaseAuth.instance.currentUser;
+  Future<User?> currentUser()async{
+    User? user = FirebaseAuth.instance.currentUser;
     if(user == null){
       print("No User");
     }else{
@@ -39,7 +39,7 @@ class LoginLogic extends ChangeNotifier{
   bool showPassword = false;
   bool isAuthenticating = false;
 
-  String email, password;
+  String? email, password;
 
   void showPassFun(){
     showPassword = !showPassword;
@@ -63,7 +63,7 @@ class LoginLogic extends ChangeNotifier{
     notifyListeners();
     try{
       UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: pass);
-      print(user.user.uid);
+      print(user.user?.uid);
       isAuthenticating = false;
       notifyListeners();
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MultiProvider(
@@ -75,13 +75,13 @@ class LoginLogic extends ChangeNotifier{
 
     }catch(e){
       final ShowCustomAlertDialog showCustomAlertDialog = ShowCustomAlertDialog();
-      print("Catch Error : "+e.message);
-      showCustomAlertDialog.showCustomDialog(context, e.message);
+      print("Catch Error : "+e.toString());
+      showCustomAlertDialog.showCustomDialog(context, e.toString());
       isAuthenticating = false;
       loginButton = false;
       notifyListeners();
     }
-    User user = FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
 
     if (user!= null && !user.emailVerified) {
       await user.sendEmailVerification();
@@ -99,7 +99,7 @@ class CreateUserAccount extends ChangeNotifier{
   bool isCreatingAccount = false;
 
   bool showPassword = false;
-  String name, email, password;
+  String? name, email, password;
 
   void emailNextButtonListener(String text){
     if(text.length > 5){
@@ -138,13 +138,13 @@ class CreateUserAccount extends ChangeNotifier{
     notifyListeners();
     try{
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-      print("Signed up as : "+userCredential.user.uid);
-      await FirebaseFirestore.instance.collection("users").doc(userCredential.user.uid).set({
+      print("Signed up as : "+userCredential.user!.uid);
+      await FirebaseFirestore.instance.collection("users").doc(userCredential.user!.uid).set({
         "name": name,
         "nameIndex": name[0],
         "premiumMember": false,
         "email": email,
-        "uid": userCredential.user.uid
+        "uid": userCredential.user!.uid
       });
       isCreatingAccount = false;
       notifyListeners();
@@ -154,7 +154,7 @@ class CreateUserAccount extends ChangeNotifier{
         ],
         child: SpotifyHome(),
       )), (Route<dynamic> route)=>false);
-      User user = FirebaseAuth.instance.currentUser;
+      User? user = FirebaseAuth.instance.currentUser;
 
       if (user!= null && !user.emailVerified) {
         await user.sendEmailVerification();
@@ -162,10 +162,10 @@ class CreateUserAccount extends ChangeNotifier{
       return true;
     }catch(e){
       final ShowCustomAlertDialog showCustomAlertDialog = ShowCustomAlertDialog();
-      print(e.message);
+      print(e.toString());
       isCreatingAccount = false;
       notifyListeners();
-      showCustomAlertDialog.showCustomDialog(context, e.message);
+      showCustomAlertDialog.showCustomDialog(context, e.toString());
       return false;
     }
 
@@ -176,7 +176,7 @@ class CreateUserAccount extends ChangeNotifier{
 
 
 class ForgotPassword extends ChangeNotifier{
-  String email;
+  String? email;
   ShowCustomAlertDialog showCustomAlertDialog = ShowCustomAlertDialog();
   bool getLinkEnable = false;
   void buttonActivateListener(String text){
@@ -195,8 +195,8 @@ class ForgotPassword extends ChangeNotifier{
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return true;
     }catch(e){
-      print(e.message);
-      showCustomAlertDialog.showCustomDialog(context, e.message);
+      print(e.toString());
+      showCustomAlertDialog.showCustomDialog(context, e.toString());
       return false;
     }
   }
