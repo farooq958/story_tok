@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -9,9 +11,11 @@ class AddAuthorDescription extends StatefulWidget {
 }
 
 class AddAuthorDescriptionState extends State<AddAuthorDescription> {
+  IconData icon = Icons.add;
   String categoryValue = 'Traditional Genre';
   String subCategoryValue = 'Myths';
-  var category = [
+  String readingLevelValue = 'Kindergarten: 0.1 - 0.9';
+  List<String> category = [
     'Traditional Genre',
     'realistic Fiction genres',
     'historical Fiction genres',
@@ -20,7 +24,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     'NonFictions',
     'picture books'
   ];
-  var traditionalCategory = [
+  List<String> traditionalCategory = [
     'Myths',
     'fables',
     'epics',
@@ -34,8 +38,8 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     'cumulative tales',
     'pourquoi tales'
   ];
-  var realisticFictionGenres = ['Historical', 'Contemporary'];
-  var historicalFictionGenres = [
+  List<String> realisticFictionGenres = ['Historical', 'Contemporary'];
+  List<String> historicalFictionGenres = [
     'Documentary fiction',
     'Fictional biographies',
     'Gothic fiction',
@@ -46,7 +50,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     'Historiographic metafiction',
     'Comics and graphic novels'
   ];
-  var fantasy = [
+  List<String> fantasy = [
     'Animal Fantasy',
     'The World of Toys and Dolls',
     'Eccentric Characters and Preposterous Situations',
@@ -57,7 +61,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     'Imaginary Realms',
     'High Fantasy'
   ];
-  var poetry = [
+  List<String> poetry = [
     'Rhythm',
     'Rhyme',
     'Sound',
@@ -65,15 +69,15 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     'Figurative' 'Language',
     'Shape'
   ];
-  var nonFictions = [
+  List<String> nonFictions = [
     'Informational Text',
     'NonFiction Narrative',
     'Biography',
     'How-to'
   ];
-  var pictureBooks = ['illustrated kids\' books', 'Comic books'];
+  List<String> pictureBooks = ['illustrated kids\' books', 'Comic books'];
 
-  var subCategory = [
+  List<String> subCategory = [
     'Myths',
     'fables',
     'epics',
@@ -88,8 +92,19 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     'pourquoi tales'
   ];
 
+  List<String> readingLevel = [
+    'Kindergarten: 0.1 - 0.9',
+    '1st Grade: 1.0 - 1.9',
+    '2nd Grade: 2.0 - 2.9',
+    '3rd Grade: 3.0 - 3.9',
+    '4th Grade: 4.0 - 4.9',
+    '5th Grade: 5.0 - 5.9',
+    '6th Grade: 6.0 - 6.9'
+  ];
+
   final ImagePicker _picker = ImagePicker();
   XFile? image;
+  var imagePath;
 
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
@@ -120,7 +135,13 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                 child: Row(
                   children: [
                     Text("Cover"),
-                    iconButton(),
+                    if (image != null)
+                      Container(
+                        height: 90,
+                        width: 90,
+                        child: Image.file(imagePath),
+                      ),
+                    iconButton(icon),
                   ],
                 ),
               ),
@@ -140,71 +161,85 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                       width: 15.0,
                     ),
                     DropdownButton(
+                      value: categoryValue,
                       icon: Icon(Icons.keyboard_arrow_down),
                       items: category.map((String items) {
                         return DropdownMenuItem(
-                          value: items,
-                          child:  Container(width: 90.0,child: Text(
-                            items,
-                            style: TextStyle(color: Colors.white),
-                            overflow: TextOverflow.ellipsis,
-                          ),)
-                        );
+                            value: items,
+                            child: Container(
+                              width: 80.0,
+                              child: Text(
+                                items,
+                                style: TextStyle(color: Colors.white),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ));
                       }).toList(),
                       onChanged: (String? newValue) {
                         setState(() {
                           categoryValue = newValue!;
-                          if (categoryValue == 'Traditional Genre') {
-                            setState(() {
-                              subCategory = traditionalCategory;
-                            });
-                          } else if (categoryValue ==
-                              "realistic Fiction genres") {
-                            setState(() {
-                              subCategory = realisticFictionGenres;
-                            });
-                          } else if (categoryValue ==
-                              "historical Fiction genres") {
-                            setState(() {
-                              subCategory = historicalFictionGenres;
-                            });
-                          } else if (categoryValue == "Fantasy") {
-                            setState(() {
-                              subCategory = fantasy;
-                            });
-                          } else if (categoryValue == "Poetry") {
-                            setState(() {
-                              subCategory = poetry;
-                            });
-                          } else if (categoryValue == "NonFictions") {
-                            setState(() {
-                              subCategory = nonFictions;
-                            });
-                          } else {
-                            setState(() {
-                              subCategory = pictureBooks;
-                            });
-                          }
-                          print(categoryValue);
                         });
+
+                        if (categoryValue == 'Traditional Genre') {
+                          setState(() {
+                            subCategoryValue = traditionalCategory[0];
+                            subCategory = traditionalCategory;
+                          });
+                        } else if (categoryValue ==
+                            "realistic Fiction genres") {
+                          setState(() {
+                            subCategoryValue = realisticFictionGenres[0];
+                            subCategory = realisticFictionGenres;
+                          });
+                        } else if (categoryValue ==
+                            "historical Fiction genres") {
+                          setState(() {
+                            subCategoryValue = historicalFictionGenres[0];
+                            subCategory = historicalFictionGenres;
+                          });
+                        } else if (categoryValue == "Fantasy") {
+                          setState(() {
+                            subCategoryValue = fantasy[0];
+                            subCategory = fantasy;
+                          });
+                        } else if (categoryValue == "Poetry") {
+                          setState(() {
+                            subCategoryValue = poetry[0];
+                            subCategory = poetry;
+                          });
+                        } else if (categoryValue == "NonFictions") {
+                          setState(() {
+                            subCategoryValue = nonFictions[0];
+                            subCategory = nonFictions;
+                          });
+                        } else {
+                          setState(() {
+                            subCategoryValue = pictureBooks[0];
+                            subCategory = pictureBooks;
+                          });
+                        }
+                        print(categoryValue);
                       },
                     ),
                     SizedBox(
-                      width: 15.0,
+                      width: 10.0,
                     ),
                     Container(
                       // margin: EdgeInsets.only(left: 40.0, right: 40.0),
                       child: DropdownButton(
+                        value: subCategoryValue,
                         icon: Icon(Icons.keyboard_arrow_down),
                         items: subCategory.map((String items) {
                           return DropdownMenuItem(
                               value: items,
-                              child: Container(width: 120.0,child: Text(
-                                items,
-                                style: TextStyle(color: Colors.white),
-                                overflow: TextOverflow.ellipsis,
-                              ),)
-                          );
+                              child: Container(
+                                width: 120.0,
+                                child: Text(
+                                  items,
+                                  style: TextStyle(color: Colors.white),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ));
                         }).toList(),
                         onChanged: (String? newValue) {
                           setState(() {
@@ -221,7 +256,39 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
               SizedBox(
                 height: 20.0,
               ),
-              containers('Reading Level', _readingLevelController),
+              Container(
+                margin: EdgeInsets.only(left: 40.0, right: 40.0),
+                child: Row(
+                  children: [
+                    Text("Reading Level"),
+                    SizedBox(
+                      width: 15.0,
+                    ),
+                    DropdownButton(
+                      value: readingLevelValue,
+                      icon: Icon(Icons.keyboard_arrow_down),
+                      items: readingLevel.map((String items) {
+                        return DropdownMenuItem(
+                            value: items,
+                            child: Container(
+                              width: 150.0,
+                              child: Text(
+                                items.toString(),
+                                style: TextStyle(color: Colors.white),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ));
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          readingLevelValue = newValue.toString();
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              // containers('Reading Level', _readingLevelController),
               SizedBox(
                 height: 20.0,
               ),
@@ -290,15 +357,19 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     );
   }
 
-  iconButton() {
+  iconButton(IconData icon) {
     return IconButton(
         onPressed: () {
           _addImage();
         },
-        icon: Icon(Icons.add));
+        icon: Icon(icon));
   }
 
   void _addImage() async {
-    image = await _picker.pickImage(source: ImageSource.gallery);
+    image = (await _picker.pickImage(source: ImageSource.gallery))!;
+    setState(() {
+      icon = Icons.refresh;
+      imagePath = File(image!.path);
+    });
   }
 }
