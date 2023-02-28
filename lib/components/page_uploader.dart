@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:storily/components/add_author_description.dart';
 import 'package:storily/components/voice_recording.dart';
 
 enum ImageSourceType { gallery, camera }
@@ -15,15 +17,11 @@ class PageUploaderState extends State<PageUploader> {
   var total = 0;
   var imagePicker;
 
-  void _addImage(BuildContext context, var type) async {
-    // need to work on it
-    //_images.add(null);
-    _images.length;
+  _addImage(BuildContext context, var type) async {
     _handleURLButtonPress(context, type, total);
-    total++;
   }
 
-  void _handleURLButtonPress(BuildContext context, var type, var i) async {
+  _handleURLButtonPress(BuildContext context, var type, var i) async {
     /* Navigator.push(context,
         MaterialPageRoute(builder: (context) => ImageFromGalleryEx(type)));*/
 
@@ -34,9 +32,28 @@ class PageUploaderState extends State<PageUploader> {
         source: source,
         imageQuality: 50,
         preferredCameraDevice: CameraDevice.front);
-    setState(() {
-      _images[i] = File(image.path);
-    });
+
+    bool imageExist = false;
+    if (_images.length > 0) {
+      for (int i = 0; i < _images.length; i++) {
+        if (_images[i].path == image.path) {
+          setState(() {
+            imageExist = true;
+          });
+          showToastMessage("You can't choose the same image.");
+          break;
+        }
+      }
+    }
+
+    if (!imageExist) {
+      setState(() {
+        _images.add(File(''));
+        // _images.add(null);
+        _images[i] = File(image.path);
+        total++;
+      });
+    }
   }
 
   @override
@@ -48,89 +65,103 @@ class PageUploaderState extends State<PageUploader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Pick book pages"),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                flex: 8,
-                child: Container(
-                  child: GridView.count(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      crossAxisCount: 2,
-                      children: List.generate(total + 1, (index) {
-                        //return Center(child:Text('Item $index', style: Theme.of(context).textTheme.headline4,));
+      appBar: AppBar(
+        title: Text("Pick book pages"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 9,
+              child: Container(
+                child: GridView.count(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  crossAxisCount: 2,
+                  children: List.generate(
+                    total + 1,
+                        (index) {
+                      //return Center(child:Text('Item $index', style: Theme.of(context).textTheme.headline4,));
 
-                        if (index == total) {
-                          return Stack(children: [
-                            GestureDetector(
-                              onTap: () async {
-                                _addImage(
-                                    context, ImageSourceType.gallery);
-                              },
+                      if (index == total) {
+                        return Stack(children: [
+                          GestureDetector(
+                            onTap: () async {
+                              await _addImage(context, ImageSourceType.gallery);
+                            },
+                            child: Container(
+                              width: 200,
+                              height: 200,
+                              decoration: BoxDecoration(color: Colors.red[200]),
                               child: Container(
+                                decoration:
+                                BoxDecoration(color: Colors.red[200]),
                                 width: 200,
                                 height: 200,
-                                decoration:
-                                    BoxDecoration(color: Colors.red[200]),
-                                child: Container(
-                                  decoration:
-                                      BoxDecoration(color: Colors.red[200]),
-                                  width: 200,
-                                  height: 200,
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    color: Colors.grey[800],
-                                  ),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.grey[800],
                                 ),
-                              )),
-                            Center(child:Text("Tap to add page")),
-
-                          ]);
-                        } else {
-                          return Stack(children: [
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Text("Tap to add page"),
+                          ),
+                        ]);
+                      } else {
+                        return Stack(
+                          children: [
                             GestureDetector(
                                 onTap: () async {
-                                  _handleURLButtonPress(
-                                      context, ImageSourceType.gallery, index);
+                                  await _handleURLButtonPress(
+                                    context,
+                                    ImageSourceType.gallery,
+                                    index,
+                                  );
                                 },
                                 child: Container(
                                   width: 200,
                                   height: 200,
-                                  decoration:
-                                      BoxDecoration(color: Colors.red[200]),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red[200],
+                                  ),
                                   child: _images[index] != null
                                       ? Image.file(
-                                          _images[index],
-                                          width: 200.0,
-                                          height: 200.0,
-                                          fit: BoxFit.fitHeight,
-                                        )
+                                    _images[index],
+                                    width: 200.0,
+                                    height: 200.0,
+                                    fit: BoxFit.fitHeight,
+                                  )
                                       : Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.red[200]),
-                                          width: 200,
-                                          height: 200,
-                                          child: Icon(
-                                            Icons.camera_alt,
-                                            color: Colors.grey[800],
-                                          ),
-                                        ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.red[200],
+                                    ),
+                                    width: 200,
+                                    height: 200,
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.grey[800],
+                                    ),
+                                  ),
                                 )),
-                            Center(child: Text("page ${index + 1}")),
-
-                          ]);
-                        }
-                      })),
+                            Center(
+                              child: Text(
+                                "page ${index + 1}",
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
-              /* Container(
+            ),
+            /* Container(
                 child: Column(
                   children: <Widget>[
                     MaterialButton(
@@ -158,48 +189,124 @@ class PageUploaderState extends State<PageUploader> {
                 ]
                 ),
               ),*/
-              //],
-              Expanded(
-                  flex: 2,
-                  child: MaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => VoiceRecorder(images: _images)));
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(100.0),
+            //],
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VoiceRecorder(
+                            images: _images,
+                          ),
                         ),
-                        margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.mail_outline,
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                      // margin: EdgeInsets.fromLTRB(50.0, 0.0, 90.0, 0.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.mail_outline,
+                            color: Colors.black,
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                            "RECORD STORIES",
+                            style: TextStyle(
                               color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
                             ),
-                            SizedBox(
-                              width: 5.0,
-                            ),
-                            Text(
-                              "RECORD STORIES",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
-                              ),
-                            ),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      if (_images.length < 4) {
+                        showToastMessage("Book has at least 4 pages.");
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddAuthorDescription(),
+                          ),
+                        );
+                      }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                      child: Text(
+                        "Done",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
                         ),
-                      ))),
-            ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  showToastMessage(String message) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Alert'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message),
+              ],
+            ),
           ),
-        ));
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    /*Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);*/
   }
 }
 
@@ -252,7 +359,6 @@ class PageUploaderState extends State<PageUploader> {
 //     );
 //   }
 // }
-
 
 /*class ImageFromGalleryEx extends StatefulWidget {
   final type;
@@ -314,7 +420,7 @@ class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
                 )
                     : Container(
                   decoration: BoxDecoration(
-                      color: Colors.red[200]),
+                      c olor: Colors.red[200]),
                   width: 200,
                   height: 200,
                   child: Icon(
