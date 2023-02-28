@@ -23,39 +23,39 @@ const theSource = AudioSource.microphone;
 
 class RecordingPreview extends StatefulWidget {
 
-  Map<int, int> pageTime;
-  List<File> images = <File>[];
+  Map<int, int>? pageTime;
+  List<File>? images = <File>[];
 
   RecordingPreview({this.pageTime, this.images}): super();
 
   @override
-  RecordingPreviewState createState() => RecordingPreviewState(pageTime : pageTime, cachedImages: images);
+  RecordingPreviewState createState() => RecordingPreviewState(pageTime : pageTime, cachedImages: images!);
 }
 
 class RecordingPreviewState extends State<RecordingPreview> {
   //recorder
   Codec _codec = Codec.aacMP4;
   String _mPath = 'tau_file.mp4';
-  FlutterSoundPlayer _mPlayer = FlutterSoundPlayer();
-  FlutterSoundRecorder _mRecorder = FlutterSoundRecorder();
+  FlutterSoundPlayer? _mPlayer = FlutterSoundPlayer();
+  FlutterSoundRecorder? _mRecorder = FlutterSoundRecorder();
   bool _mPlayerIsInited = false;
   bool _mRecorderIsInited = false;
   bool _mplaybackReady = false;
-  StreamSubscription _playerSubscription;
+  StreamSubscription? _playerSubscription;
   //slider
   final CarouselController _controller = CarouselController();
   List<File> cachedImages = <File>[];
-  Map<int, int> pageTime;
-  List<Widget> imageSliders;
+  Map<int, int>? pageTime;
+  List<Widget>? imageSliders;
   int currentPage = 1;
 
-  RecordingPreviewState({this.pageTime, this.cachedImages}): super();
+  RecordingPreviewState({required this.pageTime,required this.cachedImages}): super();
 
 
   @override
   void initState() {
 
-    _mPlayer.openPlayer().then((value) {
+    _mPlayer?.openPlayer().then((value) {
       setState(() {
         _mPlayerIsInited = true;
       });
@@ -67,11 +67,11 @@ class RecordingPreviewState extends State<RecordingPreview> {
       });
     });
 
-    _mPlayer.setSubscriptionDuration(Duration(milliseconds: 100));
-    _playerSubscription = _mPlayer.onProgress.listen((e)
+    _mPlayer?.setSubscriptionDuration(Duration(milliseconds: 100));
+    _playerSubscription = _mPlayer?.onProgress!.listen((e)
     {
         setState(() {
-          if(e.position.inMilliseconds > pageTime[currentPage])
+          if(e.position.inMilliseconds > pageTime![currentPage]!)
           {
             _controller.nextPage();
             currentPage ++;
@@ -95,10 +95,10 @@ class RecordingPreviewState extends State<RecordingPreview> {
 
   @override
   void dispose() {
-    _mPlayer.closePlayer();
+    _mPlayer!.closePlayer();
     _mPlayer = null;
 
-    _mRecorder.closeRecorder();
+    _mRecorder!.closeRecorder();
     _mRecorder = null;
     super.dispose();
   }
@@ -110,11 +110,11 @@ class RecordingPreviewState extends State<RecordingPreview> {
         throw RecordingPermissionException('Microphone permission not granted');
       }
     }
-    await _mRecorder.openRecorder();
-    if (!await _mRecorder.isEncoderSupported(_codec) && kIsWeb) {
+    await _mRecorder!.openRecorder();
+    if (!await _mRecorder!.isEncoderSupported(_codec) && kIsWeb) {
       _codec = Codec.opusWebM;
       _mPath = 'tau_file.webm';
-      if (!await _mRecorder.isEncoderSupported(_codec) && kIsWeb) {
+      if (!await _mRecorder!.isEncoderSupported(_codec) && kIsWeb) {
         _mRecorderIsInited = true;
         return;
       }
@@ -144,7 +144,7 @@ class RecordingPreviewState extends State<RecordingPreview> {
   // ----------------------  Here is the code for recording and playback -------
 
   void record() {
-    _mRecorder
+    _mRecorder!
         .startRecorder(
       toFile: _mPath,
       codec: _codec,
@@ -156,7 +156,7 @@ class RecordingPreviewState extends State<RecordingPreview> {
   }
 
   void stopRecorder() async {
-    await _mRecorder.stopRecorder().then((value) {
+    await _mRecorder!.stopRecorder().then((value) {
       setState(() {
         //var url = value;
         _mplaybackReady = true;
@@ -168,8 +168,8 @@ class RecordingPreviewState extends State<RecordingPreview> {
     assert(_mPlayerIsInited &&
        // _mplaybackReady &&
         //_mRecorder.isStopped &&
-        _mPlayer.isStopped);
-    _mPlayer
+        _mPlayer!.isStopped);
+    _mPlayer!
         .startPlayer(
         fromURI: _mPath,
         //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
@@ -182,8 +182,10 @@ class RecordingPreviewState extends State<RecordingPreview> {
   }
 
   void stopPlayer() {
-    _mPlayer.stopPlayer().then((value) {
-      setState(() {});
+    _mPlayer!.stopPlayer().then((value) {
+      setState(() {
+      //
+      });
     });
   }
 
@@ -191,18 +193,18 @@ class RecordingPreviewState extends State<RecordingPreview> {
 
 // ----------------------------- UI --------------------------------------------
 
-  _Fn getRecorderFn() {
-    if (!_mRecorderIsInited || !_mPlayer.isStopped) {
+  _Fn? getRecorderFn() {
+    if (!_mRecorderIsInited || !_mPlayer!.isStopped) {
       return null;
     }
-    return _mRecorder.isStopped ? record : stopRecorder;
+    return _mRecorder!.isStopped ? record : stopRecorder;
   }
 
-  _Fn getPlaybackFn() {
+  _Fn? getPlaybackFn() {
     if (!_mPlayerIsInited ) {//|| !_mplaybackReady || !_mRecorder.isStopped) {
       return null;
     }
-    return _mPlayer.isStopped ? play : stopPlayer;
+    return _mPlayer!.isStopped ? play : stopPlayer;
   }
 
   //final CarouselController _controller = CarouselController();
@@ -288,12 +290,12 @@ class RecordingPreviewState extends State<RecordingPreview> {
                   onPressed: getPlaybackFn(),
                   //color: Colors.white,
                   //disabledColor: Colors.grey,
-                  child: Text(_mPlayer.isPlaying ? 'Stop' : 'Play'),
+                  child: Text(_mPlayer!.isPlaying ? 'Stop' : 'Play'),
                 ),
                 SizedBox(
                   width: 20,
                 ),
-                Text(_mPlayer.isPlaying
+                Text(_mPlayer!.isPlaying
                     ? 'Playback in progress'
                     : 'Player is stopped'),
               ]),

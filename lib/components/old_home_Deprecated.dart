@@ -132,7 +132,9 @@ class RecenlyPlayed extends StatelessWidget {
                         width: MediaQuery.of(context).size.height*0.2,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: recentlyPlayed.recntlyPlayedStuff[i].type == "song" ? NetworkImage(recentlyPlayed.recntlyPlayedStuff[i].thumbnail) : AssetImage(recentlyPlayed.recntlyPlayedStuff[i].thumbnail),
+                            //need to work here
+                            //image: recentlyPlayed.recntlyPlayedStuff[i]!.type! == "song" ? NetworkImage(recentlyPlayed.recntlyPlayedStuff[i]!.thumbnail) : AssetImage(recentlyPlayed.recntlyPlayedStuff[i]!.thumbnail),
+                            image: NetworkImage("https://docs.flutter.dev/assets/images/dash/dash-fainting.gif"),
                             fit: BoxFit.cover,
                           )
                         ),
@@ -140,7 +142,7 @@ class RecenlyPlayed extends StatelessWidget {
                       SizedBox(
                         height: 10.0,
                       ),
-                      Text(recentlyPlayed.recntlyPlayedStuff[i].title, style: TextStyle(
+                      Text(recentlyPlayed.recntlyPlayedStuff[i]!.title!, style: TextStyle(
                         fontFamily: 'Proxima Nova Bold',
                         fontSize: 18.0,
                       ),),

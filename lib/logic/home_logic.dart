@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 
 
 class RecentlyPlayedStuff{
-  String id;
-  String type;
-  DateTime lastPlayed;
-  String thumbnail;
-  String title;
+  String? id;
+  String? type;
+  DateTime? lastPlayed;
+  String? thumbnail;
+  String? title;
 
   RecentlyPlayedStuff({this.id, this.type, this.lastPlayed, this.thumbnail, this.title});
 }
@@ -18,9 +18,9 @@ class RecentlyPlayedLogic extends ChangeNotifier{
   bool funCalled = false;
 
 
-  List<RecentlyPlayedStuff> recntlyPlayedStuff = [];
+  List<RecentlyPlayedStuff?> recntlyPlayedStuff = [];
   void getSongHistory() async{
-    final User firebaseUser = FirebaseAuth.instance.currentUser;
+    final User? firebaseUser = FirebaseAuth.instance.currentUser;
     print("Getting Data");
 
     //////
@@ -46,7 +46,7 @@ class RecentlyPlayedLogic extends ChangeNotifier{
     }*/
     ///////
 
-    QuerySnapshot qsnap = await FirebaseFirestore.instance.collection("users").where('uid', isEqualTo: firebaseUser.uid).get();
+    QuerySnapshot qsnap = await FirebaseFirestore.instance.collection("users").where('uid', isEqualTo: firebaseUser?.uid).get();
     QuerySnapshot qsnap2 = qsnap.docs[0].get("songHistory");//firebaseUser.uid
     List<DocumentSnapshot> data = qsnap2.docs;
     recntlyPlayedStuff = [];
@@ -69,8 +69,8 @@ class RecentlyPlayedLogic extends ChangeNotifier{
   }
 
   void getPlaylistHis()async{
-    final User firebaseUser = FirebaseAuth.instance.currentUser;
-    QuerySnapshot qsnap = await FirebaseFirestore.instance.collection("users").doc(firebaseUser.uid).collection("playlistHistory").get();
+    final User? firebaseUser = FirebaseAuth.instance.currentUser;
+    QuerySnapshot qsnap = await FirebaseFirestore.instance.collection("users").doc(firebaseUser?.uid).collection("playlistHistory").get();
     List<DocumentSnapshot> data = qsnap.docs;
     for(int i=0; i<data.length; i++){
       await FirebaseFirestore.instance.collection("users").doc(data[i]['playlistUserId']).collection("userCreatedPlayLists").doc(data[i]['playListId']).get().then((documentSnapshot){

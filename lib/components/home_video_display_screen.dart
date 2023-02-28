@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:video_player/video_player.dart';
@@ -8,14 +7,14 @@ import 'package:storily/components/home_game_loader.dart';
 class VideoDisplayScreen extends StatefulWidget {
   final String videoURL;
 
-  VideoDisplayScreen({@required this.videoURL});
+  VideoDisplayScreen({required this.videoURL});
 
   @override
   _VideoDisplayScreenState createState() => _VideoDisplayScreenState();
 }
 
 class _VideoDisplayScreenState extends State<VideoDisplayScreen> {
-  Uint8List videoData;
+  late Uint8List videoData;
 
   @override
   void initState() {
@@ -27,7 +26,7 @@ class _VideoDisplayScreenState extends State<VideoDisplayScreen> {
     final ref = FirebaseStorage.instance.ref().child(widget.videoURL);
     final videoData = await ref.getData(10485760);
     setState(() {
-      this.videoData = videoData;
+      this.videoData = videoData!;
     });
   }
 
@@ -36,10 +35,10 @@ class _VideoDisplayScreenState extends State<VideoDisplayScreen> {
     return Scaffold(
       body: GestureDetector(
         onVerticalDragEnd: (DragEndDetails details) {
-          if (details.primaryVelocity > 0) {
+          if (details.primaryVelocity! > 0) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => GameScreen()),
+              MaterialPageRoute(builder: (context) => GameScreen(gameId: '',)),
             );
           }
         },
@@ -62,14 +61,14 @@ class _VideoDisplayScreenState extends State<VideoDisplayScreen> {
 class VideoPlayerW extends StatefulWidget {
   final Uint8List data;
 
-  VideoPlayerW({@required this.data});
+  VideoPlayerW({required this.data});
 
   @override
   _VideoPlayerState createState() => _VideoPlayerState();
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
-  VideoPlayerController _controller;
+  late VideoPlayerController _controller;
 
   @override
   void initState() {
