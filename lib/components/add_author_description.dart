@@ -122,11 +122,11 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              containers('Title', _titleController),
+              textContainer('Title', _titleController),
               SizedBox(
                 height: 20.0,
               ),
-              containers('Description', _descriptionController),
+              textContainer('Description', _descriptionController),
               SizedBox(
                 height: 20.0,
               ),
@@ -148,7 +148,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
               SizedBox(
                 height: 20.0,
               ),
-              containers('Tag', _tagController),
+              textContainer('Topic', _tagController),
               SizedBox(
                 height: 20.0,
               ),
@@ -218,7 +218,6 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                             subCategory = pictureBooks;
                           });
                         }
-                        print(categoryValue);
                       },
                     ),
                     SizedBox(
@@ -288,7 +287,6 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                   ],
                 ),
               ),
-              // containers('Reading Level', _readingLevelController),
               SizedBox(
                 height: 20.0,
               ),
@@ -347,7 +345,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     );
   }
 
-  containers(String label, TextEditingController _controller) {
+  textContainer(String label, TextEditingController _controller) {
     return Container(
       margin: EdgeInsets.only(left: 40, right: 40),
       child: TextFormField(

@@ -83,7 +83,7 @@ class PageUploaderState extends State<PageUploader> {
                   crossAxisCount: 2,
                   children: List.generate(
                     total + 1,
-                        (index) {
+                    (index) {
                       //return Center(child:Text('Item $index', style: Theme.of(context).textTheme.headline4,));
 
                       if (index == total) {
@@ -98,7 +98,7 @@ class PageUploaderState extends State<PageUploader> {
                               decoration: BoxDecoration(color: Colors.red[200]),
                               child: Container(
                                 decoration:
-                                BoxDecoration(color: Colors.red[200]),
+                                    BoxDecoration(color: Colors.red[200]),
                                 width: 200,
                                 height: 200,
                                 child: Icon(
@@ -131,22 +131,22 @@ class PageUploaderState extends State<PageUploader> {
                                   ),
                                   child: _images[index] != null
                                       ? Image.file(
-                                    _images[index],
-                                    width: 200.0,
-                                    height: 200.0,
-                                    fit: BoxFit.fitHeight,
-                                  )
+                                          _images[index],
+                                          width: 200.0,
+                                          height: 200.0,
+                                          fit: BoxFit.fitHeight,
+                                        )
                                       : Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.red[200],
-                                    ),
-                                    width: 200,
-                                    height: 200,
-                                    child: Icon(
-                                      Icons.camera_alt,
-                                      color: Colors.grey[800],
-                                    ),
-                                  ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.red[200],
+                                          ),
+                                          width: 200,
+                                          height: 200,
+                                          child: Icon(
+                                            Icons.camera_alt,
+                                            color: Colors.grey[800],
+                                          ),
+                                        ),
                                 )),
                             Center(
                               child: Text(
@@ -299,14 +299,6 @@ class PageUploaderState extends State<PageUploader> {
         );
       },
     );
-    /*Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);*/
   }
 }
 
