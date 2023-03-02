@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-
 class MyBookshelfPage extends StatefulWidget {
- const MyBookshelfPage({Key? key}) : super(key: key);
+  const MyBookshelfPage({Key? key}) : super(key: key);
 
   @override
   State<MyBookshelfPage> createState() => _MyBookshelfPageState();
@@ -11,11 +10,20 @@ class MyBookshelfPage extends StatefulWidget {
 class _MyBookshelfPageState extends State<MyBookshelfPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-    child: Column(children: [ 
-      //
-      Text("Bookshelf")
-     ],),
+    return Scaffold(
+    backgroundColor: Colors.grey,
+    
+      appBar: AppBar(automaticallyImplyLeading: false),
+      body: Container(
+        child: Center(
+          child: Column(
+            children: [
+              //
+              Text("Bookshelf")
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

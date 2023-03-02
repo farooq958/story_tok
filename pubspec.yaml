@@ -35,12 +35,15 @@ dependencies:
   permission_handler: ^10.2.0
   audio_session:
   carousel_slider: ^4.0.0
-  video_player: ^2.5.1
+  video_player: ^2.5.2
   firebase_storage: ^11.0.14
   firebase_database: ^10.0.14
   webview_flutter: ^4.0.5
   fluttertoast: ^8.2.1
   shared_preferences: ^2.0.18
+  cached_network_image: ^3.2.3
+  get_it: ^7.2.0
+  stacked: ^3.1.0+3
 
 
 dev_dependencies:
@@ -80,6 +83,9 @@ flutter:
     - family: Proxima Nova Bold
       fonts:
         - asset: assets/fonts/Proxima Nova/Proxima Nova Bold.ttf
+    - family:  IconData
+      fonts:
+        - asset: assets/fonts/IconData.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

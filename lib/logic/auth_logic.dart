@@ -21,8 +21,6 @@ class SessionManagement extends ChangeNotifier{
     return null;
   }
   
-
-
   Future<bool> logout()async{
     try{
       await FirebaseAuth.instance.signOut();

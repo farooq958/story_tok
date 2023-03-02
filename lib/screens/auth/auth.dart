@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/home_video_display_screen.dart';
@@ -7,7 +6,7 @@ import 'package:storily/logic/auth_logic.dart';
 import 'package:storily/logic/basic_ui.dart';
 import 'package:storily/components/my_storily_author_page.dart';
 
-import '../dashboard/dashboard.dart';
+import '../dashboard/feed_screen.dart';
 
 //authentication page, currently has a short cut to the author center, we need to make the screen automatically enters the home scree(displayscreen) after sign in.
 class FirebaseSession extends StatelessWidget {
@@ -223,7 +222,7 @@ class AuthUI extends StatelessWidget {
                   ),
                   MaterialButton(
                     onPressed: () {
-                     goPage(context, Dashboard());
+                     goPage(context, FeedScreen());
                     },
                     child: Container(
                       padding: EdgeInsets.all(10.0),
