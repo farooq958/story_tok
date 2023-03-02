@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:storily/components/voice_recording.dart';
+import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 enum ImageSourceType { gallery, camera }
 
@@ -14,17 +16,34 @@ class VideoUploaderState extends State<VideoUploader> {
   final ImagePicker _picker = ImagePicker();
   File? _video;
   File? _cover;
+  Uint8List? _thumbnail;
 
   void _addVideo(BuildContext context, var type) async {
     XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
+
+    Uint8List? thumbnailData;
+    if (video != null) {
+      thumbnailData = await VideoThumbnail.thumbnailData(video: video!.path, maxWidth: 100, maxHeight: 100, quality: 10);
+    }
+
     setState(() {
       if (video != null) {
         _video = File(video!.path);
+        _thumbnail = thumbnailData;
       }
     });
   }
 
   void _addCover(BuildContext context, var type) async {
+
+    // Delete the current photo if it exists
+    if (_cover != null) {
+      setState(() {
+        _cover = null;
+      });
+      return;
+    }
+
     XFile? cover = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (cover != null) {
@@ -56,12 +75,17 @@ class VideoUploaderState extends State<VideoUploader> {
                       onPressed: () async {
                         _addVideo(context, ImageSourceType.gallery);
                       },
-                      child: Text("Upload video"))
+                      child: Text("Choose video")),
+                  Container(
+                    padding: EdgeInsets.all(40),
+                    child: _thumbnail != null ? Image.memory(_thumbnail!) : null,
+                  )
                 ],
               ),
 
               // Title
               Container(
+                  padding: EdgeInsets.all(20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -83,6 +107,7 @@ class VideoUploaderState extends State<VideoUploader> {
 
               // Description
               Container(
+                  padding: EdgeInsets.all(20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -104,6 +129,7 @@ class VideoUploaderState extends State<VideoUploader> {
 
               // Tags
               Container(
+                  padding: EdgeInsets.all(20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -122,21 +148,22 @@ class VideoUploaderState extends State<VideoUploader> {
 
               // Cover
               Container(
+                  padding: EdgeInsets.all(20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(width: 100, child: Text("Cover:")),
                       IconButton(onPressed: () async {
-                        _addCover(context, ImageSourceType.gallery);
+                          _addCover(context, ImageSourceType.gallery);
                       },
-                          icon: Icon(Icons.add_a_photo_rounded)),
+                          icon: Icon(_cover == null ? Icons.add_a_photo_rounded : Icons.clear_rounded)),
                       SizedBox(
-                          width: 200,
+                          width: 70,
                           child: _cover != null ? Image.file(
                             _cover!,
                             width: 70,
                             height: 70,
-                          ) : Text(""),
+                          ) : null,
                           )
                     ],
                   )),

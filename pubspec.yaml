@@ -35,11 +35,12 @@ dependencies:
   permission_handler: ^10.2.0
   audio_session:
   carousel_slider: ^4.0.0
-  video_player: ^2.5.1
+  video_player: ^2.5.2
   firebase_storage: ^11.0.14
   firebase_database: ^10.0.14
   webview_flutter: ^4.0.5
   fluttertoast: ^8.2.1
+  video_thumbnail: ^0.5.3
 
 
 dev_dependencies:
