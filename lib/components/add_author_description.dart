@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -15,82 +16,10 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   String categoryValue = 'Traditional Genre';
   String subCategoryValue = 'Myths';
   String readingLevelValue = 'Kindergarten: 0.1 - 0.9';
-  List<String> category = [
-    'Traditional Genre',
-    'realistic Fiction genres',
-    'historical Fiction genres',
-    'Fantasy',
-    'Poetry',
-    'NonFictions',
-    'picture books'
-  ];
-  List<String> traditionalCategory = [
-    'Myths',
-    'fables',
-    'epics',
-    'ballads',
-    'legends',
-    'folk rhymes',
-    'folktales',
-    'fairy tales',
-    'trickster tales',
-    'tall tales',
-    'cumulative tales',
-    'pourquoi tales'
-  ];
-  List<String> realisticFictionGenres = ['Historical', 'Contemporary'];
-  List<String> historicalFictionGenres = [
-    'Documentary fiction',
-    'Fictional biographies',
-    'Gothic fiction',
-    'Historical mysteries',
-    'Historical romance and family sagas',
-    'Nautical and pirate fiction',
-    'Alternate history and historical fantasy',
-    'Historiographic metafiction',
-    'Comics and graphic novels'
-  ];
-  List<String> fantasy = [
-    'Animal Fantasy',
-    'The World of Toys and Dolls',
-    'Eccentric Characters and Preposterous Situations',
-    'Extraordinary Worlds',
-    'Magical Powers',
-    'Suspense and the Supernatural',
-    'Time-Shift Fantasy',
-    'Imaginary Realms',
-    'High Fantasy'
-  ];
-  List<String> poetry = [
-    'Rhythm',
-    'Rhyme',
-    'Sound',
-    'Imagery',
-    'Figurative' 'Language',
-    'Shape'
-  ];
-  List<String> nonFictions = [
-    'Informational Text',
-    'NonFiction Narrative',
-    'Biography',
-    'How-to'
-  ];
-  List<String> pictureBooks = ['illustrated kids\' books', 'Comic books'];
+  var data = [];
+  List<String> category = [];
 
-  List<String> subCategory = [
-    'Myths',
-    'fables',
-    'epics',
-    'ballads',
-    'legends',
-    'folk rhymes',
-    'folktales',
-    'fairy tales',
-    'trickster tales',
-    'tall tales',
-    'cumulative tales',
-    'pourquoi tales'
-  ];
+  List<String> subCategory = [];
 
   List<String> readingLevel = [
     'Kindergarten: 0.1 - 0.9',
@@ -102,6 +31,14 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     '6th Grade: 6.0 - 6.9'
   ];
 
+  var traditionalData;
+  var realisticData;
+  var poetryData;
+  var pictureData;
+  var nonFictionData;
+  var historicalFictionGenresData;
+  var fantasyData;
+
   final ImagePicker _picker = ImagePicker();
   XFile? image;
   var imagePath;
@@ -109,7 +46,14 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _tagController = TextEditingController();
-  TextEditingController _readingLevelController = TextEditingController();
+
+  //initstate
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCollection("categories");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -178,53 +122,17 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                       onChanged: (String? newValue) {
                         setState(() {
                           categoryValue = newValue!;
+                          subCategoryValue = data[category.indexOf(newValue)]
+                              [categoryValue][0];
+                          subCategory =
+                              data[category.indexOf(newValue)][categoryValue];
                         });
-
-                        if (categoryValue == 'Traditional Genre') {
-                          setState(() {
-                            subCategoryValue = traditionalCategory[0];
-                            subCategory = traditionalCategory;
-                          });
-                        } else if (categoryValue ==
-                            "realistic Fiction genres") {
-                          setState(() {
-                            subCategoryValue = realisticFictionGenres[0];
-                            subCategory = realisticFictionGenres;
-                          });
-                        } else if (categoryValue ==
-                            "historical Fiction genres") {
-                          setState(() {
-                            subCategoryValue = historicalFictionGenres[0];
-                            subCategory = historicalFictionGenres;
-                          });
-                        } else if (categoryValue == "Fantasy") {
-                          setState(() {
-                            subCategoryValue = fantasy[0];
-                            subCategory = fantasy;
-                          });
-                        } else if (categoryValue == "Poetry") {
-                          setState(() {
-                            subCategoryValue = poetry[0];
-                            subCategory = poetry;
-                          });
-                        } else if (categoryValue == "NonFictions") {
-                          setState(() {
-                            subCategoryValue = nonFictions[0];
-                            subCategory = nonFictions;
-                          });
-                        } else {
-                          setState(() {
-                            subCategoryValue = pictureBooks[0];
-                            subCategory = pictureBooks;
-                          });
-                        }
                       },
                     ),
                     SizedBox(
                       width: 10.0,
                     ),
                     Container(
-                      // margin: EdgeInsets.only(left: 40.0, right: 40.0),
                       child: DropdownButton(
                         value: subCategoryValue,
                         icon: Icon(Icons.keyboard_arrow_down),
@@ -243,7 +151,6 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                         onChanged: (String? newValue) {
                           setState(() {
                             subCategoryValue = newValue!;
-                            print(subCategoryValue);
                           });
                         },
                       ),
@@ -251,7 +158,6 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                   ],
                 ),
               ),
-
               SizedBox(
                 height: 20.0,
               ),
@@ -369,5 +275,24 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       icon = Icons.refresh;
       imagePath = File(image!.path);
     });
+  }
+
+  getCollection(String collectionName) {
+    var collection = FirebaseFirestore.instance.collection("categories");
+    FirebaseFirestore.instance
+        .collection('categories')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          category.add(doc["name"].toString());
+          List list = doc["subcategories"];
+          data.add({doc["name"]: list.cast<String>()});
+        });
+      });
+      subCategory = data[0][category[0]];
+      subCategoryValue = data[0][category[0]][0];
+    });
+    return collection;
   }
 }
