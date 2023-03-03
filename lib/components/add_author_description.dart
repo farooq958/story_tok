@@ -16,7 +16,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   String categoryValue = 'Traditional Genre';
   String subCategoryValue = 'Myths';
   String readingLevelValue = 'Kindergarten: 0.1 - 0.9';
-  var data;
+  var data = [];
   List<String> category = [];
 
   List<String> subCategory = [];
@@ -46,14 +46,13 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _tagController = TextEditingController();
-  TextEditingController _readingLevelController = TextEditingController();
 
   //initstate
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getCategories();
+    getCollection("categories");
   }
 
   @override
@@ -123,8 +122,10 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                       onChanged: (String? newValue) {
                         setState(() {
                           categoryValue = newValue!;
-                          subCategoryValue = data[categoryValue][0];
-                          subCategory = data[categoryValue];
+                          subCategoryValue = data[category.indexOf(newValue)]
+                              [categoryValue][0];
+                          subCategory =
+                              data[category.indexOf(newValue)][categoryValue];
                         });
                       },
                     ),
@@ -132,7 +133,6 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                       width: 10.0,
                     ),
                     Container(
-                      // margin: EdgeInsets.only(left: 40.0, right: 40.0),
                       child: DropdownButton(
                         value: subCategoryValue,
                         icon: Icon(Icons.keyboard_arrow_down),
@@ -277,57 +277,22 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     });
   }
 
-  void getCategories() async {
-    try {
-      FirebaseFirestore.instance
-          .collection("categories")
-          .doc("mainCategories")
-          .get()
-          .then((value) {
+  getCollection(String collectionName) {
+    var collection = FirebaseFirestore.instance.collection("categories");
+    FirebaseFirestore.instance
+        .collection('categories')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
         setState(() {
-          List categorySample = value.data()!.values.toList();
-          category = categorySample.cast<String>();
+          category.add(doc["name"].toString());
+          List list = doc["subcategories"];
+          data.add({doc["name"]: list.cast<String>()});
         });
       });
-
-      FirebaseFirestore.instance
-          .collection("categories")
-          .doc('allCategories')
-          .get()
-          .then((value) {
-        setState(() {
-          // add dynamic list.
-          List traditionalGenre = value.data()!["Traditional Genre"];
-          List realisticSample = value.data()!["Realistic Fiction genres"];
-          List poetryList = value.data()!["Poetry"];
-          List pictureBooksList = value.data()!["Picture books"];
-          List nonFictionsList = value.data()!["NonFictions"];
-          List historicalFictionGenresList =
-              value.data()!["Historical Fiction genres"];
-          List fantasyList = value.data()!["Fantasy"];
-
-          /// List<dynamic> to List<String> conversion.
-          subCategory = traditionalGenre.cast<String>();
-          traditionalGenre = traditionalGenre.cast<String>();
-          realisticSample = realisticSample.cast<String>();
-          poetryList = poetryList.cast<String>();
-          pictureBooksList = pictureBooksList.cast<String>();
-          nonFictionsList = nonFictionsList.cast<String>();
-          historicalFictionGenresList =
-              historicalFictionGenresList.cast<String>();
-          fantasyList = fantasyList.cast<String>();
-
-          data = {
-            "Traditional Genre": traditionalGenre,
-            "Realistic Fiction genres": realisticSample,
-            "Poetry": poetryList,
-            "Picture books": pictureBooksList,
-            "NonFictions": nonFictionsList,
-            "Historical Fiction genres": historicalFictionGenresList,
-            "Fantasy": fantasyList,
-          };
-        });
-      });
-    } catch (e) {}
+      subCategory = data[0][category[0]];
+      subCategoryValue = data[0][category[0]][0];
+    });
+    return collection;
   }
 }
