@@ -13,7 +13,7 @@ class SpotifyHome extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,7 +25,7 @@ class SpotifyHome extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
+              children: [
                 Icon(Icons.search),
                 Text("Search"),
               ],
@@ -33,7 +33,7 @@ class SpotifyHome extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
+              children: [
                 Icon(Icons.library_music),
                 Text("Library"),
               ],
@@ -41,7 +41,7 @@ class SpotifyHome extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
+              children: [
                 Icon(Icons.person_outline),
                 Text("Premium"),
               ],
@@ -51,12 +51,12 @@ class SpotifyHome extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView(
-          children: <Widget>[
+          children: [
             Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
+                children: [
                   Material(
                     child: ChangeNotifierProvider(
                       create: (_)=>RecentlyPlayedLogic(),
@@ -93,7 +93,7 @@ class RecenlyPlayed extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           InkWell(
             child: Align(
               alignment: Alignment.centerRight,
@@ -126,7 +126,7 @@ class RecenlyPlayed extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: [
                       Container(
                         height: MediaQuery.of(context).size.height*0.2,
                         width: MediaQuery.of(context).size.height*0.2,
