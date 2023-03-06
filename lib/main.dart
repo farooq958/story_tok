@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storily/provider/storage_provider.dart';
-import 'package:storily/screens/auth/auth.dart';
 import 'package:storily/screens/splash/splash_screen.dart';
 
 import 'screens/service_locator.dart';
@@ -32,9 +31,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Proxima Nova',
         //brightness: Brightness.dark,
-        primaryColor: Colors.lightBlue[800],
-        colorScheme: ColorScheme.fromSwatch()
-            .copyWith(secondary: Colors.cyan[600], brightness: Brightness.dark),
+        //primaryColor: Colors.lightBlue[800],
+        // colorScheme: ColorScheme.fromSwatch()
+        //     .copyWith(secondary: Colors.cyan[600], brightness: Brightness.dark),
       ),
       home: SplashScreen(),
     );

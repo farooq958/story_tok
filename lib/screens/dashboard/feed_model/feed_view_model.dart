@@ -1,7 +1,7 @@
-import 'package:flutter/services.dart';
-import 'package:stacked/stacked.dart';
-import 'package:video_player/video_player.dart';
 
+import 'package:stacked/stacked.dart';
+import 'package:storily/screens/dashboard/data/games_firebase.dart';
+import 'package:video_player/video_player.dart';
 import '../data/videos_firebase.dart';
 
 class FeedViewModel extends BaseViewModel {
@@ -21,7 +21,6 @@ class FeedViewModel extends BaseViewModel {
       await videoSource!.listVideos[index].loadController();
     }
     videoSource!.listVideos[index].controller!.play();
-    //videoSource.listVideos[prevVideo].controller.removeListener(() {});
 
     if (videoSource!.listVideos[prevVideo].controller != null)
       videoSource!.listVideos[prevVideo].controller!.pause();
@@ -41,12 +40,7 @@ class FeedViewModel extends BaseViewModel {
   }
 
   void setActualScreen(index) {
-    actualScreen = index;
-    if (index == 0) {
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-    } else {
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    }
+    actualScreen = 0;
     notifyListeners();
   }
 }

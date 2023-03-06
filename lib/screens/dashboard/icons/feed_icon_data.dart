@@ -5,7 +5,7 @@ class FeedIcons {
   FeedIcons._();
 
   static const _kFontFam = 'IconData';
-
+  //video screen icons
   static const IconData chat_bubble = const IconData(0xe808, fontFamily: _kFontFam);
   static const IconData create = const IconData(0xe809, fontFamily: _kFontFam);
   static const IconData heart = const IconData(0xe80a, fontFamily: _kFontFam);
@@ -15,7 +15,8 @@ class FeedIcons {
   static const IconData reply = const IconData(0xe80e, fontFamily: _kFontFam);
   static const IconData search = const IconData(0xe80f, fontFamily: _kFontFam);
 
-
+  //bottom bar icons
+  static const Icon iconFeed = const Icon(Icons.dashboard, color: Colors.grey,);
   static const Icon iconBookSelf = const Icon(Icons.menu_book_sharp);
   static const Icon iconAddContect = const Icon(Icons.add_box_rounded);
   static const Icon iconEvent = const Icon(Icons.groups_2_outlined);
