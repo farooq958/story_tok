@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:storily/components/old_home_Deprecated.dart';
+//import 'package:storily/components/old_home_Deprecated.dart';
 import 'package:storily/logic/basic_ui.dart';
 
 
@@ -68,7 +68,7 @@ class LoginLogic extends ChangeNotifier{
         providers: [
           ChangeNotifierProvider(create: (_)=>SessionManagement(),)
         ],
-        child: SpotifyHome(),
+        //child: SpotifyHome(),
       )), (Route<dynamic> route)=>false);
 
     }catch(e){
@@ -150,7 +150,7 @@ class CreateUserAccount extends ChangeNotifier{
         providers: [
           ChangeNotifierProvider(create: (_)=>SessionManagement(),)
         ],
-        child: SpotifyHome(),
+        //child: SpotifyHome(),
       )), (Route<dynamic> route)=>false);
       User? user = FirebaseAuth.instance.currentUser;
 

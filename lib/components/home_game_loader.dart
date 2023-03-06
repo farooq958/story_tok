@@ -51,7 +51,7 @@ class _GameScreenState extends State<GameScreen> {
       final gameJson = json.decode(_gameData!);
       final gameName = gameJson['name'];
       final gameImageUrl = gameJson['image_url'];
-      final gameUrl = gameJson['game_url'];
+      final gameUrl = gameJson['game_url'];//https://algorithm0r.github.io/SuperMarioBros/index.html
 
       return Scaffold(
         appBar: AppBar(
