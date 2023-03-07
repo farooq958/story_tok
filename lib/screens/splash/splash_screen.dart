@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:storily/components/old_home_Deprecated.dart';
+//import 'package:storily/components/old_home_Deprecated.dart';
 import 'package:storily/logic/auth_logic.dart';
 import 'package:storily/screens/auth/auth.dart';
 
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ChangeNotifierProvider(
               create: (_)=>SessionManagement(),),
           ],
-          child: SpotifyHome(),
+         // child: SpotifyHome(),
         ),
       )));
     }
