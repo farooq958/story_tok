@@ -1,6 +1,7 @@
+import 'package:storily/screens/dashboard/data/game_model.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoModel {
+class VideoModel extends DataModel {
   String id;
   String user;
   String userPic;

@@ -1,16 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:stacked/stacked.dart';
 import 'package:storily/global/methods/methods.dart';
+import 'package:storily/screens/dashboard/data/game_model.dart';
+import 'package:storily/screens/dashboard/widgets/game_screen.dart';
 import 'data/video_model.dart';
 import 'feed_model/feed_view_model.dart';
 import 'icons/feed_icon_data.dart';
 import 'bootm_menu_screens/bookshelf.dart';
 import 'profile/creators_profile.dart';
-import 'widgets/actions_toolbar.dart';
-import 'package:video_player/video_player.dart';
-import 'widgets/video_description.dart';
+import 'widgets/video_screen.dart';
 
 class FeedDashboard extends StatefulWidget {
   FeedDashboard({Key? key}) : super(key: key);
@@ -20,36 +19,15 @@ class FeedDashboard extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedDashboard> {
-  final locator = GetIt.instance;
   final feedViewModel = GetIt.instance<FeedViewModel>();
-  int currentIndex=0;
-
-  @override
-  void initState() {
-    feedViewModel.loadVideo(0);
-    feedViewModel.loadVideo(1);
-    GetIt.instance<FeedViewModel>().setActualScreen(0);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<FeedViewModel>.reactive(
-        disposeViewModel: false,
-        builder: (context, model, child) => videoScreen(),
-        viewModelBuilder: () => feedViewModel);
-  }
-
-  Widget videoScreen() {
     return Scaffold(
-      //backgroundColor: Colors.white,
       body: Stack(
         children: [
           PageView.builder(
             itemCount: 2,
-            onPageChanged: (value) {
-              print(value);
-            },
             itemBuilder: (context, index) {
               if (index == 0)
                 return scrollFeed();
@@ -77,10 +55,17 @@ class _FeedScreenState extends State<FeedDashboard> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      if(feedViewModel.videoSource!.listVideos[currentIndex].controller!.value.isPlaying){ 
-                          feedViewModel.videoSource!.listVideos[currentIndex].controller!.pause();
+                      if (feedViewModel
+                          .videoSource!
+                          .listVideos[feedViewModel.videoIndex]
+                          .controller!
+                          .value
+                          .isPlaying) {
+                        feedViewModel.videoSource!
+                            .listVideos[feedViewModel.videoIndex].controller!
+                            .pause();
                       }
-                      goPage(context, MyBookshelfPage());                                        
+                      goPage(context, MyBookshelfPage());
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -139,16 +124,22 @@ class _FeedScreenState extends State<FeedDashboard> {
             initialPage: 0,
             viewportFraction: 1,
           ),
-          itemCount: feedViewModel.videoSource?.listVideos.length,
-          onPageChanged: (index) {
-            index = index % (feedViewModel.videoSource!.listVideos.length);
-            feedViewModel.changeVideo(index);
-          },
+          itemCount: feedViewModel.totalLength,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
-            index = index % (feedViewModel.videoSource!.listVideos.length);
-            currentIndex = index;
-            return videoCard(feedViewModel.videoSource!.listVideos[index]);
+            final data = feedViewModel.nextItem();
+            if (data != null) {
+              if (data is GameModel) {
+                return GameScreenWidget(
+                  gameModel: data,
+                );
+              } else {
+                return VideoScreenWidget(
+                  video: data as VideoModel,
+                );
+              }
+            }
+            return SizedBox();
           },
         ),
         SafeArea(
@@ -184,54 +175,6 @@ class _FeedScreenState extends State<FeedDashboard> {
               ],
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget videoCard(VideoModel video) {
-    return Stack(
-      children: [
-        video.controller != null
-            ? GestureDetector(
-                onTap: () {
-                  if (video.controller!.value.isPlaying) {
-                    video.controller?.pause();
-                  } else {
-                    video.controller?.play();
-                  }
-                },
-                child: SizedBox.expand(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: video.controller?.value.size.width ?? 0,
-                      height: video.controller?.value.size.height ?? 0,
-                      child: VideoPlayer(video.controller!),
-                    ),
-                  ),
-                ),
-              )
-            : Container(
-                color: Colors.black,
-                child: Center(
-                  child: Text("Loading...."),
-                ),
-              ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                VideoDescription(video.user, video.videoTitle, video.songName),
-                ActionsToolbar(video.likes, video.comments,
-                    "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"),
-              ],
-            ),
-            SizedBox(height: 20),
-          ],
         ),
       ],
     );

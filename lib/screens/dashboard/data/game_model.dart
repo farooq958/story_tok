@@ -1,6 +1,6 @@
-import 'package:video_player/video_player.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class GameModel {
+class GameModel extends DataModel{
   String id;
   String user;
   String userPic;
@@ -10,7 +10,7 @@ class GameModel {
   String comments;
   String url;
 
-  //VideoPlayerController? controller;
+  WebViewController? controller;
 
   GameModel(
       {required this.id,
@@ -45,9 +45,13 @@ class GameModel {
     return data;
   }
 
-  // Future<Null> loadController() async {
-  //   controller = VideoPlayerController.network(url);
-  //   await controller?.initialize();
-  //   controller?.setLooping(true);
-  // }
+  Future<Null> loadController() async {
+    controller = WebViewController();
+    controller!.setJavaScriptMode(JavaScriptMode.unrestricted);
+    await controller!.loadRequest(Uri.parse(url));
+  }
 }
+
+abstract class DataModel {
+loadController() async {}
+} 
