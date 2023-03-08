@@ -1,8 +1,13 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:storily/components/voice_recording.dart';
+
+import '../utils.dart';
 
 enum ImageSourceType { gallery, camera }
 
@@ -30,6 +35,10 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     '5th Grade: 5.0 - 5.9',
     '6th Grade: 6.0 - 6.9'
   ];
+
+  final recorder = FlutterSoundRecorder();
+  final player = FlutterSoundPlayer();
+  var fileName;
 
   var traditionalData;
   var realisticData;
@@ -204,7 +213,30 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                 children: [
                   MaterialButton(
                     onPressed: () {
-                      // Record the screen
+                      if (imagePath != null) {
+                        // Record the screen
+                        DocumentReference sightingRef = FirebaseFirestore
+                            .instance
+                            .collection('booksentity')
+                            .doc();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VoiceRecorder(
+                                    [imagePath],
+                                    sightingRef,
+                                    categoryValue.toString(),
+                                    subCategoryValue.toString(),
+                                    _titleController.text.toString(),
+                                    _tagController.text.toString(),
+                                  )
+                              /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
+                              ),
+                        );
+                      } else {
+                        Utils().showToastMessage(
+                            "Please select cover image.", context);
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -225,6 +257,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                   MaterialButton(
                     onPressed: () {
                       // Publish the book
+                      saveImages(imagePath, sightingRef);
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -270,7 +303,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   }
 
   void _addImage() async {
-    image = (await _picker.pickImage(source: ImageSource.gallery))!;
+    image = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       icon = Icons.refresh;
       imagePath = File(image!.path);
@@ -294,5 +327,31 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       subCategoryValue = data[0][category[0]][0];
     });
     return collection;
+  }
+
+  String _uploadedFileURL = '';
+  DocumentReference sightingRef =
+      FirebaseFirestore.instance.collection('booksentity').doc();
+
+  Future<void> saveImages(File _image, DocumentReference ref) async {
+    var storageReference =
+    FirebaseStorage.instance.ref().child('images/$_image');
+    UploadTask uploadTask = storageReference.putFile(_image);
+    await uploadTask.then((res) {
+      print('File Uploaded');
+      storageReference.getDownloadURL().then((imageURL) {
+        print("ImageUrl : $imageURL");
+        ref.set({
+          "cover_url": imageURL,
+          "audio_doc_id": "",
+          "author_doc_id": "",
+          "category_main": categoryValue.toString(),
+          "category_sub": subCategoryValue.toString(),
+          "pages_url": [],
+          "title": _titleController.text.toString(),
+          "topic": _tagController.text.toString(),
+        });
+      });
+    });
   }
 }

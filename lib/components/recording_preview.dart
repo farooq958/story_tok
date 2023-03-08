@@ -70,8 +70,12 @@ class RecordingPreviewState extends State<RecordingPreview> {
     _mPlayer?.setSubscriptionDuration(Duration(milliseconds: 100));
     _playerSubscription = _mPlayer?.onProgress!.listen((e)
     {
+
+      print(e.position.inMilliseconds);
+      print(pageTime![currentPage]);
+
         setState(() {
-          if(e.position.inMilliseconds > pageTime![currentPage]!)
+          if(pageTime![currentPage] != null && (e.position.inMilliseconds > pageTime![currentPage]!))
           {
             _controller.nextPage();
             currentPage ++;

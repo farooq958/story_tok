@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:storily/components/add_author_description.dart';
 import 'package:storily/components/voice_recording.dart';
 
+import '../utils.dart';
+
 enum ImageSourceType { gallery, camera }
 
 class PageUploader extends StatefulWidget {
@@ -40,7 +42,7 @@ class PageUploaderState extends State<PageUploader> {
           setState(() {
             imageExist = true;
           });
-          showToastMessage("You can't choose the same image.");
+          Utils().showToastMessage("You can't choose the same image.", context);
           break;
         }
       }
@@ -200,9 +202,7 @@ class PageUploaderState extends State<PageUploader> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => VoiceRecorder(
-                            images: _images,
-                          ),
+                          builder: (context) => VoiceRecorder(_images,),
                         ),
                       );
                     },
@@ -239,7 +239,7 @@ class PageUploaderState extends State<PageUploader> {
                   MaterialButton(
                     onPressed: () {
                       if (_images.length < 4) {
-                        showToastMessage("Book has at least 4 pages.");
+                        Utils().showToastMessage("Book has at least 4 pages.", context);
                       } else {
                         Navigator.push(
                           context,
@@ -271,33 +271,6 @@ class PageUploaderState extends State<PageUploader> {
           ],
         ),
       ),
-    );
-  }
-
-  showToastMessage(String message) {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Alert'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(message),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
