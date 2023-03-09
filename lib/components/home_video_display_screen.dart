@@ -23,6 +23,7 @@ class _VideoDisplayScreenState extends State<VideoDisplayScreen> {
   }
 
   _loadVideo() async {
+
     final ref = FirebaseStorage.instance.ref().child(widget.videoURL);
     final videoData = await ref.getData(10485760);
     setState(() {
