@@ -1,7 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:storily/models/video_upload.dart';
+import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -14,8 +19,9 @@ class VideoUploader extends StatefulWidget {
 
 class VideoUploaderState extends State<VideoUploader> {
   final ImagePicker _picker = ImagePicker();
-  File? _video;
-  File? _cover;
+  final VideoUpload _videoUpload = VideoUpload("hadi");
+  var isUploading = false;
+
   Uint8List? _thumbnail;
 
   void _addVideo(BuildContext context, var type) async {
@@ -28,7 +34,7 @@ class VideoUploaderState extends State<VideoUploader> {
 
     setState(() {
       if (video != null) {
-        _video = File(video!.path);
+        _videoUpload.video = File(video!.path);
         _thumbnail = thumbnailData;
       }
     });
@@ -36,20 +42,20 @@ class VideoUploaderState extends State<VideoUploader> {
 
   void _addCover(BuildContext context, var type) async {
 
-    // Delete the current photo if it exists
-    if (_cover != null) {
-      setState(() {
-        _cover = null;
-      });
-      return;
-    }
-
     XFile? cover = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (cover != null) {
-        _cover = File(cover!.path);
+        _videoUpload.cover = File(cover!.path);
       }
     });
+  }
+
+  Future<void> _publish() async {
+    if (await _videoUpload.publish()) {
+      print("Published video");
+    } else {
+      print("Error publishing video");
+    }
   }
 
   @override
@@ -96,6 +102,7 @@ class VideoUploaderState extends State<VideoUploader> {
                       SizedBox(
                           width: 200,
                           child: TextFormField(
+                            onChanged: (text){_videoUpload.videoDescription = text;},
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(),
@@ -156,11 +163,11 @@ class VideoUploaderState extends State<VideoUploader> {
                       IconButton(onPressed: () async {
                           _addCover(context, ImageSourceType.gallery);
                       },
-                          icon: Icon(_cover == null ? Icons.add_a_photo_rounded : Icons.clear_rounded)),
+                          icon: Icon(_videoUpload.cover == null ? Icons.add_a_photo_rounded : Icons.clear_rounded)),
                       SizedBox(
                           width: 70,
-                          child: _cover != null ? Image.file(
-                            _cover!,
+                          child: _videoUpload.cover != null ? Image.file(
+                            _videoUpload.cover!,
                             width: 70,
                             height: 70,
                           ) : null,
@@ -171,8 +178,9 @@ class VideoUploaderState extends State<VideoUploader> {
 
               // Publish button
               FilledButton(
-                  onPressed: () {},
-                  child: Text("Publish"))
+                  onPressed: isUploading ? () {} : () {_publish();},
+                  child: isUploading ? Text("Uploading...") : Text("Publish")
+              )
             ],
           ),
         ));

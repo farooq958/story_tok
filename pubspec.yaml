@@ -41,6 +41,7 @@ dependencies:
   webview_flutter: ^4.0.5
   fluttertoast: ^8.2.1
   video_thumbnail: ^0.5.3
+  uuid: ^3.0.7
 
 
 dev_dependencies:
