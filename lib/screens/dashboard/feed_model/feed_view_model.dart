@@ -63,6 +63,7 @@ class FeedViewModel extends BaseViewModel {
   GameModel? getUpdatedGame() {
     prevGame = gameIndex;
     final gameModel = gameSource?.listGames[gameIndex];
+    print("Peipei" + gameModel!.url);
     gameModel?.loadController().then((value) {
       notifyListeners();
     });
