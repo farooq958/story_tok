@@ -12,9 +12,10 @@ import '../utils.dart';
 enum ImageSourceType { gallery, camera }
 
 class AddAuthorDescription extends StatefulWidget {
-  final images;
+  final List<File> images;
+  final imagesPath;
 
-  const AddAuthorDescription({Key? key, required this.images})
+  const AddAuthorDescription({Key? key, required this.images, this.imagesPath})
       : super(key: key);
 
   @override
@@ -228,8 +229,9 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => VoiceRecorder(
+                                    widget.images,
+                                sightingRef,
                                     [imagePath],
-                                    sightingRef,
                                     categoryValue.toString(),
                                     subCategoryValue.toString(),
                                     _titleController.text.toString(),
@@ -338,34 +340,22 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       FirebaseFirestore.instance.collection('booksentity').doc();
 
   Future<void> saveImages(File _image, DocumentReference ref) async {
-    var pageUrls = [];
     var imagesUrlArray = [];
     var imageUrl = "";
     var storageReferencePageUrls =
         FirebaseStorage.instance.ref().child('pageUrls/$_image');
 
-    for (int i = 0; i < widget.images.length; i++) {
-      var upload = await storageReferencePageUrls.putString(widget.images[i]);
+    for (int i = 0; i < widget.imagesPath.length; i++) {
+      var upload = await storageReferencePageUrls.putString(widget.imagesPath[i]);
       imageUrl = await upload.ref.getDownloadURL();
       imagesUrlArray.add(imageUrl);
-    }
-    for (int i = 0; i < widget.images.length; i++) {
-      UploadTask uploadPageUrls =
-          storageReferencePageUrls.putString(widget.images[i]);
-      await uploadPageUrls.then((res) {
-        storageReferencePageUrls.getDownloadURL().then((imageURL) {
-          pageUrls.add(imageURL);
-        });
-      });
     }
 
     var storageReference =
         FirebaseStorage.instance.ref().child('images/$_image');
     UploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.then((res) {
-      print('File Uploaded');
       storageReference.getDownloadURL().then((imageURL) {
-        print("ImageUrl : $imageURL");
         ref.set({
           "cover_url": imageURL,
           "audio_doc_id": "",

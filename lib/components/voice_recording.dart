@@ -60,6 +60,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   bool _mplaybackReady = false;
   Stopwatch _timer = Stopwatch();
   File audioFile = File('');
+  var _imagesPath;
 
   //slider
   Map<int, int> _pageTime = Map();
@@ -148,13 +149,16 @@ class VoiceRecorderState extends State<VoiceRecorder> {
 
   stop() async {
     _audioRecorder.stop().then((value) {
-      setState(() {
-        start = false;
-        _mPath = value!;
-        print("Hello Print Url : $_mPath");
-        _mplaybackReady = true;
-        _timer.stop();
-      });
+      try {
+        setState(() {
+          start = false;
+          _imagesPath = value!;
+          // _imagesPath.add(value!);
+          _mPath = value!;
+          _mplaybackReady = true;
+          _timer.stop();
+        });
+      } catch (e) {}
     });
   }
 
@@ -197,49 +201,52 @@ class VoiceRecorderState extends State<VoiceRecorder> {
     return _mPlayer.isStopped ? play : stopPlayer;
   }
 
+  var selectedIndex;
+
   //final CarouselController _controller = CarouselController();
   void InitImageSliders() {
-    imageSliders = cachedimages!
-        .map((item) => Container(
-              child: Container(
-                margin: EdgeInsets.all(5.0),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    child: Stack(
-                      children: <Widget>[
-                        Image.file(item, fit: BoxFit.cover, width: 1000.0),
-                        Positioned(
-                          bottom: 0.0,
-                          left: 0.0,
-                          right: 0.0,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color.fromARGB(200, 0, 0, 0),
-                                  Color.fromARGB(0, 0, 0, 0)
-                                ],
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                              ),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 20.0),
-                            child: Text(
-                              'No. ${cachedimages!.indexOf(item)} image',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+    imageSliders = cachedimages!.map((item) {
+      selectedIndex = cachedimages!.indexOf(item);
+      return Container(
+        child: Container(
+          margin: EdgeInsets.all(5.0),
+          child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              child: Stack(
+                children: <Widget>[
+                  Image.file(item, fit: BoxFit.cover, width: 1000.0),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(200, 0, 0, 0),
+                            Color.fromARGB(0, 0, 0, 0)
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
                         ),
-                      ],
-                    )),
-              ),
-            ))
-        .toList();
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      child: Text(
+                        'No. ${cachedimages!.indexOf(item)} image',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+        ),
+      );
+    }).toList();
   }
 
   @override
@@ -296,6 +303,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                         builder: (context) => RecordingPreview(
                               pageTime: _pageTime,
                               images: cachedimages!,
+                              imagesPath: [_imagesPath],
                             )));
               },
               child: Container(
@@ -374,36 +382,35 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   }
 
   Future<void> saveFile() async {
-    var storageReference =
-        FirebaseStorage.instance.ref().child('audios/$_mPath');
-    UploadTask uploadTask = storageReference.putString(_mPath);
-    await uploadTask.then((res) {
-      print('File Uploaded');
-      storageReference.getDownloadURL().then((audioURl) {
-        widget.ref.set({
-          "cover_url": widget.imageURL,
-          "audio_doc_id": audioURl,
-          "author_doc_id": "",
-          "category_main": widget.category.toString(),
-          "category_sub": widget.subCategory.toString(),
-          "pages_url": [],
-          "title": widget.title.toString(),
-          "topic": widget.topic.toString(),
+    try {
+      var imagesUrlArray = [];
+      var imageUrl = "";
+      var storageReferencePageUrls =
+          FirebaseStorage.instance.ref().child('pageUrls');
+
+      for (int i = 0; i < cachedimages!.length; i++) {
+        var upload = await storageReferencePageUrls
+            .putString(cachedimages![i].path.toString());
+        imageUrl = await upload.ref.getDownloadURL();
+        imagesUrlArray.add(imageUrl);
+      }
+      var storageReference =
+          FirebaseStorage.instance.ref().child('audios/$_mPath');
+      UploadTask uploadTask = storageReference.putString(_mPath);
+      await uploadTask.then((res) {
+        storageReference.getDownloadURL().then((audioURl) {
+          widget.ref.set({
+            "cover_url": widget.imageURL.toString(),
+            "audio_doc_id": audioURl,
+            "author_doc_id": "",
+            "category_main": widget.category.toString(),
+            "category_sub": widget.subCategory.toString(),
+            "pages_url": imagesUrlArray,
+            "title": widget.title.toString(),
+            "topic": widget.topic.toString(),
+          });
         });
       });
-    });
-  }
-
-  Future uploadFile(var file) async {
-    var data;
-    var storageReference = FirebaseStorage.instance.ref().child('audios/$file');
-    UploadTask uploadTask = storageReference.putString(file);
-    await uploadTask.then((res) {
-      print('File Uploaded');
-      storageReference.getDownloadURL().then((fileURL) {
-        data = fileURL;
-      });
-    });
-    return data;
+    } catch (e, stacktrace) {}
   }
 }

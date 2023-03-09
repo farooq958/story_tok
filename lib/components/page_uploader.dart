@@ -243,7 +243,7 @@ class PageUploaderState extends State<PageUploader> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AddAuthorDescription(images: imagesPath),
+                            builder: (context) => AddAuthorDescription(imagesPath: imagesPath, images: _images),
                           ),
                         );
                       }
