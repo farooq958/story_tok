@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:storily/components/add_author_description.dart';
 import 'package:storily/components/voice_recording.dart';
-
 import '../utils.dart';
 
 enum ImageSourceType { gallery, camera }
@@ -16,6 +14,7 @@ class PageUploader extends StatefulWidget {
 
 class PageUploaderState extends State<PageUploader> {
   var _images = <File>[];
+  List imagesPath = [];
   var total = 0;
   var imagePicker;
 
@@ -51,7 +50,7 @@ class PageUploaderState extends State<PageUploader> {
     if (!imageExist) {
       setState(() {
         _images.add(File(''));
-        // _images.add(null);
+        imagesPath.add(image.path);
         _images[i] = File(image.path);
         total++;
       });
@@ -238,13 +237,13 @@ class PageUploaderState extends State<PageUploader> {
                   ),
                   MaterialButton(
                     onPressed: () {
-                      if (_images.length < 4) {
+                      if (_images.length < 1) {
                         Utils().showToastMessage("Book has at least 4 pages.", context);
                       } else {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AddAuthorDescription(),
+                            builder: (context) => AddAuthorDescription(images: imagesPath),
                           ),
                         );
                       }

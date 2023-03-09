@@ -12,6 +12,11 @@ import '../utils.dart';
 enum ImageSourceType { gallery, camera }
 
 class AddAuthorDescription extends StatefulWidget {
+  final images;
+
+  const AddAuthorDescription({Key? key, required this.images})
+      : super(key: key);
+
   @override
   AddAuthorDescriptionState createState() => AddAuthorDescriptionState();
 }
@@ -329,13 +334,33 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     return collection;
   }
 
-  String _uploadedFileURL = '';
   DocumentReference sightingRef =
       FirebaseFirestore.instance.collection('booksentity').doc();
 
   Future<void> saveImages(File _image, DocumentReference ref) async {
+    var pageUrls = [];
+    var imagesUrlArray = [];
+    var imageUrl = "";
+    var storageReferencePageUrls =
+        FirebaseStorage.instance.ref().child('pageUrls/$_image');
+
+    for (int i = 0; i < widget.images.length; i++) {
+      var upload = await storageReferencePageUrls.putString(widget.images[i]);
+      imageUrl = await upload.ref.getDownloadURL();
+      imagesUrlArray.add(imageUrl);
+    }
+    for (int i = 0; i < widget.images.length; i++) {
+      UploadTask uploadPageUrls =
+          storageReferencePageUrls.putString(widget.images[i]);
+      await uploadPageUrls.then((res) {
+        storageReferencePageUrls.getDownloadURL().then((imageURL) {
+          pageUrls.add(imageURL);
+        });
+      });
+    }
+
     var storageReference =
-    FirebaseStorage.instance.ref().child('images/$_image');
+        FirebaseStorage.instance.ref().child('images/$_image');
     UploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.then((res) {
       print('File Uploaded');
@@ -347,7 +372,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
           "author_doc_id": "",
           "category_main": categoryValue.toString(),
           "category_sub": subCategoryValue.toString(),
-          "pages_url": [],
+          "pages_url": imagesUrlArray,
           "title": _titleController.text.toString(),
           "topic": _tagController.text.toString(),
         });
