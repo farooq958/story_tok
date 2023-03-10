@@ -419,14 +419,13 @@ class SelectArtist extends StatelessWidget {
                                     onChanged: (String q)async{
                                       q = q.toUpperCase();
                                       if(q.length == 1){
-                                        QuerySnapshot qsnap = await FirebaseFirestore.instance.collection("artists").where("artistIndex", isEqualTo: q.toUpperCase()).get();
+                                          QuerySnapshot qsnap = await FirebaseFirestore.instance.collection("artists").where("artistIndex", isEqualTo: q.toUpperCase()).get();
                                         adminObj.data = qsnap.docs;
                                         adminObj.qdata = adminObj.data;
                                         adminObj.reloadTheState();
                                       }else{
                                         adminObj.qdata = [];
                                         for(int i = 0; i< adminObj.data.length; i++){
-                                          //print(adminObj.data[i]['name'].toString().toUpperCase()+ ", Query is : "+q);
                                           if(adminObj.data[i]['name'].toString().toUpperCase().contains(q)){
                                             adminObj.qdata.add(adminObj.data[i]);
                                           }
@@ -496,9 +495,7 @@ class SelectCategories extends StatelessWidget {
                                       }else{
                                         adminObj.qcatData = [];
                                         for(int i = 0; i< adminObj.catData.length; i++){
-                                          //print(adminObj.data[i]['name'].toString().toUpperCase()+ ", Query is : "+q);
                                           if(adminObj.catData[i]['name'].toString().toUpperCase().contains(q)){
-                                            print("Adding some");
                                             adminObj.qcatData.add(adminObj.data[i]);
                                           }
                                         }

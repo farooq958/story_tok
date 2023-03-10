@@ -60,7 +60,8 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   bool _mplaybackReady = false;
   Stopwatch _timer = Stopwatch();
   File audioFile = File('');
-  var _imagesPath;
+  var _imagesPath = [];
+  int _currentIndex = 0;
 
   //slider
   Map<int, int> _pageTime = Map();
@@ -152,13 +153,12 @@ class VoiceRecorderState extends State<VoiceRecorder> {
       try {
         setState(() {
           start = false;
-          _imagesPath = value!;
-          // _imagesPath.add(value!);
+          _imagesPath.add(value!);
           _mPath = value!;
           _mplaybackReady = true;
           _timer.stop();
         });
-      } catch (e) {}
+      } catch (e, stacktrace) {}
     });
   }
 
@@ -169,7 +169,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
         _mPlayer.isStopped);
     _mPlayer
         .startPlayer(
-            fromURI: _mPath,
+            fromURI: _imagesPath[_currentIndex].toString(),
             //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
             whenFinished: () {
               setState(() {});
@@ -201,12 +201,9 @@ class VoiceRecorderState extends State<VoiceRecorder> {
     return _mPlayer.isStopped ? play : stopPlayer;
   }
 
-  var selectedIndex;
-
   //final CarouselController _controller = CarouselController();
   void InitImageSliders() {
     imageSliders = cachedimages!.map((item) {
-      selectedIndex = cachedimages!.indexOf(item);
       return Container(
         child: Container(
           margin: EdgeInsets.all(5.0),
@@ -262,6 +259,9 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                   enableInfiniteScroll: false,
                   enlargeCenterPage: true,
                   onPageChanged: (index, reason) {
+                      setState((){
+                        _currentIndex = index;
+                      });
                     _pageTime.addAll({index: _timer.elapsedMilliseconds});
                   }),
               items: imageSliders,
@@ -303,7 +303,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                         builder: (context) => RecordingPreview(
                               pageTime: _pageTime,
                               images: cachedimages!,
-                              imagesPath: [_imagesPath],
+                              imagesPath: _imagesPath,
                             )));
               },
               child: Container(
@@ -385,17 +385,20 @@ class VoiceRecorderState extends State<VoiceRecorder> {
     try {
       var imagesUrlArray = [];
       var imageUrl = "";
-      var storageReferencePageUrls =
-          FirebaseStorage.instance.ref().child('pageUrls');
 
       for (int i = 0; i < cachedimages!.length; i++) {
+        var childPath = cachedimages![i].path.toString().split('/');
+        var storageReferencePageUrls =
+        FirebaseStorage.instance.ref().child('book_pages').child(childPath[childPath.length-1]);
         var upload = await storageReferencePageUrls
-            .putString(cachedimages![i].path.toString());
+            .putFile(cachedimages![i]);
         imageUrl = await upload.ref.getDownloadURL();
         imagesUrlArray.add(imageUrl);
       }
+
+      var audioPath = _mPath.toString().split('/');
       var storageReference =
-          FirebaseStorage.instance.ref().child('audios/$_mPath');
+          FirebaseStorage.instance.ref().child('audios').child(audioPath[audioPath.length-1]);
       UploadTask uploadTask = storageReference.putString(_mPath);
       await uploadTask.then((res) {
         storageReference.getDownloadURL().then((audioURl) {

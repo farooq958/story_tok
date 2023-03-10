@@ -225,21 +225,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                             .instance
                             .collection('booksentity')
                             .doc();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VoiceRecorder(
-                                    widget.images,
-                                sightingRef,
-                                    [imagePath],
-                                    categoryValue.toString(),
-                                    subCategoryValue.toString(),
-                                    _titleController.text.toString(),
-                                    _tagController.text.toString(),
-                                  )
-                              /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
-                              ),
-                        );
+                        navigateToVoiceRecordScreen();
                       } else {
                         Utils().showToastMessage(
                             "Please select cover image.", context);
@@ -289,6 +275,33 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
         ),
       ),
     );
+  }
+
+  navigateToVoiceRecordScreen () async {
+    var imageSplitPath = imagePath.path.toString().split('/');
+    var storageReference =
+    FirebaseStorage.instance.ref().child('book_cover').child(imageSplitPath[imageSplitPath.length-1]);
+    UploadTask uploadTask = storageReference.putFile(imagePath);
+    await uploadTask.then((res) {
+      storageReference.getDownloadURL().then((imageURL) {
+        return Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => VoiceRecorder(
+                widget.images,
+                sightingRef,
+                imageURL,
+                categoryValue.toString(),
+                subCategoryValue.toString(),
+                _titleController.text.toString(),
+                _tagController.text.toString(),
+              )
+            /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
+          ),
+        );
+      });
+    });
+
   }
 
   textContainer(String label, TextEditingController _controller) {
@@ -342,17 +355,21 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   Future<void> saveImages(File _image, DocumentReference ref) async {
     var imagesUrlArray = [];
     var imageUrl = "";
-    var storageReferencePageUrls =
-        FirebaseStorage.instance.ref().child('pageUrls/$_image');
+    // var storageReferencePageUrls =
+    //     FirebaseStorage.instance.ref().child('pageUrls/$_image');
 
     for (int i = 0; i < widget.imagesPath.length; i++) {
+      var childPath = widget.imagesPath[i].toString().split('/');
+      var storageReferencePageUrls =
+      FirebaseStorage.instance.ref().child('book_pages').child(childPath[childPath.length-1]);
       var upload = await storageReferencePageUrls.putString(widget.imagesPath[i]);
       imageUrl = await upload.ref.getDownloadURL();
       imagesUrlArray.add(imageUrl);
     }
 
+    var imageSplitPath = _image.path.toString().split('/');
     var storageReference =
-        FirebaseStorage.instance.ref().child('images/$_image');
+          FirebaseStorage.instance.ref().child('book_cover').child(imageSplitPath[imageSplitPath.length-1]);
     UploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.then((res) {
       storageReference.getDownloadURL().then((imageURL) {

@@ -18,14 +18,12 @@ class PageUploaderState extends State<PageUploader> {
   var total = 0;
   var imagePicker;
 
-  _addImage(BuildContext context, var type) async {
-    _handleURLButtonPress(context, type, total);
+  _addImage(BuildContext context, var type, int index) async {
+    await _handleURLButtonPress(context, type, total);
+    total++;
   }
 
   _handleURLButtonPress(BuildContext context, var type, var i) async {
-    /* Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ImageFromGalleryEx(type)));*/
-
     var source = type == ImageSourceType.camera
         ? ImageSource.camera
         : ImageSource.gallery;
@@ -52,7 +50,6 @@ class PageUploaderState extends State<PageUploader> {
         _images.add(File(''));
         imagesPath.add(image.path);
         _images[i] = File(image.path);
-        total++;
       });
     }
   }
@@ -91,7 +88,7 @@ class PageUploaderState extends State<PageUploader> {
                         return Stack(children: [
                           GestureDetector(
                             onTap: () async {
-                              await _addImage(context, ImageSourceType.gallery);
+                              await _addImage(context, ImageSourceType.gallery, index);
                             },
                             child: Container(
                               width: 200,
@@ -237,7 +234,7 @@ class PageUploaderState extends State<PageUploader> {
                   ),
                   MaterialButton(
                     onPressed: () {
-                      if (_images.length < 1) {
+                      if (_images.length < 4) {
                         Utils().showToastMessage("Book has at least 4 pages.", context);
                       } else {
                         Navigator.push(

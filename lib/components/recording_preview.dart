@@ -44,6 +44,8 @@ class RecordingPreviewState extends State<RecordingPreview> {
   bool _mRecorderIsInited = false;
   bool _mplaybackReady = false;
   StreamSubscription? _playerSubscription;
+  int _currentIndex = 0;
+
 
   //slider
   final CarouselController _controller = CarouselController();
@@ -170,7 +172,7 @@ class RecordingPreviewState extends State<RecordingPreview> {
         _mPlayer!.isStopped);
     _mPlayer!
         .startPlayer(
-            fromURI: widget.imagesPath![selectedIndex].toString(),
+            fromURI: widget.imagesPath![_currentIndex].toString(),
             //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
             whenFinished: () {
               setState(() {});
@@ -210,7 +212,9 @@ class RecordingPreviewState extends State<RecordingPreview> {
 
   void InitImageSliders() {
     imageSliders = cachedImages.map((item) {
-      selectedIndex = cachedImages.indexOf(item);
+      setState(() {
+        selectedIndex = cachedImages.indexOf(item);
+      });
       return Container(
         child: Container(
           margin: EdgeInsets.all(5.0),
@@ -265,6 +269,11 @@ class RecordingPreviewState extends State<RecordingPreview> {
                 aspectRatio: 2.0,
                 enableInfiniteScroll: false,
                 enlargeCenterPage: true,
+                onPageChanged: (index, reason) {
+                  setState((){
+                    _currentIndex = index;
+                  });
+                },
               ),
               items: imageSliders,
               carouselController: _controller,
