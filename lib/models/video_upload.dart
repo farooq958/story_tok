@@ -3,14 +3,17 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class VideoUpload {
   var isUploading = false;
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final storageRef = FirebaseStorage.instance.ref();
   final fireStoreRef = FirebaseFirestore.instance.collection("Videos");
   var uuid = Uuid();
 
-  String user;
+  String? user;
 
   File? video;
   File? cover;
@@ -19,15 +22,18 @@ class VideoUpload {
   String? videoDescription;
   List<String>? tags = ['tag1', 'tag2', 'tag3'];
 
-  VideoUpload(this.user);
-
   Future<bool> publish() async {
+
+    if (video == null || cover == null){
+      print("missing video");
+      return false;
+    }
 
     var videoRef = storageRef.child("videos").child(uuid.v1());
     await videoRef.putFile(video!);
 
-    var coverRef = storageRef..child("video_covers").child(uuid.v1());
-    await coverRef.putFile(video!);
+    var coverRef = storageRef.child("video_covers").child(uuid.v1());
+    await coverRef.putFile(cover!);
 
     this.isUploading = true;
     return fireStoreRef.add({

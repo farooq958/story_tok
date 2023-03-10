@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +20,11 @@ class VideoUploader extends StatefulWidget {
 
 class VideoUploaderState extends State<VideoUploader> {
   final ImagePicker _picker = ImagePicker();
-  final VideoUpload _videoUpload = VideoUpload("hadi");
+  final VideoUpload _videoUpload = VideoUpload();
+
   var isUploading = false;
 
+  List<DropDownValueModel> topicsList = [];
   Uint8List? _thumbnail;
 
   void _addVideo(BuildContext context, var type) async {
@@ -41,7 +44,10 @@ class VideoUploaderState extends State<VideoUploader> {
   }
 
   void _addCover(BuildContext context, var type) async {
-
+    if (_videoUpload.cover != null) {
+      _videoUpload.cover = null;
+      return;
+    }
     XFile? cover = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (cover != null) {
@@ -58,9 +64,24 @@ class VideoUploaderState extends State<VideoUploader> {
     }
   }
 
+  List<DropDownValueModel> getTopics() {
+    List<DropDownValueModel> res = [];
+
+     FirebaseFirestore.instance.collection("categories")
+    .get()
+    .then((QuerySnapshot querySnapshot) {
+       querySnapshot.docs.forEach((doc) {
+         res.add(DropDownValueModel(name: doc['name'], value: doc['name']));
+       });
+     });
+
+     return res;
+  }
+
   @override
   void initState() {
     super.initState();
+    this.topicsList = getTopics();
   }
 
   @override
@@ -140,15 +161,12 @@ class VideoUploaderState extends State<VideoUploader> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(width: 100, child: Text("Tags:")),
+                      SizedBox(width: 100, child: Text("Topic:")),
                       SizedBox(
                           width: 200,
-                          child: TextFormField(
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(),
-                              hintText: 'Start typing to add tags',
-                            ),
+                          child: DropDownTextField(
+                            dropDownList: this.topicsList,
+                            enableSearch: true,
                           ))
                     ],
                   )),
