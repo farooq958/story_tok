@@ -1,12 +1,23 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:storily/components/voice_recording.dart';
+
+import '../utils.dart';
 
 enum ImageSourceType { gallery, camera }
 
 class AddAuthorDescription extends StatefulWidget {
+  final List<File> images;
+  final imagesPath;
+
+  const AddAuthorDescription({Key? key, required this.images, this.imagesPath})
+      : super(key: key);
+
   @override
   AddAuthorDescriptionState createState() => AddAuthorDescriptionState();
 }
@@ -30,6 +41,10 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     '5th Grade: 5.0 - 5.9',
     '6th Grade: 6.0 - 6.9'
   ];
+
+  final recorder = FlutterSoundRecorder();
+  final player = FlutterSoundPlayer();
+  var fileName;
 
   var traditionalData;
   var realisticData;
@@ -204,7 +219,17 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                 children: [
                   MaterialButton(
                     onPressed: () {
-                      // Record the screen
+                      if (imagePath != null) {
+                        // Record the screen
+                        DocumentReference sightingRef = FirebaseFirestore
+                            .instance
+                            .collection('booksentity')
+                            .doc();
+                        navigateToVoiceRecordScreen();
+                      } else {
+                        Utils().showToastMessage(
+                            "Please select cover image.", context);
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -225,6 +250,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                   MaterialButton(
                     onPressed: () {
                       // Publish the book
+                      saveImages(imagePath, sightingRef);
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -251,6 +277,33 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     );
   }
 
+  navigateToVoiceRecordScreen () async {
+    var imageSplitPath = imagePath.path.toString().split('/');
+    var storageReference =
+    FirebaseStorage.instance.ref().child('book_cover').child(imageSplitPath[imageSplitPath.length-1]);
+    UploadTask uploadTask = storageReference.putFile(imagePath);
+    await uploadTask.then((res) {
+      storageReference.getDownloadURL().then((imageURL) {
+        return Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => VoiceRecorder(
+                widget.images,
+                sightingRef,
+                imageURL,
+                categoryValue.toString(),
+                subCategoryValue.toString(),
+                _titleController.text.toString(),
+                _tagController.text.toString(),
+              )
+            /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
+          ),
+        );
+      });
+    });
+
+  }
+
   textContainer(String label, TextEditingController _controller) {
     return Container(
       margin: EdgeInsets.only(left: 40, right: 40),
@@ -270,7 +323,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   }
 
   void _addImage() async {
-    image = (await _picker.pickImage(source: ImageSource.gallery))!;
+    image = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       icon = Icons.refresh;
       imagePath = File(image!.path);
@@ -294,5 +347,43 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       subCategoryValue = data[0][category[0]][0];
     });
     return collection;
+  }
+
+  DocumentReference sightingRef =
+      FirebaseFirestore.instance.collection('booksentity').doc();
+
+  Future<void> saveImages(File _image, DocumentReference ref) async {
+    var imagesUrlArray = [];
+    var imageUrl = "";
+    // var storageReferencePageUrls =
+    //     FirebaseStorage.instance.ref().child('pageUrls/$_image');
+
+    for (int i = 0; i < widget.imagesPath.length; i++) {
+      var childPath = widget.imagesPath[i].toString().split('/');
+      var storageReferencePageUrls =
+      FirebaseStorage.instance.ref().child('book_pages').child(childPath[childPath.length-1]);
+      var upload = await storageReferencePageUrls.putString(widget.imagesPath[i]);
+      imageUrl = await upload.ref.getDownloadURL();
+      imagesUrlArray.add(imageUrl);
+    }
+
+    var imageSplitPath = _image.path.toString().split('/');
+    var storageReference =
+          FirebaseStorage.instance.ref().child('book_cover').child(imageSplitPath[imageSplitPath.length-1]);
+    UploadTask uploadTask = storageReference.putFile(_image);
+    await uploadTask.then((res) {
+      storageReference.getDownloadURL().then((imageURL) {
+        ref.set({
+          "cover_url": imageURL,
+          "audio_doc_id": "",
+          "author_doc_id": "",
+          "category_main": categoryValue.toString(),
+          "category_sub": subCategoryValue.toString(),
+          "pages_url": imagesUrlArray,
+          "title": _titleController.text.toString(),
+          "topic": _tagController.text.toString(),
+        });
+      });
+    });
   }
 }

@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:storily/components/add_author_description.dart';
 import 'package:storily/components/voice_recording.dart';
+import '../utils.dart';
 
 enum ImageSourceType { gallery, camera }
 
@@ -14,17 +14,16 @@ class PageUploader extends StatefulWidget {
 
 class PageUploaderState extends State<PageUploader> {
   var _images = <File>[];
+  List imagesPath = [];
   var total = 0;
   var imagePicker;
 
-  _addImage(BuildContext context, var type) async {
-    _handleURLButtonPress(context, type, total);
+  _addImage(BuildContext context, var type, int index) async {
+    await _handleURLButtonPress(context, type, total);
+    total++;
   }
 
   _handleURLButtonPress(BuildContext context, var type, var i) async {
-    /* Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ImageFromGalleryEx(type)));*/
-
     var source = type == ImageSourceType.camera
         ? ImageSource.camera
         : ImageSource.gallery;
@@ -40,7 +39,7 @@ class PageUploaderState extends State<PageUploader> {
           setState(() {
             imageExist = true;
           });
-          showToastMessage("You can't choose the same image.");
+          Utils().showToastMessage("You can't choose the same image.", context);
           break;
         }
       }
@@ -49,9 +48,8 @@ class PageUploaderState extends State<PageUploader> {
     if (!imageExist) {
       setState(() {
         _images.add(File(''));
-        // _images.add(null);
+        imagesPath.add(image.path);
         _images[i] = File(image.path);
-        total++;
       });
     }
   }
@@ -90,7 +88,7 @@ class PageUploaderState extends State<PageUploader> {
                         return Stack(children: [
                           GestureDetector(
                             onTap: () async {
-                              await _addImage(context, ImageSourceType.gallery);
+                              await _addImage(context, ImageSourceType.gallery, index);
                             },
                             child: Container(
                               width: 200,
@@ -200,9 +198,7 @@ class PageUploaderState extends State<PageUploader> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => VoiceRecorder(
-                            images: _images,
-                          ),
+                          builder: (context) => VoiceRecorder(_images,),
                         ),
                       );
                     },
@@ -239,12 +235,12 @@ class PageUploaderState extends State<PageUploader> {
                   MaterialButton(
                     onPressed: () {
                       if (_images.length < 4) {
-                        showToastMessage("Book has at least 4 pages.");
+                        Utils().showToastMessage("Book has at least 4 pages.", context);
                       } else {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AddAuthorDescription(),
+                            builder: (context) => AddAuthorDescription(imagesPath: imagesPath, images: _images),
                           ),
                         );
                       }
@@ -271,33 +267,6 @@ class PageUploaderState extends State<PageUploader> {
           ],
         ),
       ),
-    );
-  }
-
-  showToastMessage(String message) {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Alert'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(message),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
