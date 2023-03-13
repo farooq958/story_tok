@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:storily/global/methods/methods.dart';
 import 'package:storily/screens/dashboard/feed_model/feed_view_model.dart';
 import 'package:storily/screens/dashboard/widgets/flooting_menu.dart';
 
@@ -53,20 +54,25 @@ class _MyBookshelfPageState extends State<MyBookshelfPage> {
             ),
             children: feedViewModel.bookSource!.audiobookList
                 .map(
-                  (bookData) => Column(
-                    children: [
-                      Expanded(
-                        child: Card(
-                          clipBehavior: Clip.hardEdge,
-                          child: Image.network(
-                            bookData.pageUrl.first!,
-                            fit: BoxFit.cover,
+                  (bookData) => InkWell(
+                  onTap: (){
+                  showToast("You will navigate to ${bookData.title}", context);
+                  },
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Card(
+                            clipBehavior: Clip.hardEdge,
+                            child: Image.network(
+                              bookData.pageUrl.first!,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      Text("${bookData.title}"),
-                    ],
+                        SizedBox(height: 8),
+                        Text("${bookData.title}"),
+                      ],
+                    ),
                   ),
                 )
                 .toList(),
