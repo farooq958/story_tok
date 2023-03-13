@@ -21,9 +21,12 @@ class VideoUploader extends StatefulWidget {
 class VideoUploaderState extends State<VideoUploader> {
   final ImagePicker _picker = ImagePicker();
   final VideoUpload _videoUpload = VideoUpload();
+  final _videoDescriptionController = TextEditingController();
+  final _videoTitleController = TextEditingController();
+
 
   var isUploading = false;
-
+  bool? validInput;
   List<DropDownValueModel> topicsList = [];
   Uint8List? _thumbnail;
 
@@ -45,22 +48,35 @@ class VideoUploaderState extends State<VideoUploader> {
 
   void _addCover(BuildContext context, var type) async {
     if (_videoUpload.cover != null) {
-      _videoUpload.cover = null;
+      setState(() {
+        _videoUpload.cover = null;
+      });
       return;
     }
     XFile? cover = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (cover != null) {
-        _videoUpload.cover = File(cover!.path);
+        setState(() {
+          _videoUpload.cover = File(cover!.path);
+        });
       }
     });
   }
 
+
   Future<void> _publish() async {
+    setState(() {
+      isUploading = true;
+    });
+
     if (await _videoUpload.publish()) {
       print("Published video");
+      Navigator.pop(context); // TODO: should probably show user confirmation of successful upload
     } else {
       print("Error publishing video");
+      setState(() {
+        isUploading = false;
+      });
     }
   }
 
@@ -122,8 +138,8 @@ class VideoUploaderState extends State<VideoUploader> {
                       ),
                       SizedBox(
                           width: 200,
-                          child: TextFormField(
-                            onChanged: (text){_videoUpload.videoDescription = text;},
+                          child: TextField(
+                            onChanged: (text){_videoUpload.videoTitle = text;},
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(),
@@ -145,12 +161,13 @@ class VideoUploaderState extends State<VideoUploader> {
                       ),
                       SizedBox(
                           width: 200,
-                          child: TextFormField(
+                          child: TextField(
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(),
                               hintText: 'Video description',
                             ),
+                            onChanged: (text){_videoUpload.videoDescription = text;},
                           ))
                     ],
                   )),
@@ -167,6 +184,7 @@ class VideoUploaderState extends State<VideoUploader> {
                           child: DropDownTextField(
                             dropDownList: this.topicsList,
                             enableSearch: true,
+                            onChanged: (val) {_videoUpload.videoTopic = val;},
                           ))
                     ],
                   )),
@@ -196,7 +214,7 @@ class VideoUploaderState extends State<VideoUploader> {
 
               // Publish button
               FilledButton(
-                  onPressed: isUploading ? () {} : () {_publish();},
+                  onPressed: isUploading ? () {print("uploading already in progress.");} : () {_publish();},
                   child: isUploading ? Text("Uploading...") : Text("Publish")
               )
             ],

@@ -10,7 +10,7 @@ class VideoUpload {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   final storageRef = FirebaseStorage.instance.ref();
-  final fireStoreRef = FirebaseFirestore.instance.collection("Videos");
+  final fireStoreRef = FirebaseFirestore.instance.collection("videos");
   var uuid = Uuid();
 
   String? user;
@@ -20,7 +20,7 @@ class VideoUpload {
 
   String? videoTitle;
   String? videoDescription;
-  List<String>? tags = ['tag1', 'tag2', 'tag3'];
+  String? videoTopic;
 
   Future<bool> publish() async {
 
@@ -39,7 +39,7 @@ class VideoUpload {
     return fireStoreRef.add({
       "video_title": this.videoTitle,
       "video_description": this.videoDescription,
-      "tags": this.tags,
+      "topic": this.videoTopic,
       "url": await videoRef.getDownloadURL(),
       "coverUrl": await coverRef.getDownloadURL()
     })
