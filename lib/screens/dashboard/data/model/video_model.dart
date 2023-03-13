@@ -1,7 +1,6 @@
-import 'package:storily/screens/dashboard/data/game_model.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoModel extends DataModel {
+class VideoModel extends CommonDataModel {
   String id;
   String user;
   String userPic;
@@ -51,4 +50,8 @@ class VideoModel extends DataModel {
     await controller?.initialize();
     controller?.setLooping(true);
   }
+}
+
+abstract class CommonDataModel {
+  Future<void> loadController() async {}
 }

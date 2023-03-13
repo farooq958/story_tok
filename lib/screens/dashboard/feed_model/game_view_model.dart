@@ -1,6 +1,6 @@
 
 import 'package:stacked/stacked.dart';
-import 'package:storily/screens/dashboard/data/games_firebase.dart';
+import 'package:storily/screens/dashboard/data/connections/games_firebase.dart';
 
 class GameViewModel extends BaseViewModel {
   

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'video_model.dart';
-import 'video_demo_data.dart';
+import '../model/video_model.dart';
+import '../demo/video_demo_data.dart';
 
 class VideosAPI {
   List<VideoModel> listVideos = <VideoModel>[];
@@ -15,16 +15,17 @@ class VideosAPI {
   }
 
   Future<List<VideoModel>> getVideoList() async {
-    var data = await FirebaseFirestore.instance.collection("videos").get();
+    var firebaseVideoData = await FirebaseFirestore.instance.collection("videos").get();
 
     var videoList = <VideoModel>[];
     var videos;
+    print("##### VIDEO Length => ${firebaseVideoData.docs.length}");
 
-    if (data.docs.length == 0) {
-      await addDemoData();
+    if (firebaseVideoData.docs.length == 0) {
+      await addDemoVideoData();
       videos = (await FirebaseFirestore.instance.collection("videos").get());
     } else {
-      videos = data;
+      videos = firebaseVideoData;
     }
 
     videos.docs.forEach((element) {
@@ -37,8 +38,8 @@ class VideosAPI {
   /*
   * manually add vieos in firestore
   */ 
-  Future<Null> addDemoData() async {
-    for (var video in videoData) {
+  Future<Null> addDemoVideoData() async {
+    for (var video in videoDataList) {
       await FirebaseFirestore.instance.collection("videos").add(video);
     }
   }

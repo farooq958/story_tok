@@ -1,6 +1,7 @@
 import 'package:webview_flutter/webview_flutter.dart';
+import 'video_model.dart';
 
-class GameModel extends DataModel{
+class GameModel extends CommonDataModel{
   String id;
   String user;
   String userPic;
@@ -51,7 +52,3 @@ class GameModel extends DataModel{
     await controller!.loadRequest(Uri.parse(url));
   }
 }
-
-abstract class DataModel {
-loadController() async {}
-} 

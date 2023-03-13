@@ -1,33 +1,48 @@
 import 'dart:math';
 
 import 'package:stacked/stacked.dart';
-import 'package:storily/screens/dashboard/data/game_model.dart';
-import 'package:storily/screens/dashboard/data/games_firebase.dart';
+import 'package:storily/screens/dashboard/data/connections/games_firebase.dart';
 import 'package:video_player/video_player.dart';
-import '../data/video_model.dart';
-import '../data/videos_firebase.dart';
+import '../data/model/video_model.dart';
+import '../data/connections/videos_firebase.dart';
+import 'audiobooks_view_model.dart';
 
 class FeedViewModel extends BaseViewModel {
+  List<CommonDataModel> currentItems = [];
+
   VideoPlayerController? controller;
   VideosAPI? videoSource;
   GameAPI? gameSource;
-  int? prevVideo;
-  int? prevGame;
-  int gameIndex = 0;
-  int videoIndex = 0;
+  AudioBookAPI? bookSource;
 
-  int get totalLength =>
-      (videoSource?.listVideos.length ?? 0) +
-      (gameSource?.listGames.length ?? 0);
-
-  int actualScreen = 0;
+  int get totalLength => currentItems.length;
 
   FeedViewModel() {
     videoSource = VideosAPI();
     gameSource = GameAPI();
+    print("########CHECKKK!0");
+    bookSource = AudioBookAPI();
   }
 
-  DataModel? nextItem() {
+  int index = 0;
+
+  initializer() async {
+    currentItems.addAll(videoSource?.listVideos ?? []);
+    currentItems.addAll(gameSource?.listGames ?? []);
+    currentItems.shuffle(Random.secure());
+    notifyListeners();
+  }
+
+  CommonDataModel getItemByIndex(int newIndex) {
+    index = newIndex;
+    final item = currentItems[index];
+    item.loadController().then((value) {
+      notifyListeners();
+    });
+    return item;
+  }
+
+/*   CommonDataModel? nextItem() {
     ///[true] will send [VideoModel] & [false] will send GameModel;
     final option = Random(DateTime.now().microsecondsSinceEpoch).nextBool();
     if (option) {
@@ -63,24 +78,18 @@ class FeedViewModel extends BaseViewModel {
   GameModel? getUpdatedGame() {
     prevGame = gameIndex;
     final gameModel = gameSource?.listGames[gameIndex];
-    print("Peipei" + gameModel!.url);
     gameModel?.loadController().then((value) {
       notifyListeners();
     });
     gameIndex++;
     return gameModel;
-  }
+  } */
 
-  void loadVideo(int index) async {
+  /* void loadVideo(int index) async {
     if (videoSource!.listVideos.length > index) {
       await videoSource!.listVideos[index].loadController();
       videoSource!.listVideos[index].controller?.play();
       notifyListeners();
     }
-  }
-
-  void setActualScreen(index) {
-    actualScreen = 0;
-    notifyListeners();
-  }
+  } */
 }

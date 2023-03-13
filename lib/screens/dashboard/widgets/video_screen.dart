@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stacked/stacked.dart';
-import 'package:storily/screens/dashboard/data/video_model.dart';
+import 'package:storily/screens/dashboard/data/model/video_model.dart';
 import 'package:storily/screens/dashboard/feed_model/feed_view_model.dart';
 import 'package:storily/screens/dashboard/widgets/video_description.dart';
 import 'package:video_player/video_player.dart';

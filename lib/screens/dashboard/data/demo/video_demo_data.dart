@@ -1,4 +1,4 @@
-var videoData = [
+var videoDataList = [
   {
     "id": "1",
     "video_title": "Video 1",

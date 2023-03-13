@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:storily/screens/dashboard/data/game_model.dart';
-import 'game_demo_data.dart';
-import 'video_model.dart';
+import 'package:storily/screens/dashboard/data/model/game_model.dart';
+import '../demo/game_demo_data.dart';
+import '../model/video_model.dart';
 
 class GameAPI {
   List<GameModel> listGames = <GameModel>[];
