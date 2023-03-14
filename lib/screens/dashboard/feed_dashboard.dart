@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:storily/global/methods/methods.dart';
+import 'package:storily/screens/dashboard/data/model/audiobook_model.dart';
 import 'package:storily/screens/dashboard/data/model/game_model.dart';
+import 'package:storily/screens/dashboard/widgets/book_screen.dart';
 import 'package:storily/screens/dashboard/widgets/game_screen.dart';
 import 'data/model/video_model.dart';
 import 'feed_model/feed_view_model.dart';
@@ -47,6 +49,8 @@ class _FeedScreenState extends State<FeedDashboard> {
                       return GameScreenWidget(gameModel: data);
                     } else if (data is VideoModel) {
                       return VideoScreenWidget(video: data);
+                    } else if (data is AudioBookModel) {
+                      return BookScreenWidget(bookData: data);
                     } else {
                       return SizedBox();
                     }

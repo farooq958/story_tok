@@ -20,7 +20,6 @@ class FeedViewModel extends BaseViewModel {
   FeedViewModel() {
     videoSource = VideosAPI();
     gameSource = GameAPI();
-    print("########CHECKKK!0");
     bookSource = AudioBookAPI();
   }
 
@@ -29,14 +28,20 @@ class FeedViewModel extends BaseViewModel {
   initializer() async {
     currentItems.addAll(videoSource?.listVideos ?? []);
     currentItems.addAll(gameSource?.listGames ?? []);
+    currentItems.addAll(bookSource?.audiobookList ?? []);
     currentItems.shuffle(Random.secure());
     notifyListeners();
   }
 
   CommonDataModel getItemByIndex(int newIndex) {
+    if (currentItems[index] is VideoModel &&
+        (currentItems[index] as VideoModel).controller!.value.isPlaying) {
+      (currentItems[index] as VideoModel).controller!.pause();
+    }
     index = newIndex;
     final item = currentItems[index];
     item.loadController().then((value) {
+      if(item is VideoModel) item.controller!.play();
       notifyListeners();
     });
     return item;

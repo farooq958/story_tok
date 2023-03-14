@@ -46,3 +46,23 @@ class AudioBookModel extends CommonDataModel {
  pages_url: [https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/book_pages%2Fscaled_IMG_20230309_153020.jpg?alt=media&token=b5f7d264-287b-40b0-a03c-ded801dd6075],
  title: bitread app title
  } */
+
+//  ** SUGGESTED **  //
+/* {
+  cover_url: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/book_cover%2FIMG_20230309_153020.jpg?alt=media&token=fe4f89a0-0375-479f-8066-298235ddad34,
+ category_sub: Myths,
+ category_main: Traditional Genre,
+ author_doc_id: ,
+ topic: bitread app topic,
+page: [
+    {
+      "page 1 url",
+      "audio 1 link"
+    },
+    {
+      "page 2 url",
+      "audio 2 link"
+    },
+  ],
+   title: bitread app title
+ } */

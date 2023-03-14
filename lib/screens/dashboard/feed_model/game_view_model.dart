@@ -26,9 +26,4 @@ class GameViewModel extends BaseViewModel {
       notifyListeners();
     }
   }
-
-  /* void setActualScreen(index) {
-    actualScreen = 0;
-    notifyListeners();
-  } */
 }
