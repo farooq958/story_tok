@@ -362,7 +362,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       var childPath = widget.imagesPath[i].toString().split('/');
       var storageReferencePageUrls =
       FirebaseStorage.instance.ref().child('book_pages').child(childPath[childPath.length-1]);
-      var upload = await storageReferencePageUrls.putString(widget.imagesPath[i]);
+      var upload = await storageReferencePageUrls.putFile(File(widget.imagesPath[i]));
       imageUrl = await upload.ref.getDownloadURL();
       imagesUrlArray.add(imageUrl);
     }
