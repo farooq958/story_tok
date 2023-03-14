@@ -399,12 +399,15 @@ class VoiceRecorderState extends State<VoiceRecorder> {
       var audioPath = _mPath.toString().split('/');
       var storageReference =
           FirebaseStorage.instance.ref().child('audios').child(audioPath[audioPath.length-1]);
-      UploadTask uploadTask = storageReference.putString(_mPath);
+      UploadTask uploadTask = storageReference.putFile(File(_mPath));
       await uploadTask.then((res) {
         storageReference.getDownloadURL().then((audioURl) {
+
+
           widget.ref.set({
             "cover_url": widget.imageURL.toString(),
             "audio_doc_id": audioURl,
+            "audio_Paging_time":_pageTime.values,
             "author_doc_id": "",
             "category_main": widget.category.toString(),
             "category_sub": widget.subCategory.toString(),
