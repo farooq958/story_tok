@@ -19,6 +19,6 @@ class FeedIcons {
   static const Icon iconFeed = const Icon(Icons.dashboard, color: Colors.grey,);
   static const Icon iconBookSelf = const Icon(Icons.menu_book_sharp);
   static const Icon iconAddContect = const Icon(Icons.add_box_rounded);
-  static const Icon iconEvent = const Icon(Icons.groups_2_outlined);
+  static const Icon iconEvent = const Icon(Icons.groups_outlined);
 
 }

@@ -47,6 +47,15 @@ dependencies:
   stacked: ^3.1.0+3
   path_provider: ^2.0.13
 
+  device_preview: ^1.1.0 #for checking ui on different screens
+  flutter_bloc: ^8.1.2   #for stateManagement
+  flutter_screenutil: ^5.7.0 #for ui responsiveness
+  touchable_opacity: ^1.2.0
+  google_fonts: ^4.0.3
+  intl: ^0.17.0
+  table_calendar: ^3.0.8
+
+
 
 dev_dependencies:
   flutter_test:
