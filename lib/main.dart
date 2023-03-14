@@ -21,7 +21,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => StorageProvider(prefs)),
       ],
-      child: DevicePreview(enabled: true, builder: (BuildContext context) {
+      child: DevicePreview(enabled: false, builder: (BuildContext context) {
         return MyApp();
       },),
     ),

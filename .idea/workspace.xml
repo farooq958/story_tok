@@ -12,42 +12,21 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e43f460-0dc0-4c23-ac9b-310613e162b0" name="Default Changelist" comment="Upgrading pre version 1.12">
-      <change afterPath="$PROJECT_DIR$/assets/images/background_circledots.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/background_rectangledots.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/background_square.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/background_squiggle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/background_triangle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/profile_notificationdot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/profile_profile_placeholder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/subcalendar_yellow_base.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/submenu_yellow_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/submenu_yellow_text.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AppProvider/app_main_provider.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Utils/PageTransitions/scale_page_transition.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Utils/PageTransitions/slide_page_transition.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/cubit/test_cubit.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/cubit/test_state.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/main_event_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+    <list default="true" id="9e43f460-0dc0-4c23-ac9b-310613e162b0" name="Default Changelist" comment="set things up .">
+      <change afterPath="$PROJECT_DIR$/assets/images/eventticket_yellow_base.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/eventticket_yellow_bookicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/eventticket_yellow_editicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/eventticket_yellow_peopleicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/exitsubmenubutton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/submenu_exit.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.4/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.4/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.gradle/7.4/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.4/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Flutter/Generated.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/Generated.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/flutter_export_environment.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/my_storily_author_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/my_storily_author_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/icons/feed_icon_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/icons/feed_icon_data.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/main_event_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/main_event_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604143157878</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="set things up .">
+      <created>1678787915284</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1678787915285</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -220,7 +206,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Upgrading pre version 1.12" />
-    <option name="LAST_COMMIT_MESSAGE" value="Upgrading pre version 1.12" />
+    <MESSAGE value="set things up ." />
+    <option name="LAST_COMMIT_MESSAGE" value="set things up ." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
