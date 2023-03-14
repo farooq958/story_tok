@@ -25,7 +25,7 @@ const theSource = AudioSource.microphone;
 class RecordingPreview extends StatefulWidget {
   Map<int, int>? pageTime;
   List<File>? images = <File>[];
-  var imagesPath;
+  List<Map<File, String>>?  imagesPath= [];
 
   RecordingPreview({this.pageTime, this.images, this.imagesPath}) : super();
 
@@ -72,7 +72,7 @@ class RecordingPreviewState extends State<RecordingPreview> {
     });
 
     _mPlayer?.setSubscriptionDuration(Duration(milliseconds: 100));
-    _playerSubscription = _mPlayer?.onProgress!.listen((e) {
+    /*_playerSubscription = _mPlayer?.onProgress!.listen((e) {
       setState(() {
         if (pageTime![currentPage] != null &&
             (e.position.inMilliseconds > pageTime![currentPage]!)) {
@@ -83,12 +83,13 @@ class RecordingPreviewState extends State<RecordingPreview> {
       });
       //Duration maxDuration = e.duration;
       Duration position = e.position;
-      /*if(position.inMilliseconds > pageTime[currentPage])
+      *//*if(position.inMilliseconds > pageTime[currentPage])
           {
             _controller.nextPage();
             currentPage ++;
-          }*/
-    });
+          }*//*
+    });*/
+
 
     InitImageSliders();
     super.initState();
@@ -172,16 +173,22 @@ class RecordingPreviewState extends State<RecordingPreview> {
         _mPlayer!.isStopped);
     _mPlayer!
         .startPlayer(
-            fromURI: widget.imagesPath![_currentIndex].toString(),
+            fromURI: widget.imagesPath![_currentIndex].values.first,
             //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
             whenFinished: () {
-              setState(() {});
+              _controller.nextPage();
+              currentPage++;
+              setState((){});
             })
         .then((value) {
       setState(() {});
     });
   }
 
+  void update(StatefulWidget newWidget)
+  {
+
+  }
   void stopPlayer() {
     _mPlayer!.stopPlayer().then((value) {
       setState(() {
@@ -272,6 +279,7 @@ class RecordingPreviewState extends State<RecordingPreview> {
                 onPageChanged: (index, reason) {
                   setState((){
                     _currentIndex = index;
+                    play();
                   });
                 },
               ),

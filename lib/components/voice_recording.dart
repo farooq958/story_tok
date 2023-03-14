@@ -60,7 +60,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   bool _mplaybackReady = false;
   Stopwatch _timer = Stopwatch();
   File audioFile = File('');
-  var _imagesPath = [];
+  List<Map<File, String>> _imagesPath = [];//page as key and path for audio as value
   int _currentIndex = 0;
 
   //slider
@@ -72,6 +72,8 @@ class VoiceRecorderState extends State<VoiceRecorder> {
 
   @override
   void initState() {
+    int length = cachedimages!.length;
+    _imagesPath = List<Map<File, String>>.filled(length, {File(""):""});
     _mPlayer.openPlayer().then((value) {
       setState(() {
         _mPlayerIsInited = true;
@@ -153,7 +155,10 @@ class VoiceRecorderState extends State<VoiceRecorder> {
       try {
         setState(() {
           start = false;
-          _imagesPath.add(value!);
+          var imageVoicePair = {
+            cachedimages![_currentIndex] : value!,
+          };
+          _imagesPath[_currentIndex] = imageVoicePair;
           _mPath = value!;
           _mplaybackReady = true;
           _timer.stop();
@@ -169,7 +174,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
         _mPlayer.isStopped);
     _mPlayer
         .startPlayer(
-            fromURI: _imagesPath[_currentIndex].toString(),
+            fromURI: _imagesPath[_currentIndex].values.first.toString(),
             //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
             whenFinished: () {
               setState(() {});
@@ -261,6 +266,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                   onPageChanged: (index, reason) {
                       setState((){
                         _currentIndex = index;
+
                       });
                     _pageTime.addAll({index: _timer.elapsedMilliseconds});
                   }),
@@ -385,22 +391,46 @@ class VoiceRecorderState extends State<VoiceRecorder> {
     try {
       var imagesUrlArray = [];
       var imageUrl = "";
+      var audioUrl = "";
 
-      for (int i = 0; i < cachedimages!.length; i++) {
-        var childPath = cachedimages![i].path.toString().split('/');
+      for (int i = 0; i < _imagesPath!.length; i++) {
+        var childPath = _imagesPath![i].keys.first.path.toString().split('/');
         var storageReferencePageUrls =
         FirebaseStorage.instance.ref().child('book_pages').child(childPath[childPath.length-1]);
         var upload = await storageReferencePageUrls
-            .putFile(cachedimages![i]);
+            .putFile(_imagesPath![i].keys.first);
         imageUrl = await upload.ref.getDownloadURL();
-        imagesUrlArray.add(imageUrl);
+
+        var audioPath = _imagesPath![i].values.first.toString().split('/');
+        var storageReference =
+        FirebaseStorage.instance.ref().child('audios').child(audioPath[audioPath.length-1]);
+        var uploadTask = await storageReference.putFile(File(_imagesPath![i].values.first));
+        audioUrl = await uploadTask.ref.getDownloadURL();
+
+        var audioImagePair = {
+          "page":imageUrl,
+          "audio":audioUrl,
+        };
+        imagesUrlArray.add(audioImagePair);
       }
 
-      var audioPath = _mPath.toString().split('/');
+      widget.ref.set({
+        "cover_url": widget.imageURL.toString(),
+       // "audio_doc_id": audioURl,
+        "audio_Paging_time":_pageTime.values,
+        "author_doc_id": "",
+        "category_main": widget.category.toString(),
+        "category_sub": widget.subCategory.toString(),
+        "pages_url": imagesUrlArray,
+        "title": widget.title.toString(),
+        "topic": widget.topic.toString(),
+      });
+
+    /*  var audioPath = _mPath.toString().split('/');
       var storageReference =
           FirebaseStorage.instance.ref().child('audios').child(audioPath[audioPath.length-1]);
-      UploadTask uploadTask = storageReference.putFile(File(_mPath));
-      await uploadTask.then((res) {
+      UploadTask uploadTask = storageReference.putFile(File(_mPath));*/
+      /*await uploadTask.then((res) {
         storageReference.getDownloadURL().then((audioURl) {
 
 
@@ -416,7 +446,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
             "topic": widget.topic.toString(),
           });
         });
-      });
+      });*/
     } catch (e, stacktrace) {}
   }
 }
