@@ -9,6 +9,11 @@ build/
 pubspec.lock
 .idea/workspace.xml
 .idea/libraries/Dart_SDK.xml
+.flutter-plugins
+.flutter-plugins-dependencies
+GeneratedPluginRegistrant.java
+GeneratedPluginRegistrant.m
+local.properties
 
 # Directory created by dartdoc
 # If you don't generate documentation locally you can remove this line.
