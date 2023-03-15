@@ -38,7 +38,7 @@ class _VideoUploaderState extends State<VideoUploader> {
 // Upload file and metadata to the path 'videos/'
     final uploadTask = storageRef
         .child("videos/books/${bname}")//YOu also needs author id and time id
-        .putFile(file!, metadata);
+        .putFile(file, metadata);
 
 // Listen for state changes, errors, and completion of the upload.
     uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
