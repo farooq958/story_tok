@@ -64,4 +64,25 @@ class Assets {
   /// Assets for red Add Files
   static const redAddFiles = "assets/images/standalone_red_addfiles_large.png";
 
+  /// Assets for red edit pages
+  static const editPagesRedBox = "assets/images/editpages_red_box.png";
+
+  /// Assets for red delete text
+  static const editPagesRedDeleteText = "assets/images/editpages_red_deletetext.png";
+
+  /// Assets for red Add text
+  static const editPagesRedAdd = "assets/images/editpages_red_add.png";
+
+  /// Assets for red minus
+  static const editPagesRedMinus = "assets/images/editpages_red_minus.png";
+
+  /// Assets for directional red box
+  static const directionalRedBox = "assets/images/directional_red_box.png";
+
+  /// Assets for directional back
+  static const directionalTextBack = "assets/images/directional_text_back.png";
+
+ /// Assets for directional back
+  static const directionalTextContinue = "assets/images/directional_text_continue.png";
+
 }

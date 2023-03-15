@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
-import 'package:storily/components/upload_book_format.dart';
 
 Widget uploadBookFormatHeader(String date, String name, String label) {
   return Container(
@@ -33,23 +32,29 @@ Widget uploadBookFormatHeader(String date, String name, String label) {
   );
 }
 
-Widget addNewBookWidget(BuildContext context, String imageUrl) {
+Widget addNewBookWidget(BuildContext context, String imageUrl, width) {
   return Image.asset(
     imageUrl,
     fit: BoxFit.contain,
-    width: MediaQuery.of(context).size.width * 0.90,
+    width: width,
   );
 }
 
 Widget dropShadowWidget({context, imageUrl}) {
   return Container(
     margin: EdgeInsets.only(left: 8.0),
-    height: MediaQuery.of(context).size.height / 3.8,
-    width: MediaQuery.of(context).size.width / 2.2,
+    height: MediaQuery
+        .of(context)
+        .size
+        .height / 3.8,
+    width: MediaQuery
+        .of(context)
+        .size
+        .width / 2.2,
     decoration: BoxDecoration(
       image: DecorationImage(
         image: AssetImage(
-          "assets/images/upload_red_dropshadow.png",
+          imageUrl,
         ),
       ),
     ),
@@ -64,8 +69,14 @@ Widget addFilesWidget({
 }) {
   return Container(
     margin: EdgeInsets.only(left: 6.0),
-    height: MediaQuery.of(context).size.height / 3.8,
-    width: MediaQuery.of(context).size.width / 2.2,
+    height: MediaQuery
+        .of(context)
+        .size
+        .height / 3.8,
+    width: MediaQuery
+        .of(context)
+        .size
+        .width / 2.2,
     decoration: BoxDecoration(
       image: DecorationImage(
         image: AssetImage(
@@ -79,39 +90,39 @@ Widget addFilesWidget({
         Container(
           child: Image.asset(
             textImageUrl,
-            height: MediaQuery.of(context).size.height*0.06,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.06,
           ),
         ),
-        InkWell(
-          child: Image.asset(
-            addFilesImageUrl,
-            width: MediaQuery.of(context).size.height*0.16,
-          ),
-          onTap: () {
-            callBack();
-          },
+        Image.asset(
+          addFilesImageUrl,
+          width: MediaQuery
+              .of(context)
+              .size
+              .height * 0.16,
         ),
       ],
     ),
   );
 }
 
-Widget uploadText({context, label}) {
+Widget uploadText({context, label, fontSize}) {
   return Container(
-    width: MediaQuery.of(context).size.width / 2,
+    width: MediaQuery
+        .of(context)
+        .size
+        .width / 2,
     child: Text(
       label,
       maxLines: 2,
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: 30,
+        fontSize: fontSize,
         fontWeight: FontWeight.bold,
         color: Colors.black,
       ),
     ),
   );
-}
-
-callBack() {
-  UploadBookFormat().createState().updateWidget(true);
 }

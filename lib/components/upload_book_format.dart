@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:storily/components/page_uploader.dart';
 import '../global/constants/assets.dart';
 import 'common_upload_book_format.dart';
 
@@ -16,6 +17,7 @@ class UploadBookFormatState extends State<UploadBookFormat> {
   var total = 0;
   var imagePicker;
   bool addFiles = false;
+  bool addFilesForPDF = false;
 
   @override
   void initState() {
@@ -50,9 +52,19 @@ class UploadBookFormatState extends State<UploadBookFormat> {
                     addNewBookWidget(
                       context,
                       Assets.subMenuRedBox,
+                        MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.90
                     ),
-                    addNewBookWidget(context, Assets.subMenuRedText),
-                    addNewBookWidget(context, Assets.subMenuExit),
+                    addNewBookWidget(context, Assets.subMenuRedText,MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.90),
+                    addNewBookWidget(context, Assets.subMenuExit,MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.90),
                   ],
                 ),
               ],
@@ -73,42 +85,53 @@ class UploadBookFormatState extends State<UploadBookFormat> {
                 Column(
                   children: [
                     uploadText(
-                        context: context, label: "Please Select Upload Format"),
+                        context: context, label: "Please Select Upload Format", fontSize: 30.0),
                     SizedBox(
                       height: 30,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Stack(
-                          children: [
-                            // if (!addFiles)
-                            dropShadowWidget(
-                              imageUrl: Assets.redDropShadow,
-                              context: context,
-                            ),
-                            addFilesWidget(
-                              boxImageUrl: Assets.uploadRedBox,
-                              textImageUrl: Assets.pdfTextImage,
-                              context: context,
-                              addFilesImageUrl: Assets.redAddFiles,
-                            ),
-                          ],
+                        InkWell(
+                          child: Stack(
+                            children: [
+                              if (!addFilesForPDF)
+                                dropShadowWidget(
+                                  imageUrl: Assets.redDropShadow,
+                                  context: context,
+                                ),
+                              addFilesWidget(
+                                boxImageUrl: Assets.uploadRedBox,
+                                textImageUrl: Assets.pdfTextImage,
+                                context: context,
+                                addFilesImageUrl: Assets.redAddFiles,
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            getEventList("addFilesForPDF");
+                          },
                         ),
-                        Stack(
-                          children: [
-                            dropShadowWidget(
-                              imageUrl: Assets.redDropShadow,
-                              context: context,
-                            ),
-                            addFilesWidget(
-                              boxImageUrl: Assets.uploadRedBox,
-                              textImageUrl: Assets.imageTextImage,
-                              context: context,
-                              addFilesImageUrl: Assets.redAddFiles,
-                            ),
-                          ],
-                        )
+                        InkWell(
+                          child: Stack(
+                            children: [
+                              if (!addFiles)
+                                dropShadowWidget(
+                                  imageUrl: Assets.redDropShadow,
+                                  context: context,
+                                ),
+                              addFilesWidget(
+                                boxImageUrl: Assets.uploadRedBox,
+                                textImageUrl: Assets.imageTextImage,
+                                context: context,
+                                addFilesImageUrl: Assets.redAddFiles,
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            getEventList("addFiles");
+                          },
+                        ),
                       ],
                     ),
                   ],
@@ -121,9 +144,20 @@ class UploadBookFormatState extends State<UploadBookFormat> {
     );
   }
 
-  updateWidget(value) {
+  getEventList(val) {
     setState(() {
-      addFiles = value;
+      if (val == "addFiles") {
+        addFiles = true;
+      } else {
+        addFilesForPDF = true;
+      }
     });
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PageUploader(),
+      ),
+    );
   }
 }
