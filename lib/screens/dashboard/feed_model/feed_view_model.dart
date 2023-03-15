@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:storily/screens/dashboard/data/connections/games_firebase.dart';
 import 'package:video_player/video_player.dart';
@@ -33,15 +34,16 @@ class FeedViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  CommonDataModel getItemByIndex(int newIndex) {
+  CommonDataModel getItemByIndex(int newIndex, BuildContext context) {
     if (currentItems[index] is VideoModel &&
+        (currentItems[index] as VideoModel).controller != null &&
         (currentItems[index] as VideoModel).controller!.value.isPlaying) {
       (currentItems[index] as VideoModel).controller!.pause();
     }
     index = newIndex;
     final item = currentItems[index];
-    item.loadController().then((value) {
-      if(item is VideoModel) item.controller!.play();
+    item.loadController(context).then((value) {
+      if (item is VideoModel) item.controller!.play();
       notifyListeners();
     });
     return item;
