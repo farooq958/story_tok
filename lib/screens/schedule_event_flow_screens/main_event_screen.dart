@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:storily/Utils/PageTransitions/scale_page_transition.dart';
+import 'package:storily/Utils/PageTransitions/slide_page_transition.dart';
+import 'package:storily/cubit/selected_date_event_cubit.dart';
+import 'package:storily/repo/repo.dart';
+import 'package:storily/screens/schedule_event_flow_screens/add_shedule_event.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 
@@ -355,7 +361,6 @@ child: CalendarView(),
 
 
 
-
 class CalendarView extends StatefulWidget {
   @override
   _CalendarViewState createState() => _CalendarViewState();
@@ -375,6 +380,11 @@ class _CalendarViewState extends State<CalendarView> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<SelectedDateEventCubit, DateTime>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, selectedDateBuilder) {
     return TableCalendar(
       key: tableKey,
 
@@ -394,8 +404,8 @@ class _CalendarViewState extends State<CalendarView> {
     ),),
       daysOfWeekHeight: 40.sp,
       rowHeight: 30.sp,
-      focusedDay: _focusedDay,
-      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+      focusedDay: selectedDateBuilder,
+      selectedDayPredicate: (day) => isSameDay(selectedDateBuilder, day),
       onDaySelected: (selectedDay, focusedDay) {
         // final RenderBox dayNumberBox =
         // selectedDayKey.currentContext!.findRenderObject() as RenderBox;
@@ -410,7 +420,8 @@ class _CalendarViewState extends State<CalendarView> {
         // final double width = dayNumberBox.size.width;
         // final offset = Offset(dayNumberOffset.dx, dayNumberOffset.dy);
         // final offset2 = Offset(tableOffset.dx, tableOffset.dy);
-
+        print(focusedDay);
+context.read<SelectedDateEventCubit>().setDate(selectedDay);
         setState(() {
           _selectedDay = selectedDay;
           _focusedDay = focusedDay;
@@ -475,7 +486,7 @@ selectedBuilder: (context,date,_){
                                       Stack(
                                         children: [
                                           Image.asset('assets/images/speechbubble_yellow_text.png',height: 50.sp,width: 100.sp,),
-
+///yesTapped
                                         Positioned(
                                           top: 10.sp,
                                           right: 0,
@@ -483,8 +494,10 @@ selectedBuilder: (context,date,_){
                                           bottom: 0,
                                           child: TouchableOpacity(
                                               onTap: (){
+                                                Repository.eventTitleController.clear();
+                                                Repository.eventDescriptionController.clear();
 
-                                                print("Yes Tapped");
+                                                Navigator.push(context, CustomSlidePageRoute(child: AddEventScreenScheduleScreen()));
                                               },
 
                                               child: Image.asset('assets/images/speechbubble_yellow_button.png',height: 50.sp,)),)
@@ -611,6 +624,8 @@ selectedBuilder: (context,date,_){
 
 
     );
+  },
+);
   }
 }
 

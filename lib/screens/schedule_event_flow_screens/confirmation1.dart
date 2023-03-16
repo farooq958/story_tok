@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:storily/Utils/PageTransitions/slide_page_transition.dart';
+import 'package:storily/cubit/event_from_time_cubit.dart';
+import 'package:storily/cubit/event_to_time_cubit.dart';
+import 'package:storily/cubit/selected_date_event_cubit.dart';
+import 'package:storily/repo/repo.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 
 import 'confirmation2.dart';
@@ -244,7 +250,7 @@ child: ListView(
   physics: NeverScrollableScrollPhysics(),
   children: [
     SizedBox(height: 10.sp,),
-    Text("Title ",style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),),
+    Text(Repository.eventTitleController.text,style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),),
     SizedBox(height: 10.sp,),
     ///date and time
     SizedBox(
@@ -264,9 +270,21 @@ child: ListView(
                                 ),
     ),
     ///date and time value
-    Padding(
+    BlocBuilder<SelectedDateEventCubit, DateTime>(
+  builder: (context, selectedDate) {
+    return BlocBuilder<EventToTimeCubit, String>(
+  builder: (context, toTime) {
+    return BlocBuilder<EventFromTimeCubit, String>(
+  builder: (context, fromTime) {
+    return Padding(
         padding: EdgeInsets.only(left: 25.sp),
-        child: Text("May,24th 2023   12:30 - 1:20",style: GoogleFonts.lexend(fontSize:12.sp,fontWeight: FontWeight.w300),)),
+        child: Text("${DateFormat("MMMM dd yyyy").format(selectedDate)}   $fromTime - $toTime",style: GoogleFonts.lexend(fontSize:12.sp,fontWeight: FontWeight.w300),));
+  },
+);
+  },
+);
+  },
+),
 SizedBox(height: 10.sp,),
     ///Event Type Text
     SizedBox(
@@ -278,7 +296,7 @@ SizedBox(height: 10.sp,),
         children: <Widget>[
           Image.asset("assets/images/calendar_yellow_clockicon.png",height: 15.sp,),
           SizedBox(width: 5.sp,),
-          Text("Event Type  ",style: GoogleFonts.lexend(fontSize:12.sp,fontWeight: FontWeight.w600),),
+          Text("Description  ",style: GoogleFonts.lexend(fontSize:12.sp,fontWeight: FontWeight.w600),),
           // Text(" ",style: GoogleFonts.lexend(fontSize:8.sp,fontWeight: FontWeight.w600),),
 
 
@@ -288,7 +306,7 @@ SizedBox(height: 10.sp,),
     ///event type value
     Padding(
         padding: EdgeInsets.only(left: 25.sp),
-        child: Text("Event Description Event Description Event Description Event Description Event Description Event Description",style: GoogleFonts.lexend(fontSize:10.sp,fontWeight: FontWeight.w300),)),
+        child: Text(Repository.eventDescriptionController.text,style: GoogleFonts.lexend(fontSize:10.sp,fontWeight: FontWeight.w300),)),
   ],
 ),
                         ),

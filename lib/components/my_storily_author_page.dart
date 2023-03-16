@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:storily/Utils/PageTransitions/slide_page_transition.dart';
 import 'package:storily/components/page_uploader.dart';
 import 'package:storily/components/video_uploader_page.dart';
+import 'package:storily/cubit/selected_date_event_cubit.dart';
 import 'package:storily/screens/schedule_event_flow_screens/add_shedule_event.dart';
 import 'package:storily/screens/schedule_event_flow_screens/main_event_screen.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
@@ -224,6 +225,8 @@ class AuthorCenterPageUI extends StatelessWidget {
                     onPressed: (){
 
                     Navigator.push(context, CustomSlidePageRoute(child: MainEventScreenScheduleScreen()));
+                    context.read<SelectedDateEventCubit>().setDate(DateTime.now());
+
 
                     }, child: Center(child: Text("Schedule Event ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700),),)),
               ),
@@ -232,26 +235,26 @@ class AuthorCenterPageUI extends StatelessWidget {
         SizedBox(
           height: 10.0.sp,
         ),
-        UnconstrainedBox(child: SizedBox(
-          height: 50.sp,
-          width: 1.sw/1.6,
-          child: TouchableOpacity(
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20), // Set the radius of the border
-                    ),),
-                    backgroundColor:  MaterialStateProperty.all(Colors.white)
-                ),
+        // UnconstrainedBox(child: SizedBox(
+        //   height: 50.sp,
+        //   width: 1.sw/1.6,
+        //   child: TouchableOpacity(
+        //     child: ElevatedButton(
+        //         style: ButtonStyle(
+        //             shape: MaterialStateProperty.all(RoundedRectangleBorder(
+        //               borderRadius: BorderRadius.circular(20), // Set the radius of the border
+        //             ),),
+        //             backgroundColor:  MaterialStateProperty.all(Colors.white)
+        //         ),
+        //
+        //         onPressed: (){
+        //
+        //          // Navigator.push(context, CustomSlidePageRoute(child: AddEventScreenScheduleScreen()));
+        //
+        //         }, child: Center(child: Text("Add  Event ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700),),)),
+        //   ),
+        // ))
 
-                onPressed: (){
-
-                  Navigator.push(context, CustomSlidePageRoute(child: AddEventScreenScheduleScreen()));
-
-                }, child: Center(child: Text("Add  Event ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700),),)),
-          ),
-        ))
-        ,
 
 
       ],

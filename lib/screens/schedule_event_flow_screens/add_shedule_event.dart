@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:storily/Utils/PageTransitions/slide_page_transition.dart';
+import 'package:storily/cubit/event_from_time_cubit.dart';
+import 'package:storily/cubit/event_to_time_cubit.dart';
+import 'package:storily/cubit/selected_date_event_cubit.dart';
 import 'package:storily/repo/repo.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 
@@ -247,6 +252,7 @@ Container(
     borderRadius: BorderRadius.circular(12.sp)
   ),
   child:TextFormField(
+    controller: Repository.eventTitleController,
     style: GoogleFonts.lexend(),
     decoration: InputDecoration(
 
@@ -258,7 +264,9 @@ Container(
 ,
                 ///date for custom calender
                 SizedBox(height: 10.sp,),
-                Container(
+                BlocBuilder<SelectedDateEventCubit, DateTime>(
+  builder: (context, selectedDateBuilder) {
+    return Container(
                   height: 20.sp,
                   margin: EdgeInsets.symmetric(horizontal: 20.sp),
                   child: Row(
@@ -272,14 +280,16 @@ Container(
                       Expanded(
                           flex:6,child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text("May 05 2023",style: GoogleFonts.lexend(decoration:TextDecoration.underline ,decorationThickness: 2,  decorationColor: Color(0xfff6c33f),),))),
+                          child: Text(DateFormat("MMMM dd yyyy").format(selectedDateBuilder),style: GoogleFonts.lexend(decoration:TextDecoration.underline ,decorationThickness: 2,  decorationColor: Color(0xfff6c33f),),))),
                       Expanded(
-                          flex: 3,
-                          child: CustomPopupMenu()),
+                          flex: 2,
+                          child: CustomPopupMenu(isFromTime: true,)),
+
+                     Expanded(child: Text("To",style: GoogleFonts.lexend(),)),
                       Expanded(
                           flex:2,child: Align(
                           alignment: Alignment.centerLeft,
-                          child: CustomPopupMenu(),
+                          child: CustomPopupMenu(isFromTime: false,),
                           // child:
                           // Text("01:30",style: GoogleFonts.lexend
                           //   (decoration:TextDecoration.underline ,decorationThickness: 2,
@@ -289,7 +299,9 @@ Container(
 
                     ],
                   ),
-                ),
+                );
+  },
+),
                 SizedBox(height: 10.sp,),
                ///event Type drop down
                 Container(
@@ -338,6 +350,7 @@ border: Border.all(color: Colors.black,width: 2),
   borderRadius: BorderRadius.circular(15.sp)
   ),
 child: TextFormField(
+  controller: Repository.eventDescriptionController,
   maxLines: 100,
 style: GoogleFonts.lexend(),
 decoration: InputDecoration(
@@ -423,7 +436,8 @@ decoration: InputDecoration(
   }
 }
 class CustomPopupMenu extends StatefulWidget {
-
+  bool isFromTime;
+ CustomPopupMenu({Key? key,required this.isFromTime}) : super(key: key);
   @override
   State<CustomPopupMenu> createState() => _CustomPopupMenuState();
 }
@@ -438,6 +452,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
 
    return PopupMenuButton<String>(
 
+     position: PopupMenuPosition.under,
      shape: RoundedRectangleBorder(
        borderRadius: BorderRadius.circular(15.sp),
        side: BorderSide(
@@ -482,7 +497,14 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
         ];
       },
       onSelected: (String time) {
-        setState(() {
+       if(widget.isFromTime==true) {
+         context.read<EventFromTimeCubit>().setTime(time);
+       }
+       else
+         {
+           context.read<EventToTimeCubit>().setTime(time);
+         }
+       setState(() {
           selectedTime = time;
         });
       },
@@ -532,7 +554,7 @@ class _CustomDropDown2State extends State<CustomDropDown2> {
         style: GoogleFonts.lexend(),
 
         // Step 4.
-        items: <String>[ 'Event A', 'Event B', 'Event C']
+        items: <String>[ 'Books Reading', 'Kids Activity', 'Teaching How To Teach']
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             alignment: Alignment.center,

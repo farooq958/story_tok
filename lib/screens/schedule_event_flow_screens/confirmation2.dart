@@ -1,7 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:storily/cubit/event_from_time_cubit.dart';
+import 'package:storily/cubit/event_to_time_cubit.dart';
+import 'package:storily/cubit/selected_date_event_cubit.dart';
+import 'package:storily/repo/repo.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 class Confirmation2 extends StatelessWidget {
   const Confirmation2({Key? key}) : super(key: key);
@@ -243,9 +249,21 @@ Container(
                                   shrinkWrap: true,
                                   children: <Widget>[
 
-                                    Text("Event Title ",style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),),
-                                    Text("01/05/20xx ",style: GoogleFonts.lexend(fontSize:15.sp,fontWeight: FontWeight.w600),),
-                                    Text("01:30-2:30 ",style: GoogleFonts.lexend(fontSize:14.sp,fontWeight: FontWeight.w600),),
+                                    Text(Repository.eventTitleController.text,style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),),
+                                    BlocBuilder<SelectedDateEventCubit, DateTime>(
+  builder: (context, selectedDate) {
+    return Text(DateFormat("MMMM dd yyyy").format(selectedDate),style: GoogleFonts.lexend(fontSize:15.sp,fontWeight: FontWeight.w600),);
+  },
+),
+                                    BlocBuilder<EventToTimeCubit, String>(
+                                      builder: (context, toTime) {
+                                        return BlocBuilder<EventFromTimeCubit, String>(
+                                          builder: (context, fromTime) {
+    return Text("$fromTime-$toTime ",style: GoogleFonts.lexend(fontSize:14.sp,fontWeight: FontWeight.w600),);
+  },
+);
+  },
+),
 
                                   ],
                                 ),

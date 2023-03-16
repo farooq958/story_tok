@@ -1,4 +1,9 @@
+import 'package:flutter/cupertino.dart';
+
 class Repository{
+
+  static TextEditingController eventTitleController=TextEditingController();
+  static TextEditingController eventDescriptionController=TextEditingController();
 
   List<String> generateTimeList() {
     List<String> timeList = [];

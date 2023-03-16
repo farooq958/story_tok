@@ -12,17 +12,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e43f460-0dc0-4c23-ac9b-310613e162b0" name="Default Changelist" comment="first screen design">
-      <change afterPath="$PROJECT_DIR$/assets/images/Description.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/EventType.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/arrowdropdown-removebg-preview.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/calendar_yellow_clockicon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/event_yellow_textbox_large.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/speechbubble_yellow_base.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/speechbubble_yellow_button.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/speechbubble_yellow_text.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/titleimage.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/add_shedule_event.dart" afterDir="false" />
+    <list default="true" id="9e43f460-0dc0-4c23-ac9b-310613e162b0" name="Default Changelist" comment="all screen design ver 1">
+      <change afterPath="$PROJECT_DIR$/lib/cubit/event_from_time_cubit.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cubit/event_to_time_cubit.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cubit/selected_date_event_cubit.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.4/executionHistory/executionHistory.bin" afterDir="false" />
@@ -30,7 +23,14 @@
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/AppProvider/app_main_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/AppProvider/app_main_provider.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/components/my_storily_author_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/my_storily_author_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/cubit/test_cubit.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/cubit/test_state.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repo/repo.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repo/repo.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/add_shedule_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/add_shedule_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/confirmation1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/confirmation1.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/confirmation2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/confirmation2.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/main_event_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/main_event_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -189,7 +189,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678822865170</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="all screen design ver 1">
+      <created>1678963769997</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1678963769997</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -220,7 +227,8 @@
     <MESSAGE value="Upgrading pre version 1.12" />
     <MESSAGE value="set things up ." />
     <MESSAGE value="first screen design" />
-    <option name="LAST_COMMIT_MESSAGE" value="first screen design" />
+    <MESSAGE value="all screen design ver 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="all screen design ver 1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
