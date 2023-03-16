@@ -44,7 +44,7 @@ class _FeedScreenState extends State<FeedDashboard> {
                   itemCount: feedViewModel.totalLength,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    final data = feedViewModel.getItemByIndex(index);
+                    final data = feedViewModel.getItemByIndex(index, context);
                     if (data is GameModel) {
                       return GameScreenWidget(gameModel: data);
                     } else if (data is VideoModel) {

@@ -59,7 +59,7 @@ class _MyBookshelfPageState extends State<MyBookshelfPage> {
                         child: Card(
                           clipBehavior: Clip.hardEdge,
                           child: Image.network(
-                            bookData.pageUrl.first!,
+                            bookData.pageUrl.first.pageUrl!,
                             fit: BoxFit.cover,
                           ),
                         ),

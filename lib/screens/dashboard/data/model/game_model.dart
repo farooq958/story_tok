@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'video_model.dart';
 
@@ -46,7 +47,7 @@ class GameModel extends CommonDataModel{
     return data;
   }
 
-  Future<Null> loadController() async {
+  Future<Null> loadController(BuildContext context) async {
     controller = WebViewController();
     controller!.setJavaScriptMode(JavaScriptMode.unrestricted);
     await controller!.loadRequest(Uri.parse(url));
