@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:touchable_opacity/touchable_opacity.dart';
 
 
 class MainEventScreenScheduleScreen extends StatelessWidget {
@@ -363,7 +364,8 @@ class CalendarView extends StatefulWidget {
 class _CalendarViewState extends State<CalendarView> {
   DateTime _focusedDay=DateTime.now();
   DateTime _selectedDay=DateTime.now();
-
+ GlobalKey selectedDayKey= new GlobalKey();
+ GlobalKey tableKey= new GlobalKey();
   @override
   void initState() {
     super.initState();
@@ -374,10 +376,12 @@ class _CalendarViewState extends State<CalendarView> {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
+      key: tableKey,
 
       enabledDayPredicate: (d){
         return true;
       },
+
     headerStyle: HeaderStyle(
     titleCentered: false,
     formatButtonVisible: true,
@@ -393,10 +397,26 @@ class _CalendarViewState extends State<CalendarView> {
       focusedDay: _focusedDay,
       selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
       onDaySelected: (selectedDay, focusedDay) {
+        // final RenderBox dayNumberBox =
+        // selectedDayKey.currentContext!.findRenderObject() as RenderBox;
+        // final RenderBox tableBox =
+        // tableKey.currentContext!.findRenderObject() as RenderBox; // get the RenderBox of the Table Calendar widget
+        // final dayNumberOffset = dayNumberBox
+        //     .localToGlobal(Offset.zero);
+        // final tableOffset = tableBox
+        //     .localToGlobal(Offset.zero);
+        // final double height = dayNumberBox.size.height;
+        // print(dayNumberOffset.dy);
+        // final double width = dayNumberBox.size.width;
+        // final offset = Offset(dayNumberOffset.dx, dayNumberOffset.dy);
+        // final offset2 = Offset(tableOffset.dx, tableOffset.dy);
+
         setState(() {
           _selectedDay = selectedDay;
           _focusedDay = focusedDay;
+          selectedDayKey=GlobalKey();
         });
+
       },
       calendarFormat: CalendarFormat.month,
       startingDayOfWeek: StartingDayOfWeek.sunday,
@@ -407,22 +427,104 @@ class _CalendarViewState extends State<CalendarView> {
 
       calendarBuilders: CalendarBuilders(
 selectedBuilder: (context,date,_){
-  return Container(
-    width: 40.sp,
-    height: 40.sp,
+  return TouchableOpacity(
+    onTap: (){
 
-    //margin: EdgeInsets.symmetric(horizontal: 12.sp),
-    decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      color: Color(0xfff6c33f),
-       border: Border.all(color: Colors.black,style: BorderStyle.solid,width: 2),
-    ),
-    child: Center(
-      child: Text(
-        date.day.toString(),
-        style: GoogleFonts.lexend(
-          fontSize: 16.sp,
-          color: Colors.black,
+      showGeneralDialog(
+        barrierDismissible: true,
+        barrierColor: Colors.transparent,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 200),
+        context: context,
+        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+
+          final RenderBox dayBox = selectedDayKey.currentContext!.findRenderObject() as RenderBox;
+          final Offset dayPosition = dayBox.localToGlobal(Offset.zero);
+          // final double dialogX = dayPosition.dx + dayBox.size.width / 2 - 30;
+          // final double dialogY = dayPosition.dy - 30;
+          return Stack(
+            children: [
+              Positioned(
+                  top:dayPosition.dy-100.sp,
+                 left:dayPosition.dx-dayBox.size.width*2.1.sp,
+                // bottom: 0,
+                //right: 0,
+                child: Dialog(
+                  backgroundColor: Colors.transparent,
+                  insetPadding: EdgeInsets.symmetric(horizontal: 100.sp),
+                  child: Stack(
+                    children: <Widget>[
+
+                      Image.asset('assets/images/speechbubble_yellow_base.png',fit: BoxFit.fitWidth,height: 130.sp,width: 130.sp,),
+
+                   Positioned(
+                     top:0,
+                     right: 1.sw/2,
+                     bottom: 1.sp,
+                     left: 0,
+
+                     child: SizedBox(
+                       height: 50.sp,
+                       width: 50.sp,
+                       child: ListView(
+                         padding: EdgeInsets.symmetric(vertical: 5.sp),
+                         physics: NeverScrollableScrollPhysics(),
+                         shrinkWrap: true,
+                                    children: <Widget>[
+                                      SizedBox(height: 30.sp,),
+                                      Stack(
+                                        children: [
+                                          Image.asset('assets/images/speechbubble_yellow_text.png',height: 50.sp,width: 100.sp,),
+
+                                        Positioned(
+                                          top: 10.sp,
+                                          right: 0,
+                                          left: 0,
+                                          bottom: 0,
+                                          child: TouchableOpacity(
+                                              onTap: (){
+
+                                                print("Yes Tapped");
+                                              },
+
+                                              child: Image.asset('assets/images/speechbubble_yellow_button.png',height: 50.sp,)),)
+                                        ],
+                                      ),
+
+
+
+
+                                    ],
+                                  ),
+                     ),
+                              )
+
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ); },
+      );
+    },
+    child: Container(
+      key: selectedDayKey,
+      width: 40.sp,
+      height: 40.sp,
+
+      //margin: EdgeInsets.symmetric(horizontal: 12.sp),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Color(0xfff6c33f),
+         border: Border.all(color: Colors.black,style: BorderStyle.solid,width: 2),
+      ),
+      child: Center(
+        child: Text(
+          date.day.toString(),
+          style: GoogleFonts.lexend(
+            fontSize: 16.sp,
+            color: Colors.black,
+          ),
         ),
       ),
     ),
@@ -457,24 +559,19 @@ selectedBuilder: (context,date,_){
         },
         defaultBuilder: (context, date, _) {
           return Container(
-            //height: 100.sp,
-            margin: const EdgeInsets.all(4),
-
-            child: Container(
-              width: 40.sp,
-              height: 40.sp,
-              //margin: EdgeInsets.symmetric(horizontal: 12.sp),
-              decoration: BoxDecoration(
-               // shape: BoxShape.circle,
-               // border: Border.all(color: Colors.black),
-              ),
-              child: Center(
-                child: Text(
-                  date.day.toString(),
-                  style: GoogleFonts.lexend(
-                    fontSize: 16.sp,
-                    color: Colors.black,
-                  ),
+            width: 40.sp,
+            height: 40.sp,
+            //margin: EdgeInsets.symmetric(horizontal: 12.sp),
+            decoration: BoxDecoration(
+             // shape: BoxShape.circle,
+             // border: Border.all(color: Colors.black),
+            ),
+            child: Center(
+              child: Text(
+                date.day.toString(),
+                style: GoogleFonts.lexend(
+                  fontSize: 16.sp,
+                  color: Colors.black,
                 ),
               ),
             ),
