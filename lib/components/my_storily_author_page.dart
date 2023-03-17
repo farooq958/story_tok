@@ -9,6 +9,9 @@ import 'package:storily/screens/schedule_event_flow_screens/add_shedule_event.da
 import 'package:storily/screens/schedule_event_flow_screens/main_event_screen.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 
+import '../cubit/load_main_data_cubit.dart';
+import '../model/event_flow_model.dart';
+
 //This page is the author's center
 ////////////////////////////////////
 class MyStorilyAuthorPage extends StatelessWidget {
@@ -226,6 +229,7 @@ class AuthorCenterPageUI extends StatelessWidget {
 
                     Navigator.push(context, CustomSlidePageRoute(child: MainEventScreenScheduleScreen()));
                     context.read<SelectedDateEventCubit>().setDate(DateTime.now());
+                   // context.read<LoadMainDataCubit>().getEventData(EventFlowModel(eventTitle: "", eventDescription: "", fromTime: "", outTime: "", eventDate: DateTime.now()));
 
 
                     }, child: Center(child: Text("Schedule Event ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700),),)),

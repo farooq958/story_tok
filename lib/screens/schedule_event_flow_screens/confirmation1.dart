@@ -7,7 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:storily/Utils/PageTransitions/slide_page_transition.dart';
 import 'package:storily/cubit/event_from_time_cubit.dart';
 import 'package:storily/cubit/event_to_time_cubit.dart';
+import 'package:storily/cubit/load_main_data_cubit.dart';
 import 'package:storily/cubit/selected_date_event_cubit.dart';
+import 'package:storily/model/event_flow_model.dart';
 import 'package:storily/repo/repo.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 
@@ -323,6 +325,9 @@ SizedBox(height: 10.sp,),
                     children: <Widget>[
 
                       Expanded(child: TouchableOpacity(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
                         child: Container(
                           padding: EdgeInsets.only(bottom: 3.sp),
                           decoration: BoxDecoration(
@@ -344,10 +349,20 @@ SizedBox(height: 10.sp,),
                         ),
                       )),
                       SizedBox(width: 5.sp,),
-                      Expanded(child: TouchableOpacity(
+                      Expanded(child:
+
+                      BlocBuilder<SelectedDateEventCubit, DateTime>(
+                        builder: (context, selectedDate) {
+                          return BlocBuilder<EventToTimeCubit, String>(
+                            builder: (context, toTime) {
+                              return BlocBuilder<EventFromTimeCubit, String>(
+                                builder: (context, fromTime) {
+    return TouchableOpacity(
                         onTap: (){
 
-                          Navigator.push(context, CustomSlidePageRoute(child: Confirmation2()));
+                          Navigator.pushReplacement(context, CustomSlidePageRoute(child: Confirmation2()));
+                          context.read<LoadMainDataCubit>().getEventData(EventFlowModel(eventTitle:Repository.eventTitleController.text , eventDescription: Repository.eventDescriptionController.text, fromTime: fromTime, toTime: toTime, eventDate: selectedDate));
+
                         },
                         child: Container(
                           padding: EdgeInsets.only(bottom: 3.sp),
@@ -368,7 +383,13 @@ SizedBox(height: 10.sp,),
 
                           ),
                         ),
-                      )),
+                      );
+  },
+);
+  },
+);
+  },
+)),
 
                     ],
                   ),

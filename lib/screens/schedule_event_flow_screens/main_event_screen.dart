@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:storily/Utils/PageTransitions/scale_page_transition.dart';
 import 'package:storily/Utils/PageTransitions/slide_page_transition.dart';
+import 'package:storily/cubit/load_main_data_cubit.dart';
 import 'package:storily/cubit/selected_date_event_cubit.dart';
+import 'package:storily/model/event_flow_model.dart';
 import 'package:storily/repo/repo.dart';
 import 'package:storily/screens/schedule_event_flow_screens/add_shedule_event.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -238,113 +240,62 @@ child: CalendarView(),
                       margin: EdgeInsets.symmetric(horizontal: 20.sp),
                       child: Text("Upcoming Events ",style: GoogleFonts.lexend(fontSize:25.sp ,fontWeight: FontWeight.w600),)),
                   ///upcoming Events
-                   Container(
-
-                       margin: EdgeInsets.only(left: 20.sp,right: 20.sp),
-                       child: Stack(
-                         children: [
-                           Image.asset("assets/images/eventticket_yellow_base.png",fit: BoxFit.fitWidth,),
-                        Positioned(
-                            top:0,
-                            right: 0,
-                            bottom: 0,
-                            child: Image.asset("assets/images/eventticket_yellow_peopleicon.png")),
-                           Positioned.fill(
-                               top:0,
-                               right: 0,
-                             left: 50.sp,
-                               //right: 0,
-                               bottom: 0,
-                               child: UnconstrainedBox(
-
-                                 child: SizedBox(
-                                   height: 100.sp,
-                                   width: 200.sp,
-                                   child: Center(
-                                     child: ListView(
-                                       physics: NeverScrollableScrollPhysics(),
-                                       shrinkWrap: true,
-                            children: <Widget>[
-
-                              Text("Event Title ",style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),),
-                              Text("01/05/20xx ",style: GoogleFonts.lexend(fontSize:15.sp,fontWeight: FontWeight.w600),),
-                              Text("01:30-2:30 ",style: GoogleFonts.lexend(fontSize:14.sp,fontWeight: FontWeight.w600),),
-
-                            ],
-                         ),
-                                   ),
-                                 ),
-                               ),
-                        ),
-                           Positioned(
-                             right: 10,
-                               bottom: 10,
-                               child: Text("30 MORE Days",style: GoogleFonts.lexend(fontSize:8.sp,fontWeight: FontWeight.w300),)),
-                           Positioned(
-                               //top:0,
-                               right: 0,
-                               bottom: 0,
-                               left: 0,
-                               child: Image.asset("assets/images/eventticket_yellow_editicon.png")),
-
-
-                         ],
-                       )),
+                   UpcomingWidget(),
                   SizedBox(height: 10.sp,),
-                  Container(
-
-                      margin: EdgeInsets.only(left: 20.sp,right: 20.sp),
-                      child: Stack(
-                        children: [
-                          Image.asset("assets/images/eventticket_yellow_base.png",fit: BoxFit.fitWidth,),
-                          Positioned(
-                              top:0,
-                              right: 0,
-                              bottom: 0,
-                              left: 1,
-                              child: Image.asset("assets/images/eventticket_yellow_bookicon.png")),
-                          Positioned.fill(
-                            top:0,
-                            right: 0,
-                            left: 50.sp,
-                            //right: 0,
-                            bottom: 0,
-                            child: UnconstrainedBox(
-
-                              child: SizedBox(
-                                height: 100.sp,
-                                width: 200.sp,
-                                child: Center(
-                                  child: ListView(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    children: <Widget>[
-
-                                      Text("Event Title ",style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),),
-                                      Text("01/05/20xx ",style: GoogleFonts.lexend(fontSize:15.sp,fontWeight: FontWeight.w600),),
-                                      Text("01:30-2:30 ",style: GoogleFonts.lexend(fontSize:14.sp,fontWeight: FontWeight.w600),),
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                              right: 10,
-                              bottom: 10,
-                              child: Text("30 MORE Days",style: GoogleFonts.lexend(fontSize:8.sp,fontWeight: FontWeight.w300),)),
-                          Positioned(
-                            //top:0,
-                              right: 0,
-                              bottom: 0,
-                              left: 0,
-                              child: Image.asset("assets/images/eventticket_yellow_editicon.png")),
-
-
-                        ],
-                      )),
-                  SizedBox(height: 10.sp,),
+                  // Container(
+                  //
+                  //     margin: EdgeInsets.only(left: 20.sp,right: 20.sp),
+                  //     child: Stack(
+                  //       children: [
+                  //         Image.asset("assets/images/eventticket_yellow_base.png",fit: BoxFit.fitWidth,),
+                  //         Positioned(
+                  //             top:0,
+                  //             right: 0,
+                  //             bottom: 0,
+                  //             left: 1,
+                  //             child: Image.asset("assets/images/eventticket_yellow_bookicon.png")),
+                  //         Positioned.fill(
+                  //           top:0,
+                  //           right: 0,
+                  //           left: 50.sp,
+                  //           //right: 0,
+                  //           bottom: 0,
+                  //           child: UnconstrainedBox(
+                  //
+                  //             child: SizedBox(
+                  //               height: 100.sp,
+                  //               width: 200.sp,
+                  //               child: Center(
+                  //                 child: ListView(
+                  //                   physics: NeverScrollableScrollPhysics(),
+                  //                   shrinkWrap: true,
+                  //                   children: <Widget>[
+                  //
+                  //                     Text("Event Title ",style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),),
+                  //                     Text("01/05/20xx ",style: GoogleFonts.lexend(fontSize:15.sp,fontWeight: FontWeight.w600),),
+                  //                     Text("01:30-2:30 ",style: GoogleFonts.lexend(fontSize:14.sp,fontWeight: FontWeight.w600),),
+                  //
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //         Positioned(
+                  //             right: 10,
+                  //             bottom: 10,
+                  //             child: Text("30 MORE Days",style: GoogleFonts.lexend(fontSize:8.sp,fontWeight: FontWeight.w300),)),
+                  //         Positioned(
+                  //           //top:0,
+                  //             right: 0,
+                  //             bottom: 0,
+                  //             left: 0,
+                  //             child: Image.asset("assets/images/eventticket_yellow_editicon.png")),
+                  //
+                  //
+                  //       ],
+                  //     )),
+                  // SizedBox(height: 10.sp,),
                 ],),
             //SizedBox(height: 80.sp,),
 
@@ -355,6 +306,87 @@ child: CalendarView(),
         ),
     );
 
+  }
+}
+
+class UpcomingWidget extends StatelessWidget {
+  const UpcomingWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<LoadMainDataCubit, List<EventFlowModel>>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, eventFlowStateData) {
+    if(eventFlowStateData.isEmpty) return Padding(
+      padding:  EdgeInsets.only(top: 30.0.sp),
+      child: Center(child: Text("No Events ",style: GoogleFonts.lexend(),)),
+    );
+    else
+    return ListView.separated(
+      shrinkWrap: true,
+      itemCount: eventFlowStateData.length,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context,index) {
+        return Container(
+
+            margin: EdgeInsets.only(left: 20.sp,right: 20.sp),
+            child: Stack(
+              children: [
+                Image.asset("assets/images/eventticket_yellow_base.png",fit: BoxFit.fitWidth,),
+             Positioned(
+                 top:0,
+                 right: 0,
+                 bottom: 0,
+                 child: Image.asset("assets/images/eventticket_yellow_peopleicon.png")),
+                Positioned.fill(
+                    top:0,
+                    right: 0,
+                  left: 50.sp,
+                    //right: 0,
+                    bottom: 0,
+                    child: UnconstrainedBox(
+
+                      child: SizedBox(
+                        height: 100.sp,
+                        width: 200.sp,
+                        child: Center(
+                          child: ListView(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                 children: <Widget>[
+
+                   Text(eventFlowStateData[index].eventTitle,style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),),
+                   Text(DateFormat("MMMM dd yyyy").format(eventFlowStateData[index].eventDate),style: GoogleFonts.lexend(fontSize:15.sp,fontWeight: FontWeight.w600),),
+                   Text("${eventFlowStateData[index].fromTime}-${eventFlowStateData[index].toTime} ",style: GoogleFonts.lexend(fontSize:14.sp,fontWeight: FontWeight.w600),),
+
+                 ],
+              ),
+                        ),
+                      ),
+                    ),
+             ),
+                Positioned(
+                  right: 10,
+                    bottom: 10,
+                    child: Text("30 MORE Days",style: GoogleFonts.lexend(fontSize:8.sp,fontWeight: FontWeight.w300),)),
+                Positioned(
+                    //top:0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                    child: Image.asset("assets/images/eventticket_yellow_editicon.png")),
+
+
+              ],
+            ));
+      }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5.sp,); },
+    );
+  },
+);
   }
 }
 
@@ -371,15 +403,26 @@ class _CalendarViewState extends State<CalendarView> {
   DateTime _selectedDay=DateTime.now();
  GlobalKey selectedDayKey= new GlobalKey();
  GlobalKey tableKey= new GlobalKey();
+
   @override
   void initState() {
     super.initState();
     _focusedDay = DateTime.now();
     _selectedDay = _focusedDay;
   }
-
+  // Map<DateTime, List<dynamic>> events = {
+  //   DateTime(2023, 3, 15): ['Event A', 'Event B'],
+  //   DateTime(2023, 3, 20): ['Event C'],
+  //   DateTime(2023, 3, 25): ['Event D', 'Event E', 'Event F'],
+  // };
   @override
   Widget build(BuildContext context) {
+
+    return BlocConsumer<LoadMainDataCubit, List<EventFlowModel>>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, eventFlowData) {
     return BlocConsumer<SelectedDateEventCubit, DateTime>(
   listener: (context, state) {
     // TODO: implement listener
@@ -391,6 +434,19 @@ class _CalendarViewState extends State<CalendarView> {
       enabledDayPredicate: (d){
         return true;
       },
+      availableGestures: AvailableGestures.horizontalSwipe,
+      eventLoader: (d)
+      {
+        //print(d);
+        String formattedDate = DateFormat('yyyy-MM-dd').format(d);
+        //print("formatted date $formattedDate");
+        DateTime dateTime = DateTime.parse(formattedDate);
+       var dateToPass= DateTime(dateTime.year, dateTime.month, dateTime.day);
+       // print("date check"+dateTime.toString());
+      // print(Repository.eventMapOfData[dateTime]);
+return Repository.eventMapOfData[dateToPass]??[];
+      },
+
 
     headerStyle: HeaderStyle(
     titleCentered: false,
@@ -497,7 +553,7 @@ selectedBuilder: (context,date,_){
                                                 Repository.eventTitleController.clear();
                                                 Repository.eventDescriptionController.clear();
 
-                                                Navigator.push(context, CustomSlidePageRoute(child: AddEventScreenScheduleScreen()));
+                                                Navigator.pushReplacement(context, CustomSlidePageRoute(child: AddEventScreenScheduleScreen()));
                                               },
 
                                               child: Image.asset('assets/images/speechbubble_yellow_button.png',height: 50.sp,)),)
@@ -590,6 +646,22 @@ selectedBuilder: (context,date,_){
             ),
           );
         },
+        markerBuilder: (context, date, _events) {
+ // print(date); ///null
+  String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+  DateTime dateTime = DateTime.parse(formattedDate);
+  var dateToPass= DateTime(dateTime.year, dateTime.month, dateTime.day);
+
+          if (Repository.eventMapOfData[dateToPass] != null && Repository.eventMapOfData[dateToPass]!.isNotEmpty) {
+            print("here");
+            return Positioned(
+              right: 1,
+              bottom: 1,
+              child: Icon(Icons.fiber_manual_record, size: 10,color: dateTime.isBefore(DateTime.now())?Colors.red: Colors.green,),
+            );
+          }
+          return null;
+        },
 
 
       ),  firstDay: DateTime.utc(2010, 10, 16),
@@ -624,6 +696,8 @@ selectedBuilder: (context,date,_){
 
 
     );
+  },
+);
   },
 );
   }
