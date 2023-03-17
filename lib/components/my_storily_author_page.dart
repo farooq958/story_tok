@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/page_uploader.dart';
 import 'package:storily/components/video_uploader.dart';
+import 'package:storily/screens/book_upload/book-input-details-screen.dart';
+import 'package:storily/screens/book_upload/book-confirm-details-screen.dart';
+import 'package:storily/screens/book_upload/book-preview-screen.dart';
 
 //This page is the author's center
 ////////////////////////////////////
@@ -58,7 +61,7 @@ class AuthorCenterPageUI extends StatelessWidget {
                 ),
                 MaterialButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>VideoUploader()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>BookConfirmDetails()));//VideoUploader
                     },
                     child: Container(
                       padding: EdgeInsets.all(10.0),
