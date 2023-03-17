@@ -40,6 +40,9 @@ dependencies:
   firebase_database: ^10.0.14
   webview_flutter: ^4.0.5
   fluttertoast: ^8.2.1
+  record: ^4.4.4
+  flutter_profile_picture: ^2.0.0
+  stream_mixin: ^3.0.4
   video_thumbnail: ^0.5.3
   uuid: ^3.0.7
   shared_preferences: ^2.0.18
@@ -49,6 +52,7 @@ dependencies:
   path_provider: ^2.0.13
   dropdown_textfield: ^1.0.8
   google_fonts: ^3.0.1
+
 
 dev_dependencies:
   flutter_test:
