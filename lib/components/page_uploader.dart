@@ -39,11 +39,11 @@ class PageUploaderState extends State<PageUploader> {
     if (_images.length > 0) {
       for (int i = 0; i < _images.length; i++) {
         if (_images[i].path == image.path) {
-          // setState(() {
-          //   imageExist = true;
-          // });
-          // Utils().showToastMessage("You can't choose the same image.", context);
-          // break;
+          setState(() {
+            imageExist = true;
+          });
+          Utils().showToastMessage("You can't choose the same image.", context);
+          break;
         }
       }
     }
