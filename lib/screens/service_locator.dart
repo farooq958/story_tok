@@ -8,5 +8,5 @@ final locator = GetIt.instance;
 
 void setup() {
   locator.registerSingleton<FeedViewModel>(FeedViewModel());
-  locator.registerSingleton<GameViewModel>(GameViewModel());
+  // locator.registerSingleton<GameViewModel>(GameViewModel());
 }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/page_uploader.dart';
-import 'package:storily/components/video_uploader.dart';
-import 'package:storily/screens/book_upload/book-input-details-screen.dart';
-import 'package:storily/screens/book_upload/book-confirm-details-screen.dart';
-import 'package:storily/screens/book_upload/book-preview-screen.dart';
+import 'package:storily/components/upload_book_format.dart';
+import 'package:storily/components/video_uploader_page.dart';
 
 //This page is the author's center
 ////////////////////////////////////
@@ -19,17 +17,15 @@ class MyStorilyAuthorPage extends StatelessWidget {
         body: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(255, 0, 254, 100),
-                  Color.fromRGBO(51, 51, 153, 100),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )
-          ),
+            colors: [
+              Color.fromRGBO(255, 0, 254, 100),
+              Color.fromRGBO(51, 51, 153, 100),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          )),
           child: AuthorCenterPageUI(),
-        )
-    );
+        ));
   }
 }
 
@@ -41,27 +37,36 @@ class AuthorCenterPageUI extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Image.asset('assets/images/bitRead_logo_banner_Placeholder.png', height: MediaQuery.of(context).size.height*0.12,),
-          Text("Millions of Stories. \n Free on BitRead.", style: TextStyle(
-            fontFamily: 'Proxima Nova',
-            fontSize: 30.0,
-            fontWeight: FontWeight.w900,
-          ),),
+          Image.asset(
+            'assets/images/bitRead_logo_banner_Placeholder.png',
+            height: MediaQuery.of(context).size.height * 0.12,
+          ),
+          Text(
+            "Millions of Stories. \n Free on BitRead.",
+            style: TextStyle(
+              fontFamily: 'Proxima Nova',
+              fontSize: 30.0,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
           Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Upload Video", style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 18.0,
-                ),),
+                Text(
+                  "Upload Video",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 18.0,
+                  ),
+                ),
                 SizedBox(
                   height: 10.0,
                 ),
                 MaterialButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>BookConfirmDetails()));//VideoUploader
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>VideoUploader()));
                     },
                     child: Container(
                       padding: EdgeInsets.all(10.0),
@@ -74,31 +79,36 @@ class AuthorCenterPageUI extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Icon(Icons.mail_outline, color: Colors.black,),
+                          Icon(
+                            Icons.mail_outline,
+                            color: Colors.black,
+                          ),
                           SizedBox(
                             width: 5.0,
                           ),
-                          Text("Add Videos", style: TextStyle(//this is a short cut for the author to update videos
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),),
+                          Text(
+                            "Add Videos",
+                            style: TextStyle(
+                              //this is a short cut for the author to update videos
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
                         ],
                       ),
-                    )
-                ),
+                    )),
                 SizedBox(
                   height: 10.0,
                 ),
                 MaterialButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PageUploader())); //short cut for author to upload their book
-                      /*Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(
-                        child: ChangeNotifierProvider(
-                          create: (_)=>Admin(),
-                          child: SpotifyAdmin(),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UploadBookFormat(),
                         ),
-                      )));*/
+                      ); //short cut for author to upload their book
                     },
                     child: Container(
                       padding: EdgeInsets.all(10.0),
@@ -111,24 +121,29 @@ class AuthorCenterPageUI extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Icon(Icons.mail_outline, color: Colors.black,),
+                          Icon(
+                            Icons.mail_outline,
+                            color: Colors.black,
+                          ),
                           SizedBox(
                             width: 5.0,
                           ),
-                          Text("UPLOAD NEW STORIES", style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),),
+                          Text(
+                            "UPLOAD NEW STORIES",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
                         ],
                       ),
-                    )
-                ),
+                    )),
                 SizedBox(
                   height: 10.0,
                 ),
                 MaterialButton(
-                    onPressed: (){
+                    onPressed: () {
                       //Navigator.push(context, MaterialPageRoute(builder: (context)=>PageUploader())); //short cut for author to upload their book
                       /*Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(
                         child: ChangeNotifierProvider(
@@ -148,24 +163,29 @@ class AuthorCenterPageUI extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Icon(Icons.mail_outline, color: Colors.black,),
+                          Icon(
+                            Icons.mail_outline,
+                            color: Colors.black,
+                          ),
                           SizedBox(
                             width: 5.0,
                           ),
-                          Text("Schedual Reading Event", style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),),
+                          Text(
+                            "Schedual Reading Event",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
                         ],
                       ),
-                    )
-                ),
+                    )),
                 SizedBox(
                   height: 10.0,
                 ),
                 MaterialButton(
-                    onPressed: (){
+                    onPressed: () {
                       //Navigator.push(context, MaterialPageRoute(builder: (context)=>PageUploader())); //short cut for author to upload their book
                       /*Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(
                         child: ChangeNotifierProvider(
@@ -185,19 +205,24 @@ class AuthorCenterPageUI extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Icon(Icons.mail_outline, color: Colors.black,),
+                          Icon(
+                            Icons.mail_outline,
+                            color: Colors.black,
+                          ),
                           SizedBox(
                             width: 5.0,
                           ),
-                          Text("My BOOKS", style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),),
+                          Text(
+                            "My BOOKS",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
                         ],
                       ),
-                    )
-                )
+                    ))
               ],
             ),
           ),

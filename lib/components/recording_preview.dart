@@ -19,29 +19,34 @@ final List<String> imgList = [
 ];
 
 typedef _Fn = void Function();
+
 const theSource = AudioSource.microphone;
 
 class RecordingPreview extends StatefulWidget {
-
   Map<int, int>? pageTime;
   List<File>? images = <File>[];
+  List<Map<File, String>>?  imagesPath= [];
 
-  RecordingPreview({this.pageTime, this.images}): super();
+  RecordingPreview({this.pageTime, this.images, this.imagesPath}) : super();
 
   @override
-  RecordingPreviewState createState() => RecordingPreviewState(pageTime : pageTime, cachedImages: images!);
+  RecordingPreviewState createState() =>
+      RecordingPreviewState(pageTime: pageTime, cachedImages: images!);
 }
 
 class RecordingPreviewState extends State<RecordingPreview> {
   //recorder
   Codec _codec = Codec.aacMP4;
-  String _mPath = 'tau_file.mp4';
+  var _mPath;
   FlutterSoundPlayer? _mPlayer = FlutterSoundPlayer();
   FlutterSoundRecorder? _mRecorder = FlutterSoundRecorder();
   bool _mPlayerIsInited = false;
   bool _mRecorderIsInited = false;
   bool _mplaybackReady = false;
   StreamSubscription? _playerSubscription;
+  int _currentIndex = 0;
+
+
   //slider
   final CarouselController _controller = CarouselController();
   List<File> cachedImages = <File>[];
@@ -49,12 +54,11 @@ class RecordingPreviewState extends State<RecordingPreview> {
   List<Widget>? imageSliders;
   int currentPage = 1;
 
-  RecordingPreviewState({required this.pageTime,required this.cachedImages}): super();
-
+  RecordingPreviewState({required this.pageTime, required this.cachedImages})
+      : super();
 
   @override
   void initState() {
-
     _mPlayer?.openPlayer().then((value) {
       setState(() {
         _mPlayerIsInited = true;
@@ -68,26 +72,24 @@ class RecordingPreviewState extends State<RecordingPreview> {
     });
 
     _mPlayer?.setSubscriptionDuration(Duration(milliseconds: 100));
-    _playerSubscription = _mPlayer?.onProgress!.listen((e)
-    {
-        setState(() {
-          if(e.position.inMilliseconds > pageTime![currentPage]!)
+    /*_playerSubscription = _mPlayer?.onProgress!.listen((e) {
+      setState(() {
+        if (pageTime![currentPage] != null &&
+            (e.position.inMilliseconds > pageTime![currentPage]!)) {
+          _controller.nextPage();
+          currentPage++;
+        }
+        //pos = e.position.inMilliseconds;
+      });
+      //Duration maxDuration = e.duration;
+      Duration position = e.position;
+      *//*if(position.inMilliseconds > pageTime[currentPage])
           {
             _controller.nextPage();
             currentPage ++;
-          }
-          //pos = e.position.inMilliseconds;
-        });
-        //Duration maxDuration = e.duration;
-        Duration position = e.position;
-        /*if(position.inMilliseconds > pageTime[currentPage])
-          {
-            _controller.nextPage();
-            currentPage ++;
-          }*/
+          }*//*
+    });*/
 
-
-    });
 
     InitImageSliders();
     super.initState();
@@ -123,11 +125,11 @@ class RecordingPreviewState extends State<RecordingPreview> {
     await session.configure(AudioSessionConfiguration(
       avAudioSessionCategory: AVAudioSessionCategory.playAndRecord,
       avAudioSessionCategoryOptions:
-      AVAudioSessionCategoryOptions.allowBluetooth |
-      AVAudioSessionCategoryOptions.defaultToSpeaker,
+          AVAudioSessionCategoryOptions.allowBluetooth |
+              AVAudioSessionCategoryOptions.defaultToSpeaker,
       avAudioSessionMode: AVAudioSessionMode.spokenAudio,
       avAudioSessionRouteSharingPolicy:
-      AVAudioSessionRouteSharingPolicy.defaultPolicy,
+          AVAudioSessionRouteSharingPolicy.defaultPolicy,
       avAudioSessionSetActiveOptions: AVAudioSessionSetActiveOptions.none,
       androidAudioAttributes: const AndroidAudioAttributes(
         contentType: AndroidAudioContentType.speech,
@@ -166,30 +168,34 @@ class RecordingPreviewState extends State<RecordingPreview> {
 
   void play() {
     assert(_mPlayerIsInited &&
-       // _mplaybackReady &&
+        // _mplaybackReady &&
         //_mRecorder.isStopped &&
         _mPlayer!.isStopped);
     _mPlayer!
         .startPlayer(
-        fromURI: _mPath,
-        //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
-        whenFinished: () {
-          setState(() {});
-        })
+            fromURI: widget.imagesPath![_currentIndex].values.first,
+            //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+            whenFinished: () {
+              _controller.nextPage();
+              currentPage++;
+              setState((){});
+            })
         .then((value) {
       setState(() {});
     });
   }
 
+  void update(StatefulWidget newWidget)
+  {
+
+  }
   void stopPlayer() {
     _mPlayer!.stopPlayer().then((value) {
       setState(() {
-      //
+        //
       });
     });
   }
-
-
 
 // ----------------------------- UI --------------------------------------------
 
@@ -201,116 +207,124 @@ class RecordingPreviewState extends State<RecordingPreview> {
   }
 
   _Fn? getPlaybackFn() {
-    if (!_mPlayerIsInited ) {//|| !_mplaybackReady || !_mRecorder.isStopped) {
+    if (!_mPlayerIsInited) {
+      //|| !_mplaybackReady || !_mRecorder.isStopped) {
       return null;
     }
     return _mPlayer!.isStopped ? play : stopPlayer;
   }
 
+  var selectedIndex;
   //final CarouselController _controller = CarouselController();
 
   void InitImageSliders() {
-    imageSliders = cachedImages
-        .map((item) =>
-        Container(
-          child: Container(
-            margin: EdgeInsets.all(5.0),
-            child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: Stack(
-                  children: <Widget>[
-                    Image.file(item, fit: BoxFit.cover, width: 1000.0),
-                    Positioned(
-                      bottom: 0.0,
-                      left: 0.0,
-                      right: 0.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(200, 0, 0, 0),
-                              Color.fromARGB(0, 0, 0, 0)
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
+    imageSliders = cachedImages.map((item) {
+      setState(() {
+        selectedIndex = cachedImages.indexOf(item);
+      });
+      return Container(
+        child: Container(
+          margin: EdgeInsets.all(5.0),
+          child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              child: Stack(
+                children: <Widget>[
+                  Image.file(item, fit: BoxFit.cover, width: 1000.0),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(200, 0, 0, 0),
+                            Color.fromARGB(0, 0, 0, 0)
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
                         ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        child: Text(
-                          'No. ${cachedImages.indexOf(item)} image',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      child: Text(
+                        'No. ${cachedImages.indexOf(item)} image',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ],
-                )),
-          ),
-        ))
-        .toList();
-    }
-
-    @override
-    Widget build(BuildContext context) {
-      Widget makeBody() {
-        return Column(
-          children: [
-            Container(
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  //autoPlay: true,
-                  aspectRatio: 2.0,
-                  enableInfiniteScroll: false,
-                  enlargeCenterPage: true,
-                ),
-                items: imageSliders,
-                carouselController: _controller,
-              ),
-            ),
-
-            Container(
-              margin: const EdgeInsets.all(3),
-              padding: const EdgeInsets.all(3),
-              height: 80,
-              width: double.infinity,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Color(0xFFFAF0E6),
-                border: Border.all(
-                  color: Colors.indigo,
-                  width: 3,
-                ),
-              ),
-              child: Row(children: [
-                ElevatedButton(
-                  onPressed: getPlaybackFn(),
-                  //color: Colors.white,
-                  //disabledColor: Colors.grey,
-                  child: Text(_mPlayer!.isPlaying ? 'Stop' : 'Play'),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Text(_mPlayer!.isPlaying
-                    ? 'Playback in progress'
-                    : 'Player is stopped'),
-              ]),
-            ),
-          ],
-        );
-      }
-
-      return Scaffold(
-        backgroundColor: Colors.blue,
-        appBar: AppBar(
-          title: const Text('Recording Preview'),
+                  ),
+                ],
+              )),
         ),
-        body: makeBody(),
+      );
+    }).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget makeBody() {
+      return Column(
+        children: [
+          Container(
+            child: CarouselSlider(
+              options: CarouselOptions(
+                //autoPlay: true,
+                aspectRatio: 2.0,
+                enableInfiniteScroll: false,
+                enlargeCenterPage: true,
+                onPageChanged: (index, reason) {
+                  setState((){
+                    _currentIndex = index;
+                    play();
+                  });
+                },
+              ),
+              items: imageSliders,
+              carouselController: _controller,
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(3),
+            padding: const EdgeInsets.all(3),
+            height: 80,
+            width: double.infinity,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Color(0xFFFAF0E6),
+              border: Border.all(
+                color: Colors.indigo,
+                width: 3,
+              ),
+            ),
+            child: Row(children: [
+              ElevatedButton(
+                onPressed: getPlaybackFn(),
+                //color: Colors.white,
+                //disabledColor: Colors.grey,
+                child: Text(_mPlayer!.isPlaying ? 'Stop' : 'Play'),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Text(_mPlayer!.isPlaying
+                  ? 'Playback in progress'
+                  : 'Player is stopped'),
+            ]),
+          ),
+        ],
       );
     }
 
+    return Scaffold(
+      backgroundColor: Colors.blue,
+      appBar: AppBar(
+        title: const Text('Recording Preview'),
+      ),
+      body: makeBody(),
+    );
+  }
 }

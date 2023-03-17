@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -8,6 +10,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:audio_session/audio_session.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:record/record.dart';
 import 'package:storily/components/recording_preview.dart';
 
 /*final List<String> imgList = [
@@ -20,39 +23,57 @@ import 'package:storily/components/recording_preview.dart';
 ];*/
 
 typedef _Fn = void Function();
+
 const theSource = AudioSource.microphone;
 
 class VoiceRecorder extends StatefulWidget {
+  List<File>? images = <File>[];
+  var ref;
+  var imageURL;
+  var category;
+  var subCategory;
+  var title;
+  var topic;
 
-   List<File>? images = <File>[];
-  VoiceRecorder({required this.images});
+  VoiceRecorder(
+      [this.images,
+      this.ref,
+      this.imageURL,
+      this.category,
+      this.subCategory,
+      this.title,
+      this.topic]);
 
   @override
   VoiceRecorderState createState() => VoiceRecorderState(cachedimages: images);
 }
 
 class VoiceRecorderState extends State<VoiceRecorder> {
- 
   //recorder
   Codec _codec = Codec.aacMP4;
-  String _mPath = 'tau_file.mp4';
+  var _mPath;
   FlutterSoundPlayer _mPlayer = FlutterSoundPlayer();
+  final _audioRecorder = Record();
   FlutterSoundRecorder _mRecorder = FlutterSoundRecorder();
   bool _mPlayerIsInited = false;
   bool _mRecorderIsInited = false;
   bool _mplaybackReady = false;
-  Stopwatch _timer  = Stopwatch();
+  Stopwatch _timer = Stopwatch();
+  File audioFile = File('');
+  List<Map<File, String>> _imagesPath = [];//page as key and path for audio as value
+  int _currentIndex = 0;
+
   //slider
   Map<int, int> _pageTime = Map();
   late List<Widget> imageSliders;
   List<File>? cachedimages = <File>[];
-  VoiceRecorderState({this.cachedimages});
 
- 
+  VoiceRecorderState({this.cachedimages});
 
   @override
   void initState() {
-
+    int length = cachedimages!.length;
+    _imagesPath = List<Map<File, String>>.filled(length, {File(""):""});
     _mPlayer.openPlayer().then((value) {
       setState(() {
         _mPlayerIsInited = true;
@@ -99,11 +120,11 @@ class VoiceRecorderState extends State<VoiceRecorder> {
     await session.configure(AudioSessionConfiguration(
       avAudioSessionCategory: AVAudioSessionCategory.playAndRecord,
       avAudioSessionCategoryOptions:
-      AVAudioSessionCategoryOptions.allowBluetooth |
-      AVAudioSessionCategoryOptions.defaultToSpeaker,
+          AVAudioSessionCategoryOptions.allowBluetooth |
+              AVAudioSessionCategoryOptions.defaultToSpeaker,
       avAudioSessionMode: AVAudioSessionMode.spokenAudio,
       avAudioSessionRouteSharingPolicy:
-      AVAudioSessionRouteSharingPolicy.defaultPolicy,
+          AVAudioSessionRouteSharingPolicy.defaultPolicy,
       avAudioSessionSetActiveOptions: AVAudioSessionSetActiveOptions.none,
       androidAudioAttributes: const AndroidAudioAttributes(
         contentType: AndroidAudioContentType.speech,
@@ -118,28 +139,31 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   }
 
   // ----------------------  Here is the code for recording and playback -------
+  bool start = false;
 
-  void record() {
-    _mRecorder
-        .startRecorder(
-      toFile: _mPath,
-      codec: _codec,
-      audioSource: theSource,
-    )
-        .then((value) {
+  record() {
+    _audioRecorder.start().then((value) {
       setState(() {
+        start = true;
         _timer.start();
       });
     });
   }
 
-  void stopRecorder() async {
-    await _mRecorder.stopRecorder().then((value) {
-      setState(() {
-        //var url = value;
-        _mplaybackReady = true;
-        _timer.stop();
-      });
+  stop() async {
+    _audioRecorder.stop().then((value) {
+      try {
+        setState(() {
+          start = false;
+          var imageVoicePair = {
+            cachedimages![_currentIndex] : value!,
+          };
+          _imagesPath[_currentIndex] = imageVoicePair;
+          _mPath = value!;
+          _mplaybackReady = true;
+          _timer.stop();
+        });
+      } catch (e, stacktrace) {}
     });
   }
 
@@ -150,11 +174,11 @@ class VoiceRecorderState extends State<VoiceRecorder> {
         _mPlayer.isStopped);
     _mPlayer
         .startPlayer(
-        fromURI: _mPath,
-        //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
-        whenFinished: () {
-          setState(() {});
-        })
+            fromURI: _imagesPath[_currentIndex].values.first.toString(),
+            //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+            whenFinished: () {
+              setState(() {});
+            })
         .then((value) {
       setState(() {});
     });
@@ -168,12 +192,12 @@ class VoiceRecorderState extends State<VoiceRecorder> {
 
 // ----------------------------- UI --------------------------------------------
 
-  _Fn? getRecorderFn() {
-    if (!_mRecorderIsInited || !_mPlayer.isStopped) {
-      return null;
-    }
-    return _mRecorder.isStopped ? record : stopRecorder;
-  }
+  // _Fn? getRecorderFn() {
+  //   if (!_mRecorderIsInited || !_mPlayer.isStopped) {
+  //     return null;
+  //   }
+  //   return _mRecorder.isStopped ? record : stopRecorder;
+  // }
 
   _Fn? getPlaybackFn() {
     if (!_mPlayerIsInited || !_mplaybackReady || !_mRecorder.isStopped) {
@@ -183,51 +207,49 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   }
 
   //final CarouselController _controller = CarouselController();
-  void InitImageSliders()
-  {
-    imageSliders = cachedimages!
-        .map((item) => Container(
-      child: Container(
-        margin: EdgeInsets.all(5.0),
-        child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            child: Stack(
-              children: <Widget>[
-                Image.file(item, fit: BoxFit.cover, width: 1000.0),
-                Positioned(
-                  bottom: 0.0,
-                  left: 0.0,
-                  right: 0.0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Color.fromARGB(200, 0, 0, 0),
-                          Color.fromARGB(0, 0, 0, 0)
-                        ],
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
+  void InitImageSliders() {
+    imageSliders = cachedimages!.map((item) {
+      return Container(
+        child: Container(
+          margin: EdgeInsets.all(5.0),
+          child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              child: Stack(
+                children: <Widget>[
+                  Image.file(item, fit: BoxFit.cover, width: 1000.0),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(200, 0, 0, 0),
+                            Color.fromARGB(0, 0, 0, 0)
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        ),
                       ),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 20.0),
-                    child: Text(
-                      'No. ${cachedimages!.indexOf(item)} image',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      child: Text(
+                        'No. ${cachedimages!.indexOf(item)} image',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            )),
-      ),
-    ))
-        .toList();
+                ],
+              )),
+        ),
+      );
+    }).toList();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -237,15 +259,17 @@ class VoiceRecorderState extends State<VoiceRecorder> {
           Container(
             child: CarouselSlider(
               options: CarouselOptions(
-                //autoPlay: true,
-                aspectRatio: 2.0,
-                enableInfiniteScroll: false,
-                enlargeCenterPage: true,
-                onPageChanged: (index, reason){
-                  _pageTime.addAll({index: _timer.elapsedMilliseconds});
+                  //autoPlay: true,
+                  aspectRatio: 2.0,
+                  enableInfiniteScroll: false,
+                  enlargeCenterPage: true,
+                  onPageChanged: (index, reason) {
+                      setState((){
+                        _currentIndex = index;
 
-                }
-              ),
+                      });
+                    _pageTime.addAll({index: _timer.elapsedMilliseconds});
+                  }),
               items: imageSliders,
             ),
           ),
@@ -264,10 +288,10 @@ class VoiceRecorderState extends State<VoiceRecorder> {
             ),
             child: Row(children: [
               ElevatedButton(
-                onPressed: getRecorderFn(),
+                onPressed: !start ? record : stop,
                 //color: Colors.white,
                 //disabledColor: Colors.grey,
-                child: Text(_mRecorder.isRecording ? 'Done' : 'Record'),
+                child: Text(start ? 'Done' : 'Record'),
               ),
               SizedBox(
                 width: 20,
@@ -282,7 +306,11 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RecordingPreview(pageTime : _pageTime, images: cachedimages!,)));
+                        builder: (context) => RecordingPreview(
+                              pageTime: _pageTime,
+                              images: cachedimages!,
+                              imagesPath: _imagesPath,
+                            )));
               },
               child: Container(
                 padding: EdgeInsets.all(10.0),
@@ -341,6 +369,11 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                   : 'Player is stopped'),
             ]),
           ),
+          ElevatedButton(
+              onPressed: () {
+                saveFile();
+              },
+              child: Text("Submit"))
         ],
       );
     }
@@ -352,5 +385,68 @@ class VoiceRecorderState extends State<VoiceRecorder> {
       ),
       body: makeBody(),
     );
+  }
+
+  Future<void> saveFile() async {
+    try {
+      var imagesUrlArray = [];
+      var imageUrl = "";
+      var audioUrl = "";
+
+      for (int i = 0; i < _imagesPath!.length; i++) {
+        var childPath = _imagesPath![i].keys.first.path.toString().split('/');
+        var storageReferencePageUrls =
+        FirebaseStorage.instance.ref().child('book_pages').child(childPath[childPath.length-1]);
+        var upload = await storageReferencePageUrls
+            .putFile(_imagesPath![i].keys.first);
+        imageUrl = await upload.ref.getDownloadURL();
+
+        var audioPath = _imagesPath![i].values.first.toString().split('/');
+        var storageReference =
+        FirebaseStorage.instance.ref().child('audios').child(audioPath[audioPath.length-1]);
+        var uploadTask = await storageReference.putFile(File(_imagesPath![i].values.first));
+        audioUrl = await uploadTask.ref.getDownloadURL();
+
+        var audioImagePair = {
+          "page":imageUrl,
+          "audio":audioUrl,
+        };
+        imagesUrlArray.add(audioImagePair);
+      }
+
+      widget.ref.set({
+        "cover_url": widget.imageURL.toString(),
+       // "audio_doc_id": audioURl,
+        "audio_Paging_time":_pageTime.values,
+        "author_doc_id": "",
+        "category_main": widget.category.toString(),
+        "category_sub": widget.subCategory.toString(),
+        "pages_url": imagesUrlArray,
+        "title": widget.title.toString(),
+        "topic": widget.topic.toString(),
+      });
+
+    /*  var audioPath = _mPath.toString().split('/');
+      var storageReference =
+          FirebaseStorage.instance.ref().child('audios').child(audioPath[audioPath.length-1]);
+      UploadTask uploadTask = storageReference.putFile(File(_mPath));*/
+      /*await uploadTask.then((res) {
+        storageReference.getDownloadURL().then((audioURl) {
+
+
+          widget.ref.set({
+            "cover_url": widget.imageURL.toString(),
+            "audio_doc_id": audioURl,
+            "audio_Paging_time":_pageTime.values,
+            "author_doc_id": "",
+            "category_main": widget.category.toString(),
+            "category_sub": widget.subCategory.toString(),
+            "pages_url": imagesUrlArray,
+            "title": widget.title.toString(),
+            "topic": widget.topic.toString(),
+          });
+        });
+      });*/
+    } catch (e, stacktrace) {}
   }
 }
