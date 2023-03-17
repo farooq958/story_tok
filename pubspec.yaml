@@ -53,6 +53,14 @@ dependencies:
   dropdown_textfield: ^1.0.8
   google_fonts: ^3.0.1
 
+  device_preview: ^1.1.0 #for checking ui on different screens
+  flutter_bloc: ^8.1.2   #for stateManagement
+  flutter_screenutil: ^5.7.0 #for ui responsiveness
+  touchable_opacity: ^1.2.0
+  intl: ^0.17.0
+  table_calendar: ^3.0.8
+
+
 
 dev_dependencies:
   flutter_test:
