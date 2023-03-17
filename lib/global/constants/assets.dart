@@ -85,4 +85,18 @@ class Assets {
  /// Assets for directional back
   static const directionalTextContinue = "assets/images/directional_text_continue.png";
 
+  /// Assets for upload record text
+  static const uploadRedTextRecordNow = "assets/images/upload_red_text_recordnow.png";
+
+  /// Assets for upload audio text
+  static const uploadRedTextAudio = "assets/images/upload_red_text_audio.png";
+
+  /// Assets for directional text without audio text
+  static const directionalTextWithoutAudio = "assets/images/directional_text_withoutaudio.png";
+
+  /// Assets for directional long red box
+  static const directionalRedBoxLong = "assets/images/directional_red_box_long.png";
+
+  /// Assets for directional long red box
+  static const directionalRedBoxDropdownLong = "assets/images/directional_red_dropshadow_long.png";
 }

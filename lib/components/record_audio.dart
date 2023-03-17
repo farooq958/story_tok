@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,21 +5,19 @@ import 'package:storily/components/page_uploader.dart';
 import '../global/constants/assets.dart';
 import 'common_upload_book_format.dart';
 
-enum ImageSourceType { gallery, camera }
-
-class UploadBookFormat extends StatefulWidget {
+class RecordAudio extends StatefulWidget {
   @override
-  UploadBookFormatState createState() => UploadBookFormatState();
+  RecordAudioState createState() => RecordAudioState();
 }
 
-class UploadBookFormatState extends State<UploadBookFormat>
+class RecordAudioState extends State<RecordAudio>
     with SingleTickerProviderStateMixin {
   List imagesPath = [];
   var total = 0;
   var imagePicker;
   bool addFiles = false;
   bool addFilesForPDF = false;
-
+  bool continueWithoutAudio = false;
   late double _scale;
   late AnimationController _controller;
 
@@ -110,7 +106,7 @@ class UploadBookFormatState extends State<UploadBookFormat>
                               boolVal: addFilesForPDF,
                               imageUrl: Assets.redDropShadow,
                               context: context,
-                              textImageUrl: Assets.pdfTextImage,
+                              textImageUrl: Assets.uploadRedTextRecordNow,
                               boxImageUrl: Assets.uploadRedBox,
                               addFilesImageUrl: Assets.redAddFiles,
                             ),
@@ -130,7 +126,7 @@ class UploadBookFormatState extends State<UploadBookFormat>
                               boolVal: addFiles,
                               imageUrl: Assets.redDropShadow,
                               context: context,
-                              textImageUrl: Assets.imageTextImage,
+                              textImageUrl: Assets.uploadRedTextAudio,
                               boxImageUrl: Assets.uploadRedBox,
                               addFilesImageUrl: Assets.redAddFiles,
                             ),
@@ -146,6 +142,36 @@ class UploadBookFormatState extends State<UploadBookFormat>
                   ],
                 ),
               ],
+            ),
+            SizedBox(height: 30),
+            GestureDetector(
+              onTapDown: _tapDown,
+              onTapUp: _tapUp,
+              child: Transform.scale(
+                scale: _scale,
+                child: Stack(
+                  children: [
+                    if (!continueWithoutAudio)
+                      Container(
+                        child: addNewBookWidget(
+                            context,
+                            Assets.directionalRedBoxDropdownLong,
+                            MediaQuery.of(context).size.width * 0.90),
+                      ),
+                    addNewBookWidget(context, Assets.directionalRedBoxLong,
+                        MediaQuery.of(context).size.width * 0.90),
+                    addNewBookWidget(
+                        context,
+                        Assets.directionalTextWithoutAudio,
+                        MediaQuery.of(context).size.width * 0.90),
+                  ],
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  continueWithoutAudio = true;
+                });
+              },
             ),
           ],
         ),
@@ -167,30 +193,37 @@ class UploadBookFormatState extends State<UploadBookFormat>
       setState(() {
         addFiles = false;
       });
+      // Future.delayed(Duration(milliseconds: 500), () {
+      //   Navigator.push(
+      //     context,
+      //     PageRouteBuilder(
+      //       pageBuilder: (_, __, ___) => PageUploader(),
+      //       transitionDuration: Duration(milliseconds: 700),
+      //       transitionsBuilder: (_, a, __, c) =>
+      //           FadeTransition(opacity: a, child: c),
+      //     ),
+      //   );
+      // });
     }
     if (addFilesForPDF) {
       setState(() {
         addFilesForPDF = false;
       });
     }
-
-    Future.delayed(Duration(milliseconds: 500), () {
-      Navigator.push(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => PageUploader(),
-          transitionDuration: Duration(milliseconds: 700),
-          transitionsBuilder: (_, a, __, c) =>
-              FadeTransition(opacity: a, child: c),
-        ),
-        /*MaterialPageRoute(
-        builder: (context) => PageUploader(),
-      ),*/
-      );
-    });
+    if (continueWithoutAudio) {
+      setState(() {
+        continueWithoutAudio = false;
+      });
+    }
   }
 
-  _animatedButton({boolVal, imageUrl, context, boxImageUrl, textImageUrl, addFilesImageUrl}) {
+  _animatedButton(
+      {boolVal,
+      imageUrl,
+      context,
+      boxImageUrl,
+      textImageUrl,
+      addFilesImageUrl}) {
     return Container(
       decoration: boxDecoration(),
       child: Stack(
@@ -205,7 +238,7 @@ class UploadBookFormatState extends State<UploadBookFormat>
             textImageUrl: textImageUrl,
             context: context,
             addFilesImageUrl: addFilesImageUrl,
-            imageHeight: MediaQuery.of(context).size.height * 0.06,
+            imageHeight: MediaQuery.of(context).size.height * 0.10,
           ),
         ],
       ),

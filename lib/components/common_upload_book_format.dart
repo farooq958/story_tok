@@ -66,6 +66,7 @@ Widget addFilesWidget({
   boxImageUrl,
   textImageUrl,
   addFilesImageUrl,
+  imageHeight
 }) {
   return Container(
     margin: EdgeInsets.only(left: 6.0),
@@ -90,10 +91,7 @@ Widget addFilesWidget({
         Container(
           child: Image.asset(
             textImageUrl,
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.06,
+            height: imageHeight
           ),
         ),
         Image.asset(
@@ -126,3 +124,25 @@ Widget uploadText({context, label, fontSize}) {
     ),
   );
 }
+
+BoxDecoration boxDecoration() {
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(100.0),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.transparent,
+          blurRadius: 12.0,
+          offset: Offset(0.0, 5.0),
+        ),
+      ],
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Colors.transparent,
+          Colors.transparent,
+        ],
+      ),
+    );
+  }
+
