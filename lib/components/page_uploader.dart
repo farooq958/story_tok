@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:selectable_container/selectable_container.dart';
+import 'package:storily/components/add_background_music.dart';
 import 'package:storily/components/record_audio.dart';
 import 'package:storily/global/constants/assets.dart';
 import '../utils.dart';
@@ -297,7 +298,7 @@ class PageUploaderState extends State<PageUploader> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RecordAudio(
+                                    builder: (context) => AddBackgroundMusic(
                                         /*imagesPath: imagesPath,
                                 images: _images*/
                                         )),

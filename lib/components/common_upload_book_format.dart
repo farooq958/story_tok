@@ -114,7 +114,7 @@ Widget uploadText({context, label, fontSize}) {
         .width / 2,
     child: Text(
       label,
-      maxLines: 2,
+      maxLines: 3,
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: fontSize,

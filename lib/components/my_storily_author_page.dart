@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:storily/components/page_uploader.dart';
 import 'package:storily/components/upload_book_format.dart';
 import 'package:storily/components/video_uploader_page.dart';
+import 'package:storily/screens/book_upload/book-preview-screen.dart';
 
 //This page is the author's center
 ////////////////////////////////////
@@ -106,7 +107,7 @@ class AuthorCenterPageUI extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UploadBookFormat(),
+                          builder: (context) => UploadBookFormat()/*BookPreview()*/,
                         ),
                       ); //short cut for author to upload their book
                     },
