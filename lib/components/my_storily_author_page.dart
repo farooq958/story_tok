@@ -9,7 +9,7 @@ import 'package:storily/cubit/selected_date_event_cubit.dart';
 import 'package:storily/screens/schedule_event_flow_screens/add_shedule_event.dart';
 import 'package:storily/screens/schedule_event_flow_screens/main_event_screen.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
-import 'package:storily/screens/video_upload/video-preview-screen.dart';
+
 
 //This page is the author's center
 ////////////////////////////////////
@@ -70,7 +70,7 @@ class AuthorCenterPageUI extends StatelessWidget {
               ),
               MaterialButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>VideoPreviewScreen()));//VideoUploader
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>VideoUploader()));//
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0.sp),
