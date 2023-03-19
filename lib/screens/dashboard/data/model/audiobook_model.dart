@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'video_model.dart';
 
 class AudioBookModel extends CommonDataModel {
@@ -7,7 +9,7 @@ class AudioBookModel extends CommonDataModel {
   final String? categoryMain;
   final String? topic;
   final String? title;
-  final List<String?> pageUrl;
+  final List<BookPage> pageUrl;
   AudioBookModel({
     this.coverUrl,
     this.categorySub,
@@ -29,24 +31,43 @@ class AudioBookModel extends CommonDataModel {
           map['category_main'] != null ? map['category_main'] as String : null,
       topic: map['topic'] != null ? map['topic'] as String : null,
       title: map['title'] != null ? map['title'] as String : null,
-      pageUrl: List<String?>.from(
-        ((map['pages_url']) ?? []),
-      ),
+      pageUrl: (map['pages_url'] as List<dynamic>)
+          .map((pageJson) => BookPage.fromMap(Map.from(pageJson)))
+          .toList(),
     );
+  }
+
+  @override
+  Future<void> loadController(BuildContext context) {
+    pageUrl.forEach((element) {
+      precacheImage(NetworkImage(element.pageUrl!), context);
+    });
+    return super.loadController(context);
   }
 }
 
-/* {
-  cover_url: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/book_cover%2FIMG_20230309_153020.jpg?alt=media&token=fe4f89a0-0375-479f-8066-298235ddad34,
- category_sub: Myths,
- audio_doc_id: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/audios%2Faudio191715786201573146.m4a?alt=media&token=b72679b7-4726-4ccd-b8e3-8deb6b9c394e,
- category_main: Traditional Genre,
- author_doc_id: ,
- topic: bitread app topic,
- pages_url: [https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/book_pages%2Fscaled_IMG_20230309_153020.jpg?alt=media&token=b5f7d264-287b-40b0-a03c-ded801dd6075],
- title: bitread app title
- } */
+class BookPage {
+  final String? pageUrl;
+  final String? audioUrl;
+  BookPage({
+    this.pageUrl,
+    this.audioUrl,
+  });
 
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'page': pageUrl,
+      'audio': audioUrl,
+    };
+  }
+
+  factory BookPage.fromMap(Map<String, dynamic> map) {
+    return BookPage(
+      pageUrl: map['page'] != null ? map['page'] as String : null,
+      audioUrl: map['audio'] != null ? map['audio'] as String : null,
+    );
+  }
+}
 //  ** SUGGESTED **  //
 /* {
   cover_url: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/book_cover%2FIMG_20230309_153020.jpg?alt=media&token=fe4f89a0-0375-479f-8066-298235ddad34,
@@ -66,3 +87,24 @@ page: [
   ],
    title: bitread app title
  } */
+
+//  ** NEW RES **  //
+/* 
+{
+cover_url: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/book_cover%2FIMG_20230309_225422_649.jpg?alt=media&token=2a5b9ccd-d5af-4448-a371-649be5ab68f9,
+ category_sub: Imagery,
+ category_main: Poetry,
+ author_doc_id: ,
+ topic: hdjjdb,
+ pages_url: [
+  {page: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/book_pages%2Fscaled_IMG_20230309_225422_649.jpg?alt=media&token=3116a98b-172a-4e24-89d6-85b04a89202f,
+ audio: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/audios%2Faudio480859453156125068.m4a?alt=media&token=dd1f2f21-0069-47c2-80d7-3b5daa924f14},
+ {page: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/book_pages%2Fscaled_IMG_20230309_225428_611.jpg?alt=media&token=3de395fa-5c32-48c7-b72d-3d9f541f4d95,
+ audio: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/audios%2Faudio7154920678776667324.m4a?alt=media&token=54b28e1a-a22f-4b73-b45d-a37e53a56665},
+ {page: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/book_pages%2Fscaled_IMG_20230309_225435_977.jpg?alt=media&token=ba3ca95c-4927-4ff2-b20f-a9c75a1ba2e1,
+ audio: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/audios%2Faudio8921107690173517838.m4a?alt=media&token=84cb7992-f079-46f8-907c-e529f4b24a6d},
+ {page: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/book_pages%2Fscaled_IMG_20230309_225441_364.jpg?alt=media&token=fe6d8d90-6c44-4d33-94f5-55167addf483,
+ audio: https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/audios%2Faudio8319672088218202217.m4a?alt=media&token=97786b86-8815-4235-83a0-f2fe9ed5ee05}],
+ title: audio cut up
+ } 
+ */

@@ -60,6 +60,7 @@ dependencies:
   intl: ^0.17.0
   table_calendar: ^3.0.8
 
+  audioplayers: ^3.0.1
 
 
 dev_dependencies:
