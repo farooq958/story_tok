@@ -7,6 +7,7 @@ import 'package:storily/logic/basic_ui.dart';
 import 'package:storily/components/my_storily_author_page.dart';
 
 import '../dashboard/feed_dashboard.dart';
+import '../dashboard/profile/author_profile.dart';
 
 //authentication page, currently has a short cut to the author center, we need to make the screen automatically enters the home scree(displayscreen) after sign in.
 class FirebaseSession extends StatelessWidget {
@@ -254,6 +255,40 @@ class AuthUI extends StatelessWidget {
                       ),
                     ),
                   ),
+                  MaterialButton(
+                  onPressed: () {
+                    goPage(context, AuthorProfile());
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100.0),
+                    ),
+                    margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.person,
+                          color: Colors.black,
+                        ),
+                        SizedBox(
+                          width: 5.0,
+                        ),
+                        Text(
+                          "Author Profile",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
