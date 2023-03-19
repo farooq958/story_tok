@@ -394,7 +394,7 @@ decoration: InputDecoration(
                     Expanded(child: TouchableOpacity(
                       onTap: (){
 
-                        Navigator.push(context, CustomSlidePageRoute(child: Confirmation1()));
+                        Navigator.pushReplacement(context, CustomSlidePageRoute(child: Confirmation1()));
 
                       },
                       child: Container(
@@ -524,10 +524,10 @@ class CustomDropDown2 extends StatefulWidget {
 }
 
 class _CustomDropDown2State extends State<CustomDropDown2> {
-  String? dropdownValue;
+
   @override
   Widget build(BuildContext context) {
-    print(dropdownValue);
+   // print(dropdownValue);
     return Container(
       constraints: BoxConstraints(
         maxWidth: 300.0, // Set the maximum width of the dropdown button
@@ -550,7 +550,7 @@ class _CustomDropDown2State extends State<CustomDropDown2> {
             fontSize: 16.0, // Set the hint text font size
           ),
         ),
-        value: dropdownValue,
+        value: Repository.dropdownValue,
         style: GoogleFonts.lexend(),
 
         // Step 4.
@@ -571,7 +571,7 @@ class _CustomDropDown2State extends State<CustomDropDown2> {
 
         onChanged: (String? newValue) {
           setState(() {
-            dropdownValue = newValue!;
+            Repository.dropdownValue = newValue!;
           });
         },
       ),

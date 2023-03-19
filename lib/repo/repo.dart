@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:storily/model/event_flow_model.dart';
 
 class Repository{
 
   static TextEditingController eventTitleController=TextEditingController();
   static TextEditingController eventDescriptionController=TextEditingController();
-
+  static  Map<DateTime, List<dynamic>>  eventMapOfData={};
+  static List<EventFlowModel> eventListData=[];
+   static String? dropdownValue;
   List<String> generateTimeList() {
     List<String> timeList = [];
     for (int hour = 0; hour < 24; hour++) {
