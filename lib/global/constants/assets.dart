@@ -85,4 +85,9 @@ class Assets {
  /// Assets for directional back
   static const directionalTextContinue = "assets/images/directional_text_continue.png";
 
+  /// Assets for upload video
+  static const uploadVideoHeader = "assets/images/video_upload/upload-a-video.png";
+  static const uploadVideoBox  = "assets/images/video_upload/uploadbluevideobox-bg.png";
+  static const uploadVideoAddFilesBox  = "assets/images/video_upload/image-6.png";
+
 }

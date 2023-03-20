@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:storily/components/common_upload_book_format.dart';
+import '../global/constants/assets.dart';
 
 import 'package:path/path.dart';
 
@@ -76,6 +78,56 @@ class _VideoUploaderState extends State<VideoUploader> {
 
   @override
   Widget build(BuildContext context) {
+
+    return Scaffold(
+      backgroundColor: Colors.grey[300],
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 20),
+            uploadBookFormatHeader('12/03/2023', 'Hi, Team', 'Welcome to your board'),
+            SizedBox(height: 10),
+            addNewBookWidget(context, Assets.uploadVideoHeader, MediaQuery
+                .of(context)
+                .size
+                .width * 0.90),
+            SizedBox(height: 10),
+            Stack(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width / 6,
+                  child: Image.asset(Assets.backgroundRectangleDots),
+                ),
+                Column(
+                  children: [
+                    Text("Please Select Upload Format.", textScaleFactor: 3.5, textAlign: TextAlign.center),
+                    SizedBox(height: 30),
+                    addFilesWidget(
+                      boxImageUrl: Assets.uploadVideoBox,
+                      textImageUrl: Assets.pdfTextImage,
+                      context: context,
+                      addFilesImageUrl: Assets.uploadVideoAddFilesBox,
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                  ],
+                )
+              ],
+            )
+
+          ],
+
+        ),
+      )
+
+    );
+
     return Column(
       children: <Widget>[
 
