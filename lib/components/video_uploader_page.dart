@@ -17,6 +17,7 @@ class _VideoUploaderState extends State<VideoUploader> {
   XFile? _videoFile;
   String? _uploadedFileURL;
   var imagePicker;
+  final ImagePicker _picker = ImagePicker();
 
   Future<void> _pickVideo() async {
     final selectedVideo =
@@ -112,17 +113,25 @@ class _VideoUploaderState extends State<VideoUploader> {
                     )
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-
-                  ],
-                )
               ],
+            ),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Image.asset(Assets.uploadVideoChooseFromDraftsBG, scale: 5),
+                Image.asset(Assets.uploadVideoChooseFromDrafts, scale: 6)
+              ],
+            ),
+            Expanded(child: SizedBox()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [Container(
+                margin: const EdgeInsets.all(8.0),
+                width: MediaQuery.of(context).size.width / 4,
+                child: Image.asset(Assets.uploadVideoBGSquare),
+              )]
             )
-
           ],
-
         ),
       )
 
