@@ -17,7 +17,6 @@ class _VideoUploaderState extends State<VideoUploader> {
   XFile? _videoFile;
   String? _uploadedFileURL;
   var imagePicker;
-  final ImagePicker _picker = ImagePicker();
 
   Future<void> _pickVideo() async {
     final selectedVideo =
