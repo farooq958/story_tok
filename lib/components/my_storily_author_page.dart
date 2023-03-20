@@ -227,7 +227,8 @@ class AuthorCenterPageUI extends StatelessWidget {
 
                     onPressed: (){
 
-                    Navigator.push(context, CustomSlidePageRoute(child: MainEventScreenScheduleScreen()));
+                    Navigator.pushReplacement(context, CustomSlidePageRoute(child: MainEventScreenScheduleScreen()));
+                    context.read<LoadMainDataCubit>().getEventData();
                     context.read<SelectedDateEventCubit>().setDate(DateTime.now());
                    // context.read<LoadMainDataCubit>().getEventData(EventFlowModel(eventTitle: "", eventDescription: "", fromTime: "", outTime: "", eventDate: DateTime.now()));
 

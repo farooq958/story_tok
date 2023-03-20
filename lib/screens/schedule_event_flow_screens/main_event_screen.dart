@@ -360,7 +360,7 @@ class UpcomingWidget extends StatelessWidget {
                  children: <Widget>[
 
                    Text(eventFlowStateData[index].eventTitle,style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),),
-                   Text(DateFormat("MMMM dd yyyy").format(eventFlowStateData[index].eventDate),style: GoogleFonts.lexend(fontSize:15.sp,fontWeight: FontWeight.w600),),
+               Text(eventFlowStateData[index].createdDate,style: GoogleFonts.lexend(fontSize:15.sp,fontWeight: FontWeight.w600),),
                    Text("${eventFlowStateData[index].fromTime}-${eventFlowStateData[index].toTime} ",style: GoogleFonts.lexend(fontSize:14.sp,fontWeight: FontWeight.w600),),
 
                  ],
@@ -428,6 +428,14 @@ class _CalendarViewState extends State<CalendarView> {
     // TODO: implement listener
   },
   builder: (context, selectedDateBuilder) {
+    var eventListLength=Repository.eventListData.length;
+    for(var i=0;i<eventListLength;i++)
+    {
+      DateTime parsedDate = DateTime.parse(Repository.eventListData[i].createdDate);
+      var dateToPass=DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
+      Repository.eventMapOfData.addAll({dateToPass:[Repository.eventTitleController.text] });
+    }
+
     return TableCalendar(
       key: tableKey,
 
@@ -476,7 +484,7 @@ return Repository.eventMapOfData[dateToPass]??[];
         // final double width = dayNumberBox.size.width;
         // final offset = Offset(dayNumberOffset.dx, dayNumberOffset.dy);
         // final offset2 = Offset(tableOffset.dx, tableOffset.dy);
-        print(focusedDay);
+       // print(focusedDay);
 context.read<SelectedDateEventCubit>().setDate(selectedDay);
         setState(() {
           _selectedDay = selectedDay;
@@ -549,12 +557,15 @@ selectedBuilder: (context,date,_){
                                           left: 0,
                                           bottom: 0,
                                           child: TouchableOpacity(
-                                              onTap: (){
+                                              onTap: () async {
                                                 Repository.eventTitleController.clear();
                                                 Repository.eventDescriptionController.clear();
 
+
                                                 Navigator.pushReplacement(context, CustomSlidePageRoute(child: AddEventScreenScheduleScreen()));
-                                              },
+
+                                                await Repository().getEventsTypeFromFirebase();
+                                                },
 
                                               child: Image.asset('assets/images/speechbubble_yellow_button.png',height: 50.sp,)),)
                                         ],
@@ -653,7 +664,7 @@ selectedBuilder: (context,date,_){
   var dateToPass= DateTime(dateTime.year, dateTime.month, dateTime.day);
 
           if (Repository.eventMapOfData[dateToPass] != null && Repository.eventMapOfData[dateToPass]!.isNotEmpty) {
-            print("here");
+           // print("here");
             return Positioned(
               right: 1,
               bottom: 1,
