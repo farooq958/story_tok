@@ -80,62 +80,67 @@ class _VideoUploaderState extends State<VideoUploader> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(height: 20),
-            uploadBookFormatHeader('12/03/2023', 'Hi, Team', 'Welcome to your board'),
-            SizedBox(height: 10),
-            addNewBookWidget(context, Assets.uploadVideoHeader, MediaQuery
-                .of(context)
-                .size
-                .width * 0.90),
-            SizedBox(height: 10),
-            Stack(
+    if (_videoFile == null) {
+      return Scaffold(
+          backgroundColor: Colors.grey[300],
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  width: MediaQuery.of(context).size.width / 6,
-                  child: Image.asset(Assets.backgroundRectangleDots),
-                ),
-                Column(
+                SizedBox(height: 20),
+                uploadBookFormatHeader('12/03/2023', 'Hi, Team', 'Welcome to your board'),
+                SizedBox(height: 10),
+                addNewBookWidget(context, Assets.uploadVideoHeader, MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.90),
+                SizedBox(height: 10),
+                Stack(
                   children: [
-                    Text("Please Select Upload Format.", textScaleFactor: 3.5, textAlign: TextAlign.center),
-                    SizedBox(height: 30),
-                    addFilesWidget(
-                      boxImageUrl: Assets.uploadVideoBox,
-                      textImageUrl: Assets.pdfTextImage,
-                      context: context,
-                      addFilesImageUrl: Assets.uploadVideoAddFilesBox,
-                    )
+                    Container(
+                      width: MediaQuery.of(context).size.width / 6,
+                      child: Image.asset(Assets.backgroundRectangleDots),
+                    ),
+                    Column(
+                      children: [
+                        Text("Please Select Upload Format.", textScaleFactor: 3.5, textAlign: TextAlign.center),
+                        SizedBox(height: 30),
+                        InkWell(
+                          child: addFilesWidget(
+                            boxImageUrl: Assets.uploadVideoBox,
+                            textImageUrl: Assets.pdfTextImage,
+                            context: context,
+                            addFilesImageUrl: Assets.uploadVideoAddFilesBox,
+                          ),
+                          onTap: _pickVideo,
+                        )
+                      ],
+                    ),
                   ],
                 ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.asset(Assets.uploadVideoChooseFromDraftsBG, scale: 5),
+                    Image.asset(Assets.uploadVideoChooseFromDrafts, scale: 6)
+                  ],
+                ),
+                Expanded(child: SizedBox()),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [Container(
+                      margin: const EdgeInsets.all(8.0),
+                      width: MediaQuery.of(context).size.width / 4,
+                      child: Image.asset(Assets.uploadVideoBGSquare),
+                    )]
+                )
               ],
             ),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Image.asset(Assets.uploadVideoChooseFromDraftsBG, scale: 5),
-                Image.asset(Assets.uploadVideoChooseFromDrafts, scale: 6)
-              ],
-            ),
-            Expanded(child: SizedBox()),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [Container(
-                margin: const EdgeInsets.all(8.0),
-                width: MediaQuery.of(context).size.width / 4,
-                child: Image.asset(Assets.uploadVideoBGSquare),
-              )]
-            )
-          ],
-        ),
-      )
+          )
 
-    );
+      );
+    }
 
     return Column(
       children: <Widget>[
