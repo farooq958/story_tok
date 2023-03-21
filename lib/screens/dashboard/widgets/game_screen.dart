@@ -22,20 +22,17 @@ class _GameScreenWidgetState extends State<GameScreenWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            WebViewWidget(
-              controller: widget.gameModel.controller!,
+      body: Stack(
+        children: [
+          WebViewWidget(
+            controller: widget.gameModel.controller!,
+          ),
+          if (loadingPercentage < 100)
+            LinearProgressIndicator(
+              value: loadingPercentage / 100.0,
+              minHeight: 2.5,
             ),
-            if (loadingPercentage < 100)
-              LinearProgressIndicator(
-                value: loadingPercentage / 100.0,
-                minHeight: 2.5,
-              ),
-          ],
-        ),
+        ],
       ),
     );
   }

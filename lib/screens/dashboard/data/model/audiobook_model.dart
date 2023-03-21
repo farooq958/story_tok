@@ -42,6 +42,15 @@ class AudioBookModel extends CommonDataModel {
     );
   }
 
+  setAudioPlayerSource(int sourceindex) async {
+    await audioPlayer!.setAudioSource(
+      AudioSource.uri(
+        Uri.parse(pageUrl[sourceindex].audioUrl!),
+      ),
+    );
+    await audioPlayer!.play();
+  }
+
   @override
   Future<void> loadController() async {
     try {
@@ -52,27 +61,13 @@ class AudioBookModel extends CommonDataModel {
           usage: AndroidAudioUsage.media,
         ),
       );
-      var _playList = ConcatenatingAudioSource(
-        useLazyPreparation: true,
-        children: pageUrl
-            .map(
-              (e) => AudioSource.uri(Uri.parse(e.audioUrl!)),
-            )
-            .toList(),
-      );
       audioPlayer!.setLoopMode(LoopMode.off);
-      // audioPlayer!
-      await audioPlayer!.setAudioSource(_playList).then((value) => {
-        /* audioPlayer!.positionStream.listen((event) {
-          log(event.inSeconds.toString());
-         }) */
-         
-      });
+      await audioPlayer!.setAudioSource(
+          AudioSource.uri(Uri.parse(pageUrl.first.audioUrl!)),
+          preload: false);
     } catch (e, s) {
       log("Audio Initializer", error: e, stackTrace: s);
     }
-
-
 
     return super.loadController();
   }

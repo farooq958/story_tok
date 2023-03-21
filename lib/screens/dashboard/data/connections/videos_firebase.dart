@@ -36,7 +36,7 @@ class VideosAPI {
     return videoList;
   }
   /*
-  * manually add vieos in firestore
+  * manually add videos in firestore
   */ 
   Future<Null> addDemoVideoData() async {
     for (var video in videoDataList) {
