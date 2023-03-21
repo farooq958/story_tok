@@ -18,6 +18,7 @@ class EventFlowModel {
     required this.createdDate,
     required this.userId,
     required this.eventType,
+    required this.readingLevel,
   });
 
   final String eventTitle;
@@ -27,6 +28,7 @@ class EventFlowModel {
   final String createdDate;
   final String userId;
   final int eventType;
+  final int readingLevel;
 
   factory EventFlowModel.fromMap(Map<String, dynamic> json) => EventFlowModel(
     eventTitle: json["event_title"],
@@ -35,7 +37,7 @@ class EventFlowModel {
     toTime: json["toTime"],
     createdDate: json["createdDate"],
     userId: json["user_id"],
-    eventType: json["eventType"],
+    eventType: json["eventType"], readingLevel: json["readingLevel"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -46,5 +48,6 @@ class EventFlowModel {
     "createdDate": createdDate,
     "user_id": userId,
     "eventType": eventType,
+    "readingLevel":readingLevel
   };
 }
