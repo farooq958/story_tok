@@ -27,6 +27,12 @@ class _VideoScreenWidgetState extends State<VideoScreenWidget> {
   }
 
   @override
+  void dispose() {
+    video.controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<FeedViewModel>.reactive(
         disposeViewModel: false,
