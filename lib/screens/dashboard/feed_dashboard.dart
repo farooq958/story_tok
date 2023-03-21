@@ -81,7 +81,7 @@ class _FeedScreenState extends State<FeedDashboard> {
             label: "Library",
           ),
           BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/home.png", height: 25),
+            icon: Image.asset("assets/icons/events.png", height: 25),
             label: "Event",
           ),
         ],

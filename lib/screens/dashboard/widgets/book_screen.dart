@@ -14,18 +14,14 @@ class BookScreenWidget extends StatefulWidget {
 
 class _BookScreenWidgetState extends State<BookScreenWidget> {
   late PageController controller;
-  int? pageIndex;
+  int pageIndex = 1;
+  int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
     controller = PageController(initialPage: 0);
-    widget.bookData.audioPlayer!.currentIndexStream.listen((event) {
-      if (pageIndex != null && pageIndex != event) {
-        widget.bookData.audioPlayer!.pause();
-      }
-      pageIndex = event;
-    });
+    widget.bookData.audioPlayer!.play();
   }
 
   @override
@@ -74,7 +70,10 @@ class _BookScreenWidgetState extends State<BookScreenWidget> {
             PageView(
               controller: controller,
               onPageChanged: (value) {
-                widget.bookData.audioPlayer?.seekToNext();
+                widget.bookData.setAudioPlayerSource(value);
+                pageIndex = (value + 1);
+                currentIndex = value;
+                setState(() {});
               },
               children: widget.bookData.pageUrl
                   .map(
@@ -104,6 +103,12 @@ class _BookScreenWidgetState extends State<BookScreenWidget> {
                                 (snapshot.data!.playing)
                                     ? await widget.bookData.audioPlayer!.pause()
                                     : await widget.bookData.audioPlayer!.play();
+                                return;
+                              }
+                              if (snapshot.data!.processingState ==
+                                  ProcessingState.completed) {
+                                widget.bookData
+                                    .setAudioPlayerSource(currentIndex);
                               }
                             },
                             child: Container(
@@ -115,13 +120,9 @@ class _BookScreenWidgetState extends State<BookScreenWidget> {
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
-                                (snapshot.data?.processingState == null ||
-                                        snapshot.data!.processingState ==
-                                            ProcessingState.loading)
-                                    ? Icons.network_check_rounded
-                                    : snapshot.data!.playing
-                                        ? Icons.pause
-                                        : Icons.play_arrow,
+                                (snapshot.data != null)
+                                    ? getProperIcon(snapshot.data!)
+                                    : Icons.network_check_sharp,
                               ),
                             ),
                           )
@@ -132,5 +133,20 @@ class _BookScreenWidgetState extends State<BookScreenWidget> {
         ),
       ),
     );
+  }
+
+  IconData getProperIcon(PlayerState currentState) {
+    switch (currentState.processingState) {
+      case ProcessingState.loading:
+        return Icons.network_check_sharp;
+      case ProcessingState.idle:
+        return currentState.playing ? Icons.pause : Icons.play_arrow;
+      case ProcessingState.buffering:
+        return Icons.network_check_sharp;
+      case ProcessingState.ready:
+        return currentState.playing ? Icons.pause : Icons.play_arrow;
+      case ProcessingState.completed:
+        return Icons.play_arrow;
+    }
   }
 }
