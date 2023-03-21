@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/home_video_display_screen.dart';
-import 'package:storily/global/methods/methods.dart';
-import 'package:storily/logic/auth_logic.dart';
-import 'package:storily/logic/basic_ui.dart';
 import 'package:storily/components/my_storily_author_page.dart';
 
+
+import '../../global/methods/methods.dart';
 import '../dashboard/feed_dashboard.dart';
 import '../dashboard/profile/author_profile.dart';
 
@@ -144,10 +143,10 @@ class AuthUI extends StatelessWidget {
                 MaterialButton(
                   onPressed: () {
                     //this is a short cut to the author's page, not for final product
-                    Navigator.push(
+                    /* Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MyStorilyAuthorPage()));
+                            builder: (context) => MyStorilyAuthorPage())); */
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0),
@@ -341,12 +340,12 @@ class SignupOrLogin extends StatelessWidget {
                           builder: (context) => Material(
                                 child: MultiProvider(
                                   providers: [
-                                    ChangeNotifierProvider(
+                                    /* ChangeNotifierProvider(
                                       create: (_) => CreateUserAccount(),
                                     ),
                                     ChangeNotifierProvider(
                                       create: (_) => ShowCustomAlertDialog(),
-                                    ),
+                                    ), */
                                   ],
                                   child: CreateAccount(),
                                 ),
@@ -404,12 +403,12 @@ class SignupOrLogin extends StatelessWidget {
                           builder: (context) => Material(
                                 child: MultiProvider(
                                   providers: [
-                                    ChangeNotifierProvider(
+                                    /* ChangeNotifierProvider(
                                       create: (_) => LoginLogic(),
                                     ),
                                     ChangeNotifierProvider(
                                       create: (_) => ShowCustomAlertDialog(),
-                                    ),
+                                    ), */
                                   ],
                                   child: LoginPage(),
                                 ),
@@ -443,8 +442,8 @@ class SignupOrLogin extends StatelessWidget {
 class CreateAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final sessionObj = Provider.of<CreateUserAccount>(context);
-    final uiComponents = Provider.of<ShowCustomAlertDialog>(context);
+    // final sessionObj = Provider.of<CreateUserAccount>(context);
+    // final uiComponents = Provider.of<ShowCustomAlertDialog>(context);
     final ButtonStyle style =
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
@@ -461,7 +460,7 @@ class CreateAccount extends StatelessWidget {
         ),
       ),
       body: PageView(
-        controller: sessionObj.pctrl,
+        // controller: sessionObj.pctrl,
         physics: ScrollPhysics(parent: NeverScrollableScrollPhysics()),
         children: <Widget>[
           Container(
@@ -489,8 +488,8 @@ class CreateAccount extends StatelessWidget {
                       filled: true,
                       border: OutlineInputBorder()),
                   onChanged: (String text) {
-                    sessionObj.emailNextButtonListener(text);
-                    sessionObj.email = text;
+                    // sessionObj.emailNextButtonListener(text);
+                    // sessionObj.email = text;
                   },
                 ),
                 SizedBox(
@@ -500,14 +499,14 @@ class CreateAccount extends StatelessWidget {
                   child: ElevatedButton(
                     //padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
                     style: style,
-                    onPressed: () {
+                    onPressed: () {/* 
                       FocusScope.of(context).unfocus();
                       sessionObj.emailNextEnabled
                           ? sessionObj.pctrl.nextPage(
                               duration: Duration(milliseconds: 500),
                               curve: Curves.easeIn)
                           : uiComponents.showCustomDialog(
-                              context, "Please Enter your Email");
+                              context, "Please Enter your Email"); */
                     },
                     //color: sessionObj.emailNextEnabled ? Colors.white : Colors.grey,
                     // shape: RoundedRectangleBorder(
@@ -542,7 +541,7 @@ class CreateAccount extends StatelessWidget {
                 SizedBox(
                   height: 10.0,
                 ),
-                TextFormField(
+                /* TextFormField(
                   obscureText: !sessionObj.showPassword,
                   autofocus: false,
                   decoration: InputDecoration(
@@ -552,7 +551,7 @@ class CreateAccount extends StatelessWidget {
                       border: OutlineInputBorder(),
                       suffixIcon: IconButton(
                         onPressed: () {
-                          sessionObj.showPassFun();
+                          // sessionObj.showPassFun();
                         },
                         icon: sessionObj.showPassword
                             ? Icon(
@@ -565,10 +564,10 @@ class CreateAccount extends StatelessWidget {
                               ),
                       )),
                   onChanged: (String text) {
-                    sessionObj.passNextButtonListener(text);
-                    sessionObj.password = text;
+                    // sessionObj.passNextButtonListener(text);
+                    // sessionObj.password = text;
                   },
-                ),
+                ), */
                 SizedBox(
                   height: 20.0,
                 ),
@@ -576,13 +575,13 @@ class CreateAccount extends StatelessWidget {
                   child: ElevatedButton(
                     style: style,
                     onPressed: () {
-                      FocusScope.of(context).unfocus();
+                      /* FocusScope.of(context).unfocus();
                       sessionObj.passNextEnabled
                           ? sessionObj.pctrl.nextPage(
                               duration: Duration(milliseconds: 500),
                               curve: Curves.easeIn)
                           : uiComponents.showCustomDialog(
-                              context, "Password must of atleast 8 Charecters");
+                              context, "Password must of atleast 8 Charecters"); */
                     },
                     //color: sessionObj.passNextEnabled ? Colors.white : Colors.grey,
                     //shape: RoundedRectangleBorder(
@@ -626,8 +625,8 @@ class CreateAccount extends StatelessWidget {
                     border: OutlineInputBorder(),
                   ),
                   onChanged: (String text) {
-                    sessionObj.nameNextButtonListener(text);
-                    sessionObj.name = text;
+                    // sessionObj.nameNextButtonListener(text);
+                    // sessionObj.name = text;
                   },
                 ),
                 Padding(
@@ -637,7 +636,7 @@ class CreateAccount extends StatelessWidget {
                 SizedBox(
                   height: 20.0,
                 ),
-                Center(
+                /* Center(
                   child: sessionObj.isCreatingAccount
                       ? CircularProgressIndicator()
                       : ElevatedButton(
@@ -663,7 +662,7 @@ class CreateAccount extends StatelessWidget {
                                 fontFamily: 'Proxima Nova Bold'),
                           ),
                         ),
-                ),
+                ), */
                 SizedBox(
                   height: 20.0,
                 ),
@@ -698,8 +697,8 @@ class CreateAccount extends StatelessWidget {
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final loginLogic = Provider.of<LoginLogic>(context);
-    final uiComponents = Provider.of<ShowCustomAlertDialog>(context);
+    // final loginLogic = Provider.of<LoginLogic>(context);
+    // final uiComponents = Provider.of<ShowCustomAlertDialog>(context);
     final ButtonStyle style =
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
@@ -733,9 +732,9 @@ class LoginPage extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
               onChanged: (String text) {
-                loginLogic.email = text;
+              /*   loginLogic.email = text;
                 loginLogic.loginButtonListener(
-                    loginLogic.email!, loginLogic.password!);
+                    loginLogic.email!, loginLogic.password!); */
               },
             ),
             SizedBox(
@@ -751,8 +750,8 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               height: 5.0,
             ),
-            TextFormField(
-              obscureText: !loginLogic.showPassword,
+           /*  TextFormField(
+              // obscureText: !loginLogic.showPassword,
               autofocus: false,
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(16.0),
@@ -761,7 +760,7 @@ class LoginPage extends StatelessWidget {
                   border: OutlineInputBorder(),
                   suffixIcon: IconButton(
                     onPressed: () {
-                      loginLogic.showPassFun();
+                      // loginLogic.showPassFun();
                     },
                     icon: loginLogic.showPassword
                         ? Icon(
@@ -778,11 +777,11 @@ class LoginPage extends StatelessWidget {
                 loginLogic.loginButtonListener(
                     loginLogic.email!, loginLogic.password!);
               },
-            ),
+            ), */
             SizedBox(
               height: 20.0,
             ),
-            Center(
+            /* Center(
               child: loginLogic.isAuthenticating
                   ? CircularProgressIndicator()
                   : ElevatedButton(
@@ -808,14 +807,14 @@ class LoginPage extends StatelessWidget {
                             fontFamily: 'Proxima Nova Bold'),
                       ),
                     ),
-            ),
+            ), */
             SizedBox(
               height: 30.0,
             ),
             Center(
               child: InkWell(
                 onTap: () {
-                  Navigator.push(
+                 /*  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => Material(
@@ -823,7 +822,7 @@ class LoginPage extends StatelessWidget {
                                   create: (context) => ForgotPassword(),
                                   child: PasswordRecovery(),
                                 ),
-                              )));
+                              ))); */
                 },
                 child: Container(
                   padding: EdgeInsets.fromLTRB(30.0, 7.0, 30.0, 7.0),
@@ -851,7 +850,7 @@ class LoginPage extends StatelessWidget {
 class PasswordRecovery extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final forgotObj = Provider.of<ForgotPassword>(context);
+    // final forgotObj = Provider.of<ForgotPassword>(context);
     final ButtonStyle style =
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
@@ -894,7 +893,7 @@ class PasswordRecovery extends StatelessWidget {
                 disabledBorder: InputBorder.none,
               ),
               onChanged: (String text) {
-                forgotObj.buttonActivateListener(text);
+                // forgotObj.buttonActivateListener(text);
               },
             ),
             SizedBox(
@@ -913,14 +912,14 @@ class PasswordRecovery extends StatelessWidget {
                 //color: forgotObj.getLinkEnable ? Colors.white : Colors.grey,
                 style: style,
                 onPressed: () async {
-                  forgotObj.getLinkEnable
+                  /* forgotObj.getLinkEnable
                       ? (await forgotObj.sendEmail(context, forgotObj.email!))
                           ? forgotObj.showCustomAlertDialog.showCustomDialog(
                               context,
                               "An Email was sent to you to reset your Password, Check your inbox.")
                           : print("Something went wrong")
                       : forgotObj.showCustomAlertDialog.showCustomDialog(
-                          context, "Please enter valid Email");
+                          context, "Please enter valid Email"); */
                 },
                 // shape: RoundedRectangleBorder(
                 //   borderRadius: BorderRadius.circular(100.0),

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoModel extends CommonDataModel {
@@ -46,13 +45,20 @@ class VideoModel extends CommonDataModel {
     return data;
   }
 
-  Future<void> loadController(BuildContext context) async {
+  Future<void> loadController() async {
     controller = VideoPlayerController.network(url);
     await controller?.initialize();
     controller?.setLooping(true);
   }
+
+  @override
+  Future<void> dispose() {
+    controller?.dispose();
+    return super.dispose();
+  }
 }
 
 abstract class CommonDataModel {
-  Future<void> loadController(BuildContext context) async {}
+  Future<void> loadController() async {}
+  Future<void> dispose() async {}
 }

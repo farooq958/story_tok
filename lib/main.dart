@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storily/provider/storage_provider.dart';
 import 'package:storily/screens/splash/splash_screen.dart';
 
+import 'routes/routes.dart';
 import 'AppProvider/app_main_provider.dart';
 import 'screens/service_locator.dart';
 
@@ -53,6 +54,8 @@ class MyApp extends StatelessWidget {
               // colorScheme: ColorScheme.fromSwatch()
               //     .copyWith(secondary: Colors.cyan[600], brightness: Brightness.dark),
             ),
+            routes: routes,
+            initialRoute: SplashScreen.id,
             home: SplashScreen(),
           );
         },

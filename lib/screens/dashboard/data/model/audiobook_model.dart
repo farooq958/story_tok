@@ -1,4 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
+
+import 'package:audio_session/audio_session.dart';
+import 'package:just_audio/just_audio.dart';
 
 import 'video_model.dart';
 
@@ -20,6 +23,8 @@ class AudioBookModel extends CommonDataModel {
     required this.pageUrl,
   });
 
+  AudioPlayer? audioPlayer;
+
   factory AudioBookModel.fromMap(Map<String, dynamic> map) {
     return AudioBookModel(
       coverUrl: map['cover_url'] != null ? map['cover_url'] as String : null,
@@ -38,11 +43,44 @@ class AudioBookModel extends CommonDataModel {
   }
 
   @override
-  Future<void> loadController(BuildContext context) {
-    pageUrl.forEach((element) {
-      precacheImage(NetworkImage(element.pageUrl!), context);
-    });
-    return super.loadController(context);
+  Future<void> loadController() async {
+    try {
+      audioPlayer = AudioPlayer();
+      await audioPlayer!.setAndroidAudioAttributes(
+        const AndroidAudioAttributes(
+          contentType: AndroidAudioContentType.speech,
+          usage: AndroidAudioUsage.media,
+        ),
+      );
+      var _playList = ConcatenatingAudioSource(
+        useLazyPreparation: true,
+        children: pageUrl
+            .map(
+              (e) => AudioSource.uri(Uri.parse(e.audioUrl!)),
+            )
+            .toList(),
+      );
+      audioPlayer!.setLoopMode(LoopMode.off);
+      // audioPlayer!
+      await audioPlayer!.setAudioSource(_playList).then((value) => {
+        /* audioPlayer!.positionStream.listen((event) {
+          log(event.inSeconds.toString());
+         }) */
+         
+      });
+    } catch (e, s) {
+      log("Audio Initializer", error: e, stackTrace: s);
+    }
+
+
+
+    return super.loadController();
+  }
+
+  @override
+  Future<void> dispose() {
+    audioPlayer?.dispose();
+    return super.dispose();
   }
 }
 

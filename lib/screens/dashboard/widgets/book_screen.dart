@@ -1,7 +1,8 @@
 import 'dart:developer';
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:storily/screens/dashboard/data/model/audiobook_model.dart';
 
 class BookScreenWidget extends StatefulWidget {
@@ -13,125 +14,122 @@ class BookScreenWidget extends StatefulWidget {
 
 class _BookScreenWidgetState extends State<BookScreenWidget> {
   late PageController controller;
-  AudioPlayer audioPlayer = AudioPlayer();
-  PlayerState? currentPlayerState;
-
-  int pageIndex = 1;
+  int? pageIndex;
 
   @override
   void initState() {
     super.initState();
-    audioPlayer.onPlayerStateChanged.listen((event) {
-      if (currentPlayerState == null) {
-        currentPlayerState = event;
-      } else {
-        currentPlayerState = event;
-        setState(() {});
-      }
-    });
-
     controller = PageController(initialPage: 0);
-    setUpAudioPlayer();
-  }
-
-  setUpAudioPlayer() async {
-    if (widget.bookData.pageUrl.length >= pageIndex) {
-      final data = widget.bookData.pageUrl[pageIndex - 1];
-
-      if (audioPlayer.state == PlayerState.playing) {
-        audioPlayer.pause();
+    widget.bookData.audioPlayer!.currentIndexStream.listen((event) {
+      if (pageIndex != null && pageIndex != event) {
+        widget.bookData.audioPlayer!.pause();
       }
-      await audioPlayer.setSource(
-        UrlSource(data.audioUrl!),
-      );
-    } else {
-      log("INDEX OR NULL PLAYER ERROR!!");
-    }
+      pageIndex = event;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned(
-            bottom: 24,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Text(
-                widget.bookData.title ?? "",
-                style: TextStyle(
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+            image: NetworkImage(
+                'https://images.unsplash.com/photo-1484176141566-3674cda218f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzh8fHJlYWRpbmclMjBlbnZpcmlvbm1lbnQlMjBkYXJrJTIwYm9va3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
+            fit: BoxFit.cover),
+      ),
+      child: SafeArea(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Positioned(
+              bottom: 24,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
+                  widget.bookData.title ?? "",
+                  style: const TextStyle(
                     fontSize: 24,
+                    color: Colors.white,
                     fontWeight: FontWeight.w900,
-                    fontFamily: 'Proxima Nova Bold'),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 24,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Text(
-                "Page : $pageIndex / ${widget.bookData.pageUrl.length}",
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'Proxima Nova Bold'),
-              ),
-            ),
-          ),
-          PageView(
-            controller: controller,
-            onPageChanged: (value) {
-              pageIndex = (value + 1);
-              setUpAudioPlayer();
-              setState(() {});
-            },
-            children: widget.bookData.pageUrl
-                .map(
-                  (pageData) => Image.network(
-                    pageData.pageUrl!,
-                    loadingBuilder: (context, child, loadingProgress) =>
-                        (loadingProgress != null)
-                            ? Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : child,
+                    fontFamily: 'Proxima Nova Bold',
                   ),
-                )
-                .toList(),
-          ),
-          Positioned(
-            bottom: 24,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  print("clicked");
-                  if (audioPlayer.state == PlayerState.playing) {
-                    audioPlayer.pause();
-                  } else if (audioPlayer.state == PlayerState.completed) {
-                    // audioPlayer.release();
-                    audioPlayer.resume();
-                    // audioPlayer.play(source)
-                  } else {
-                    audioPlayer.resume();
-                  }
-                },
-                // iconSize: 32,
-                icon: Icon(
-                  (audioPlayer.state == PlayerState.playing)
-                      ? Icons.pause
-                      : Icons.play_arrow,
                 ),
-                label: Text("Book Audio"),
               ),
             ),
-          ),
-        ],
+            Positioned(
+              top: 24,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
+                  "Page : $pageIndex / ${widget.bookData.pageUrl.length}",
+                  style: const TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: 'Proxima Nova Bold'),
+                ),
+              ),
+            ),
+            PageView(
+              controller: controller,
+              onPageChanged: (value) {
+                widget.bookData.audioPlayer?.seekToNext();
+              },
+              children: widget.bookData.pageUrl
+                  .map(
+                    (pageData) => CachedNetworkImage(
+                      imageUrl: pageData.pageUrl!,
+                      progressIndicatorBuilder: (context, url, progress) =>
+                          Center(
+                        child: CircularProgressIndicator(
+                          value: progress.progress,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+            Positioned(
+              bottom: 24,
+              right: 0,
+              child: StreamBuilder<PlayerState>(
+                  stream: widget.bookData.audioPlayer!.playerStateStream,
+                  builder: (context, snapshot) {
+                    log(snapshot.data.toString());
+                    return (snapshot.hasData)
+                        ? InkWell(
+                            onTap: () async {
+                              if (snapshot.data != null) {
+                                (snapshot.data!.playing)
+                                    ? await widget.bookData.audioPlayer!.pause()
+                                    : await widget.bookData.audioPlayer!.play();
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                (snapshot.data?.processingState == null ||
+                                        snapshot.data!.processingState ==
+                                            ProcessingState.loading)
+                                    ? Icons.network_check_rounded
+                                    : snapshot.data!.playing
+                                        ? Icons.pause
+                                        : Icons.play_arrow,
+                              ),
+                            ),
+                          )
+                        : const SizedBox();
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }
