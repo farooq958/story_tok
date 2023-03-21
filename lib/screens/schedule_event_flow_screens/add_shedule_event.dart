@@ -8,6 +8,7 @@ import 'package:storily/Utils/PageTransitions/slide_page_transition.dart';
 import 'package:storily/cubit/event_from_time_cubit.dart';
 import 'package:storily/cubit/event_to_time_cubit.dart';
 import 'package:storily/cubit/selected_date_event_cubit.dart';
+import 'package:storily/model/event_type_model.dart';
 import 'package:storily/repo/repo.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 
@@ -554,15 +555,15 @@ class _CustomDropDown2State extends State<CustomDropDown2> {
         style: GoogleFonts.lexend(),
 
         // Step 4.
-        items: <String>[ 'Books Reading', 'Kids Activity', 'Teaching How To Teach']
-            .map<DropdownMenuItem<String>>((String value) {
+        items: Repository.eventTypeRawData
+            .map<DropdownMenuItem<String>>((eventTypeModelData) {
           return DropdownMenuItem<String>(
             alignment: Alignment.center,
-            value: value,
+            value: eventTypeModelData.type.toString(),
             child: SizedBox(
             //  width: 20.sp,
               child: Text(
-                value,
+                eventTypeModelData.name,
                 style:  GoogleFonts.lexend(fontSize: 10.sp,color: Colors.blueGrey),
               ),
             ),
@@ -572,6 +573,7 @@ class _CustomDropDown2State extends State<CustomDropDown2> {
         onChanged: (String? newValue) {
           setState(() {
             Repository.dropdownValue = newValue!;
+            print(Repository.dropdownValue);
           });
         },
       ),

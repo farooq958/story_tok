@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:storily/Utils/PageTransitions/slide_page_transition.dart';
+import 'package:storily/Utils/app_utils.dart';
 import 'package:storily/cubit/event_from_time_cubit.dart';
 import 'package:storily/cubit/event_to_time_cubit.dart';
 import 'package:storily/cubit/load_main_data_cubit.dart';
@@ -353,16 +355,34 @@ SizedBox(height: 10.sp,),
 
                       BlocBuilder<SelectedDateEventCubit, DateTime>(
                         builder: (context, selectedDate) {
+                         // print(selectedDate);
                           return BlocBuilder<EventToTimeCubit, String>(
                             builder: (context, toTime) {
                               return BlocBuilder<EventFromTimeCubit, String>(
                                 builder: (context, fromTime) {
     return TouchableOpacity(
-                        onTap: (){
+                        onTap: () async {
+                          AppUtils.showCustomSnackBar(context: context, message: "Please wait for a while...", color: Color(0xfff6c33f), duration: const Duration(milliseconds: 700),);
 
-                          Navigator.pushReplacement(context, CustomSlidePageRoute(child: Confirmation2()));
-                          context.read<LoadMainDataCubit>().getEventData(EventFlowModel(eventTitle:Repository.eventTitleController.text , eventDescription: Repository.eventDescriptionController.text, fromTime: fromTime, toTime: toTime, eventDate: selectedDate));
+                          //   print(selectedDate);
+                          var userId= FirebaseAuth.instance.currentUser?.uid;
+                          String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+                          //print(formattedDate);
+                 EventFlowModel ef =  EventFlowModel(eventTitle:Repository.eventTitleController.text , eventDesc: Repository.eventDescriptionController.text, fromTime: fromTime, toTime: toTime, createdDate: formattedDate, userId: userId.toString(), eventType:int.parse(Repository.dropdownValue.toString()));
+                         // context.read<LoadMainDataCubit>().getEventData();
+  var send=await Repository().setEventDataToFirebase(ef);
+  if(send==true)
+    {
+      AppUtils.showCustomSnackBar(context: context, message: "Event Added Successfully", color: Colors.green, duration: const Duration(milliseconds: 1000),);
 
+      Navigator.pushReplacement(context, CustomSlidePageRoute(child: Confirmation2()));
+
+    }
+  else
+    {
+      //print(send);
+AppUtils.showCustomSnackBar(context: context, message: "something went wrong please try again later", color: Color(0xfff6c33f), duration: const Duration(milliseconds: 1200),);
+    }
                         },
                         child: Container(
                           padding: EdgeInsets.only(bottom: 3.sp),
