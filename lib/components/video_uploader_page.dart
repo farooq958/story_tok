@@ -121,7 +121,7 @@ class _VideoUploaderState extends State<VideoUploader> {
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    Image.asset(Assets.uploadVideoChooseFromDraftsBG, scale: 5),
+                    Image.asset(Assets.uploadVideoButtonBox, scale: 5),
                     Image.asset(Assets.uploadVideoChooseFromDrafts, scale: 6)
                   ],
                 ),
@@ -138,6 +138,129 @@ class _VideoUploaderState extends State<VideoUploader> {
             ),
           )
 
+      );
+    }
+
+    if (_videoFile != null) {
+      return Scaffold(
+          backgroundColor: Colors.grey[300],
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                uploadBookFormatHeader('12/03/2023', 'Hi, Team', 'Welcome to your board'),
+                SizedBox(height: 10),
+                addNewBookWidget(context, Assets.uploadVideoHeader, MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.90),
+                SizedBox(height: 10),
+                Stack(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width / 6,
+                          child: Image.asset(Assets.backgroundRectangleDots),
+                        )
+                  ]),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: Image.asset(Assets.uploadVideoBox)
+                            ),
+                            Text("Video"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            child:TextField(
+                                maxLines: 5,
+                                maxLength: 200,
+                                decoration: InputDecoration(
+                                    hintText: "write a caption",
+                                    filled: true,
+                                    fillColor: Colors.grey[300],
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                       borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                       borderRadius: BorderRadius.circular(20),
+                                     ),
+                                )
+                            ),
+                          )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ]),
+                Expanded(child: Container()),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(child:Stack(
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width / 4,
+                                child: Column(
+                                  children: [
+                                    Image.asset(Assets.uploadVideoBGSquare),
+                                    Image.asset(Assets.uploadVideoBGSquare)
+                                  ],
+                                ),
+                              )
+                            ]
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Image.asset(Assets.uploadVideoButtonBox, scale: 7),
+                                    Text("DRAFTS")
+                                  ],
+                                ),
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Image.asset(Assets.uploadVideoButtonBox, scale: 7),
+                                    Text("SHARE")
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 10,)
+                          ],
+                        )
+                      ],
+                    ),)
+
+                  ],
+                ),
+              ],
+            ),
+          )
       );
     }
 
