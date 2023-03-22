@@ -92,4 +92,5 @@ class Assets {
   static const uploadVideoChooseFromDrafts = "assets/images/video_upload/choose-from-drafts.png";
   static const uploadVideoBGSquare = "assets/images/video_upload/backgroundsquare-1.png";
   static const uploadVideoButtonBox = "assets/images/video_upload/box-aRb.png";
+  static const uploadVideoCoverBox = "assets/images/video_upload/coverredbook-1-bg.png";
 }

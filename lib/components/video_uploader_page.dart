@@ -15,6 +15,7 @@ class VideoUploader extends StatefulWidget {
 
 class _VideoUploaderState extends State<VideoUploader> {
   XFile? _videoFile;
+  String? _caption;
   String? _uploadedFileURL;
   var imagePicker;
 
@@ -141,7 +142,7 @@ class _VideoUploaderState extends State<VideoUploader> {
       );
     }
 
-    if (_videoFile != null) {
+    if (_videoFile != null && _caption == null) {
       return Scaffold(
           backgroundColor: Colors.grey[300],
           resizeToAvoidBottomInset: false,
@@ -188,6 +189,7 @@ class _VideoUploaderState extends State<VideoUploader> {
                             child:TextField(
                                 maxLines: 5,
                                 maxLength: 200,
+                                onChanged: (text) {_caption = text;},
                                 decoration: InputDecoration(
                                     hintText: "write a caption",
                                     filled: true,
@@ -220,12 +222,7 @@ class _VideoUploaderState extends State<VideoUploader> {
                             children: [
                               Container(
                                 width: MediaQuery.of(context).size.width / 4,
-                                child: Column(
-                                  children: [
-                                    Image.asset(Assets.uploadVideoBGSquare),
-                                    Image.asset(Assets.uploadVideoBGSquare)
-                                  ],
-                                ),
+                                child: Image.asset(Assets.uploadVideoBGSquare)
                               )
                             ]
                         ),
@@ -241,16 +238,19 @@ class _VideoUploaderState extends State<VideoUploader> {
                                     Text("DRAFTS")
                                   ],
                                 ),
-                                Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Image.asset(Assets.uploadVideoButtonBox, scale: 7),
-                                    Text("SHARE")
-                                  ],
+                                InkWell(
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Image.asset(Assets.uploadVideoButtonBox, scale: 7),
+                                      Text("SHARE")
+                                    ],
+                                  ),
+                                  onTap: (){ print("hi"); setState(() {});},
                                 )
                               ],
                             ),
-                            SizedBox(height: 10,)
+                            SizedBox(height: 30)
                           ],
                         )
                       ],
@@ -264,6 +264,266 @@ class _VideoUploaderState extends State<VideoUploader> {
       );
     }
 
+    if (_caption != null) {
+      return Scaffold(
+        backgroundColor: Colors.grey[300],
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  SizedBox(height: 95),
+                  Row(
+                    children: [
+                      Container(
+                      width: MediaQuery.of(context).size.width / 6,
+                      child: Image.asset(Assets.backgroundRectangleDots),
+                    )]
+                  ),
+                  Expanded(child: Container()),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                            width: MediaQuery.of(context).size.width / 4,
+                            child: Image.asset(Assets.uploadVideoBGSquare)
+                        )
+                      ]
+                  ),
+
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(height: 20),
+                  uploadBookFormatHeader('12/03/2023', 'Hi, Team', 'Welcome to your board'),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: Image.asset(Assets.uploadVideoCoverBox),
+                          )
+                        ],
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                                height: 40,
+                                child: TextFormField(
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      labelText: "Title",
+                                      labelStyle: TextStyle(color: Colors.black, fontSize: 25),
+                                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                                      hintText: "Name of your book",
+                                      filled: true,
+                                      fillColor: Colors.grey[300],
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    )
+                                )
+                            ),
+                            SizedBox(height: 30),
+                            SizedBox(
+                                height: 40,
+                                child: TextFormField(
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      labelText: "Author(s)",
+                                      labelStyle: TextStyle(color: Colors.black, fontSize: 25),
+                                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                                      hintText: "Name of the author(s)",
+                                      filled: true,
+                                      fillColor: Colors.grey[300],
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    )
+                                )
+                            ),
+                            SizedBox(height: 30),
+                            SizedBox(
+                                height: 40,
+                                child: TextFormField(
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      labelText: "Age Level",
+                                      labelStyle: TextStyle(color: Colors.black, fontSize: 25),
+                                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                                      hintText: "Name of your book",
+                                      filled: true,
+                                      fillColor: Colors.grey[300],
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    )
+                                )
+                            ),
+                          ],
+                        )
+
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width / 2.2,
+                          child: TextFormField(
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                labelText: "Video Genre(s)",
+                                labelStyle: TextStyle(color: Colors.black, fontSize: 25),
+                                floatingLabelBehavior: FloatingLabelBehavior.always,
+                                hintText: "Book genre",
+                                filled: true,
+                                fillColor: Colors.grey[300],
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              )
+                          )
+                      ),
+                      SizedBox(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width / 2.2,
+                          child: TextFormField(
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                labelText: "",
+                                labelStyle: TextStyle(color: Colors.black, fontSize: 25),
+                                floatingLabelBehavior: FloatingLabelBehavior.always,
+                                hintText: "Sub Genre(s)",
+                                filled: true,
+                                fillColor: Colors.grey[300],
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black, width: 4.0),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              )
+                          )
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width / (1.07),
+                      child: TextFormField(
+                          maxLines: 1,
+                          decoration: InputDecoration(
+                            labelText: "Topics",
+                            labelStyle: TextStyle(color: Colors.black, fontSize: 25),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            hintText: "Book Topic(s)",
+                            filled: true,
+                            fillColor: Colors.grey[300],
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black, width: 4.0),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black, width: 4.0),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          )
+                      )
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                      height: 130,
+                      width: MediaQuery.of(context).size.width / (1.07),
+                      child: TextFormField(
+                          maxLines: 10,
+                          maxLength: 300,
+                          decoration: InputDecoration(
+                            labelText: "Topics",
+                            labelStyle: TextStyle(color: Colors.black, fontSize: 25),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            hintText: "What is your book about?",
+                            filled: true,
+                            fillColor: Colors.grey[300],
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black, width: 4.0),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black, width: 4.0),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          )
+                      )
+
+                  ),
+                  Expanded(child: Container()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.asset(Assets.uploadVideoButtonBox, scale: 7),
+                          Text("DRAFTS")
+                        ],
+                      ),
+                      InkWell(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Image.asset(Assets.uploadVideoButtonBox, scale: 7),
+                            Text("SHARE")
+                          ],
+                        ),
+                        onTap: (){ print("hi"); setState(() {});},
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 30)
+
+
+                ],
+              )
+            ],
+          ),
+        )
+      );
+    }
     return Column(
       children: <Widget>[
 
