@@ -143,10 +143,10 @@ class AuthUI extends StatelessWidget {
                 MaterialButton(
                   onPressed: () {
                     //this is a short cut to the author's page, not for final product
-                    /* Navigator.push(
+                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MyStorilyAuthorPage())); */
+                            builder: (context) => MyStorilyAuthorPage()));
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0),
