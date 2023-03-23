@@ -101,9 +101,7 @@ class MyEventPage extends StatelessWidget {
                     child: Text("CURRENTLY STREAMING ",style: GoogleFonts.lexend(fontSize:17.sp ,fontWeight: FontWeight.w600,decoration:TextDecoration.underline ,decorationThickness: 2,  decorationColor: Color(0xfff6c33f)),)),
                 SizedBox(height: 10.sp,),
 ///Current Streaming Widget
-                Container(
-                    height: Repository.eventListData.isEmpty? 100: 1.sh/3.1,
-                    child: StreamingCurrentEventWidget()),
+                StreamingCurrentEventWidget(),
                 SizedBox(height: 20.sp,),
               ///upcoming Text
                 Container(

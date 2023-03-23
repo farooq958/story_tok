@@ -15,7 +15,7 @@ class Repository{
   static List<EventFlowModel> recommendedEventListData=[];
   static List<EventTypeModel> eventTypeRawData=[];
   static List<int> readingLevelList=[0,1,2,3,4,5,6,7,8,9,10,11,12,13];
-  static int dropDownReadingValue=5;
+  static int dropDownReadingValue=6;
    static String? dropdownValue;
 
   static String? errorMessage;

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:storily/Utils/app_utils.dart';
 import 'package:storily/repo/repo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
@@ -201,7 +202,7 @@ class StreamingCurrentEventWidget extends StatelessWidget {
                           //left: 0,
                           child: TouchableOpacity(
                             onTap: (){
-
+  AppUtils.showCustomSnackBar(context: context, message: "To be Evaluated", color: AppColors.containerYellowColor, duration: Duration(seconds: 1));
                               print("joined");
                             },
                             child: UnconstrainedBox(
