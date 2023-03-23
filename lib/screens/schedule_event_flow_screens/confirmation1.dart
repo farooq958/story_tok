@@ -368,7 +368,7 @@ SizedBox(height: 10.sp,),
                           var userId= FirebaseAuth.instance.currentUser?.uid;
                           String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
                           //print(formattedDate);
-                 EventFlowModel ef =  EventFlowModel(eventTitle:Repository.eventTitleController.text , eventDesc: Repository.eventDescriptionController.text, fromTime: fromTime, toTime: toTime, createdDate: formattedDate, userId: userId.toString(), eventType:int.parse(Repository.dropdownValue.toString()));
+                 EventFlowModel ef =  EventFlowModel(eventTitle:Repository.eventTitleController.text , eventDesc: Repository.eventDescriptionController.text, fromTime: fromTime, toTime: toTime, createdDate: formattedDate, userId: userId.toString(), eventType:int.parse(Repository.dropdownValue.toString()), readingLevel: Repository.dropDownReadingValue);
                          // context.read<LoadMainDataCubit>().getEventData();
   var send=await Repository().setEventDataToFirebase(ef);
   if(send==true)

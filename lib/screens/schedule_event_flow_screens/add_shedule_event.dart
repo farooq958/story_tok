@@ -12,6 +12,7 @@ import 'package:storily/model/event_type_model.dart';
 import 'package:storily/repo/repo.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 
+import '../../Utils/Events/event_utils.dart';
 import 'confirmation1.dart';
 import 'main_event_screen.dart';
 
@@ -242,13 +243,14 @@ class AddEventScreenScheduleScreen extends StatelessWidget {
                 ),
                SizedBox(height: 10.sp,),
                 Container(
-
+                    color: Color(0xffEEF0F2),
                     margin: EdgeInsets.only(left: 20.sp),
                     child: Text("Title ",style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),)),
 Container(
   height: 40.sp,
   margin: EdgeInsets.symmetric(horizontal: 20.sp),
   decoration: BoxDecoration(
+      color: Color(0xffEEF0F2),
     border: Border.all(color: Colors.black,width: 2.sp),
     borderRadius: BorderRadius.circular(12.sp)
   ),
@@ -303,10 +305,41 @@ Container(
                 );
   },
 ),
-                SizedBox(height: 10.sp,),
-               ///event Type drop down
-                Container(
+                // SizedBox(height: 10.sp,),
+                // ///Reading Level
+                // Container(
+                //
+                //     margin: EdgeInsets.only(left: 20.sp),
+                //     color: Color(0xffEEF0F2),
+                //     child: Text("Reading Level ",style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),)),
 
+                SizedBox(height: 10.sp,),
+//                 UnconstrainedBox(
+//                   child: Container(
+//                     height: 40.sp,
+//                     width: 1.sw/3,
+//                     //margin: EdgeInsets.symmetric(horizontal: 20.sp),
+//                     decoration: BoxDecoration(
+//                         border: Border.all(color: Colors.black,width: 2.sp),
+//                         borderRadius: BorderRadius.circular(12.sp)
+//                     ),
+//
+//                     child: CustomDropDown3(),
+// //                   child:TextFormField(
+// //                     readOnly: true,
+// //                     style: GoogleFonts.lexend(),
+// //                     decoration: InputDecoration(
+// // suffixIcon:  Image.asset("assets/images/arrowdropdown-removebg-preview.png",),
+// //                         hintStyle: GoogleFonts.lexend(color: Colors.grey,fontSize: 14.sp,fontWeight: FontWeight.w300),
+// //                         hintText: "   Select type of your Event"
+// //                     ),
+// //                   ) ,
+//                   ),
+//                 )
+               // ,
+                ///event Type drop down
+                Container(
+                    color: Color(0xffEEF0F2),
                     margin: EdgeInsets.only(left: 20.sp),
                     child: Text("Event Type ",style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),)),
                 UnconstrainedBox(
@@ -574,6 +607,74 @@ class _CustomDropDown2State extends State<CustomDropDown2> {
           setState(() {
             Repository.dropdownValue = newValue!;
             print(Repository.dropdownValue);
+          });
+        },
+      ),
+    );
+  }
+}
+class CustomDropDown3 extends StatefulWidget {
+  const CustomDropDown3({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<CustomDropDown3> createState() => _CustomDropDown3State();
+}
+
+class _CustomDropDown3State extends State<CustomDropDown3> {
+
+  @override
+  Widget build(BuildContext context) {
+    // print(dropdownValue);
+    return Container(
+      constraints: BoxConstraints(
+          maxWidth: 20.0, // Set the maximum width of the dropdown button
+          minWidth: 10.0,
+          maxHeight: 10,
+          minHeight: 8
+          // Set the minimum width of the dropdown button
+
+      ),
+      child: DropdownButton<int>(
+
+        //menuMaxHeight: 50.sp,
+        //icon: Image.asset("assets/images/arrowdropdown-removebg-preview.png"),
+        isExpanded: true,
+        underline: const SizedBox(),
+        // hint:  Text("Choose Plan ",style: GoogleFonts.poppins(color: AppColors.greyColor2),),
+        // Step 3.
+        hint: Text(
+          'Select Reading Level',
+          style: GoogleFonts.lexend(
+            // decoration: TextDecoration.underline,
+            color: Colors.grey[500], // Set the hint text color
+            fontSize: 16.0, // Set the hint text font size
+          ),
+        ),
+        value: Repository.dropDownReadingValue,
+        style: GoogleFonts.lexend(),
+
+        // Step 4.
+        items: Repository.readingLevelList
+            .map<DropdownMenuItem<int>>((i) {
+          return DropdownMenuItem<int>(
+            alignment: Alignment.center,
+            value: i,
+            child: SizedBox(
+              //  width: 20.sp,
+              child: Text(
+                i.toString(),
+                style:  GoogleFonts.lexend(fontSize: 10.sp,color: Colors.blueGrey),
+              ),
+            ),
+          );
+        }).toList(),
+
+        onChanged: (int? newValue) {
+          setState(() {
+            Repository.dropDownReadingValue = newValue!;
+            //print(Repository.dropdownValue);
           });
         },
       ),
