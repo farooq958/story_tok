@@ -12,18 +12,30 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e43f460-0dc0-4c23-ac9b-310613e162b0" name="Default Changelist" comment="event sync with firebase">
+    <list default="true" id="9e43f460-0dc0-4c23-ac9b-310613e162b0" name="Default Changelist" comment="model update added reading level">
+      <change afterPath="$PROJECT_DIR$/assets/images/background_kids_cross1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_kids_cross2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_kids_rectangle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_kids_squiggle1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/dotEventScreen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Utils/Events/event_utils.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Utils/app_colors.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cubit/load_recommended_events_cubit.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.4/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.4/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/event_flow_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/event_flow_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/AppProvider/app_main_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/AppProvider/app_main_provider.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/repo/repo.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repo/repo.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/bootm_menu_screens/bookshelf.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/bootm_menu_screens/bookshelf.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/bootm_menu_screens/event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/bootm_menu_screens/event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/feed_dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/feed_dashboard.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/add_shedule_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/add_shedule_event.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/confirmation1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/confirmation1.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/main_event_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/main_event_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +49,9 @@
         <option value="Dart File" />
       </list>
     </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="origin/Dev" />
   </component>
   <component name="Git.Settings">
     <option name="PATH_TO_GIT" value="/usr/bin/git" />
@@ -210,7 +225,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679336515947</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="model update added reading level">
+      <created>1679421439722</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1679421439722</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -245,7 +267,8 @@
     <MESSAGE value="data storing input fields persistents" />
     <MESSAGE value="event flow ver3" />
     <MESSAGE value="event sync with firebase" />
-    <option name="LAST_COMMIT_MESSAGE" value="event sync with firebase" />
+    <MESSAGE value="model update added reading level" />
+    <option name="LAST_COMMIT_MESSAGE" value="model update added reading level" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -279,11 +302,6 @@
           <url>file://$PROJECT_DIR$/lib/components/recording_preview.dart</url>
           <line>212</line>
           <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/components/video_uploader_page.dart</url>
-          <line>20</line>
-          <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/lib/components/video_uploader_page.dart</url>

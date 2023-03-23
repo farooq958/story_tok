@@ -12,6 +12,7 @@ import 'package:storily/model/event_type_model.dart';
 import 'package:storily/repo/repo.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 
+import '../../Utils/Events/event_utils.dart';
 import 'confirmation1.dart';
 import 'main_event_screen.dart';
 
@@ -304,38 +305,38 @@ Container(
                 );
   },
 ),
+                // SizedBox(height: 10.sp,),
+                // ///Reading Level
+                // Container(
+                //
+                //     margin: EdgeInsets.only(left: 20.sp),
+                //     color: Color(0xffEEF0F2),
+                //     child: Text("Reading Level ",style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),)),
+
                 SizedBox(height: 10.sp,),
-                ///Reading Level
-                Container(
-
-                    margin: EdgeInsets.only(left: 20.sp),
-                    color: Color(0xffEEF0F2),
-                    child: Text("Reading Level ",style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),)),
-
-                SizedBox(height: 10.sp,),
-                UnconstrainedBox(
-                  child: Container(
-                    height: 40.sp,
-                    width: 1.sw/3,
-                    //margin: EdgeInsets.symmetric(horizontal: 20.sp),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black,width: 2.sp),
-                        borderRadius: BorderRadius.circular(12.sp)
-                    ),
-
-                    child: CustomDropDown3(),
-//                   child:TextFormField(
-//                     readOnly: true,
-//                     style: GoogleFonts.lexend(),
-//                     decoration: InputDecoration(
-// suffixIcon:  Image.asset("assets/images/arrowdropdown-removebg-preview.png",),
-//                         hintStyle: GoogleFonts.lexend(color: Colors.grey,fontSize: 14.sp,fontWeight: FontWeight.w300),
-//                         hintText: "   Select type of your Event"
+//                 UnconstrainedBox(
+//                   child: Container(
+//                     height: 40.sp,
+//                     width: 1.sw/3,
+//                     //margin: EdgeInsets.symmetric(horizontal: 20.sp),
+//                     decoration: BoxDecoration(
+//                         border: Border.all(color: Colors.black,width: 2.sp),
+//                         borderRadius: BorderRadius.circular(12.sp)
 //                     ),
-//                   ) ,
-                  ),
-                )
-                ,
+//
+//                     child: CustomDropDown3(),
+// //                   child:TextFormField(
+// //                     readOnly: true,
+// //                     style: GoogleFonts.lexend(),
+// //                     decoration: InputDecoration(
+// // suffixIcon:  Image.asset("assets/images/arrowdropdown-removebg-preview.png",),
+// //                         hintStyle: GoogleFonts.lexend(color: Colors.grey,fontSize: 14.sp,fontWeight: FontWeight.w300),
+// //                         hintText: "   Select type of your Event"
+// //                     ),
+// //                   ) ,
+//                   ),
+//                 )
+               // ,
                 ///event Type drop down
                 Container(
                     color: Color(0xffEEF0F2),

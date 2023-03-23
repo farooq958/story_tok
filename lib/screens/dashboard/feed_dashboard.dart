@@ -1,8 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stacked/stacked.dart';
+import 'package:storily/cubit/load_main_data_cubit.dart';
+import 'package:storily/cubit/load_recommended_events_cubit.dart';
 import 'package:storily/global/methods/methods.dart';
+import 'package:storily/screens/dashboard/bootm_menu_screens/event.dart';
 import 'data/video_model.dart';
 import 'feed_model/feed_view_model.dart';
 import 'icons/feed_icon_data.dart';
@@ -107,17 +111,25 @@ class _FeedScreenState extends State<FeedDashboard> {
                       ),
                     ],
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FeedIcons.iconEvent,
-                      Text(
-                        'My Event',
-                        style: TextStyle(
-                          fontSize: 11.0,
+                  GestureDetector(
+                    onTap: (){
+                      goPage(context, MyEventPage());
+                      context.read<LoadMainDataCubit>().getEventData();
+                      context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 5);
+
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FeedIcons.iconEvent,
+                        Text(
+                          'My Event',
+                          style: TextStyle(
+                            fontSize: 11.0,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
