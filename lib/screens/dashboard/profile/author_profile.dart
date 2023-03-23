@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../../global/constants/color_resources.dart';
 import '../widgets/circle_profile.dart';
 import '../widgets/textfield_clear.dart';
@@ -37,15 +38,29 @@ class _AuthorProfileState extends State<AuthorProfile> {
   late QuerySnapshot querySnapshotEvent;
   var eventLists = [];
 
+  late Query collectionRefEventType;
+  late QuerySnapshot querySnapshotEventType;
+  var eventTypeLists = [];
+
+  late Query collectionRefBookCategory;
+  late QuerySnapshot querySnapshotBookCategory;
+  var bookCategoryLists = [];
+
+  List<String> categoryLists = [];
+
+  var selectedSort = 'Sort By...';
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // loadProfileData();
+    loadEventTypeData();
   }
 
-  void loadProfileData() async {
-    await getAuthorProfileData();
+  void loadEventTypeData() async {
+    //await getAuthorProfileData();
+    await getEventTypeData();
+    await getBookCategoryData();
   }
 
   Future<List> getAuthorProfileData() async {
@@ -61,8 +76,45 @@ class _AuthorProfileState extends State<AuthorProfile> {
     return authorProfile;
   }
 
+  Future<List> getEventTypeData() async {
+    collectionRefEventType =
+        FirebaseFirestore.instance.collection('event_type_static');
+
+    // Get docs from collection reference
+    querySnapshotEventType = await collectionRefEventType.get();
+
+    // Get data from docs and convert map to List
+    eventTypeLists =
+        querySnapshotEventType.docs.map((doc) => doc.data()).toList();
+
+    print('#### EVENT TYPE COUNT ${eventTypeLists.length}');
+    return eventTypeLists;
+  }
+
   Future<List> getBookData() async {
-    collectionRefBook = FirebaseFirestore.instance.collection('booksentity');
+    if (isPublishedSelected) {
+      if(selectedSort != 'Sort By...') {
+        collectionRefBook = FirebaseFirestore.instance
+            .collection('booksentity')
+            .where('status', isEqualTo: 'published').where(
+            'category_main', isEqualTo: selectedSort);
+      }else{
+        collectionRefBook = FirebaseFirestore.instance
+            .collection('booksentity')
+            .where('status', isEqualTo: 'published');
+      }
+    } else {
+      if(selectedSort != 'Sort By...') {
+        collectionRefBook = FirebaseFirestore.instance
+            .collection('booksentity')
+            .where('status', isEqualTo: 'under review').where(
+            'category_main', isEqualTo: selectedSort);
+      }else{
+        collectionRefBook = FirebaseFirestore.instance
+            .collection('booksentity')
+            .where('status', isEqualTo: 'under review');
+      }
+    }
 
     // Get docs from collection reference
     querySnapshotBook = await collectionRefBook.get();
@@ -88,7 +140,9 @@ class _AuthorProfileState extends State<AuthorProfile> {
   }
 
   Future<List> getEventData() async {
-    collectionRefEvent = FirebaseFirestore.instance.collection('videos');
+    collectionRefEvent = FirebaseFirestore.instance
+        .collection('streaming_events')
+        .orderBy('createdDate', descending: false);
 
     // Get docs from collection reference
     querySnapshotEvent = await collectionRefEvent.get();
@@ -98,6 +152,29 @@ class _AuthorProfileState extends State<AuthorProfile> {
 
     print('#### Event COUNT ${eventLists.length}');
     return eventLists;
+  }
+  Future<void> getBookCategoryData() async {
+    collectionRefBookCategory = FirebaseFirestore.instance
+        .collection('categories');
+
+    // Get docs from collection reference
+    querySnapshotBookCategory = await collectionRefBookCategory.get();
+
+    // Get data from docs and convert map to List
+    bookCategoryLists = querySnapshotBookCategory.docs.map((doc) => doc.data()).toList();
+
+    print('#### Book Category COUNT ${bookCategoryLists.length}');
+    
+    categoryLists = [];
+    for(int i=0; i<bookCategoryLists.length; i++){
+       var bookCat = bookCategoryLists[i]['name'];
+       print('#### BOOK OBJ $bookCat');
+       //print('#### BOOK NAME ${bookCat.get('name')}');
+       categoryLists.add(bookCat);
+    }
+     setState(() {
+       categoryLists;
+     });
   }
 
   @override
@@ -477,9 +554,10 @@ class _AuthorProfileState extends State<AuthorProfile> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 5.0),
+                                    padding: const EdgeInsets.only(top: 0.0),
                                     child: Container(
-                                      width: 200,
+                                      width: MediaQuery.of(context).size.width/2,
+                                      height: 50,
                                       child: Image.asset(
                                         'assets/images/profile/profile_purple_sortby_box.png',
                                       ),
@@ -490,31 +568,41 @@ class _AuthorProfileState extends State<AuthorProfile> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  DropdownButton<String>(
-                                    iconSize: 40,
-                                    hint: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 20.0),
-                                      child: Text("Sort By...",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
-                                          )),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:0.0,right: 5.0),
+                                    child: DropdownButton<String>(
+                                      iconSize: 30,
+                                      hint: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 5.0),
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width/2 - 40,
+                                          child: Text(selectedSort,
+                                              textAlign: TextAlign.right,
+                                              overflow: TextOverflow.ellipsis,
+                                               maxLines: 1,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16.0,
+                                              )),
+                                        ),
+                                      ),
+                                      underline: SizedBox(),
+                                      items: categoryLists.map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                      onChanged: (val) {
+                                        selectedSort = val!;
+                                        getBookData();
+                                        setState(() {
+                                          selectedSort;
+                                        });
+                                      },
                                     ),
-                                    underline: SizedBox(),
-                                    items: <String>[
-                                      'Date',
-                                      'Size',
-                                      'Newest',
-                                      'Published'
-                                    ].map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (_) {},
                                   ),
                                 ],
                               )
@@ -547,6 +635,25 @@ class _AuthorProfileState extends State<AuthorProfile> {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
+              var type = 0;
+              var name = '';
+              if (eventLists.isNotEmpty) {
+                // print("### EVENT TYPE LENGTH ${eventTypeLists.length}");
+                for (int i = 0; i < eventTypeLists.length; i++) {
+                  // print("### EVENT TYPE ${eventTypeLists[i]['type']}");
+                  // print("### EVENT List TYPE ${eventLists[index]['event_type']}");
+                  if (eventTypeLists[i]['type'] ==
+                      eventLists[index]['eventType']) {
+                    type = eventTypeLists[i]['type'];
+                    name = eventTypeLists[i]['name'];
+                  }
+                }
+                // print("### type $type");
+                // print("### name $name");
+
+                // getEventTypeData(eventLists[index]['event_type']);
+
+              }
               return Padding(
                 padding:
                     const EdgeInsets.only(bottom: 5.0, left: 10.0, right: 10.0),
@@ -562,24 +669,36 @@ class _AuthorProfileState extends State<AuthorProfile> {
                   ),
                   Row(
                     children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                                height: 150,
-                                // width: 50,
-                                child: Image.asset(
-                                    'assets/images/events/eventticket_yellow_bookicon.png')),
-                          ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 30.0),
+                        child: Container(
+                          height: 150,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              type == 0
+                                  ? Icon(Icons.menu_book_sharp,
+                                      color: Colors.white, size: 40)
+                                  : type == 1
+                                      ? Icon(Icons.accessibility,
+                                          size: 40, color: Colors.white)
+                                      :
+                                      //Image.asset('assets/images/events/eventticket_yellow_bookicon.png'):
+                                      // Image.asset('assets/images/events/eventticket_yellow_peopleicon.png')
+                                      Icon(Icons.group,
+                                          size: 40, color: Colors.white),
+                            ],
+                          ),
                         ),
                       ),
-                      Expanded(
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "EVENT TITLE",
+                              "${eventLists[index]['event_title']}",
+                              maxLines: 1,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -587,7 +706,8 @@ class _AuthorProfileState extends State<AuthorProfile> {
                               ),
                             ),
                             Text(
-                              "01/05/20XX",
+                              "${eventLists[index]['event_desc']}",
+                              maxLines: 2,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -595,39 +715,71 @@ class _AuthorProfileState extends State<AuthorProfile> {
                               ),
                             ),
                             Text(
-                              "01:30-02:30",
+                              "${eventLists[index]['createdDate']}",
                               style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
+                                color: Colors.black.withOpacity(0.8),
+                                fontWeight: FontWeight.bold,
                                 fontSize: 14.0,
+                              ),
+                            ),
+                            Text(
+                              "${eventLists[index]['fromTime']} - ${eventLists[index]['toTime']}",
+                              style: TextStyle(
+                                color: Colors.black.withOpacity(0.7),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.0,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width - 150,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    // Container(
+                                    //     height: 50,
+                                    //     // width: 100,
+                                    //     child: Image.asset(
+                                    //         'assets/images/events/eventticket_yellow_editicon.png')),
+                                    Text(
+                                      //"50 MORE DAYS",
+                                      '${daysBetween(DateTime.now(), DateFormat("yyyy-MM-dd").parse('${eventLists[index]['createdDate']}')).toString()} MORE DAYS',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12.0,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             )
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          height: 120,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                  height: 50,
-                                  // width: 100,
-                                  child: Image.asset(
-                                      'assets/images/events/eventticket_yellow_editicon.png')),
-                              Text(
-                                "50 MORE DAYS",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12.0,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   height: 135,
+                      //   child: Column(
+                      //     mainAxisAlignment: MainAxisAlignment.end,
+                      //     children: [
+                      //       // Container(
+                      //       //     height: 50,
+                      //       //     // width: 100,
+                      //       //     child: Image.asset(
+                      //       //         'assets/images/events/eventticket_yellow_editicon.png')),
+                      //       Text(
+                      //         //"50 MORE DAYS",
+                      //        '${daysBetween(DateTime.now(),DateFormat("yyyy-MM-dd").parse('${eventLists[index]['createdDate']}')).toString()} MORE DAYS',
+                      //         style: TextStyle(
+                      //           color: Colors.black,
+                      //           fontWeight: FontWeight.w600,
+                      //           fontSize: 12.0,
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   )
                 ]),
@@ -635,6 +787,12 @@ class _AuthorProfileState extends State<AuthorProfile> {
             },
           );
         });
+  }
+
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
   }
 
   Widget bookList(BuildContext context) {
@@ -653,7 +811,6 @@ class _AuthorProfileState extends State<AuthorProfile> {
                 padding:
                     const EdgeInsets.only(bottom: 5.0, left: 10.0, right: 10.0),
                 child: Stack(children: [
-
                   Column(
                     children: [
                       Container(
@@ -677,35 +834,35 @@ class _AuthorProfileState extends State<AuthorProfile> {
                       Container(
                         width: 100,
                         height: 20,
-                       child: Row(
-                         children: [
-                           Icon(Icons.thumb_up,size: 12),
-                           Padding(
-                             padding: const EdgeInsets.only(left:3.0),
-                             child: Text(
-                               bookLists[index]['likes'].toString(),
-                               style: TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.w600,
-                                 fontSize: 12.0,
-                               ),
-                             ),
-                           ),
-                           SizedBox(width: 6),
-                           Icon(Icons.remove_red_eye,size: 12),
-                           Padding(
-                             padding: const EdgeInsets.only(left:3.0),
-                             child: Text(
-                               bookLists[index]['views'].toString(),
-                               style: TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.w600,
-                                 fontSize: 12.0,
-                               ),
-                             ),
-                           )
-                         ],
-                       ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.thumb_up, size: 12),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 3.0),
+                              child: Text(
+                                bookLists[index]['likes'].toString(),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 6),
+                            Icon(Icons.remove_red_eye, size: 12),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 3.0),
+                              child: Text(
+                                bookLists[index]['views'].toString(),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -807,9 +964,9 @@ class _AuthorProfileState extends State<AuthorProfile> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.thumb_up,size: 12),
+                            Icon(Icons.thumb_up, size: 12),
                             Padding(
-                              padding: const EdgeInsets.only(left:3.0),
+                              padding: const EdgeInsets.only(left: 3.0),
                               child: Text(
                                 videoLists[index]['likes'].toString(),
                                 style: TextStyle(
@@ -820,9 +977,9 @@ class _AuthorProfileState extends State<AuthorProfile> {
                               ),
                             ),
                             SizedBox(width: 6),
-                            Icon(Icons.comment_rounded,size: 12),
+                            Icon(Icons.comment_rounded, size: 12),
                             Padding(
-                              padding: const EdgeInsets.only(left:3.0),
+                              padding: const EdgeInsets.only(left: 3.0),
                               child: Text(
                                 videoLists[index]['comments'].toString(),
                                 style: TextStyle(
