@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/home_video_display_screen.dart';
 import 'package:storily/components/my_storily_author_page.dart';
-
+import 'package:storily/screens/main_home_screen.dart';
 
 import '../../global/methods/methods.dart';
 import '../dashboard/feed_dashboard.dart';
@@ -64,8 +64,8 @@ class AuthUI extends StatelessWidget {
                 SizedBox(
                   height: 10.0,
                 ),
-                MaterialButton(
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -140,13 +140,17 @@ class AuthUI extends StatelessWidget {
                 SizedBox(
                   height: 10.0,
                 ),
-                MaterialButton(
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
                     //this is a short cut to the author's page, not for final product
                      Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyStorilyAuthorPage()));
+                   /* Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainHomeScreen()));*/
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0),
@@ -178,84 +182,93 @@ class AuthUI extends StatelessWidget {
                     ),
                   ),
                 ),
-                MaterialButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VideoDisplayScreen(
-                            videoURL:
-                                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                SizedBox(
+                  height: 10.0,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VideoDisplayScreen(
+                          videoURL:
+                              "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100.0),
+                    ),
+                    margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.home,
+                          color: Colors.black,
+                        ),
+                        SizedBox(
+                          width: 5.0,
+                        ),
+                        Text(
+                          "HOME PAGE",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
                           ),
                         ),
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100.0),
-                      ),
-                      margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.home,
-                            color: Colors.black,
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            "HOME PAGE",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
                   ),
-                  MaterialButton(
-                    onPressed: () {
-                     goPage(context, FeedDashboard());
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100.0),
-                      ),
-                      margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.dashboard,
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    goPage(context, FeedDashboard());
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100.0),
+                    ),
+                    margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.dashboard,
+                          color: Colors.black,
+                        ),
+                        SizedBox(
+                          width: 5.0,
+                        ),
+                        Text(
+                          "Dashboard",
+                          style: TextStyle(
                             color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
                           ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            "Dashboard",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  MaterialButton(
-                  onPressed: () {
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                GestureDetector(
+                  onTap: () {
                     goPage(context, AuthorProfile());
                   },
                   child: Container(
@@ -499,7 +512,8 @@ class CreateAccount extends StatelessWidget {
                   child: ElevatedButton(
                     //padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
                     style: style,
-                    onPressed: () {/* 
+                    onPressed: () {
+                      /*
                       FocusScope.of(context).unfocus();
                       sessionObj.emailNextEnabled
                           ? sessionObj.pctrl.nextPage(
@@ -732,7 +746,7 @@ class LoginPage extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
               onChanged: (String text) {
-              /*   loginLogic.email = text;
+                /*   loginLogic.email = text;
                 loginLogic.loginButtonListener(
                     loginLogic.email!, loginLogic.password!); */
               },
@@ -750,7 +764,7 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               height: 5.0,
             ),
-           /*  TextFormField(
+            /*  TextFormField(
               // obscureText: !loginLogic.showPassword,
               autofocus: false,
               decoration: InputDecoration(
@@ -814,7 +828,7 @@ class LoginPage extends StatelessWidget {
             Center(
               child: InkWell(
                 onTap: () {
-                 /*  Navigator.push(
+                  /*  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => Material(
