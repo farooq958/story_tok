@@ -43,14 +43,8 @@ Widget addNewBookWidget(BuildContext context, String imageUrl, width) {
 Widget dropShadowWidget({context, imageUrl}) {
   return Container(
     margin: EdgeInsets.only(left: 8.0),
-    height: MediaQuery
-        .of(context)
-        .size
-        .height / 3.8,
-    width: MediaQuery
-        .of(context)
-        .size
-        .width / 2.2,
+    height: MediaQuery.of(context).size.height / 3.8,
+    width: MediaQuery.of(context).size.width / 2.2,
     decoration: BoxDecoration(
       image: DecorationImage(
         image: AssetImage(
@@ -69,14 +63,8 @@ Widget addFilesWidget({
 }) {
   return Container(
     margin: EdgeInsets.only(left: 6.0),
-    height: MediaQuery
-        .of(context)
-        .size
-        .height / 3.8,
-    width: MediaQuery
-        .of(context)
-        .size
-        .width / 2.2,
+    height: MediaQuery.of(context).size.height / 3.8,
+    width: MediaQuery.of(context).size.width / 2.2,
     decoration: BoxDecoration(
       image: DecorationImage(
         image: AssetImage(
@@ -90,18 +78,12 @@ Widget addFilesWidget({
         Container(
           child: Image.asset(
             textImageUrl,
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.06,
+            height: MediaQuery.of(context).size.height * 0.06,
           ),
         ),
         Image.asset(
           addFilesImageUrl,
-          width: MediaQuery
-              .of(context)
-              .size
-              .height * 0.16,
+          width: MediaQuery.of(context).size.height * 0.16,
         ),
       ],
     ),
@@ -110,10 +92,7 @@ Widget addFilesWidget({
 
 Widget uploadText({context, label, fontSize}) {
   return Container(
-    width: MediaQuery
-        .of(context)
-        .size
-        .width / 2,
+    width: MediaQuery.of(context).size.width / 2,
     child: Text(
       label,
       maxLines: 2,
@@ -123,6 +102,34 @@ Widget uploadText({context, label, fontSize}) {
         fontWeight: FontWeight.bold,
         color: Colors.black,
       ),
+    ),
+  );
+}
+
+Widget mainMenuWidget({
+  context,
+  boxImageUrl,
+  addFilesImageUrl,
+}) {
+  return Container(
+    margin: EdgeInsets.only(left: 6.0),
+    height: MediaQuery.of(context).size.height / 3.8,
+    width: MediaQuery.of(context).size.width / 2.2,
+    decoration: BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage(
+          boxImageUrl,
+        ),
+      ),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Image.asset(
+          addFilesImageUrl,
+          width: MediaQuery.of(context).size.height * 0.19,
+        ),
+      ],
     ),
   );
 }
