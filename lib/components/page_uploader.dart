@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:selectable_container/selectable_container.dart';
+import 'package:storily/components/record_audio.dart';
 import 'package:storily/global/constants/assets.dart';
 import '../utils.dart';
 import 'common_upload_book_format.dart';
@@ -17,12 +19,14 @@ class PageUploaderState extends State<PageUploader> {
   List imagesPath = [];
   var total = 0;
   var imagePicker;
+  List<bool> _selected = [];
 
   _addImage(BuildContext context, var type, int index) async {
     await _handleURLButtonPress(context, type, total, 'addMethod');
   }
 
-  _handleURLButtonPress(BuildContext context, var type, var i, String verifyText) async {
+  _handleURLButtonPress(
+      BuildContext context, var type, var i, String verifyText) async {
     var source = type == ImageSourceType.camera
         ? ImageSource.camera
         : ImageSource.gallery;
@@ -52,10 +56,13 @@ class PageUploaderState extends State<PageUploader> {
       });
     }
 
-    if(!imageExist && verifyText == "addMethod"){
+    if (!imageExist && verifyText == "addMethod") {
       total++;
+      _selected.add(false);
     }
   }
+
+  List selectedImages = [];
 
   @override
   void initState() {
@@ -87,22 +94,12 @@ class PageUploaderState extends State<PageUploader> {
                 ),
                 Stack(
                   children: [
-                    addNewBookWidget(
-                      context,
-                      Assets.subMenuRedBox,
-                        MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.90
-                    ),
-                    addNewBookWidget(context, Assets.subMenuRedText,MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.90),
-                    addNewBookWidget(context, Assets.subMenuExit,MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.90),
+                    addNewBookWidget(context, Assets.subMenuRedBox,
+                        MediaQuery.of(context).size.width * 0.90),
+                    addNewBookWidget(context, Assets.subMenuRedText,
+                        MediaQuery.of(context).size.width * 0.90),
+                    addNewBookWidget(context, Assets.subMenuExit,
+                        MediaQuery.of(context).size.width * 0.90),
                   ],
                 ),
               ],
@@ -130,29 +127,32 @@ class PageUploaderState extends State<PageUploader> {
                             context: context,
                             label: "Current Pages: $total",
                             fontSize: 20.0),
-                        Stack(
-                          children: [
-                            addNewBookWidget(
-                                context,
-                                Assets.editPagesRedBox,
-                                MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.30
-                            ),
-                            addNewBookWidget(context, Assets.editPagesRedDeleteText,MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.30),
-                            addNewBookWidget(context, Assets.editPagesRedAdd,MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.30),
-                            addNewBookWidget(context, Assets.editPagesRedMinus,MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.30),
-                          ],
+                        InkWell(
+                          onTap: () {
+                            for (int i = 0; i < selectedImages.length; i++) {
+                              _images.remove(selectedImages[i]);
+                              total--;
+                            }
+                            _selected.removeWhere((element) => element == true);
+                            selectedImages.clear();
+                            setState(() {});
+                          },
+                          child: Stack(
+                            children: [
+                              addNewBookWidget(context, Assets.editPagesRedBox,
+                                  MediaQuery.of(context).size.width * 0.30),
+                              addNewBookWidget(
+                                  context,
+                                  Assets.editPagesRedDeleteText,
+                                  MediaQuery.of(context).size.width * 0.30),
+                              addNewBookWidget(context, Assets.editPagesRedAdd,
+                                  MediaQuery.of(context).size.width * 0.30),
+                              addNewBookWidget(
+                                  context,
+                                  Assets.editPagesRedMinus,
+                                  MediaQuery.of(context).size.width * 0.30),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -178,7 +178,6 @@ class PageUploaderState extends State<PageUploader> {
                                     children: [
                                       GestureDetector(
                                         onTap: () async {
-                                          print("call addimage");
                                           await _addImage(context,
                                               ImageSourceType.gallery, index);
                                         },
@@ -192,34 +191,59 @@ class PageUploaderState extends State<PageUploader> {
                                     children: [
                                       GestureDetector(
                                         onTap: () async {
-                                          print("call handlebuttonUrl");
                                           await _handleURLButtonPress(
-                                            context,
-                                            ImageSourceType.gallery,
-                                            index,
-                                            'buttonPress'
-                                          );
+                                              context,
+                                              ImageSourceType.gallery,
+                                              index,
+                                              'buttonPress');
                                         },
                                         child: Container(
                                           child: _images[index] != null
-                                              ? Container(
-                                            margin: EdgeInsets.only(bottom: 10),
-                                                  height: 120,
-                                                  width: 75,
-                                                  decoration: BoxDecoration(
-                                                    border:
-                                                        Border.all(width: 2.5),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0), //<-- SEE HERE
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            7.0),
-                                                    child: Image.file(
-                                                      _images[index],
-                                                      fit: BoxFit.contain,
+                                              ? SelectableContainer(
+                                                  unselectedBackgroundColor:
+                                                      Colors.transparent,
+                                                  unselectedBorderColor:
+                                                      Colors.transparent,
+                                                  selectedBorderColor:
+                                                      Colors.transparent,
+                                                  unselectedOpacity: 1.0,
+                                                  selected: _selected[index],
+                                                  // selectedValues[index],
+                                                  onValueChanged: (value) {
+                                                    try {
+                                                      setState(() {
+                                                        _selected[index] =
+                                                            value;
+                                                        if (!selectedImages
+                                                            .contains(index)) {
+                                                          selectedImages
+                                                              .add(index);
+                                                        }
+                                                      });
+                                                    } catch (e, stacktrace) {
+                                                      print(stacktrace);
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        bottom: 10),
+                                                    height: 120,
+                                                    width: 75,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 2.5),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0), //<-- SEE HERE
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              7.0),
+                                                      child: Image.file(
+                                                        _images[index],
+                                                        fit: BoxFit.contain,
+                                                      ),
                                                     ),
                                                   ),
                                                 )
@@ -245,38 +269,53 @@ class PageUploaderState extends State<PageUploader> {
                       ),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly  ,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Stack(
-                          children: [
-                            addNewBookWidget(
+                        InkWell(
+                          child: Stack(
+                            children: [
+                              addNewBookWidget(
+                                  context,
+                                  Assets.directionalRedBox,
+                                  MediaQuery.of(context).size.width * 0.30),
+                              addNewBookWidget(
+                                  context,
+                                  Assets.directionalTextBack,
+                                  MediaQuery.of(context).size.width * 0.30),
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (_images.length < 1) {
+                              Utils().showToastMessage(
+                                  "Book has at least 4 pages.", context);
+                            } else {
+                              Navigator.push(
                                 context,
-                                Assets.directionalRedBox,
-                                MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.30
-                            ),
-                            addNewBookWidget(context, Assets.directionalTextBack,MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.30),
-                          ],
-                        ),Stack(
-                          children: [
-                            addNewBookWidget(
-                                context,
-                                Assets.directionalRedBox,
-                                MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.30
-                            ),
-                            addNewBookWidget(context, Assets.directionalTextContinue,MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.30),
-                          ],
+                                MaterialPageRoute(
+                                    builder: (context) => RecordAudio(
+                                        /*imagesPath: imagesPath,
+                                images: _images*/
+                                        )),
+                              );
+                            }
+                          },
+                          child: Stack(
+                            children: [
+                              addNewBookWidget(
+                                  context,
+                                  Assets.directionalRedBox,
+                                  MediaQuery.of(context).size.width * 0.30),
+                              addNewBookWidget(
+                                  context,
+                                  Assets.directionalTextContinue,
+                                  MediaQuery.of(context).size.width * 0.30),
+                            ],
+                          ),
                         )
                       ],
                     )
