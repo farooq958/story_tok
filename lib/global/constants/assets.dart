@@ -159,6 +159,14 @@ class Assets {
   /// Assets for directional text without audio text
   static const directionalTextWithoutAudio = "assets/images/directional_text_withoutaudio.png";
 
+  /// Assets for upload video
+  static const uploadVideoHeader = "assets/images/video_upload/upload-a-video.png";
+  static const uploadVideoBox  = "assets/images/video_upload/uploadbluevideobox-bg.png";
+  static const uploadVideoAddFilesBox  = "assets/images/video_upload/image-6.png";
+  static const uploadVideoChooseFromDrafts = "assets/images/video_upload/choose-from-drafts.png";
+  static const uploadVideoBGSquare = "assets/images/video_upload/backgroundsquare-1.png";
+  static const uploadVideoButtonBox = "assets/images/video_upload/box-aRb.png";
+  static const uploadVideoCoverBox = "assets/images/video_upload/coverredbook-1-bg.png";
   /// Assets for directional long red box
   static const directionalRedBoxLong = "assets/images/directional_red_box_long.png";
 
