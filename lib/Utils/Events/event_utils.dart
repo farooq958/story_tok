@@ -84,7 +84,9 @@ class UpcomingWidget extends StatelessWidget {
                       Positioned(
                           right: 10,
                           bottom: 10,
-                          child: Text("30 MORE Days",style: GoogleFonts.lexend(fontSize:8.sp,fontWeight: FontWeight.w300),)),
+                          child:
+                          Text("${daysBetween(DateTime.now(), DateFormat("yyyy-MM-dd").parse('${sEvents[index].createdDate}')).toString()} MORE DAYS",style: GoogleFonts.lexend(fontSize:8.sp,fontWeight: FontWeight.w300),)
+                      ),
                       Positioned(
                         //top:0,
                           right: 0,
@@ -122,7 +124,11 @@ class UpcomingWidget extends StatelessWidget {
     streamedUpcomingEvents.sort((a,b)=> DateTime.parse(a.createdDate).compareTo(DateTime.parse(b.createdDate)));
     return streamedUpcomingEvents;
   }
-
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
+  }
 }
 
 class StreamingCurrentEventWidget extends StatelessWidget {
@@ -194,7 +200,9 @@ class StreamingCurrentEventWidget extends StatelessWidget {
                       Positioned(
                           right: 10,
                           bottom: 10,
-                          child: Text("30 MORE Days",style: GoogleFonts.lexend(fontSize:8.sp,fontWeight: FontWeight.w300),)),
+                          child:
+                          Text("${daysBetween(DateTime.now(), DateFormat("yyyy-MM-dd").parse('${sEvents[index].createdDate}')).toString()} MORE DAYS",style: GoogleFonts.lexend(fontSize:8.sp,fontWeight: FontWeight.w300),)
+                      ),
                       Positioned(
                           top:0,
                           right: 5.sp,
@@ -257,6 +265,11 @@ class StreamingCurrentEventWidget extends StatelessWidget {
 
     return streamedEvents;
   }
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
+  }
 }
 
 class RecommendWidget extends StatelessWidget {
@@ -269,7 +282,12 @@ class RecommendWidget extends StatelessWidget {
     return Stack(
       children: [
 
-        BlocConsumer<LoadRecommendedEventsCubit, List<EventFlowModel>>(
+        BlocConsumer<LoadMainDataCubit, List<EventFlowModel>>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
+    return BlocConsumer<LoadRecommendedEventsCubit, List<EventFlowModel>>(
           listener: (context, state) {
             // TODO: implement listener
           },
@@ -295,35 +313,73 @@ class RecommendWidget extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context,index){
                         return Center(child:
-                        Container(
+                        TouchableOpacity(
+                          onTap: (){
+
+                            showDialog(context: context, builder: (context){
+                              return AlertDialog(content: Text("Do you want to add this event to your list? ",style: GoogleFonts.lexend(color: Colors.blueGrey),),actions: [
+                                
+                                ElevatedButton(
+                                    style: ButtonStyle(backgroundColor:MaterialStateColor.resolveWith((states) => AppColors.containerYellowColor)),
+                                    onPressed: () async {
+                                   var send=await Repository().setEventDataToFirebase(recommendedList[index]);
+                                   if(send==true)
+                                   {
+                                     AppUtils.showCustomSnackBar(context: context, message: "Event Added Successfully", color: Colors.green, duration: const Duration(milliseconds: 1000),);
+                           context.read<LoadMainDataCubit>().getEventData();
+                                     context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 5);
+                                    // Navigator.pushReplacement(context, CustomSlidePageRoute(child: Confirmation2()));
+
+                                   }
+                                   else
+                                   {
+                                     //print(send);
+                                     AppUtils.showCustomSnackBar(context: context, message: "something went wrong please try again later", color: Color(0xfff6c33f), duration: const Duration(milliseconds: 1200),);
+                                   }
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Yes",style: GoogleFonts.lexend(color: Colors.blueGrey))),
+                                SizedBox(width: 20.sp,),
+                                ElevatedButton(onPressed: () {Navigator.pop(context);  },
+                                    style: ButtonStyle(backgroundColor:MaterialStateColor.resolveWith((states) => AppColors.rectangleColor)),
+                                child: Text("Cancel",style: GoogleFonts.lexend(color: Colors.blueGrey),)),
+                                SizedBox(width: 20.sp,),
+                                
+                              ],);
+
+                            });
+
+                          },
+                          child: Container(
 
 
-                          height: 130.sp,
-                          width: 100.sp,
-                          // color: Colors.red,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black,width: 2.0),
-                              color: AppColors.rectangleColor,
-                              borderRadius: BorderRadius.circular(5.sp)
+                            height: 130.sp,
+                            width: 100.sp,
+                            // color: Colors.red,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black,width: 2.0),
+                                color: AppColors.rectangleColor,
+                                borderRadius: BorderRadius.circular(5.sp)
+                            ),
+                            child: ListView(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              children: [
+                                SizedBox(height: 5.sp,),
+                                Center(child: Text("EventTitle",style: GoogleFonts.lexend(fontWeight: FontWeight.w900,fontSize: 12.sp),)),
+
+                                Center(child: Text(recommendedList[index].eventTitle,style: GoogleFonts.lexend(fontWeight: FontWeight.w500,fontSize: 12.sp),))
+                                ,
+                                SizedBox(height: 5.sp,),
+                                Center(child: Text("Date",style: GoogleFonts.lexend(fontWeight: FontWeight.w900,fontSize: 12.sp),)),
+                                Center(child: Text(recommendedList[index].createdDate,style: GoogleFonts.lexend(fontWeight: FontWeight.w500,fontSize: 12.sp),))
+                                ,SizedBox(height: 5.sp,),
+                                Center(child: Text("Time",style: GoogleFonts.lexend(fontWeight: FontWeight.w900,fontSize: 12.sp),)),
+                                Center(child: Text("${recommendedList[index].fromTime}-${recommendedList[index].toTime}",style: GoogleFonts.lexend(fontWeight: FontWeight.w500,fontSize: 12.sp),))
+
+                              ],),
+
                           ),
-                          child: ListView(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            children: [
-                              SizedBox(height: 5.sp,),
-                              Center(child: Text("EventTitle",style: GoogleFonts.lexend(fontWeight: FontWeight.w900,fontSize: 12.sp),)),
-
-                              Center(child: Text(recommendedList[index].eventTitle,style: GoogleFonts.lexend(fontWeight: FontWeight.w500,fontSize: 12.sp),))
-                              ,
-                              SizedBox(height: 5.sp,),
-                              Center(child: Text("Date",style: GoogleFonts.lexend(fontWeight: FontWeight.w900,fontSize: 12.sp),)),
-                              Center(child: Text(recommendedList[index].createdDate,style: GoogleFonts.lexend(fontWeight: FontWeight.w500,fontSize: 12.sp),))
-                              ,SizedBox(height: 5.sp,),
-                              Center(child: Text("Time",style: GoogleFonts.lexend(fontWeight: FontWeight.w900,fontSize: 12.sp),)),
-                              Center(child: Text("${recommendedList[index].fromTime}-${recommendedList[index].toTime}",style: GoogleFonts.lexend(fontWeight: FontWeight.w500,fontSize: 12.sp),))
-
-                            ],),
-
                         ));
                       }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: 10.sp,); },),
                   ),
@@ -333,7 +389,9 @@ class RecommendWidget extends StatelessWidget {
 
             );
           },
-        ),
+        );
+  },
+),
         Positioned(
             top: 0,
 

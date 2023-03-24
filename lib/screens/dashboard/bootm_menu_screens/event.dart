@@ -105,15 +105,21 @@ class MyEventPage extends StatelessWidget {
                 SizedBox(height: 20.sp,),
               ///upcoming Text
                 Container(
+
                   color: Color(0xffEEF0F2),
                     margin: EdgeInsets.only(left: 20.sp,right: 1.sw/2.9),
                     child: Text("UPCOMING",style: GoogleFonts.lexend(fontSize:20.sp ,fontWeight: FontWeight.w600,decoration:TextDecoration.underline ,decorationThickness: 2,  decorationColor: Color(0xfff6c33f)),)),
                 SizedBox(height: 10.sp,),
                 ///Upcoming Widget
-                Container(
-                    color: AppColors.primaryColor,
-                    height: Repository.eventListData.isEmpty? 100:1.sh/3.1,
-                    child: UpcomingWidget()),
+                // Container(
+                //    // margin: EdgeInsets.only(right: 20.sp),
+                //     color: Colors.transparent,
+                //     height: (1.sh/2.4).sp,
+                //     child: UpcomingWidget()),
+                UpcomingWidget(),
+
+                
+                
 
                 SizedBox(height: 20.sp,),
 ///recommended widget
