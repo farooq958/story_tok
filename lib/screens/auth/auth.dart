@@ -1,3 +1,4 @@
+import 'package:animated_styled_widget/animated_styled_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/home_video_display_screen.dart';
@@ -32,6 +33,39 @@ class FirebaseSession extends StatelessWidget {
 class AuthUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Style neumorphicStyle = Style(
+        width: 250.toPXLength,
+        // margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        backgroundDecoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        shapeBorder: RectangleShapeBorder(
+          borderRadius:
+              DynamicBorderRadius.all(DynamicRadius.circular(50.toPXLength)),
+        ),
+        shadows: [
+          ShapeShadow(
+              blurRadius: 20,
+              spreadRadius: -3,
+              color: Colors.grey.shade400.withOpacity(0.5),
+              offset: Offset(10, 10)),
+          ShapeShadow(
+              blurRadius: 20,
+              spreadRadius: -3,
+              color: Color(0xFFFEFEFE).withOpacity(0.5),
+              offset: Offset(-10, -10)),
+        ],
+        textStyle: DynamicTextStyle(
+          letterSpacing: 0.2.toVWLength,
+          fontSize: Dimension.min(300.toPercentLength, 26.toPXLength),
+          fontWeight: FontWeight.w700,
+          color: Colors.grey,
+        ),
+        textAlign: TextAlign.center,
+        mouseCursor: SystemMouseCursors.click);
+
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -64,42 +98,62 @@ class AuthUI extends StatelessWidget {
                 SizedBox(
                   height: 10.0,
                 ),
-                GestureDetector(
-                  onTap: () {
+                StyledButton.builder(
+                  duration: Duration(milliseconds: 200),
+                  style: neumorphicStyle,
+                  pressedStyle: neumorphicStyle.copyWith(
+                    shadows: [],
+                    insetShadows: [
+                      ShapeShadow(
+                          blurRadius: 20,
+                          spreadRadius: -5,
+                          color: Colors.grey.shade400,
+                          offset: Offset(10, 10)),
+                      ShapeShadow(
+                          blurRadius: 20,
+                          spreadRadius: -5,
+                          color: Color(0xFFFEFEFE),
+                          offset: Offset(-10, -10)),
+                    ],
+                  ),
+                  onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => SignupOrLogin()));
                   },
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(100.0),
-                    ),
-                    margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.mail_outline,
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          width: 5.0,
-                        ),
-                        Text(
-                          "EMAIL",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  builder: (context, state) {
+                    Widget child;
+                    switch (state) {
+                      default:
+                        child = Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.mail_outline,
+                              color: Colors.black,
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              "EMAIL",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                          ],
+                        );
+                        break;
+                    }
+                    return AnimatedSwitcher(
+                      duration: Duration(milliseconds: 200),
+                      child: child,
+                    );
+                  },
                 ),
                 // SizedBox(
                 //   height: 10.0,
@@ -143,14 +197,14 @@ class AuthUI extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     //this is a short cut to the author's page, not for final product
-                     Navigator.push(
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => MyStorilyAuthorPage()));
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MyStorilyAuthorPage()));
-                   /* Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MainHomeScreen()));*/
+                            builder: (context) => MainHomeScreen()));
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0),
