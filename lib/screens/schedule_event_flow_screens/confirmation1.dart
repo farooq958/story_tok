@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -368,7 +369,10 @@ SizedBox(height: 10.sp,),
                           var userId= FirebaseAuth.instance.currentUser?.uid;
                           String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
                           //print(formattedDate);
-                 EventFlowModel ef =  EventFlowModel(eventTitle:Repository.eventTitleController.text , eventDesc: Repository.eventDescriptionController.text, fromTime: fromTime, toTime: toTime, createdDate: formattedDate, userId: userId.toString(), eventType:int.parse(Repository.dropdownValue.toString()), readingLevel: Repository.dropDownReadingValue);
+                          final docId =  FirebaseFirestore.instance.collection("streaming_events")
+                              .doc()
+                              .id;
+                 EventFlowModel ef =  EventFlowModel(eventTitle:Repository.eventTitleController.text , eventDesc: Repository.eventDescriptionController.text, fromTime: fromTime, toTime: toTime, createdDate: formattedDate, userId: userId.toString(), eventType:int.parse(Repository.dropdownValue.toString()), readingLevel: Repository.dropDownReadingValue, eventId: docId);
                          // context.read<LoadMainDataCubit>().getEventData();
   var send=await Repository().setEventDataToFirebase(ef);
   if(send==true)

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:storily/Utils/app_utils.dart';
+import 'package:storily/cubit/load_upcoming_data_cubit.dart';
 import 'package:storily/repo/repo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
@@ -24,7 +25,7 @@ class UpcomingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoadMainDataCubit, List<EventFlowModel>>(
+    return BlocConsumer<LoadUpcomingDataCubit, List<EventFlowModel>>(
       listener: (context, state) {
         // TODO: implement listener
       },
@@ -322,12 +323,14 @@ class RecommendWidget extends StatelessWidget {
                                 ElevatedButton(
                                     style: ButtonStyle(backgroundColor:MaterialStateColor.resolveWith((states) => AppColors.containerYellowColor)),
                                     onPressed: () async {
-                                   var send=await Repository().setEventDataToFirebase(recommendedList[index]);
-                                   if(send==true)
+                                   var send=await Repository().setEventRecommendedDataToFirebase(recommendedList[index]);
+                                  var del=await Repository().deleteEventFromRecommended(recommendedList[index].eventId);
+                                   if(send==true && del ==true)
                                    {
-                                     AppUtils.showCustomSnackBar(context: context, message: "Event Added Successfully", color: Colors.green, duration: const Duration(milliseconds: 1000),);
-                           context.read<LoadMainDataCubit>().getEventData();
-                                     context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 5);
+                                     AppUtils.showCustomSnackBar(context: context, message: "Event Added/Removed Successfully", color: Colors.green, duration: const Duration(milliseconds: 1000),);
+                          // context.read<LoadMainDataCubit>().getEventData();
+                           context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
+                           context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 5);
                                     // Navigator.pushReplacement(context, CustomSlidePageRoute(child: Confirmation2()));
 
                                    }
