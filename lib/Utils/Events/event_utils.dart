@@ -273,16 +273,11 @@ class StreamingCurrentEventWidget extends StatelessWidget {
   }
 }
 
-  class RecommendWidget extends StatefulWidget {
+  class RecommendWidget extends StatelessWidget {
   const RecommendWidget({
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<RecommendWidget> createState() => _RecommendWidgetState();
-}
-
-class _RecommendWidgetState extends State<RecommendWidget> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -425,7 +420,6 @@ class _RecommendWidgetState extends State<RecommendWidget> {
     );
   }
 }
-
 
 class CalendarView extends StatefulWidget {
   @override
