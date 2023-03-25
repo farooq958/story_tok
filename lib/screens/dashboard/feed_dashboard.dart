@@ -39,8 +39,16 @@ class _FeedScreenState extends State<FeedDashboard> {
       log("Explore");
     }
     if (_selectedIndex == 2) {
-      goPage(context, MyBookshelfPage());
+      //goPage(context, MyBookshelfPage());
       log("Library");
+      showToast("Library", context);
+      // if (feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.value.isPlaying) {
+      //   feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.pause();
+      // }else{
+      //   goPage(context, MyBookshelfPage());
+      //   log("Library");
+      // }
+      // showToast("Library", context);
     }
     if (_selectedIndex == 3) {
       log("Events");

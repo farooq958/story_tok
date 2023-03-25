@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return PageView.custom(
       childrenDelegate: SliverChildBuilderDelegate(
         (context, index) {
-          final data = feedViewModel.getItemByIndex(index, context);
+          final data = feedViewModel.getItemByIndex(index);
           if (data is GameModel) {
             log('#GameScreen');
             return GameScreenWidget(gameModel: data);

@@ -21,7 +21,7 @@ class GameAPI {
     var games;
 
     if (data.docs.length == 0) {
-      await addDemoData();
+      //await addDemoData();
       games = (await FirebaseFirestore.instance.collection("game_list").get());
     } else {
       games = data;
@@ -37,9 +37,9 @@ class GameAPI {
   /*
   * manually add vieos in firestore
   */ 
-  Future<Null> addDemoData() async {
-    for (var game in gameData) {
-      await FirebaseFirestore.instance.collection("game_list").add(game);
-    }
-  }
+  // Future<Null> addDemoData() async {
+  //   for (var game in gameData) {
+  //     await FirebaseFirestore.instance.collection("game_list").add(game);
+  //   }
+  // }
 }

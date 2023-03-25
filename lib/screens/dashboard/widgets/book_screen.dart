@@ -29,9 +29,11 @@ class _BookScreenWidgetState extends State<BookScreenWidget> {
     return DecoratedBox(
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: NetworkImage(
-                'https://images.unsplash.com/photo-1484176141566-3674cda218f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzh8fHJlYWRpbmclMjBlbnZpcmlvbm1lbnQlMjBkYXJrJTIwYm9va3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
-            fit: BoxFit.cover),
+          image: NetworkImage(
+            'https://images.unsplash.com/photo-1484176141566-3674cda218f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzh8fHJlYWRpbmclMjBlbnZpcmlvbm1lbnQlMjBkYXJrJTIwYm9va3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
+          ),
+          fit: BoxFit.cover,
+        ),
       ),
       child: SafeArea(
         child: Stack(
@@ -98,8 +100,9 @@ class _BookScreenWidgetState extends State<BookScreenWidget> {
                     log(snapshot.data.toString());
                     return (snapshot.hasData)
                         ? InkWell(
-                            onTap: () async {
-                              if (snapshot.data != null) {
+                            onTap: () async =>
+                                await controllerFunction(snapshot.data!)
+                            /* if (snapshot.data != null) {
                                 (snapshot.data!.playing)
                                     ? await widget.bookData.audioPlayer!.pause()
                                     : await widget.bookData.audioPlayer!.play();
@@ -109,8 +112,8 @@ class _BookScreenWidgetState extends State<BookScreenWidget> {
                                   ProcessingState.completed) {
                                 widget.bookData
                                     .setAudioPlayerSource(currentIndex);
-                              }
-                            },
+                              } */
+                            ,
                             child: Container(
                               padding: const EdgeInsets.all(8),
                               margin:
@@ -135,18 +138,48 @@ class _BookScreenWidgetState extends State<BookScreenWidget> {
     );
   }
 
+  controllerFunction(PlayerState data) async {
+    switch (data.processingState) {
+      case ProcessingState.loading:
+        {}
+        break;
+      case ProcessingState.idle:
+        {
+          await widget.bookData.setAudioPlayerSource(currentIndex);
+        }
+        break;
+      case ProcessingState.buffering:
+        {}
+        break;
+      case ProcessingState.ready:
+        {
+          if (data.playing) {
+            await widget.bookData.audioPlayer!.pause();
+          } else {
+            await widget.bookData.audioPlayer!.play();
+          }
+        }
+        break;
+      case ProcessingState.completed:
+        {
+          await widget.bookData.setAudioPlayerSource(currentIndex);
+        }
+        break;
+    }
+  }
+
   IconData getProperIcon(PlayerState currentState) {
     switch (currentState.processingState) {
       case ProcessingState.loading:
         return Icons.network_check_sharp;
       case ProcessingState.idle:
-        return currentState.playing ? Icons.pause : Icons.play_arrow;
+        return Icons.warning_amber_outlined;
       case ProcessingState.buffering:
         return Icons.network_check_sharp;
       case ProcessingState.ready:
         return currentState.playing ? Icons.pause : Icons.play_arrow;
       case ProcessingState.completed:
-        return Icons.play_arrow;
+        return Icons.replay_circle_filled_outlined;
     }
   }
 }
