@@ -53,7 +53,7 @@ class _FeedScreenState extends State<FeedDashboard> {
       goPage(context, MyEventPage());
       context.read<LoadMainDataCubit>().getEventData();
       context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
-      context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 5);
+      context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 6);
      /* GestureDetector(
           onTap: (){
             goPage(context, MyEventPage());
