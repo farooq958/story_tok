@@ -9,6 +9,7 @@ import 'package:storily/global/methods/methods.dart';
 import 'package:storily/screens/dashboard/widgets/home_screen.dart';
 import 'package:storily/screens/dashboard/bootm_menu_screens/event.dart';
 //import 'data/video_model.dart';
+import '../../cubit/load_upcoming_data_cubit.dart';
 import 'feed_model/feed_view_model.dart';
 import 'bootm_menu_screens/bookshelf.dart';
 
@@ -51,7 +52,8 @@ class _FeedScreenState extends State<FeedDashboard> {
     if (_selectedIndex == 3) {
       goPage(context, MyEventPage());
       context.read<LoadMainDataCubit>().getEventData();
-      context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 5);
+      context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
+      context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 6);
      /* GestureDetector(
           onTap: (){
             goPage(context, MyEventPage());

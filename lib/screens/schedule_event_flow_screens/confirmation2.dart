@@ -8,6 +8,7 @@ import 'package:storily/Utils/PageTransitions/slide_page_transition.dart';
 import 'package:storily/cubit/event_from_time_cubit.dart';
 import 'package:storily/cubit/event_to_time_cubit.dart';
 import 'package:storily/cubit/load_main_data_cubit.dart';
+import 'package:storily/cubit/load_upcoming_data_cubit.dart';
 import 'package:storily/cubit/selected_date_event_cubit.dart';
 import 'package:storily/repo/repo.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
@@ -24,7 +25,7 @@ class _Confirmation2State extends State<Confirmation2> {
   @override
   void initState() {
     context.read<LoadMainDataCubit>().getEventData();
-
+context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
     Future.delayed(Duration(seconds: 3)).then((value) => Navigator.pushReplacement(context, CustomSlidePageRoute(child: MainEventScreenScheduleScreen())));
     // TODO: implement initState
     super.initState();

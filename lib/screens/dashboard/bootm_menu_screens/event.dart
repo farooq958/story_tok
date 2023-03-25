@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:storily/Utils/app_colors.dart';
 import 'package:storily/cubit/load_recommended_events_cubit.dart';
+import 'package:storily/cubit/load_upcoming_data_cubit.dart';
 import 'package:storily/model/event_flow_model.dart';
 import 'package:storily/repo/repo.dart';
 import 'package:storily/screens/schedule_event_flow_screens/main_event_screen.dart';
@@ -81,7 +82,13 @@ class MyEventPage extends StatelessWidget {
                 child: SizedBox(
                     height: 20.sp,
                     child: Image.asset("assets/images/background_rectangledots.png"))),
-            ListView(
+            BlocBuilder<LoadUpcomingDataCubit, List<EventFlowModel>>(
+
+  builder: (context, state) {
+    return BlocBuilder<LoadRecommendedEventsCubit, List<EventFlowModel>>(
+
+  builder: (context, state) {
+    return ListView(
               shrinkWrap: true,
               //padding:  EdgeInsets.symmetric(horizontal: 20.sp)
               children: [
@@ -116,23 +123,37 @@ class MyEventPage extends StatelessWidget {
                 //     color: Colors.transparent,
                 //     height: (1.sh/2.4).sp,
                 //     child: UpcomingWidget()),
-                UpcomingWidget(),
+                BlocBuilder<LoadUpcomingDataCubit, List<EventFlowModel>>(
+  builder: (context, state) {
+    return UpcomingWidget();
+  },
+),
 
                 
                 
 
                 SizedBox(height: 20.sp,),
 ///recommended widget
-                 SizedBox(
+                 BlocBuilder<LoadRecommendedEventsCubit, List<EventFlowModel>>(
+  builder: (context, state) {
+    print("fromstate");
+    print(state.length);
+    return SizedBox(
                    height: 300.sp,
 
                    child: RecommendWidget(),
-                 )
+                 );
+  },
+)
 
 
 
 
-              ],),
+              ],);
+  },
+);
+  },
+),
             //SizedBox(height: 80.sp,),
 
 

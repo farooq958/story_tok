@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:storily/Utils/app_utils.dart';
+import 'package:storily/cubit/load_upcoming_data_cubit.dart';
 import 'package:storily/repo/repo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
@@ -24,7 +25,7 @@ class UpcomingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoadMainDataCubit, List<EventFlowModel>>(
+    return BlocConsumer<LoadUpcomingDataCubit, List<EventFlowModel>>(
       listener: (context, state) {
         // TODO: implement listener
       },
@@ -106,23 +107,23 @@ class UpcomingWidget extends StatelessWidget {
   getUpcomingSortedEvents(List<EventFlowModel> events) {
 
 
-    DateTime currentDateTime = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
-
-    List<DateTime> dates = events.map((event) => DateTime.parse(event.createdDate)).toList();
-    ///sorting dates quick sort dart algo
-    dates.sort((a, b) => a.compareTo(b));
-    print(dates[0]);
-    //print(currentDateTime);
-    List<EventFlowModel> streamedUpcomingEvents=[];
-    ///currently sorted events logic
-    for(int i=0;i<dates.length;i++)
-    {
-      if(DateTime.parse(events[i].createdDate).isAfter(currentDateTime)) {
-        streamedUpcomingEvents.add(events[i]);
-      }
-    }
-    streamedUpcomingEvents.sort((a,b)=> DateTime.parse(a.createdDate).compareTo(DateTime.parse(b.createdDate)));
-    return streamedUpcomingEvents;
+    // DateTime currentDateTime = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
+    //
+    // List<DateTime> dates = events.map((event) => DateTime.parse(event.createdDate)).toList();
+    // ///sorting dates quick sort dart algo
+    // dates.sort((a, b) => a.compareTo(b));
+    // print(dates[0]);
+    // //print(currentDateTime);
+    // List<EventFlowModel> streamedUpcomingEvents=[];
+    // ///currently sorted events logic
+    // for(int i=0;i<dates.length;i++)
+    // {
+    //   if(DateTime.parse(events[i].createdDate).isAfter(currentDateTime)) {
+    //     streamedUpcomingEvents.add(events[i]);
+    //   }
+    // }
+    events.sort((a,b)=> DateTime.parse(a.createdDate).compareTo(DateTime.parse(b.createdDate)));
+    return events;
   }
   int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
@@ -272,7 +273,7 @@ class StreamingCurrentEventWidget extends StatelessWidget {
   }
 }
 
-class RecommendWidget extends StatelessWidget {
+  class RecommendWidget extends StatelessWidget {
   const RecommendWidget({
     Key? key,
   }) : super(key: key);
@@ -282,13 +283,14 @@ class RecommendWidget extends StatelessWidget {
     return Stack(
       children: [
 
-        BlocConsumer<LoadMainDataCubit, List<EventFlowModel>>(
-  listener: (context, state) {
-    // TODO: implement listener
-  },
-  builder: (context, state) {
-    return BlocConsumer<LoadRecommendedEventsCubit, List<EventFlowModel>>(
+
+     BlocConsumer<LoadRecommendedEventsCubit, List<EventFlowModel>>(
           listener: (context, state) {
+            if(state.isNotEmpty)
+              {
+                print("state.length");
+                print(state.length);
+              }
             // TODO: implement listener
           },
           builder: (context, recommendedList) {
@@ -318,16 +320,22 @@ class RecommendWidget extends StatelessWidget {
 
                             showDialog(context: context, builder: (context){
                               return AlertDialog(content: Text("Do you want to add this event to your list? ",style: GoogleFonts.lexend(color: Colors.blueGrey),),actions: [
-                                
+
                                 ElevatedButton(
                                     style: ButtonStyle(backgroundColor:MaterialStateColor.resolveWith((states) => AppColors.containerYellowColor)),
                                     onPressed: () async {
-                                   var send=await Repository().setEventDataToFirebase(recommendedList[index]);
-                                   if(send==true)
+                                   var send=await Repository().setEventRecommendedDataToFirebase(recommendedList[index]);
+                                  var del=await Repository().deleteEventFromRecommended(recommendedList[index].eventId);
+                                   if(send==true && del ==true)
                                    {
-                                     AppUtils.showCustomSnackBar(context: context, message: "Event Added Successfully", color: Colors.green, duration: const Duration(milliseconds: 1000),);
-                           context.read<LoadMainDataCubit>().getEventData();
-                                     context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 5);
+
+                                     AppUtils.showCustomSnackBar(context: context, message: "Event Added/Removed Successfully", color: Colors.green, duration: const Duration(milliseconds: 1000),);
+                          // context.read<LoadMainDataCubit>().getEventData();
+                                     //recommendedList.removeAt(index);
+
+                            context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 6);
+                                     context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
+
                                     // Navigator.pushReplacement(context, CustomSlidePageRoute(child: Confirmation2()));
 
                                    }
@@ -344,7 +352,7 @@ class RecommendWidget extends StatelessWidget {
                                     style: ButtonStyle(backgroundColor:MaterialStateColor.resolveWith((states) => AppColors.rectangleColor)),
                                 child: Text("Cancel",style: GoogleFonts.lexend(color: Colors.blueGrey),)),
                                 SizedBox(width: 20.sp,),
-                                
+
                               ],);
 
                             });
@@ -389,9 +397,8 @@ class RecommendWidget extends StatelessWidget {
 
             );
           },
-        );
-  },
-),
+        ),
+
         Positioned(
             top: 0,
 
@@ -413,7 +420,6 @@ class RecommendWidget extends StatelessWidget {
     );
   }
 }
-
 
 class CalendarView extends StatefulWidget {
   @override
