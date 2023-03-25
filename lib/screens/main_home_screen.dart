@@ -5,9 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../components/common_upload_book_format.dart';
 import '../global/constants/assets.dart';
 
-class MainHomeScreen extends StatelessWidget {
+class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<MainHomeScreen> createState() => _MainHomeScreenState();
+}
+
+class _MainHomeScreenState extends State<MainHomeScreen> {
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
@@ -191,43 +196,28 @@ class MainHomeScreen extends StatelessWidget {
                   child: Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+                      // Checkbox(value: value, onChanged: onChanged)
                       Expanded(
-                        child: InkWell(
-                          child: Stack(
-                            children: [
-                              dropShadowWidget(
-                                imageUrl: Assets.redDropShadow,
-                                context: context,
-                              ),
-                              mainMenuWidget(
-                                boxImageUrl: Assets.uploadRedBox,
-                                context: context,
-                                addFilesImageUrl: Assets.imageTextImageMianBook,
-                              ),
-                            ],
-                          ),
-                          onTap: () {},
+                        child: MainMenuWidget(
+                          ontap: (v) {
+                            // v.call();
+                            // setState(() {});
+                          },
+                          key: ValueKey(DateTime.now().toString() + "2"),
+                          boxImageUrl: Assets.uploadRedBox,
+                          dropShadow: Assets.redDropShadow,
+                          // context: context,
+                          addFilesImageUrl: Assets.imageTextImageMianBook,
                         ),
+                        // child:
                       ),
                       Expanded(
-                        child: InkWell(
-                          child: Stack(
-                            children: [
-                              dropShadowWidget(
-                                imageUrl: Assets.blueDropShadowMain,
-                                context: context,
-                              ),
-                              mainMenuWidget(
-                                boxImageUrl: Assets.uploadblueBox,
-                                context: context,
-                                addFilesImageUrl:
-                                    Assets.imageTextUploanVideoBlue,
-                              ),
-                            ],
-                          ),
-                          onTap: () {},
-                        ),
-                      ),
+                          child: MainMenuWidget(
+                        ontap: (p0) {},
+                        addFilesImageUrl: Assets.imageTextUploanVideoBlue,
+                        boxImageUrl: Assets.uploadblueBox,
+                        dropShadow: Assets.blueDropShadowMain,
+                      )),
                     ],
                   ),
                 ),
@@ -237,42 +227,19 @@ class MainHomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(
-                        child: InkWell(
-                          child: Stack(
-                            children: [
-                              dropShadowWidget(
-                                imageUrl: Assets.yellowDropShadowMain,
-                                context: context,
-                              ),
-                              mainMenuWidget(
-                                boxImageUrl: Assets.uploadyellowBox,
-                                context: context,
-                                addFilesImageUrl: Assets.imageTexteventyellow,
-                              ),
-                            ],
-                          ),
-                          onTap: () {},
-                        ),
-                      ),
+                          child: MainMenuWidget(
+                        ontap: (p0) {},
+                        addFilesImageUrl: Assets.imageTexteventyellow,
+                        boxImageUrl: Assets.uploadyellowBox,
+                        dropShadow: Assets.yellowDropShadowMain,
+                      )),
                       Expanded(
-                        child: InkWell(
-                          child: Stack(
-                            children: [
-                              dropShadowWidget(
-                                imageUrl: Assets.purpleDropShadowMain,
-                                context: context,
-                              ),
-                              mainMenuWidget(
-                                boxImageUrl: Assets.uploadpurpleBox,
-                                context: context,
-                                addFilesImageUrl:
-                                    Assets.imageTextMyProfilePurple,
-                              ),
-                            ],
-                          ),
-                          onTap: () {},
-                        ),
-                      ),
+                          child: MainMenuWidget(
+                        ontap: (p0) {},
+                        addFilesImageUrl: Assets.imageTextMyProfilePurple,
+                        boxImageUrl: Assets.uploadpurpleBox,
+                        dropShadow: Assets.purpleDropShadowMain,
+                      )),
                     ],
                   ),
                 ),
