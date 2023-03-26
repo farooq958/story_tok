@@ -40,20 +40,6 @@ Widget addNewBookWidget(BuildContext context, String imageUrl, width) {
   );
 }
 
-Widget dropShadowWidget({context, imageUrl}) {
-  return Container(
-    margin: EdgeInsets.only(left: 8.0),
-    height: MediaQuery.of(context).size.height / 3.8,
-    width: MediaQuery.of(context).size.width / 2.2,
-    decoration: BoxDecoration(
-      image: DecorationImage(
-        image: AssetImage(
-          imageUrl,
-        ),
-      ),
-    ),
-  );
-}
 
 Widget addFilesWidget({
   context,
