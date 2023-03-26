@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:storily/model/event_flow_model.dart';
 import 'package:storily/model/event_type_model.dart';
@@ -38,7 +39,9 @@ class Repository{
   {
 
     try {
-      var data = FirebaseFirestore.instance.collection("streaming_events");
+      var currentUser= FirebaseAuth.instance.currentUser?.uid;
+
+      var data = FirebaseFirestore.instance.collection("streaming_events").where("user_id",isEqualTo: currentUser);
 
 
       var event=await data.get();
@@ -80,7 +83,9 @@ Repository.errorMessage=e.message;
   {
 
     try {
-      var data = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("upcoming_events");
+      var cUser=FirebaseAuth.instance.currentUser?.uid;
+
+      var data = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("upcoming_events").where("user_id",isEqualTo:cUser );
 
 
       var event=await data.get();
@@ -122,13 +127,12 @@ Repository.errorMessage=e.message;
   setEventDataToFirebase(EventFlowModel ef)async{
     try {
       var data = FirebaseFirestore.instance.collection("streaming_events").doc(ef.eventId);
-      var data1 = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("upcoming_events").doc(ef.eventId);
+      //var data1 = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("upcoming_events").doc(ef.eventId);
       var data2 = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("recommended_events").doc(ef.eventId);
 
       await data.set(ef.toMap());
 
-      if(DateTime.parse(ef.createdDate).isAfter(DateTime.now()))
-      {await data1.set(ef.toMap());}
+
 
       await data2.set(ef.toMap());
       return true;
@@ -156,10 +160,11 @@ Repository.errorMessage=e.message;
      // var data = FirebaseFirestore.instance.collection("streaming_events").doc(ef.eventId);
       var data1 = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("upcoming_events");
       //var data2 = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("recommended_events").doc(ef.eventId);
+var currentUserId=FirebaseAuth.instance.currentUser?.uid;
 
+    var data2=FirebaseFirestore.instance.collection("users").doc(currentUserId).collection("attending_events");
 
-
-
+await data2.add({"event_id":ef.eventId});
 
       await data1.add(ef.toMap());
       return true;
@@ -238,8 +243,8 @@ Repository.errorMessage=e.message;
 
     try {
       //var data = FirebaseFirestore.instance.collection("streaming_events").where("readingLevel",isLessThanOrEqualTo:readingLevel );
-
-      var data1 = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("recommended_events").where("readingLevel",isLessThanOrEqualTo: readingLevel);
+      var currentUserId=FirebaseAuth.instance.currentUser?.uid;
+      var data1 = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("recommended_events").where("user_id",isEqualTo:currentUserId ).where("readingLevel",isLessThanOrEqualTo: readingLevel);
 
       //await data.add(ef.toMap());
       //var event=await data.get();

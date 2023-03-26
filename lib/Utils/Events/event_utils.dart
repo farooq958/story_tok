@@ -25,7 +25,7 @@ class UpcomingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoadUpcomingDataCubit, List<EventFlowModel>>(
+    return BlocConsumer<LoadMainDataCubit, List<EventFlowModel>>(
       listener: (context, state) {
         // TODO: implement listener
       },
@@ -107,23 +107,23 @@ class UpcomingWidget extends StatelessWidget {
   getUpcomingSortedEvents(List<EventFlowModel> events) {
 
 
-    // DateTime currentDateTime = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
-    //
-    // List<DateTime> dates = events.map((event) => DateTime.parse(event.createdDate)).toList();
-    // ///sorting dates quick sort dart algo
-    // dates.sort((a, b) => a.compareTo(b));
-    // print(dates[0]);
-    // //print(currentDateTime);
-    // List<EventFlowModel> streamedUpcomingEvents=[];
-    // ///currently sorted events logic
-    // for(int i=0;i<dates.length;i++)
-    // {
-    //   if(DateTime.parse(events[i].createdDate).isAfter(currentDateTime)) {
-    //     streamedUpcomingEvents.add(events[i]);
-    //   }
-    // }
-    events.sort((a,b)=> DateTime.parse(a.createdDate).compareTo(DateTime.parse(b.createdDate)));
-    return events;
+    DateTime currentDateTime = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
+
+    List<DateTime> dates = events.map((event) => DateTime.parse(event.createdDate)).toList();
+    ///sorting dates quick sort dart algo
+    dates.sort((a, b) => a.compareTo(b));
+    print(dates[0]);
+    //print(currentDateTime);
+    List<EventFlowModel> streamedUpcomingEvents=[];
+    ///currently sorted events logic
+    for(int i=0;i<dates.length;i++)
+    {
+      if(DateTime.parse(events[i].createdDate).isAfter(currentDateTime)) {
+        streamedUpcomingEvents.add(events[i]);
+      }
+    }
+    streamedUpcomingEvents.sort((a,b)=> DateTime.parse(a.createdDate).compareTo(DateTime.parse(b.createdDate)));
+    return streamedUpcomingEvents;
   }
   int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
@@ -139,7 +139,7 @@ class StreamingCurrentEventWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoadMainDataCubit, List<EventFlowModel>>(
+    return BlocConsumer<LoadUpcomingDataCubit, List<EventFlowModel>>(
       listener: (context, state) {
         // TODO: implement listener
       },
@@ -739,5 +739,119 @@ class _CalendarViewState extends State<CalendarView> {
         );
       },
     );
+  }
+}
+
+class UpcomingWidget2 extends StatelessWidget {
+  const UpcomingWidget2({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<LoadUpcomingDataCubit, List<EventFlowModel>>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, eventFlowStateData) {
+        var sEvents=[];
+        if(eventFlowStateData.isNotEmpty) {
+          sEvents = getUpcomingSortedEvents(eventFlowStateData);
+        }
+        if(sEvents.isEmpty) return Padding(
+          padding:  EdgeInsets.only(top: 30.0.sp),
+          child: Center(child: Text("No Upcoming Events ",style: GoogleFonts.lexend(fontWeight: FontWeight.w700),)),
+        );
+        else
+          return ListView.separated(
+            shrinkWrap: true,
+            itemCount: sEvents.length,
+            physics: ClampingScrollPhysics(),
+            itemBuilder: (context,index) {
+              return Container(
+
+                  margin: EdgeInsets.only(left: 20.sp,right: 20.sp),
+                  child: Stack(
+                    children: [
+                      Image.asset("assets/images/eventticket_yellow_base.png",fit: BoxFit.fitWidth,),
+                      Positioned(
+                          top:0,
+                          right: 0,
+                          bottom: 0,
+                          child: Image.asset("assets/images/eventticket_yellow_peopleicon.png")),
+                      Positioned.fill(
+                        top:0,
+                        right: 0,
+                        left: 50.sp,
+                        //right: 0,
+                        bottom: 0,
+                        child: UnconstrainedBox(
+
+                          child: SizedBox(
+                            height: 100.sp,
+                            width: 200.sp,
+                            child: Center(
+                              child: ListView(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                children: <Widget>[
+
+                                  Text(sEvents[index].eventTitle,style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),),
+                                  Text(sEvents[index].createdDate,style: GoogleFonts.lexend(fontSize:15.sp,fontWeight: FontWeight.w600),),
+                                  Text("${sEvents[index].fromTime}-${sEvents[index].toTime} ",style: GoogleFonts.lexend(fontSize:14.sp,fontWeight: FontWeight.w600),),
+
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                          right: 10,
+                          bottom: 10,
+                          child:
+                          Text("${daysBetween(DateTime.now(), DateFormat("yyyy-MM-dd").parse('${sEvents[index].createdDate}')).toString()} MORE DAYS",style: GoogleFonts.lexend(fontSize:8.sp,fontWeight: FontWeight.w300),)
+                      ),
+                      Positioned(
+                        //top:0,
+                          right: 0,
+                          bottom: 0,
+                          left: 0,
+                          child: Image.asset("assets/images/eventticket_yellow_editicon.png")),
+
+
+                    ],
+                  ));
+            }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5.sp,); },
+          );
+      },
+    );
+  }
+
+  getUpcomingSortedEvents(List<EventFlowModel> events) {
+
+
+    DateTime currentDateTime = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
+
+    List<DateTime> dates = events.map((event) => DateTime.parse(event.createdDate)).toList();
+    ///sorting dates quick sort dart algo
+    dates.sort((a, b) => a.compareTo(b));
+    print(dates[0]);
+    //print(currentDateTime);
+    List<EventFlowModel> streamedUpcomingEvents=[];
+    ///currently sorted events logic
+    for(int i=0;i<dates.length;i++)
+    {
+      if(DateTime.parse(events[i].createdDate).isAfter(currentDateTime)) {
+        streamedUpcomingEvents.add(events[i]);
+      }
+    }
+    streamedUpcomingEvents.sort((a,b)=> DateTime.parse(a.createdDate).compareTo(DateTime.parse(b.createdDate)));
+    return streamedUpcomingEvents;
+  }
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
   }
 }
