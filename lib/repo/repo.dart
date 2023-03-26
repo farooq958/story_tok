@@ -243,8 +243,8 @@ await data2.add({"event_id":ef.eventId});
 
     try {
       //var data = FirebaseFirestore.instance.collection("streaming_events").where("readingLevel",isLessThanOrEqualTo:readingLevel );
-
-      var data1 = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("recommended_events").where("readingLevel",isLessThanOrEqualTo: readingLevel);
+      var currentUserId=FirebaseAuth.instance.currentUser?.uid;
+      var data1 = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("recommended_events").where("user_id",isEqualTo:currentUserId ).where("readingLevel",isLessThanOrEqualTo: readingLevel);
 
       //await data.add(ef.toMap());
       //var event=await data.get();
