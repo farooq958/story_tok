@@ -25,7 +25,7 @@ class _Confirmation2State extends State<Confirmation2> {
   @override
   void initState() {
     context.read<LoadMainDataCubit>().getEventData();
-context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
+  //context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
     Future.delayed(Duration(seconds: 3)).then((value) => Navigator.pushReplacement(context, CustomSlidePageRoute(child: MainEventScreenScheduleScreen())));
     // TODO: implement initState
     super.initState();

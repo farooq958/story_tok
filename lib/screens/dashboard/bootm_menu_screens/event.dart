@@ -125,7 +125,7 @@ class MyEventPage extends StatelessWidget {
                 //     child: UpcomingWidget()),
                 BlocBuilder<LoadUpcomingDataCubit, List<EventFlowModel>>(
   builder: (context, state) {
-    return UpcomingWidget();
+    return UpcomingWidget2();
   },
 ),
 
