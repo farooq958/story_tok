@@ -13,6 +13,7 @@ class AudioBookModel extends CommonDataModel {
   final String? topic;
   final String? title;
   final List<BookPage> pageUrl;
+
   AudioBookModel({
     this.coverUrl,
     this.categorySub,
@@ -37,7 +38,11 @@ class AudioBookModel extends CommonDataModel {
       topic: map['topic'] != null ? map['topic'] as String : null,
       title: map['title'] != null ? map['title'] as String : null,
       pageUrl: (map['pages_url'] as List<dynamic>)
-          .map((pageJson) => BookPage.fromMap(Map.from(pageJson)))
+          .map(
+            (pageJson) => BookPage.fromMap(
+              Map.from(pageJson),
+            ),
+          )
           .toList(),
     );
   }
@@ -52,7 +57,7 @@ class AudioBookModel extends CommonDataModel {
   }
 
   @override
-  Future<void> loadController() async {
+  Future<void> initiate() async {
     try {
       audioPlayer = AudioPlayer();
       await audioPlayer!.setAndroidAudioAttributes(
@@ -69,7 +74,13 @@ class AudioBookModel extends CommonDataModel {
       log("Audio Initializer", error: e, stackTrace: s);
     }
 
-    return super.loadController();
+    return super.initiate();
+  }
+
+  @override
+  Future<void> hold() {
+    audioPlayer?.pause();
+    return super.hold();
   }
 
   @override

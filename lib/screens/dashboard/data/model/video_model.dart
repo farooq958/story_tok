@@ -45,20 +45,32 @@ class VideoModel extends CommonDataModel {
     return data;
   }
 
-  Future<void> loadController() async {
+  Future<void> initiate() async {
     controller = VideoPlayerController.network(url);
     await controller?.initialize();
     controller?.setLooping(true);
   }
 
   @override
+  Future<void> hold() {
+    controller?.pause();
+    return super.hold();
+  }
+
+  @override
   Future<void> dispose() {
-    controller?.dispose();
+    if (controller!.value.isPlaying) {
+      controller!.pause().then((value) {
+        controller = null;
+      });
+      controller = null;
+    }
     return super.dispose();
   }
 }
 
 abstract class CommonDataModel {
-  Future<void> loadController() async {}
+  Future<void> initiate() async {}
   Future<void> dispose() async {}
+  Future<void> hold() async {}
 }
