@@ -162,9 +162,31 @@ Repository.errorMessage=e.message;
       //var data2 = FirebaseFirestore.instance.collection("streaming_events").doc("instance_events").collection("recommended_events").doc(ef.eventId);
 var currentUserId=FirebaseAuth.instance.currentUser?.uid;
 
-    var data2=FirebaseFirestore.instance.collection("users").doc(currentUserId).collection("attending_events");
+  //  var data2=FirebaseFirestore.instance.collection("users").doc(currentUserId).collection("attending_events");
+      var data2=FirebaseFirestore.instance.collection("users").doc(currentUserId);
+var myList=[ef.eventId];
+//await data2.add({"event_id":ef.eventId});
 
-await data2.add({"event_id":ef.eventId});
+      var check= await data2.get();
+      if(check.exists)
+        {
+          if(check.data()!.containsKey("attending_events"))
+            {
+              await data2.update({"attending_events":FieldValue.arrayUnion(myList)});
+
+            }
+          else
+          {
+            await data2.set({"attending_events":myList});
+
+          }
+        }
+      // else
+      //   {
+      //
+      //   }
+
+
 
       await data1.add(ef.toMap());
       return true;
