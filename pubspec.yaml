@@ -30,7 +30,7 @@ dependencies:
   image_picker: ^0.8.4+5
   cloud_firestore: ^4.4.3
   firebase_core: ^2.7.0
-  firebase_auth: ^4.2.9
+  firebase_auth: ^4.2.10
   flutter_sound: ^9.1.2
   permission_handler: ^10.2.0
   audio_session:
@@ -41,13 +41,31 @@ dependencies:
   webview_flutter: ^4.0.5
   fluttertoast: ^8.2.1
   record: ^4.4.4
+  flutter_profile_picture: ^2.0.0
+  stream_mixin: ^3.0.4
+  video_thumbnail: ^0.5.3
+  uuid: ^3.0.7
+  selectable_container: ^1.0.7
+  animated_styled_widget: ^0.4.6
+
   shared_preferences: ^2.0.18
   cached_network_image: ^3.2.3
   get_it: ^7.2.0
   stacked: ^3.1.0+3
   path_provider: ^2.0.13
+  dropdown_textfield: ^1.0.8
+  google_fonts: ^3.0.1
+
+  device_preview: ^1.1.0 #for checking ui on different screens
+  flutter_bloc: ^8.1.2   #for stateManagement
+  flutter_screenutil: ^5.7.0 #for ui responsiveness
+  touchable_opacity: ^1.2.0
   intl: ^0.17.0
   percent_indicator: ^4.2.3
+  table_calendar: ^3.0.8
+
+  audioplayers: ^3.0.1
+  just_audio: ^0.9.32
 
 
 dev_dependencies:
@@ -68,16 +86,22 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/icons/
     - assets/images/
     - assets/images/events/
     - assets/images/books/
     - assets/images/profile/
+<<<<<<< HEAD
     - assets/images/bottomtab/
     - assets/images/home/
     - assets/images/home/numbers/blue/
     - assets/images/home/numbers/green/
     - assets/images/home/numbers/red/
     - assets/images/home/achievement/
+=======
+    - assets/images/book_upload/
+    - assets/images/video_upload/
+>>>>>>> 30e31de86d5ac396eb25679a630e8d7cc023be7e
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

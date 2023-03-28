@@ -13,109 +13,311 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9e43f460-0dc0-4c23-ac9b-310613e162b0" name="Default Changelist" comment="Upgrading pre version 1.12">
-      <change afterPath="$PROJECT_DIR$/assets/images/bottomtab/events.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/bottomtab/explore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/bottomtab/home.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/bottomtab/library.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/award_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/award_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/award_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/book_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/book_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/book_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/bullseye_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/bullseye_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/bullseye_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/crown_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/crown_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/crown_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/explore_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/explore_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/explore_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/fire_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/fire_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/fire_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/levelup_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/levelup_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/levelup_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/pencil_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/pencil_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/pencil_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/smile_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/smile_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/smile_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/thumbsup_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/thumbsup_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/thumbsup_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/thunder_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/thunder_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/thunder_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/ticket_achievement_1star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/ticket_achievement_2star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievement/ticket_achievement_3star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/achievements_textbox.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/background_kids_circle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/background_kids_circle1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/background_kids_circle2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/background_kids_cross2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/background_kids_dots1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/background_kids_squiggle1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/background_kids_squiggle2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/background_kids_triangle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/cat_wave.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/home_readinglevel_1_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/home_readinglevel_2_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/home_readinglevel_3_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/home_readinglevel_4_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/blue/0_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/blue/1_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/blue/2_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/blue/3_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/blue/4_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/blue/5_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/blue/6_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/blue/7_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/blue/8_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/blue/9_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/green/0_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/green/1_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/green/2_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/green/3_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/green/4_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/green/5_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/green/6_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/green/7_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/green/8_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/green/9_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/red/0_red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/red/1_red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/red/2_red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/red/3_red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/red/4_red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/red/5_red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/red/6_red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/red/7_red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/red/8_red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home/numbers/red/9_red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/screens/kids_flow/bottomtab/bottom_tab.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/screens/kids_flow/bottomtab/events.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/screens/kids_flow/bottomtab/explore.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/screens/kids_flow/bottomtab/home.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/screens/kids_flow/bottomtab/library.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies~Farooq" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.gradle/7.4/checksums/md5-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.gradle/7.4/checksums/sha1-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/events.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/explore.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/home.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/library.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/Description.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/EventType.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/Images_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/PDF_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/arrowdropdown-removebg-preview.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/authoranalytics_blue_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/authoranalytics_blue_colouredbox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/authoranalytics_blue_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/authoranalytics_blue_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/authoranalytics_green_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/authoranalytics_green_colouredbox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/authoranalytics_green_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/authoranalytics_green_title.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/authoranalytics_red_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/authoranalytics_red_colouredbox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/authoranalytics_red_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_circledots.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_kids_cross1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_kids_cross2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_kids_rectangle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_kids_squiggle1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_rectangledots.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_squiggle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/background_triangle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/add-a-book-52M.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/add-a-book-GZb.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/add-a-book.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundcircledots-1-oYq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundcircledots-1-vJ1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundcircledots-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundrectangledots-C6h.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundrectangledots-jCh.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundrectangledots.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundsquare-1-59X.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundsquare-1-L5T.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundsquare-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundsquiggle-bc1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundsquiggle-eQ5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundsquiggle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundtriangle-A9B.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundtriangle-C3F.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/backgroundtriangle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/box-FbK.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/box-MDw.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/box-PBj.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/box-UFo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/box-VN5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/box-iUu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/box-yo3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/box-zxD.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/coverredaddfiles-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/coverredbook-1-bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/coverredbook-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/down-arrow-L1B.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/down-arrow-QYM.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/down-arrow-tcm.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/down-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/drop-shadow-bg-6j7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/drop-shadow-bg-Hsb.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/drop-shadow-bg-Pyw.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/drop-shadow-bg-W7X.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/drop-shadow-bg-cFf.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/drop-shadow-bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/inputfield-9ED.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/inputfield-C13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/inputfield-MXT.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/inputfield-Mf3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/inputfield-QgV.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/inputfield-Rpy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/inputfield-pUM.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/inputfield-sdF.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/inputfield.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/left-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/preview-box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/profilenotificationdot-1-EVK.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/profilenotificationdot-1-WaH.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/profilenotificationdot-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/readinglevel1redicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/readinglevel2blueicon-jrd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/readinglevel2blueicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/readinglevel3yellowicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/right-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/x-HQ1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/x-vfF.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/book_upload/x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/calendar_yellow_clockicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/directional_red_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/directional_red_box_long.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/directional_red_dropshadow_long.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/directional_text_back.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/directional_text_continue.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/directional_text_withoutaudio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/dotEventScreen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/editpages_red_add.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/editpages_red_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/editpages_red_deletetext.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/editpages_red_minus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/event_yellow_confirmbox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/event_yellow_confirmdetails.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/event_yellow_confirmedtext.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/event_yellow_datetimeicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/event_yellow_eventtypeicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/event_yellow_textbox_large.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/eventticket_yellow_base.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/eventticket_yellow_bookicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/eventticket_yellow_editicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/eventticket_yellow_peopleicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/exitsubmenubutton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_blue_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_blue_dropshadow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_blue_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_purple_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_purple_dropshadow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_purple_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_red_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_red_dropshadow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_red_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_yellow_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_yellow_dropshadow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/mainmenu_yellow_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/pagepreview_red_page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/profile_notificationdot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/profile_profile_placeholder.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/speechbubble_yellow_base.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/speechbubble_yellow_button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/speechbubble_yellow_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/standalone_red_addfiles_large.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/subcalendar_yellow_base.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/submenu_exit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/submenu_red_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/submenu_red_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/submenu_yellow_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/submenu_yellow_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/titleimage.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/upload_red_addfiles_button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/upload_red_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/upload_red_dropshadow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/upload_red_text_PDF.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/upload_red_text_audio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/upload_red_text_images.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/upload_red_text_recordnow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundcircledots-1-2ow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundcircledots-1-SDs.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundcircledots-1-vnh.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundcircledots-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundrectangledots-2fw.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundrectangledots-TTj.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundrectangledots-US1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundrectangledots.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundsquare-1-WkV.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundsquare-1-pyB.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundsquare-1-yQy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundsquare-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundsquiggle-7t1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundsquiggle-Pk9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundsquiggle-UPF.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundsquiggle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundtriangle-gRK.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundtriangle-qLH.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundtriangle-vEZ.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/backgroundtriangle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-ART.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-JfF.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-PJm.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-QS9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-X8R.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-Yms.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-aRb.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-bAu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-fph.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-gGV.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-ghj.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box-zUd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/choose-from-drafts-g7f.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/choose-from-drafts.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/coverredaddfiles-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/coverredbook-1-bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/down-arrow-E93.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/down-arrow-Fa5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/down-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/drop-shadow-bg-653.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/drop-shadow-bg-D9f.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/drop-shadow-bg-G85.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/drop-shadow-bg-PgR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/drop-shadow-bg-QoF.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/drop-shadow-bg-dT3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/drop-shadow-bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/dropshadow-bg-AKF.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/dropshadow-bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/image-6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/inputfield-grR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/inputfield-mHX.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/inputfield-qHF.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/inputfield-rBP.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/inputfield-uYy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/inputfield-uiM.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/inputfield.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/preview-box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/profilenotificationdot-1-4ww.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/profilenotificationdot-1-C1s.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/profilenotificationdot-1-KyP.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/profilenotificationdot-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/upload-a-video-5wB.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/upload-a-video-RtH.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/upload-a-video-wVf.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/upload-a-video.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/uploadbluevideobox-bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/uploadbluevideodropshadow-bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/x-KvD.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/x-QYu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/x-ihT.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/video_upload/x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/AppProvider/app_main_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Utils/Events/event_utils.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Utils/PageTransitions/scale_page_transition.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Utils/PageTransitions/slide_page_transition.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Utils/app_colors.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Utils/app_utils.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/components/common_buttons.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/components/common_upload_book_format.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/components/record_audio.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/components/upload_book_format.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/components/utils.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/components/video_uploader.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cubit/event_from_time_cubit.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cubit/event_to_time_cubit.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cubit/load_main_data_cubit.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cubit/load_recommended_events_cubit.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cubit/load_upcoming_data_cubit.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cubit/selected_date_event_cubit.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/firebase_options.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/model/event_flow_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/model/event_type_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/models/video_upload.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/repo/repo.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/book_upload/book-confirm-details-screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/book_upload/book-input-details-screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/book_upload/book-preview-screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/dashboard/data/connections/audiobooks_firebase.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/dashboard/data/demo/audiobooks_demo_data.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/dashboard/data/model/audiobook_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/dashboard/feed_model/audiobooks_view_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/dashboard/widgets/book_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/dashboard/widgets/game_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/dashboard/widgets/home_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/dashboard/widgets/video_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/main_home_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/add_shedule_event.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/confirmation1.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/confirmation2.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/schedule_event_flow_screens/main_event_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/video_upload/upload-video-screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/video_upload/video-input-details-screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/video_upload/video-preview-screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.4/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.4/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.4/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.4/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/google-services.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java~mukta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/Generated.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/Generated.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/flutter_export_environment.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/add_author_description.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/add_author_description.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/my_storily_author_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/my_storily_author_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/page_uploader.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/page_uploader.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/recording_preview.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/recording_preview.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/video_uploader_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/video_uploader_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/voice_recording.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/voice_recording.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/global/constants/assets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/global/constants/assets.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/routes/routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/routes.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/auth/auth.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/auth/auth.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/bootm_menu_screens/bookshelf.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/bootm_menu_screens/bookshelf.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/bootm_menu_screens/event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/bootm_menu_screens/event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/data/game_demo_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/data/demo/game_demo_data.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/data/game_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/data/model/game_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/data/games_firebase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/data/connections/games_firebase.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/data/video_demo_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/data/demo/video_demo_data.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/data/video_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/data/model/video_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/data/videos_firebase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/data/connections/videos_firebase.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/feed_dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/feed_dashboard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/feed_model/feed_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/feed_model/feed_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard/feed_model/game_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard/feed_model/game_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/service_locator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/service_locator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/splash/splash_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/splash/splash_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -299,7 +501,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/lib/components/recording_preview.dart</url>
-          <line>212</line>
+          <line>219</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
@@ -319,12 +521,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/lib/components/video_uploader_page.dart</url>
-          <line>20</line>
+          <line>23</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/lib/components/video_uploader_page.dart</url>
-          <line>22</line>
+          <line>25</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>

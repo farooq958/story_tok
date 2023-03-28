@@ -1,46 +1,51 @@
+import 'dart:math' as math;
 
 import 'package:stacked/stacked.dart';
-import 'package:storily/screens/dashboard/data/games_firebase.dart';
+import 'package:storily/screens/dashboard/data/connections/games_firebase.dart';
 import 'package:video_player/video_player.dart';
-import '../data/videos_firebase.dart';
+import '../data/model/video_model.dart';
+import '../data/connections/videos_firebase.dart';
+import 'audiobooks_view_model.dart';
 
 class FeedViewModel extends BaseViewModel {
+  List<CommonDataModel> currentItems = [];
+
   VideoPlayerController? controller;
   VideosAPI? videoSource;
+  GameAPI? gameSource;
+  AudioBookAPI? bookSource;
 
-  int prevVideo = 0;
-
-  int actualScreen = 0;
+  int get totalLength => currentItems.length;
 
   FeedViewModel() {
     videoSource = VideosAPI();
+    gameSource = GameAPI();
+    bookSource = AudioBookAPI();
   }
 
-  changeVideo(index) async {
-    if (videoSource!.listVideos[index].controller == null) {
-      await videoSource!.listVideos[index].loadController();
-    }
-    videoSource!.listVideos[index].controller!.play();
+  int index = 0;
+  int? prev;
 
-    if (videoSource!.listVideos[prevVideo].controller != null)
-      videoSource!.listVideos[prevVideo].controller!.pause();
-
-    prevVideo = index;
+  initializer() async {
+    currentItems.addAll(videoSource?.listVideos ?? []);
+    currentItems.addAll(gameSource?.listGames ?? []);
+    currentItems.addAll(bookSource?.audiobookList ?? []);
+    currentItems.shuffle(math.Random.secure());
     notifyListeners();
-
-    print(index);
   }
 
-  void loadVideo(int index) async {
-    if (videoSource!.listVideos.length > index) {
-      await videoSource!.listVideos[index].loadController();
-      videoSource!.listVideos[index].controller?.play();
+  CommonDataModel getItemByIndex(int newIndex) {
+    currentItems[index].hold();
+    if (prev != null && prev != index && prev != newIndex) {
+      currentItems[prev!].dispose();
+    }
+    prev = index;
+    index = newIndex;
+    final item = currentItems[index];
+    item.initiate().then((value) {
+      if (item is VideoModel) item.controller!.play();
       notifyListeners();
-    }
-  }
-
-  void setActualScreen(index) {
-    actualScreen = 0;
-    notifyListeners();
+    });
+    return item;
   }
 }

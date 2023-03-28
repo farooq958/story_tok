@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:storily/components/add_author_description.dart';
-import 'package:storily/components/voice_recording.dart';
+import 'package:selectable_container/selectable_container.dart';
+import 'package:storily/components/record_audio.dart';
+import 'package:storily/global/constants/assets.dart';
 import '../utils.dart';
+import 'common_upload_book_format.dart';
 
 enum ImageSourceType { gallery, camera }
 
@@ -17,13 +19,14 @@ class PageUploaderState extends State<PageUploader> {
   List imagesPath = [];
   var total = 0;
   var imagePicker;
+  List<bool> _selected = [];
 
   _addImage(BuildContext context, var type, int index) async {
-    await _handleURLButtonPress(context, type, total);
-    total++;
+    await _handleURLButtonPress(context, type, total, 'addMethod');
   }
 
-  _handleURLButtonPress(BuildContext context, var type, var i) async {
+  _handleURLButtonPress(
+      BuildContext context, var type, var i, String verifyText) async {
     var source = type == ImageSourceType.camera
         ? ImageSource.camera
         : ImageSource.gallery;
@@ -52,7 +55,14 @@ class PageUploaderState extends State<PageUploader> {
         _images[i] = File(image.path);
       });
     }
+
+    if (!imageExist && verifyText == "addMethod") {
+      total++;
+      _selected.add(false);
+    }
   }
+
+  List selectedImages = [];
 
   @override
   void initState() {
@@ -63,206 +73,337 @@ class PageUploaderState extends State<PageUploader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Pick book pages"),
-      ),
-      body: Center(
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              flex: 9,
-              child: Container(
-                child: GridView.count(
-                  shrinkWrap: true,
-                  physics: ScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  crossAxisCount: 2,
-                  children: List.generate(
-                    total + 1,
-                    (index) {
-                      //return Center(child:Text('Item $index', style: Theme.of(context).textTheme.headline4,));
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                uploadBookFormatHeader(
+                  '12/03/2023',
+                  'Hi, Team',
+                  'Welcome to your board',
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Stack(
+                  children: [
+                    addNewBookWidget(context, Assets.subMenuRedBox,
+                        MediaQuery.of(context).size.width * 0.90),
+                    addNewBookWidget(context, Assets.subMenuRedText,
+                        MediaQuery.of(context).size.width * 0.90),
+                    addNewBookWidget(context, Assets.subMenuExit,
+                        MediaQuery.of(context).size.width * 0.90),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Stack(
+              children: [
+                Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width / 6,
+                      child: Image.asset(Assets.backgroundRectangleDots),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        uploadText(
+                            context: context,
+                            label: "Current Pages: $total",
+                            fontSize: 20.0),
+                        InkWell(
+                          onTap: () {
+                            for (int i = 0; i < selectedImages.length; i++) {
+                              _images.remove(selectedImages[i]);
+                              total--;
+                            }
+                            _selected.removeWhere((element) => element == true);
+                            selectedImages.clear();
+                            setState(() {});
+                          },
+                          child: Stack(
+                            children: [
+                              addNewBookWidget(context, Assets.editPagesRedBox,
+                                  MediaQuery.of(context).size.width * 0.30),
+                              addNewBookWidget(
+                                  context,
+                                  Assets.editPagesRedDeleteText,
+                                  MediaQuery.of(context).size.width * 0.30),
+                              addNewBookWidget(context, Assets.editPagesRedAdd,
+                                  MediaQuery.of(context).size.width * 0.30),
+                              addNewBookWidget(
+                                  context,
+                                  Assets.editPagesRedMinus,
+                                  MediaQuery.of(context).size.width * 0.30),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 30, top: 40),
+                      child: Expanded(
+                        flex: 9,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 2.15,
+                          child: GridView.count(
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            crossAxisCount: 3,
+                            children: List.generate(
+                              total + 1,
+                              (index) {
+                                if (index == total) {
+                                  return Stack(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () async {
+                                          await _addImage(context,
+                                              ImageSourceType.gallery, index);
+                                        },
+                                        child: Image.asset(
+                                            'assets/images/pagepreview_red_page.png'),
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return Stack(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () async {
+                                          await _handleURLButtonPress(
+                                              context,
+                                              ImageSourceType.gallery,
+                                              index,
+                                              'buttonPress');
+                                        },
+                                        child: Container(
+                                          child: _images[index] != null
+                                              ? SelectableContainer(
+                                                  unselectedBackgroundColor:
+                                                      Colors.transparent,
+                                                  unselectedBorderColor:
+                                                      Colors.transparent,
+                                                  selectedBorderColor:
+                                                      Colors.transparent,
+                                                  unselectedOpacity: 1.0,
+                                                  selected: _selected[index],
+                                                  // selectedValues[index],
+                                                  onValueChanged: (value) {
+                                                    try {
+                                                      setState(() {
+                                                        _selected[index] =
+                                                            value;
+                                                        if (!selectedImages
+                                                            .contains(index)) {
+                                                          selectedImages
+                                                              .add(index);
+                                                        }
+                                                      });
+                                                    } catch (e, stacktrace) {
+                                                      print(stacktrace);
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        bottom: 10),
+                                                    height: 120,
+                                                    width: 75,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 2.5),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0), //<-- SEE HERE
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              7.0),
+                                                      child: Image.file(
+                                                        _images[index],
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container(
+                                                  height: 140,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      width: 5,
+                                                    ),
+                                                  ),
+                                                  child: Image.asset(
+                                                      'assets/images/pagepreview_red_page.png'),
+                                                ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                          child: Stack(
+                            children: [
+                              addNewBookWidget(
+                                  context,
+                                  Assets.directionalRedBox,
+                                  MediaQuery.of(context).size.width * 0.30),
+                              addNewBookWidget(
+                                  context,
+                                  Assets.directionalTextBack,
+                                  MediaQuery.of(context).size.width * 0.30),
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (_images.length < 1) {
+                              Utils().showToastMessage(
+                                  "Book has at least 4 pages.", context);
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RecordAudio(
+                                        /*imagesPath: imagesPath,
+                                images: _images*/
+                                        )),
+                              );
+                            }
+                          },
+                          child: Stack(
+                            children: [
+                              addNewBookWidget(
+                                  context,
+                                  Assets.directionalRedBox,
+                                  MediaQuery.of(context).size.width * 0.30),
+                              addNewBookWidget(
+                                  context,
+                                  Assets.directionalTextContinue,
+                                  MediaQuery.of(context).size.width * 0.30),
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
 
-                      if (index == total) {
-                        return Stack(children: [
-                          GestureDetector(
-                            onTap: () async {
-                              await _addImage(context, ImageSourceType.gallery, index);
+                /*Expanded(
+                      flex: 1,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          MaterialButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => VoiceRecorder(
+                                    _images,
+                                  ),
+                                ),
+                              );
                             },
                             child: Container(
-                              width: 200,
-                              height: 200,
-                              decoration: BoxDecoration(color: Colors.red[200]),
-                              child: Container(
-                                decoration:
-                                    BoxDecoration(color: Colors.red[200]),
-                                width: 200,
-                                height: 200,
-                                child: Icon(
-                                  Icons.camera_alt,
-                                  color: Colors.grey[800],
+                              padding: EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(100.0),
+                              ),
+                              // margin: EdgeInsets.fromLTRB(50.0, 0.0, 90.0, 0.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.mail_outline,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(
+                                    "RECORD STORIES",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          MaterialButton(
+                            onPressed: () {
+                              if (_images.length < 4) {
+                                Utils().showToastMessage(
+                                    "Book has at least 4 pages.", context);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AddAuthorDescription(
+                                        imagesPath: imagesPath,
+                                        images: _images),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(100.0),
+                              ),
+                              child: Text(
+                                "Done",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
                                 ),
                               ),
                             ),
                           ),
-                          Center(
-                            child: Text("Tap to add page"),
-                          ),
-                        ]);
-                      } else {
-                        return Stack(
-                          children: [
-                            GestureDetector(
-                                onTap: () async {
-                                  await _handleURLButtonPress(
-                                    context,
-                                    ImageSourceType.gallery,
-                                    index,
-                                  );
-                                },
-                                child: Container(
-                                  width: 200,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red[200],
-                                  ),
-                                  child: _images[index] != null
-                                      ? Image.file(
-                                          _images[index],
-                                          width: 200.0,
-                                          height: 200.0,
-                                          fit: BoxFit.fitHeight,
-                                        )
-                                      : Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.red[200],
-                                          ),
-                                          width: 200,
-                                          height: 200,
-                                          child: Icon(
-                                            Icons.camera_alt,
-                                            color: Colors.grey[800],
-                                          ),
-                                        ),
-                                )),
-                            Center(
-                              child: Text(
-                                "page ${index + 1}",
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ),
-            /* Container(
-                child: Column(
-                  children: <Widget>[
-                    MaterialButton(
-                      color: Colors.blue,
-                      child: Text(
-                        "Add Book page",
-                        style: TextStyle(
-                            color: Colors.white70, fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () {
-                        _addImage(context, ImageSourceType.gallery);
-                      },
-                    ),*/ /*MaterialButton(
-                      color: Colors.blue,
-                      child: Text(
-                        "Pick Image from Camera",
-                        style: TextStyle(
-                            color: Colors.white70, fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () {
-                        _handleURLButtonPress(context, ImageSourceType.camera, 0);
-                      },
-                    ),*/ /*
-
-                ]
-                ),
-              ),*/
-            //],
-            Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VoiceRecorder(_images,),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100.0),
-                      ),
-                      // margin: EdgeInsets.fromLTRB(50.0, 0.0, 90.0, 0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.mail_outline,
-                            color: Colors.black,
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            "RECORD STORIES",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
                         ],
                       ),
-                    ),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      if (_images.length < 4) {
-                        Utils().showToastMessage("Book has at least 4 pages.", context);
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddAuthorDescription(imagesPath: imagesPath, images: _images),
-                          ),
-                        );
-                      }
-                    },
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100.0),
-                      ),
-                      child: Text(
-                        "Done",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                    ),*/
+              ],
             ),
           ],
         ),
@@ -270,130 +411,3 @@ class PageUploaderState extends State<PageUploader> {
     );
   }
 }
-
-// import 'dart:io';
-// import 'package:flutter/material.dart';
-// import 'package:image_picker/image_picker.dart';
-//
-// class ImageUploadScreen extends StatefulWidget {
-//   @override
-//   _ImageUploadScreenState createState() => _ImageUploadScreenState();
-// }
-//
-// class _ImageUploadScreenState extends State<ImageUploadScreen> {
-//   List<File> _images = [];
-//
-//   Future<void> _getImage() async {
-//     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//     setState(() {
-//       _images.add(image);
-//     });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("Upload Images"),
-//       ),
-//       body: Container(
-//         child: ReorderableListView(
-//           children: _images
-//               .map((image) => Container(
-//             key: ValueKey(image),
-//             child: Image.file(image),
-//           ))
-//               .toList(),
-//           onReorder: (oldIndex, newIndex) {
-//             setState(() {
-//               File image = _images.removeAt(oldIndex);
-//               _images.insert(newIndex, image);
-//             });
-//           },
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: _getImage,
-//         child: Icon(Icons.add_a_photo),
-//       ),
-//     );
-//   }
-// }
-
-/*class ImageFromGalleryEx extends StatefulWidget {
-  final type;
-  ImageFromGalleryEx(this.type);
-
-  @override
-  ImageFromGalleryExState createState() => ImageFromGalleryExState(this.type);
-}*/
-
-/*
-class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
-  var _image;
-  var imagePicker;
-  var type;
-
-  ImageFromGalleryExState(this.type);
-
-  @override
-  void initState() {
-    super.initState();
-    imagePicker = new ImagePicker();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: Text(type == ImageSourceType.camera
-              ? "Image from Camera"
-              : "Image from Gallery")),
-      body: Column(
-        children: <Widget>[
-          SizedBox(
-            height: 52,
-          ),
-          Center(
-            child: GestureDetector(
-              onTap: () async {
-                var source = type == ImageSourceType.camera
-                    ? ImageSource.camera
-                    : ImageSource.gallery;
-                XFile image = await imagePicker.pickImage(
-                    source: source, imageQuality: 50, preferredCameraDevice: CameraDevice.front);
-                setState(() {
-                  _image = File(image.path);
-                });
-              },
-              child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                    color: Colors.red[200]),
-                child: _image != null
-                    ? Image.file(
-                  _image,
-                  width: 200.0,
-                  height: 200.0,
-                  fit: BoxFit.fitHeight,
-                )
-                    : Container(
-                  decoration: BoxDecoration(
-                      c olor: Colors.red[200]),
-                  width: 200,
-                  height: 200,
-                  child: Icon(
-                    Icons.camera_alt,
-                    color: Colors.grey[800],
-                  ),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}*/

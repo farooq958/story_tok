@@ -1,239 +1,118 @@
-import 'dart:io';
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stacked/stacked.dart';
+import 'package:storily/cubit/load_main_data_cubit.dart';
+import 'package:storily/cubit/load_recommended_events_cubit.dart';
 import 'package:storily/global/methods/methods.dart';
-import 'data/video_model.dart';
+import 'package:storily/screens/dashboard/widgets/home_screen.dart';
+import 'package:storily/screens/dashboard/bootm_menu_screens/event.dart';
+//import 'data/video_model.dart';
+import '../../cubit/load_upcoming_data_cubit.dart';
 import 'feed_model/feed_view_model.dart';
-import 'icons/feed_icon_data.dart';
 import 'bootm_menu_screens/bookshelf.dart';
-import 'profile/creators_profile.dart';
-import 'widgets/actions_toolbar.dart';
-import 'package:video_player/video_player.dart';
-import 'widgets/video_description.dart';
 
 class FeedDashboard extends StatefulWidget {
-  FeedDashboard({Key? key}) : super(key: key);
+  static String id = "/feedDashboard";
+  const FeedDashboard({Key? key}) : super(key: key);
 
   @override
   _FeedScreenState createState() => _FeedScreenState();
 }
 
 class _FeedScreenState extends State<FeedDashboard> {
-  final locator = GetIt.instance;
   final feedViewModel = GetIt.instance<FeedViewModel>();
-  int currentIndex=0;
+
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+
+  int _selectedIndex = 0;
 
   @override
   void initState() {
-    feedViewModel.loadVideo(0);
-    feedViewModel.loadVideo(1);
-    GetIt.instance<FeedViewModel>().setActualScreen(0);
     super.initState();
+    feedViewModel.initializer();
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (_selectedIndex == 0) {
+      HomeScreen();
+      log("Home");
+    }
+    if (_selectedIndex == 1) {
+      log("Explore");
+    }
+    if (_selectedIndex == 2) {
+      //goPage(context, MyBookshelfPage());
+      log("Library");
+      showToast("Library", context);
+      // if (feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.value.isPlaying) {
+      //   feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.pause();
+      // }else{
+      //   goPage(context, MyBookshelfPage());
+      //   log("Library");
+      // }
+      // showToast("Library", context);
+    }
+    if (_selectedIndex == 3) {
+      goPage(context, MyEventPage());
+      context.read<LoadMainDataCubit>().getEventData();
+      context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
+      context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 6);
+     /* GestureDetector(
+          onTap: (){
+            goPage(context, MyEventPage());
+            context.read<LoadMainDataCubit>().getEventData();
+            context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 5);
+
+          }
+      ),*/
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<FeedViewModel>.reactive(
-        disposeViewModel: false,
-        builder: (context, model, child) => videoScreen(),
-        viewModelBuilder: () => feedViewModel);
-  }
-
-  Widget videoScreen() {
     return Scaffold(
-      //backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          PageView.builder(
-            itemCount: 2,
-            onPageChanged: (value) {
-              print(value);
-            },
-            itemBuilder: (context, index) {
-              if (index == 0)
-                return scrollFeed();
-              else
-                return profileView();
-            },
-          )
+      body: _selectedIndex == 0 ? HomeScreen() : HomeScreen(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber.shade800,
+        unselectedLabelStyle: const TextStyle(color: Colors.white),
+        showUnselectedLabels: true,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            backgroundColor: Colors.blueGrey,
+            icon: Image.asset(
+              "assets/icons/home.png",
+              height: 25,
+            ),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              "assets/icons/explore.png",
+              height: 25,
+            ),
+            label: "Explore",
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              "assets/icons/library.png",
+              height: 25,
+            ),
+            label: "Library",
+          ),
+
+          BottomNavigationBarItem(
+            icon: Image.asset("assets/icons/events.png", height: 25),
+            label: "Event",
+          ),
         ],
       ),
-    );
-  }
-
-  Widget scrollFeed() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Expanded(child: feedVideos()),
-        Container(
-          color: Colors.grey,
-          child: Column(
-            children: [
-              SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if(feedViewModel.videoSource!.listVideos[currentIndex].controller!.value.isPlaying){ 
-                          feedViewModel.videoSource!.listVideos[currentIndex].controller!.pause();
-                      }
-                      goPage(context, MyBookshelfPage());                                        
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FeedIcons.iconBookSelf,
-                        Text(
-                          'My Bookshelf',
-                          style: TextStyle(
-                            fontSize: 11.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FeedIcons.iconAddContect,
-                      Text(
-                        'Add Content',
-                        style: TextStyle(
-                          fontSize: 11.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FeedIcons.iconEvent,
-                      Text(
-                        'My Event',
-                        style: TextStyle(
-                          fontSize: 11.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: Platform.isIOS ? 40 : 10,
-              )
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget feedVideos() {
-    return Stack(
-      children: [
-        PageView.builder(
-          controller: PageController(
-            initialPage: 0,
-            viewportFraction: 1,
-          ),
-          itemCount: feedViewModel.videoSource?.listVideos.length,
-          onPageChanged: (index) {
-            index = index % (feedViewModel.videoSource!.listVideos.length);
-            feedViewModel.changeVideo(index);
-          },
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            index = index % (feedViewModel.videoSource!.listVideos.length);
-            currentIndex = index;
-            return videoCard(feedViewModel.videoSource!.listVideos[index]);
-          },
-        ),
-        SafeArea(
-          child: Container(
-            padding: EdgeInsets.only(top: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Following',
-                  style: TextStyle(
-                    fontSize: 17.0,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.white70,
-                  ),
-                ),
-                SizedBox(width: 7),
-                Container(
-                  color: Colors.white70,
-                  height: 10,
-                  width: 1.0,
-                ),
-                SizedBox(width: 7),
-                Text(
-                  'For You',
-                  style: TextStyle(
-                    fontSize: 17.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget videoCard(VideoModel video) {
-    return Stack(
-      children: [
-        video.controller != null
-            ? GestureDetector(
-                onTap: () {
-                  if (video.controller!.value.isPlaying) {
-                    video.controller?.pause();
-                  } else {
-                    video.controller?.play();
-                  }
-                },
-                child: SizedBox.expand(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: video.controller?.value.size.width ?? 0,
-                      height: video.controller?.value.size.height ?? 0,
-                      child: VideoPlayer(video.controller!),
-                    ),
-                  ),
-                ),
-              )
-            : Container(
-                color: Colors.black,
-                child: Center(
-                  child: Text("Loading...."),
-                ),
-              ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                VideoDescription(video.user, video.videoTitle, video.songName),
-                ActionsToolbar(video.likes, video.comments,
-                    "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"),
-              ],
-            ),
-            SizedBox(height: 20),
-          ],
-        ),
-      ],
     );
   }
 

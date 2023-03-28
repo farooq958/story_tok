@@ -1,16 +1,12 @@
-
+/* 
 import 'package:stacked/stacked.dart';
-import 'package:storily/screens/dashboard/data/games_firebase.dart';
-import 'package:video_player/video_player.dart';
-import '../data/videos_firebase.dart';
+import 'package:storily/screens/dashboard/data/connections/games_firebase.dart';
 
 class GameViewModel extends BaseViewModel {
   
   GameAPI? gameSource;
 
-  int prevVideo = 0;
-
-  int actualScreen = 0;
+  int prevGame = 0;
 
   GameViewModel() {
     gameSource = GameAPI();
@@ -18,7 +14,7 @@ class GameViewModel extends BaseViewModel {
 
   changeVideo(index) async {
   
-    prevVideo = index;
+    prevGame = index;
     notifyListeners();
 
     print(index);
@@ -26,14 +22,9 @@ class GameViewModel extends BaseViewModel {
 
   void loadGame (int index) async {
     if (gameSource!.listGames.length > index) {
-      await gameSource!.listGames[index].likes;
-      gameSource!.listGames[index].url;
+      await gameSource!.listGames[index].loadController();
       notifyListeners();
     }
   }
-
-  void setActualScreen(index) {
-    actualScreen = 0;
-    notifyListeners();
-  }
 }
+ */
