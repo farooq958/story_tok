@@ -27,64 +27,62 @@ class _VideoScreenWidgetState extends State<VideoScreenWidget> {
   }
 
   @override
-  void dispose() {
-    video.controller?.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<FeedViewModel>.reactive(
-        disposeViewModel: false,
-        viewModelBuilder: () => viewModel,
-        builder: (context, model, child) {
-          return Stack(
-            children: [
-              video.controller != null
-                  ? GestureDetector(
-                      onTap: () {
-                        log("${video.controller!.value.isPlaying}");
-                        if (video.controller!.value.isPlaying) {
-                          video.controller?.pause();
-                        } else {
-                          video.controller?.play();
-                        }
-                      },
-                      child: SizedBox.expand(
-                        child: FittedBox(
-                          fit: BoxFit.cover,
-                          child: SizedBox(
-                            width: video.controller?.value.size.width ?? 0,
-                            height: video.controller?.value.size.height ?? 0,
-                            child: VideoPlayer(video.controller!),
-                          ),
+      disposeViewModel: false,
+      viewModelBuilder: () => viewModel,
+      builder: (context, model, child) {
+        return Stack(
+          children: [
+            video.controller != null
+                ? GestureDetector(
+                    onTap: () {
+                      log("${video.controller!.value.isPlaying}");
+                      if (video.controller!.value.isPlaying) {
+                        video.controller?.pause();
+                      } else {
+                        video.controller?.play();
+                      }
+                    },
+                    child: SizedBox.expand(
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: SizedBox(
+                          width: video.controller?.value.size.width ?? 0,
+                          height: video.controller?.value.size.height ?? 0,
+                          child: VideoPlayer(video.controller!),
                         ),
                       ),
-                    )
-                  : Container(
-                      color: Colors.black,
-                      child: Center(
-                        child: Text("Loading...."),
-                      ),
                     ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      VideoDescription(
-                          video.user, video.videoTitle, video.songName),
-                      ActionsToolbar(video.likes, video.comments,
-                          "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"),
-                    ],
+                  )
+                : Container(
+                    color: Colors.black,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
-                  SizedBox(height: 20),
-                ],
-              ),
-            ],
-          );
-        });
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    VideoDescription(
+                        video.user, video.videoTitle, video.songName),
+                    ActionsToolbar(
+                      video.likes,
+                      video.comments,
+                      "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg",
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 }

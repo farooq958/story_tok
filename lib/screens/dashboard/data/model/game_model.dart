@@ -46,7 +46,7 @@ class GameModel extends CommonDataModel{
     return data;
   }
 
-  Future<Null> loadController() async {
+  Future<Null> initiate() async {
     controller = WebViewController();
     controller!.setJavaScriptMode(JavaScriptMode.unrestricted);
     await controller!.loadRequest(Uri.parse(url));

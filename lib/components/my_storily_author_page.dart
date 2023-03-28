@@ -11,6 +11,7 @@ import 'package:storily/screens/schedule_event_flow_screens/main_event_screen.da
 import 'package:touchable_opacity/touchable_opacity.dart';
 
 import '../cubit/load_main_data_cubit.dart';
+import '../cubit/load_upcoming_data_cubit.dart';
 import '../model/event_flow_model.dart';
 
 
@@ -229,6 +230,7 @@ class AuthorCenterPageUI extends StatelessWidget {
 
                     Navigator.pushReplacement(context, CustomSlidePageRoute(child: MainEventScreenScheduleScreen()));
                     context.read<LoadMainDataCubit>().getEventData();
+                    context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
                     context.read<SelectedDateEventCubit>().setDate(DateTime.now());
                    // context.read<LoadMainDataCubit>().getEventData(EventFlowModel(eventTitle: "", eventDescription: "", fromTime: "", outTime: "", eventDate: DateTime.now()));
 

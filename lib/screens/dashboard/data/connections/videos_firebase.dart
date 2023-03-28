@@ -22,7 +22,7 @@ class VideosAPI {
     print("##### VIDEO Length => ${firebaseVideoData.docs.length}");
 
     if (firebaseVideoData.docs.length == 0) {
-      await addDemoVideoData();
+      //await addDemoVideoData();
       videos = (await FirebaseFirestore.instance.collection("videos").get());
     } else {
       videos = firebaseVideoData;
@@ -38,9 +38,9 @@ class VideosAPI {
   /*
   * manually add videos in firestore
   */ 
-  Future<Null> addDemoVideoData() async {
-    for (var video in videoDataList) {
-      await FirebaseFirestore.instance.collection("videos").add(video);
-    }
-  }
+  // Future<Null> addDemoVideoData() async {
+  //   for (var video in videoDataList) {
+  //     await FirebaseFirestore.instance.collection("videos").add(video);
+  //   }
+  // }
 }

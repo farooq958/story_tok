@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../components/common_upload_book_format.dart';
+import '../components/common_buttons.dart';
 import '../global/constants/assets.dart';
+import '../global/methods/methods.dart';
+import 'dashboard/profile/author_profile.dart';
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({Key? key}) : super(key: key);
@@ -155,31 +157,36 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                       flex: 3,
                                       child: Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              height: 100.sp,
-                                              width: 90.sp,
-                                              child: CircleAvatar(
-                                                backgroundColor: Colors.white,
-                                                child: Image.asset(
-                                                  "assets/images/profile_profile_placeholder.png",
-                                                  height: 100.sp,
-                                                  width: 90.sp,
+                                        child: InkWell(
+                                          onTap: () {
+                                            goPage(context, AuthorProfile());
+                                          },
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                height: 100.sp,
+                                                width: 90.sp,
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.white,
+                                                  child: Image.asset(
+                                                    "assets/images/profile_profile_placeholder.png",
+                                                    height: 100.sp,
+                                                    width: 90.sp,
+                                                  ),
+                                                  //minRadius: 30.sp,
+                                                  maxRadius: 45.sp,
                                                 ),
-                                                //minRadius: 30.sp,
-                                                maxRadius: 45.sp,
                                               ),
-                                            ),
-                                            Positioned(
-                                                right: 2.sp,
-                                                top: 10.sp,
-                                                child: Image.asset(
-                                                  "assets/images/profile_notificationdot.png",
-                                                  height: 20.sp,
-                                                  width: 20.sp,
-                                                ))
-                                          ],
+                                              Positioned(
+                                                  right: 2.sp,
+                                                  top: 10.sp,
+                                                  child: Image.asset(
+                                                    "assets/images/profile_notificationdot.png",
+                                                    height: 20.sp,
+                                                    width: 20.sp,
+                                                  ))
+                                            ],
+                                          ),
                                         ),
                                       )),
                                 ],

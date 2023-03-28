@@ -9,6 +9,7 @@ import 'package:storily/global/methods/methods.dart';
 import 'package:storily/screens/dashboard/widgets/home_screen.dart';
 import 'package:storily/screens/dashboard/bootm_menu_screens/event.dart';
 //import 'data/video_model.dart';
+import '../../cubit/load_upcoming_data_cubit.dart';
 import 'feed_model/feed_view_model.dart';
 import 'bootm_menu_screens/bookshelf.dart';
 
@@ -45,13 +46,22 @@ class _FeedScreenState extends State<FeedDashboard> {
       log("Explore");
     }
     if (_selectedIndex == 2) {
-      goPage(context, MyBookshelfPage());
+      //goPage(context, MyBookshelfPage());
       log("Library");
+      showToast("Library", context);
+      // if (feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.value.isPlaying) {
+      //   feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.pause();
+      // }else{
+      //   goPage(context, MyBookshelfPage());
+      //   log("Library");
+      // }
+      // showToast("Library", context);
     }
     if (_selectedIndex == 3) {
       goPage(context, MyEventPage());
       context.read<LoadMainDataCubit>().getEventData();
-      context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 5);
+      context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
+      context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 6);
      /* GestureDetector(
           onTap: (){
             goPage(context, MyEventPage());

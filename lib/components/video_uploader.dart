@@ -24,6 +24,7 @@ class VideoUploaderState extends State<VideoUploader> {
   final _videoDescriptionController = TextEditingController();
   final _videoTitleController = TextEditingController();
 
+
   var isUploading = false;
   bool? validInput;
   List<DropDownValueModel> topicsList = [];
@@ -34,8 +35,7 @@ class VideoUploaderState extends State<VideoUploader> {
 
     Uint8List? thumbnailData;
     if (video != null) {
-      thumbnailData = await VideoThumbnail.thumbnailData(
-          video: video!.path, maxWidth: 100, maxHeight: 100, quality: 10);
+      thumbnailData = await VideoThumbnail.thumbnailData(video: video!.path, maxWidth: 100, maxHeight: 100, quality: 10);
     }
 
     setState(() {
@@ -63,6 +63,7 @@ class VideoUploaderState extends State<VideoUploader> {
     });
   }
 
+
   Future<void> _publish() async {
     setState(() {
       isUploading = true;
@@ -70,8 +71,7 @@ class VideoUploaderState extends State<VideoUploader> {
 
     if (await _videoUpload.publish()) {
       print("Published video");
-      Navigator.pop(
-          context); // TODO: should probably show user confirmation of successful upload
+      Navigator.pop(context); // TODO: should probably show user confirmation of successful upload
     } else {
       print("Error publishing video");
       setState(() {
@@ -83,16 +83,15 @@ class VideoUploaderState extends State<VideoUploader> {
   List<DropDownValueModel> getTopics() {
     List<DropDownValueModel> res = [];
 
-    FirebaseFirestore.instance
-        .collection("categories")
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        res.add(DropDownValueModel(name: doc['name'], value: doc['name']));
-      });
-    });
+     FirebaseFirestore.instance.collection("categories")
+    .get()
+    .then((QuerySnapshot querySnapshot) {
+       querySnapshot.docs.forEach((doc) {
+         res.add(DropDownValueModel(name: doc['name'], value: doc['name']));
+       });
+     });
 
-    return res;
+     return res;
   }
 
   @override
@@ -111,18 +110,19 @@ class VideoUploaderState extends State<VideoUploader> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // FilledButton(
-                  //     onPressed: () async {
-                  //       _addVideo(context, ImageSourceType.gallery);
-                  //     },
-                  //     child: Text("Choose video")),
-                  // Container(
-                  //   padding: EdgeInsets.all(40),
-                  //   child: _thumbnail != null ? Image.memory(_thumbnail!) : null,
-                  // )
+                  FilledButton(
+                      onPressed: () async {
+                        _addVideo(context, ImageSourceType.gallery);
+                      },
+                      child: Text("Choose video")),
+                  Container(
+                    padding: EdgeInsets.all(40),
+                    child: _thumbnail != null ? Image.memory(_thumbnail!) : null,
+                  )
                 ],
               ),
 
@@ -139,9 +139,7 @@ class VideoUploaderState extends State<VideoUploader> {
                       SizedBox(
                           width: 200,
                           child: TextField(
-                            onChanged: (text) {
-                              _videoUpload.videoTitle = text;
-                            },
+                            onChanged: (text){_videoUpload.videoTitle = text;},
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(),
@@ -169,9 +167,7 @@ class VideoUploaderState extends State<VideoUploader> {
                               border: UnderlineInputBorder(),
                               hintText: 'Video description',
                             ),
-                            onChanged: (text) {
-                              _videoUpload.videoDescription = text;
-                            },
+                            onChanged: (text){_videoUpload.videoDescription = text;},
                           ))
                     ],
                   )),
@@ -188,9 +184,7 @@ class VideoUploaderState extends State<VideoUploader> {
                           child: DropDownTextField(
                             dropDownList: this.topicsList,
                             enableSearch: true,
-                            onChanged: (val) {
-                              _videoUpload.videoTopic = val;
-                            },
+                            onChanged: (val) {_videoUpload.videoTopic = val;},
                           ))
                     ],
                   )),
@@ -202,31 +196,27 @@ class VideoUploaderState extends State<VideoUploader> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(width: 100, child: Text("Cover:")),
-                      IconButton(
-                          onPressed: () async {
-                            _addCover(context, ImageSourceType.gallery);
-                          },
-                          icon: Icon(_videoUpload.cover == null
-                              ? Icons.add_a_photo_rounded
-                              : Icons.clear_rounded)),
+                      IconButton(onPressed: () async {
+                          _addCover(context, ImageSourceType.gallery);
+                      },
+                          icon: Icon(_videoUpload.cover == null ? Icons.add_a_photo_rounded : Icons.clear_rounded)),
                       SizedBox(
-                        width: 70,
-                        child: _videoUpload.cover != null
-                            ? Image.file(
-                                _videoUpload.cover!,
-                                width: 70,
-                                height: 70,
-                              )
-                            : null,
-                      )
+                          width: 70,
+                          child: _videoUpload.cover != null ? Image.file(
+                            _videoUpload.cover!,
+                            width: 70,
+                            height: 70,
+                          ) : null,
+                          )
                     ],
                   )),
 
+
               // Publish button
-              // FilledButton(
-              //     onPressed: isUploading ? () {print("uploading already in progress.");} : () {_publish();},
-              //     child: isUploading ? Text("Uploading...") : Text("Publish")
-              // )
+              FilledButton(
+                  onPressed: isUploading ? () {print("uploading already in progress.");} : () {_publish();},
+                  child: isUploading ? Text("Uploading...") : Text("Publish")
+              )
             ],
           ),
         ));

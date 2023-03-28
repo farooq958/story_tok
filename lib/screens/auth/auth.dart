@@ -197,14 +197,14 @@ class AuthUI extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     //this is a short cut to the author's page, not for final product
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => MyStorilyAuthorPage()));
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MainHomeScreen()));
+                            builder: (context) => MyStorilyAuthorPage()));
+                   /* Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainHomeScreen()));*/
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0),
@@ -241,7 +241,7 @@ class AuthUI extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => VideoDisplayScreen(
@@ -249,7 +249,11 @@ class AuthUI extends StatelessWidget {
                               "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                         ),
                       ),
-                    );
+                    );*/
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainHomeScreen()));
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0),
