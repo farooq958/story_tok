@@ -91,17 +91,14 @@ flutter:
     - assets/images/events/
     - assets/images/books/
     - assets/images/profile/
-<<<<<<< HEAD
     - assets/images/bottomtab/
     - assets/images/home/
     - assets/images/home/numbers/blue/
     - assets/images/home/numbers/green/
     - assets/images/home/numbers/red/
     - assets/images/home/achievement/
-=======
     - assets/images/book_upload/
     - assets/images/video_upload/
->>>>>>> 30e31de86d5ac396eb25679a630e8d7cc023be7e
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
