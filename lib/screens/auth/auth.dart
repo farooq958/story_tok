@@ -360,40 +360,40 @@ class AuthUI extends StatelessWidget {
                     ),
                   ),
                 ),
-                  MaterialButton(
-                  onPressed: () {
-                    goPage(context, BottomTab());
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(100.0),
-                    ),
-                    margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.child_care,
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          width: 5.0,
-                        ),
-                        Text(
-                          "Child Flow",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                //   MaterialButton(
+                //   onPressed: () {
+                //     goPage(context, BottomTab());
+                //   },
+                //   child: Container(
+                //     padding: EdgeInsets.all(10.0),
+                //     decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(100.0),
+                //     ),
+                //     margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       crossAxisAlignment: CrossAxisAlignment.center,
+                //       children: <Widget>[
+                //         Icon(
+                //           Icons.child_care,
+                //           color: Colors.black,
+                //         ),
+                //         SizedBox(
+                //           width: 5.0,
+                //         ),
+                //         Text(
+                //           "Child Flow",
+                //           style: TextStyle(
+                //             color: Colors.black,
+                //             fontWeight: FontWeight.bold,
+                //             fontSize: 16.0,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
