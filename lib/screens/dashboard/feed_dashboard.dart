@@ -40,12 +40,12 @@ class _FeedScreenState extends State<FeedDashboard> {
       _selectedIndex = index;
     });
     if (_selectedIndex == 0) {
-      HomeScreen();
+      Home();
       log("Home");
     }
     if (_selectedIndex == 1) {
       log("Explore");
-      Home();
+      HomeScreen();
     }
     if (_selectedIndex == 2) {
       //goPage(context, MyBookshelfPage());
@@ -78,7 +78,7 @@ class _FeedScreenState extends State<FeedDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _selectedIndex == 0 ? HomeScreen() : Home(),
+      body: _selectedIndex == 0 ? Home() : _selectedIndex == 1 ?HomeScreen() : SizedBox(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber.shade800,
