@@ -26,7 +26,7 @@ class MainMenuWidget extends StatefulWidget {
         this.addFilesImageUrl,
         this.dropShadow})
       : super(key: key);
-  Function(Function) ontap;
+  Function()? ontap;
   String? boxImageUrl;
   String? addFilesImageUrl;
   String? dropShadow;
@@ -56,9 +56,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
         buttton.notifyListeners();
       },
 
-      onTap: () {
-
-      },
+      onTap: widget.ontap,
 
       onTapUp: (v) {
         buttton.value = false;
