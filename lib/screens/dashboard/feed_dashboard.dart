@@ -8,6 +8,7 @@ import 'package:storily/cubit/load_recommended_events_cubit.dart';
 import 'package:storily/global/methods/methods.dart';
 import 'package:storily/screens/dashboard/widgets/home_screen.dart';
 import 'package:storily/screens/dashboard/bootm_menu_screens/event.dart';
+import 'package:storily/screens/kids_flow/bottomtab/home.dart';
 //import 'data/video_model.dart';
 import '../../cubit/load_upcoming_data_cubit.dart';
 import 'feed_model/feed_view_model.dart';
@@ -39,11 +40,12 @@ class _FeedScreenState extends State<FeedDashboard> {
       _selectedIndex = index;
     });
     if (_selectedIndex == 0) {
-      HomeScreen();
+      Home();
       log("Home");
     }
     if (_selectedIndex == 1) {
       log("Explore");
+      HomeScreen();
     }
     if (_selectedIndex == 2) {
       //goPage(context, MyBookshelfPage());
@@ -76,7 +78,7 @@ class _FeedScreenState extends State<FeedDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _selectedIndex == 0 ? HomeScreen() : HomeScreen(),
+      body: _selectedIndex == 0 ? Home() : _selectedIndex == 1 ?HomeScreen() : SizedBox(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber.shade800,

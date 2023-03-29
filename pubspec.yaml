@@ -61,6 +61,7 @@ dependencies:
   flutter_screenutil: ^5.7.0 #for ui responsiveness
   touchable_opacity: ^1.2.0
   intl: ^0.17.0
+  percent_indicator: ^4.2.3
   table_calendar: ^3.0.8
 
   audioplayers: ^3.0.1
@@ -90,6 +91,12 @@ flutter:
     - assets/images/events/
     - assets/images/books/
     - assets/images/profile/
+    - assets/images/bottomtab/
+    - assets/images/home/
+    - assets/images/home/numbers/blue/
+    - assets/images/home/numbers/green/
+    - assets/images/home/numbers/red/
+    - assets/images/home/achievement/
     - assets/images/book_upload/
     - assets/images/video_upload/
   # An image asset can refer to one or more resolution-specific "variants", see
