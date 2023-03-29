@@ -181,4 +181,7 @@ class Assets {
   /// Assets for publishing rights text
   static const backgroundCircleDots = 'assets/images/background_circledots.png';
 
+  /// Assets for publishing rights text
+  static const priceTextRed = 'assets/images/price_Text_red.png';
+
 }

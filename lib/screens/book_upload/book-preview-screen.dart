@@ -406,7 +406,6 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                                 onTap: () {
                                   setState(() {
                                     uploadAudio();
-                                    // widget.flag = 'recordnow';
                                   });
                                 },
                               ),

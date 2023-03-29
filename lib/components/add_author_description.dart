@@ -8,10 +8,9 @@ import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:storily/components/confirm_book_details.dart';
 import 'package:storily/components/voice_recording.dart';
+import 'package:storily/models/book_author_model.dart';
 import '../global/constants/assets.dart';
 import 'common_upload_book_format.dart';
-
-enum ImageSourceType { gallery, camera }
 
 class AddAuthorDescription extends StatefulWidget {
   final images;
@@ -81,6 +80,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
   TextEditingController _tagController = TextEditingController();
+  TextEditingController _contributorController = TextEditingController();
 
   SingleValueDropDownController _cnt = SingleValueDropDownController();
   late MultiValueDropDownController _cntMulti;
@@ -185,7 +185,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                 ),
                                 Container(
                                   width: MediaQuery.of(context).size.width / 2,
-                                  height: 30,
+                                  height: 40,
                                   // margin: EdgeInsets.only(left: 22, right: 22),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
@@ -223,7 +223,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width / 2.3,
-                                  height: 30,
+                                  height: 40,
                                   // margin: EdgeInsets.only(left: 22, right: 22),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
@@ -277,7 +277,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                 ),
                                 Container(
                                   width: MediaQuery.of(context).size.width / 2,
-                                  height: 30,
+                                  height: 40,
                                   // margin: EdgeInsets.only(left: 22, right: 22),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
@@ -326,7 +326,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width / 2.3,
-                                  height: 30,
+                                  height: 40,
                                   // margin: EdgeInsets.only(left: 22, right: 22),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
@@ -407,7 +407,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width / 2.4,
-                                  height: 30,
+                                  height: 40,
                                   // margin: EdgeInsets.only(left: 22, right: 22),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
@@ -430,8 +430,9 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     cursorColor: Colors.black,
                                     textAlign: TextAlign.start,
                                     decoration: InputDecoration(
+                                        hintText: "Name of your contributor",
                                         border: InputBorder.none),
-                                    controller: _titleController,
+                                    controller: _contributorController,
                                   ),
                                 ),
                               ],
@@ -454,7 +455,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                           ],
                         ),
                         Container(
-                          height: 30,
+                          height: 40,
                           width: MediaQuery.of(context).size.width / 1.1,
                           decoration: BoxDecoration(
                             color: Colors.grey[200],
@@ -476,8 +477,9 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                           child: TextFormField(
                             cursorColor: Colors.black,
                             textAlign: TextAlign.start,
-                            decoration:
-                                InputDecoration(border: InputBorder.none),
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Enter Your Keywords"),
                             controller: _keyWordsController,
                           ),
                         ),
@@ -501,7 +503,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width / 2.3,
-                                  height: 30,
+                                  height: 40,
                                   // margin: EdgeInsets.only(left: 22, right: 22),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
@@ -562,7 +564,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width / 2.3,
-                                  height: 30,
+                                  height: 40,
                                   // margin: EdgeInsets.only(left: 22, right: 22),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
@@ -630,7 +632,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                           children: [
                             Container(
                               width: MediaQuery.of(context).size.width / 2.3,
-                              height: 30,
+                              height: 40,
                               // margin: EdgeInsets.only(left: 22, right: 22),
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
@@ -681,7 +683,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width / 2.3,
-                              height: 30,
+                              height: 40,
                               // margin: EdgeInsets.only(left: 22, right: 22),
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
@@ -746,7 +748,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width / 1.1,
-                                  height: 30,
+                                  height: 40,
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
                                     border: Border.all(
@@ -768,6 +770,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     cursorColor: Colors.black,
                                     textAlign: TextAlign.start,
                                     decoration: InputDecoration(
+                                        hintText: "Book Topic(s)",
                                         border: InputBorder.none),
                                     controller: _tagController,
                                   ),
@@ -837,13 +840,13 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                   margin:
                                       EdgeInsets.only(bottom: 5.0, left: 3.0),
                                   child: Image.asset(
-                                    Assets.topicsTextRed,
+                                    Assets.priceTextRed,
                                     height: 15,
                                   ),
                                 ),
                                 Container(
                                   width: MediaQuery.of(context).size.width / 2,
-                                  height: 30,
+                                  height: 35,
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
                                     border: Border.all(
@@ -862,6 +865,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     ], // Make rounded corner of border
                                   ),
                                   child: TextFormField(
+                                    keyboardType: TextInputType.number,
                                     cursorColor: Colors.black,
                                     textAlign: TextAlign.start,
                                     decoration: InputDecoration(
@@ -1267,57 +1271,25 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     UploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.then((res) {
       storageReference.getDownloadURL().then((imageURL) {
-        sightingRef.set({
-          "cover_url": imageURL,
-          "audio_doc_id": "",
-          "author_doc_id": "",
-          "category_main": categoryValue.toString(),
-          "category_sub": subCategoryValue.toString(),
-          "pages_url": imagesUrlArray,
-          "title": _titleController.text.toString(),
-          "topic": _tagController.text.toString(),
-          "book_description": _descriptionController.text.toString(),
-          "author_name": _authorNameController.text.toString(),
-          "keywords": _keyWordsController.text.toString(),
-          "price": _priceController.text.toString(),
-          "publishing_rights": radioButtonValue,
-        });
+        var bookAuthorDetails = BookAuthorModel(
+          cover_url: imageURL,
+          audio_doc_id: '',
+          author_doc_id: '',
+          category_main: categoryValue.toString(),
+          category_sub: subCategoryValue.toString(),
+          pages_url: imagesUrlArray,
+          title: _titleController.text.toString(),
+          topic: _tagController.text.toString(),
+          book_description: _descriptionController.text.toString(),
+          author_name: _authorNameController.text.toString(),
+          keywords: _keyWordsController.text.toString(),
+          price: _priceController.text.toString(),
+          publishing_rights: radioButtonValue,
+        );
+
+        print(bookAuthorDetails);
+        sightingRef.set({bookAuthorDetails});
       });
     });
   }
-
-// Future<void> saveFile() async {
-//   try {
-//     var imagesUrlArray = [];
-//     var imageUrl = "";
-//     var audioUrl = "";
-//
-//
-//
-//     var data = widget.ref.set({
-//       // "cover_url": widget.imageURL.toString(),
-//       // "audio_doc_id": audioURl,
-//       "audio_Paging_time": _pageTime.values,
-//       "author_doc_id": "",
-//       // "category_main": widget.category.toString(),
-//       // "category_sub": widget.subCategory.toString(),
-//       "pages_url": imagesUrlArray,
-//       // "title": widget.title.toString(),
-//       // "topic": widget.topic.toString(),
-//     });
-//
-//
-//     Navigator.push(
-//       context,
-//       MaterialPageRoute(
-//           builder: (context) => AddAuthorDescription(
-//             images: widget.images,
-//             imagesPath: widget.imagesPath,
-//           )
-//         /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
-//       ),
-//     );
-//   } catch (e, stacktrace) {}
-// }
-
 }
