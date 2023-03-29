@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:storily/components/upload_book_format.dart';
+import 'package:storily/screens/book_upload/book-confirm-details-screen.dart';
+import 'package:storily/screens/book_upload/book-input-details-screen.dart';
+import 'package:storily/screens/book_upload/book-preview-screen.dart';
+import 'package:storily/screens/schedule_event_flow_screens/main_event_screen.dart';
+import 'package:storily/screens/video_upload/upload-video-screen.dart';
+import 'package:storily/screens/video_upload/video-preview-screen.dart';
 
 import '../components/common_upload_book_format.dart';
 import '../global/constants/assets.dart';
@@ -206,9 +214,13 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                       // Checkbox(value: value, onChanged: onChanged)
                       Expanded(
                         child: MainMenuWidget(
-                          ontap: (v) {
+                          ontap: () {
                             // v.call();
                             // setState(() {});
+                            // goPage(context, BookConfirmDetails());
+                            // goPage(context, BookInputDetails());
+                            // goPage(context, BookPreview());
+                            goPage(context, UploadBookFormat());
                           },
                           key: ValueKey(DateTime.now().toString() + "2"),
                           boxImageUrl: Assets.uploadRedBox,
@@ -220,7 +232,9 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                       ),
                       Expanded(
                           child: MainMenuWidget(
-                        ontap: (p0) {},
+                        ontap: () {
+                          goPage(context, UploadVideoScreen());
+                        },
                         addFilesImageUrl: Assets.imageTextUploanVideoBlue,
                         boxImageUrl: Assets.uploadblueBox,
                         dropShadow: Assets.blueDropShadowMain,
@@ -235,14 +249,19 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                     children: [
                       Expanded(
                           child: MainMenuWidget(
-                        ontap: (p0) {},
+                        ontap: () {
+                          goPage(context, MainEventScreenScheduleScreen());
+                        },
                         addFilesImageUrl: Assets.imageTexteventyellow,
                         boxImageUrl: Assets.uploadyellowBox,
                         dropShadow: Assets.yellowDropShadowMain,
                       )),
                       Expanded(
                           child: MainMenuWidget(
-                        ontap: (p0) {},
+                        ontap: () {
+                          print("----->>> ");
+                          goPage(context, AuthorProfile());
+                        },
                         addFilesImageUrl: Assets.imageTextMyProfilePurple,
                         boxImageUrl: Assets.uploadpurpleBox,
                         dropShadow: Assets.purpleDropShadowMain,
