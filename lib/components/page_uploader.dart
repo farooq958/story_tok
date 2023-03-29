@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:selectable_container/selectable_container.dart';
 import 'package:storily/components/add_background_music.dart';
-import 'package:storily/components/record_audio.dart';
 import 'package:storily/global/constants/assets.dart';
 import '../utils.dart';
 import 'common_upload_book_format.dart';
@@ -11,6 +10,12 @@ import 'common_upload_book_format.dart';
 enum ImageSourceType { gallery, camera }
 
 class PageUploader extends StatefulWidget {
+  final path;
+  final from;
+
+  const PageUploader({Key? key, required this.path, required this.from})
+      : super(key: key);
+
   @override
   PageUploaderState createState() => PageUploaderState();
 }
@@ -32,9 +37,10 @@ class PageUploaderState extends State<PageUploader> {
         ? ImageSource.camera
         : ImageSource.gallery;
     XFile image = await imagePicker.pickImage(
-        source: source,
-        imageQuality: 50,
-        preferredCameraDevice: CameraDevice.front);
+      source: source,
+      imageQuality: 50,
+      preferredCameraDevice: CameraDevice.front,
+    );
 
     bool imageExist = false;
     if (_images.length > 0) {
@@ -43,7 +49,10 @@ class PageUploaderState extends State<PageUploader> {
           setState(() {
             imageExist = true;
           });
-          Utils().showToastMessage("You can't choose the same image.", context);
+          Utils().showToastMessage(
+            "You can't choose the same image.",
+            context,
+          );
           break;
         }
       }
@@ -69,6 +78,13 @@ class PageUploaderState extends State<PageUploader> {
   void initState() {
     super.initState();
     imagePicker = new ImagePicker();
+    if (widget.from == 'pdf') {
+      setState(() {
+        _images.addAll(widget.path);
+        total = _images.length;
+        _selected.addAll(List.filled(total, false));
+      });
+    }
   }
 
   @override
@@ -76,31 +92,47 @@ class PageUploaderState extends State<PageUploader> {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Stack(
               children: [
-                SizedBox(
-                  height: 20,
+                Container(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Image.asset(
+                        Assets.backgroundCircleDots,
+                        height: MediaQuery.of(context).size.height / 8,
+                        width: MediaQuery.of(context).size.height / 8,
+                      )
+                    ],
+                  ),
                 ),
-                uploadBookFormatHeader(
-                  '12/03/2023',
-                  'Hi, Team',
-                  'Welcome to your board',
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Stack(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    addNewBookWidget(context, Assets.subMenuRedBox,
-                        MediaQuery.of(context).size.width * 0.90),
-                    addNewBookWidget(context, Assets.subMenuRedText,
-                        MediaQuery.of(context).size.width * 0.90),
-                    addNewBookWidget(context, Assets.subMenuExit,
-                        MediaQuery.of(context).size.width * 0.90),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    uploadBookFormatHeader(
+                      '12/03/2023',
+                      'Hi, Team',
+                      'Welcome to your board',
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Stack(
+                      children: [
+                        addNewBookWidget(context, Assets.subMenuRedBox,
+                            MediaQuery.of(context).size.width * 0.90),
+                        addNewBookWidget(context, Assets.subMenuRedText,
+                            MediaQuery.of(context).size.width * 0.90),
+                        addNewBookWidget(context, Assets.subMenuExit,
+                            MediaQuery.of(context).size.width * 0.90),
+                      ],
+                    ),
                   ],
                 ),
               ],
@@ -131,12 +163,15 @@ class PageUploaderState extends State<PageUploader> {
                         InkWell(
                           onTap: () {
                             for (int i = 0; i < selectedImages.length; i++) {
-                              _images.remove(selectedImages[i]);
-                              total--;
+                              setState(() {
+                                _images.removeAt(selectedImages[i]);
+                                total--;
+                              });
                             }
+
+                            print(_images.length);
                             _selected.removeWhere((element) => element == true);
                             selectedImages.clear();
-                            setState(() {});
                           },
                           child: Stack(
                             children: [
@@ -172,7 +207,7 @@ class PageUploaderState extends State<PageUploader> {
                             scrollDirection: Axis.vertical,
                             crossAxisCount: 3,
                             children: List.generate(
-                              total + 1,
+                              widget.from == 'pdf' ? total : total + 1,
                               (index) {
                                 if (index == total) {
                                   return Stack(
@@ -277,6 +312,10 @@ class PageUploaderState extends State<PageUploader> {
                             children: [
                               addNewBookWidget(
                                   context,
+                                  Assets.directionalRedDropDownBox,
+                                  MediaQuery.of(context).size.width * 0.30),
+                              addNewBookWidget(
+                                  context,
                                   Assets.directionalRedBox,
                                   MediaQuery.of(context).size.width * 0.30),
                               addNewBookWidget(
@@ -295,18 +334,22 @@ class PageUploaderState extends State<PageUploader> {
                               Utils().showToastMessage(
                                   "Book has at least 4 pages.", context);
                             } else {
+                              print("_images : $_images");
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => AddBackgroundMusic(
-                                        /*imagesPath: imagesPath,
-                                images: _images*/
-                                        )),
+                                        imagesPath: imagesPath,
+                                        images: _images)),
                               );
                             }
                           },
                           child: Stack(
                             children: [
+                              addNewBookWidget(
+                                  context,
+                                  Assets.directionalRedDropDownBox,
+                                  MediaQuery.of(context).size.width * 0.30),
                               addNewBookWidget(
                                   context,
                                   Assets.directionalRedBox,

@@ -1,499 +1,680 @@
+import 'dart:async';
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:audio_session/audio_session.dart';
+import 'package:record/record.dart';
+import 'package:storily/components/add_author_description.dart';
+import '../../components/common_upload_book_format.dart';
+import '../../global/constants/assets.dart';
 
-class BookPreview extends StatelessWidget {
+typedef _Fn = void Function();
+
+const theSource = AudioSource.microphone;
+
+class VoiceRecorder extends StatefulWidget {
+  List<File>? images = <File>[];
+  var imagesPath;
+  var flag;
+  var ref;
+  var imageURL;
+  var category;
+  var subCategory;
+  var title;
+  var topic;
+
+  VoiceRecorder(
+      [this.images,
+      this.imagesPath,
+      this.flag,
+      this.ref,
+      this.imageURL,
+      this.category,
+      this.subCategory,
+      this.title,
+      this.topic]);
+
+  @override
+  VoiceRecorderState createState() => VoiceRecorderState(cachedimages: images);
+}
+
+class VoiceRecorderState extends State<VoiceRecorder> {
+  List imagesPath = [];
+  bool recordingStart = false;
+  bool withAudio = false;
+
+  //recorder
+  Codec _codec = Codec.aacMP4;
+  var _mPath;
+  FlutterSoundPlayer _mPlayer = FlutterSoundPlayer();
+  final _audioRecorder = Record();
+  FlutterSoundRecorder _mRecorder = FlutterSoundRecorder();
+  bool _mPlayerIsInited = false;
+  bool _mRecorderIsInited = false;
+  bool _mplaybackReady = false;
+  Stopwatch _timer = Stopwatch();
+  File audioFile = File('');
+  List<Map<File, String>> _audioPaths =
+      []; //page as key and path for audio as value
+  int _currentIndex = 0;
+  int length = 0;
+  var title = 'Audio Recording';
+
+  Map<int, int> _pageTime = Map();
+  late List<Widget> imageSliders;
+  List<File>? cachedimages = <File>[];
+
+  VoiceRecorderState({this.cachedimages});
+
+  @override
+  void initState() {
+    length = widget.images!.length;
+    _audioPaths = List<Map<File, String>>.filled(length, {File(""): ""});
+    _mPlayer.openPlayer().then((value) {
+      setState(() {
+        _mPlayerIsInited = true;
+      });
+    });
+
+    openTheRecorder().then((value) {
+      setState(() {
+        _mRecorderIsInited = true;
+      });
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _mPlayer.closePlayer();
+    _mPlayer;
+
+    _mRecorder.closeRecorder();
+    _mRecorder;
+    super.dispose();
+  }
+
+  Future<void> openTheRecorder() async {
+    if (!kIsWeb) {
+      var status = await Permission.microphone.request();
+      if (status != PermissionStatus.granted) {
+        throw RecordingPermissionException('Microphone permission not granted');
+      }
+    }
+    await _mRecorder.openRecorder();
+    if (!await _mRecorder.isEncoderSupported(_codec) && kIsWeb) {
+      _codec = Codec.opusWebM;
+      _mPath = 'tau_file.webm';
+      if (!await _mRecorder.isEncoderSupported(_codec) && kIsWeb) {
+        _mRecorderIsInited = true;
+        return;
+      }
+    }
+    final session = await AudioSession.instance;
+    await session.configure(
+      AudioSessionConfiguration(
+        avAudioSessionCategory: AVAudioSessionCategory.playAndRecord,
+        avAudioSessionCategoryOptions:
+            AVAudioSessionCategoryOptions.allowBluetooth |
+                AVAudioSessionCategoryOptions.defaultToSpeaker,
+        avAudioSessionMode: AVAudioSessionMode.spokenAudio,
+        avAudioSessionRouteSharingPolicy:
+            AVAudioSessionRouteSharingPolicy.defaultPolicy,
+        avAudioSessionSetActiveOptions: AVAudioSessionSetActiveOptions.none,
+        androidAudioAttributes: const AndroidAudioAttributes(
+          contentType: AndroidAudioContentType.speech,
+          flags: AndroidAudioFlags.none,
+          usage: AndroidAudioUsage.voiceCommunication,
+        ),
+        androidAudioFocusGainType: AndroidAudioFocusGainType.gain,
+        androidWillPauseWhenDucked: true,
+      ),
+    );
+
+    _mRecorderIsInited = true;
+  }
+
+  record() {
+    _audioRecorder.start().then((value) {
+      setState(() {
+        recordingStart = true;
+        _timer.start();
+      });
+    });
+  }
+
+  recordStop() async {
+    _audioRecorder.stop().then((value) {
+      try {
+        setState(() {
+          withAudio = true;
+          recordingStart = false;
+          var imageVoicePair = {
+            widget.images![_currentIndex]: value!,
+          };
+          _audioPaths[_currentIndex] = imageVoicePair;
+          _mPath = value!;
+          _mplaybackReady = true;
+          _timer.stop();
+        });
+      } catch (e, stacktrace) {}
+    });
+  }
+
+  bool startPlaying = false;
+
+  void play() {
+    if (startPlaying) {
+      stopPlayer();
+    } else {
+      assert(_mPlayerIsInited &&
+          _mplaybackReady &&
+          _mRecorder.isStopped &&
+          _mPlayer.isStopped);
+      _mPlayer
+          .startPlayer(
+              fromURI: _audioPaths[_currentIndex].values.first.toString(),
+              //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+              whenFinished: () {
+                setState(() {});
+              })
+          .then((value) {
+        setState(() {
+          startPlaying = true;
+        });
+      });
+    }
+  }
+
+  playUploadedFile() {
+    if (startPlaying) {
+      stopPlayer();
+    } else {
+      _mPlayer
+          .startPlayer(
+              fromURI: _audioPaths[_currentIndex].values.first.toString(),
+              //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+              whenFinished: () {
+                setState(() {});
+              })
+          .then((value) {
+        setState(() {
+          startPlaying = true;
+        });
+      });
+    }
+  }
+
+  void stopPlayer() {
+    _mPlayer.stopPlayer().then((value) {
+      setState(() {
+        startPlaying = false;
+      });
+    });
+  }
+
+  _Fn? getPlaybackFn() {
+    if (!_mPlayerIsInited || !_mplaybackReady || !_mRecorder.isStopped) {
+      return null;
+    }
+    return _mPlayer.isStopped ? play : stopPlayer;
+  }
+
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 390;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
-    return Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text("My Storily"),
-        ),
-        body: SingleChildScrollView(
+    Widget makeBody() {
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Image.asset(
+                        Assets.backgroundCircleDots,
+                        height: MediaQuery.of(context).size.height / 8,
+                        width: MediaQuery.of(context).size.height / 8,
+                      )
+                    ],
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    uploadBookFormatHeader(
+                      '12/03/2023',
+                      'Hi, Team',
+                      'Welcome to your board',
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Stack(
+                      children: [
+                        addNewBookWidget(context, Assets.subMenuRedBox,
+                            MediaQuery.of(context).size.width * 0.90),
+                        addNewBookWidget(context, Assets.subMenuRedText,
+                            MediaQuery.of(context).size.width * 0.90),
+                        addNewBookWidget(context, Assets.subMenuExit,
+                            MediaQuery.of(context).size.width * 0.90),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Stack(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width / 6,
+                              child:
+                                  Image.asset(Assets.backgroundRectangleDots),
+                            ),
+                          ],
+                        ),
+                        Stack(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 6,
+                                  child: Image.asset(
+                                      Assets.backgroundRectangleDots),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                uploadText(
+                                  context: context,
+                                  label: widget.flag == 'press continue'
+                                      ? 'Book Preview'
+                                      : title.toString(),
+                                  fontSize: 20.0,
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(width: 2.5),
+                                        borderRadius: BorderRadius.circular(
+                                          8.0,
+                                        ), //<-- SEE HERE
+                                      ),
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(7.0),
+                                          child: Image.file(
+                                            widget.images![_currentIndex],
+                                            fit: BoxFit.cover,
+                                          )),
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              2,
+                                      width: MediaQuery.of(context).size.width /
+                                          1.5,
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(right: 30),
+                                      child: IconButton(
+                                        onPressed: () {
+                                          if (length - 1 > _currentIndex) {
+                                            setState(() {
+                                              _currentIndex++;
+                                            });
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.arrow_right,
+                                          size: 50,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20.0,
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if (widget.flag == 'audio' ||
+                                widget.flag == 'recordnow')
+                              InkWell(
+                                child: Image.asset(
+                                  Assets.audioUploadRedPreviousPage,
+                                  height: 100,
+                                  width: 100,
+                                ),
+                                onTap: () {
+                                  if (_currentIndex > 0) {
+                                    setState(() {
+                                      _currentIndex--;
+                                    });
+                                  }
+                                },
+                              ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            if (widget.flag == 'audio')
+                              InkWell(
+                                child: Stack(
+                                  children: [
+                                    addNewBookWidget(
+                                        context,
+                                        Assets.directionalRedBox,
+                                        MediaQuery.of(context).size.width *
+                                            0.30),
+                                    addNewBookWidget(
+                                        context,
+                                        Assets.standAloneRedAdd,
+                                        MediaQuery.of(context).size.width *
+                                            0.30),
+                                  ],
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    uploadAudio();
+                                    // widget.flag = 'recordnow';
+                                  });
+                                },
+                              ),
+                            if (widget.flag == 'recordnow')
+                              InkWell(
+                                child: Image.asset(
+                                  Assets.audioUploadRedAudioIcon,
+                                  height: 100,
+                                  width: 100,
+                                ),
+                                onTap: () {
+                                  print("Next Button");
+                                },
+                              ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            if (widget.flag == 'audio' ||
+                                widget.flag == 'recordnow')
+                              InkWell(
+                                child: Image.asset(
+                                  Assets.audioUploadRedNextPage,
+                                  height: 100,
+                                  width: 100,
+                                ),
+                                onTap: () {
+                                  print("length :: $length");
+                                  print("currentIndex :: $_currentIndex");
+                                  if (length - 1 > _currentIndex) {
+                                    setState(() {
+                                      _currentIndex++;
+                                    });
+                                  }
+                                },
+                              )
+                          ],
+                        ),
+                        if (widget.flag == 'audio')
+                          Column(
+                            children: [
+                              uploadText(
+                                context: context,
+                                label: "ADD VOICE OVER FOR THIS PAGE.",
+                                fontSize: 12.0,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              )
+                            ],
+                          ),
+                        if (widget.flag == 'recordnow' ||
+                            widget.flag == 'audio')
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  recordStop();
+                                },
+                                child: Image.asset(
+                                  Assets.audioUploadRedPauseIcon,
+                                  height: 20,
+                                  width: 20,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  uploadAudioFile ? playUploadedFile() : play();
+                                },
+                                child: Image.asset(
+                                  Assets.audioUploadRedPlayIcon,
+                                  height: 20,
+                                  width: 20,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  if (!recordingStart) {
+                                    record();
+                                  } else {
+                                    recordStop();
+                                  }
+                                },
+                                child: Image.asset(
+                                  Assets.audioUploadRedUploadIcon,
+                                  height: 20,
+                                  width: 20,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 50,
+                              ),
+                            ],
+                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              child: Stack(
+                                children: [
+                                  addNewBookWidget(
+                                      context,
+                                      Assets.directionalRedDropDownBox,
+                                      MediaQuery.of(context).size.width * 0.30),
+                                  addNewBookWidget(
+                                      context,
+                                      Assets.directionalRedBox,
+                                      MediaQuery.of(context).size.width * 0.30),
+                                  addNewBookWidget(
+                                      context,
+                                      Assets.directionalTextBack,
+                                      MediaQuery.of(context).size.width * 0.30),
+                                ],
+                              ),
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            InkWell(
+                              child: Stack(
+                                children: [
+                                  addNewBookWidget(
+                                    context,
+                                    Assets.directionalRedDropDownBox,
+                                    MediaQuery.of(context).size.width * 0.30,
+                                  ),
+                                  addNewBookWidget(
+                                    context,
+                                    Assets.directionalRedBox,
+                                    MediaQuery.of(context).size.width * 0.30,
+                                  ),
+                                  addNewBookWidget(
+                                    context,
+                                    Assets.directionalTextContinue,
+                                    MediaQuery.of(context).size.width * 0.30,
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                if (widget.flag != 'press continue') {
+                                  setState(() {
+                                    widget.flag = widget.flag == 'continue'
+                                        ? 'press continue'
+                                        : 'continue';
+                                    title = 'Book Preview';
+                                  });
+                                }
 
-            child: Container(
-              // bookpreviewscreenb25 (2:3)
-              width: double.infinity,
-              height: 844 * fem,
-              decoration: BoxDecoration(
-                color: Color(0xfff0f3f6),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    // backgroundassetsDhf (4:10)
-                    left: 7 * fem,
-                    top: 17 * fem,
-                    child: Container(
-                      width: 382 * fem,
-                      height: 819 * fem,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            // autogroupd6erGvq (T8kXyTycwmSqRGiq7DD6eR)
-                            left: 0 * fem,
-                            top: 171 * fem,
-                            child: Container(
-                              // width: 376*fem,
-                              height: 555 * fem,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(
-                                        0 * fem, 0 * fem, 10.01 * fem, 0 * fem),
-                                    width: 332 * fem,
-                                    height: double.infinity,
-                                    child: Stack(
-                                      children: [
-                                        Positioned(
-                                          left: 0 * fem,
-                                          top: 0 * fem,
-                                          child: Align(
-                                            child: SizedBox(
-                                              width: 75 * fem,
-                                              height: 276 * fem,
-                                              child: Image.asset(
-                                                'assets/images/book_upload/backgroundrectangledots.png',
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
+                                if (widget.flag == 'press continue') {
+                                  // saveFile();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddAuthorDescription(
+                                              images: widget.images,
+                                              imagesPath: widget.imagesPath,
+                                              audioPaths: _audioPaths,
+                                              withAudio: withAudio,
+                                            )
+                                        /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
                                         ),
-                                        Positioned(
-                                          left: 44 * fem,
-                                          top: 44 * fem,
-                                          child: Align(
-                                            child: SizedBox(
-                                              width: 288 * fem,
-                                              height: 511 * fem,
-                                              child: Image.asset(
-                                                'assets/images/book_upload/preview-box.png',
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          // bookpreviewARs (3:74)
-                                          left: 136 * fem,
-                                          top: 9 * fem,
-                                          child: Align(
-                                            child: SizedBox(
-                                              width: 108 * fem,
-                                              height: 20 * fem,
-                                              child: Text(
-                                                'Book Preview',
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          // leftarrowYxD (4:19)
-                                          left: 2.0067138672 * fem,
-                                          top: 257.0034179688 * fem,
-                                          child: Align(
-                                            child: SizedBox(
-                                              width: 34 * fem,
-                                              height: 42 * fem,
-                                              child: Image.asset(
-                                                'assets/images/book_upload/left-arrow.png',
-                                                width: 34 * fem,
-                                                height: 42 * fem,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    // rightarrowbQh (4:17)
-                                    margin: EdgeInsets.fromLTRB(
-                                        0 * fem, 1.01 * fem, 0 * fem, 0 * fem),
-                                    width: 34 * fem,
-                                    height: 42 * fem,
-                                    child: Image.asset(
-                                      'assets/images/book_upload/right-arrow.png',
-                                      width: 34 * fem,
-                                      height: 42 * fem,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                  );
+                                }
+                              },
                             ),
-                          ),
-                          Positioned(
-                            // autogroupouudUDb (T8kXN4pwLjyiFoyfkxoUUd)
-                            left: 182 * fem,
-                            top: 0 * fem,
-                            child: Container(
-                              width: 200 * fem,
-                              height: 147 * fem,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    // autogroupkitmYUM (T8kXcJvCsDBSiQcxd1Kitm)
-                                    margin: EdgeInsets.fromLTRB(
-                                        0 * fem, 0 * fem, 25 * fem, 0 * fem),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          // backgroundtriangleF7s (4:9)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              0 * fem, 0 * fem, 15 * fem),
-                                          width: 34 * fem,
-                                          height: 34 * fem,
-                                          child: Image.asset(
-                                            'assets/images/book_upload/backgroundtriangle-C3F.png',
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Container(
-                                          // backgroundsquiggleY6y (4:8)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              0 * fem, 2 * fem, 0 * fem),
-                                          width: 58 * fem,
-                                          height: 25 * fem,
-                                          child: Image.asset(
-                                            'assets/images/book_upload/backgroundsquiggle.png',
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    // backgroundcircledots1RgZ (4:7)
-                                    margin: EdgeInsets.fromLTRB(
-                                        0 * fem, 32 * fem, 0 * fem, 0 * fem),
-                                    width: 115 * fem,
-                                    height: 115 * fem,
-                                    child: Image.asset(
-                                      'assets/images/book_upload/backgroundcircledots-1-vJ1.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            // autogroupqizkuLq (T8kYbHHGy5zNYoC85BQiZK)
-                            left: 28 * fem,
-                            top: 751 * fem,
-                            child: Container(
-                              width: 344 * fem,
-                              height: 68 * fem,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    // backbuttonC53 (5:281)
-                                    margin: EdgeInsets.fromLTRB(
-                                        0 * fem, 4 * fem, 8 * fem, 0 * fem),
-                                    child: TextButton(
-                                      onPressed: () {},
-                                      style: TextButton.styleFrom(
-                                        padding: EdgeInsets.zero,
-                                      ),
-                                      child: Container(
-                                        width: 156 * fem,
-                                        height: 35 * fem,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                              'assets/images/book_upload/drop-shadow-bg-cFf.png',
-                                            ),
-                                          ),
-                                        ),
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              // box12V (I5:281;3:66)
-                                              left: 0 * fem,
-                                              top: 0 * fem,
-                                              child: Align(
-                                                child: SizedBox(
-                                                  width: 150 * fem,
-                                                  height: 29 * fem,
-                                                  child: Image.asset(
-                                                    'assets/images/book_upload/box.png',
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              // back5o3 (I5:281;3:67)
-                                              left: 56 * fem,
-                                              top: 6 * fem,
-                                              child: Align(
-                                                child: SizedBox(
-                                                  width: 34 * fem,
-                                                  height: 15 * fem,
-                                                  child: Text(
-                                                    'BACK',
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    // autogroupgdwbXQ9 (T8kYin4nWPMowxGVA9gdwB)
-                                    width: 180 * fem,
-                                    height: double.infinity,
-                                    child: Stack(
-                                      children: [
-                                        Positioned(
-                                          // backgroundsquare1Fb3 (4:12)
-                                          left: 112 * fem,
-                                          top: 0 * fem,
-                                          child: Align(
-                                            child: SizedBox(
-                                              width: 68 * fem,
-                                              height: 68 * fem,
-                                              child: Image.asset(
-                                                'assets/images/book_upload/backgroundsquare-1-59X.png',
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          // continuebuttonLsP (5:282)
-                                          left: 0 * fem,
-                                          top: 4 * fem,
-                                          child: TextButton(
-                                            onPressed: () {},
-                                            style: TextButton.styleFrom(
-                                              padding: EdgeInsets.zero,
-                                            ),
-                                            child: Container(
-                                              width: 156 * fem,
-                                              height: 35 * fem,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: AssetImage(
-                                                    'assets/images/book_upload/drop-shadow-bg-Hsb.png',
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Stack(
-                                                children: [
-                                                  Positioned(
-                                                    // boxyfT (I5:282;3:71)
-                                                    left: 0 * fem,
-                                                    top: 0 * fem,
-                                                    child: Align(
-                                                      child: SizedBox(
-                                                        width: 150 * fem,
-                                                        height: 29 * fem,
-                                                        child: Image.asset(
-                                                          'assets/images/book_upload/box-iUu.png',
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                    // continueGeZ (I5:282;3:72)
-                                                    left: 41 * fem,
-                                                    top: 6 * fem,
-                                                    child: Align(
-                                                      child: SizedBox(
-                                                        width: 67 * fem,
-                                                        height: 15 * fem,
-                                                        child: Text(
-                                                          'CONTINUE',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            // addbookbuttonL8d (3:13)
-                            left: 27 * fem,
-                            top: 114 * fem,
-                            child: Container(
-                              width: 322 * fem,
-                              height: 55 * fem,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    // boxp3o (4:30)
-                                    left: 0 * fem,
-                                    top: 0 * fem,
-                                    child: Align(
-                                      child: SizedBox(
-                                        width: 328 * fem,
-                                        height: 60 * fem,
-                                        child: Image.asset(
-                                          'assets/images/book_upload/box-VN5.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    // addabookV9w (4:31)
-                                    left: 0 * fem,
-                                    top: 0 * fem,
-                                    child: Align(
-                                      child: SizedBox(
-                                        width: 328 * fem,
-                                        height: 60 * fem,
-                                        child: Image.asset(
-                                          'assets/images/book_upload/add-a-book.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    // xAG5 (4:32)
-                                    left: 3 * fem,
-                                    top: 0 * fem,
-                                    child: Align(
-                                      child: SizedBox(
-                                        width: 327 * fem,
-                                        height: 60 * fem,
-                                        child: Image.asset(
-                                          'assets/images/book_upload/x.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            // nameinformationSzH (3:22)
-                            left: 24 * fem,
-                            top: 18 * fem,
-                            child: Container(
-                              width: 249 * fem,
-                              height: 82 * fem,
-                              decoration: BoxDecoration(
-                                color: Color(0x00d9d9d9),
-                              ),
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    // hinamejyP (3:23)
-                                    left: 0 * fem,
-                                    top: 14 * fem,
-                                    child: Align(
-                                      child: SizedBox(
-                                        width: 135 * fem,
-                                        height: 37 * fem,
-                                        child: Text(
-                                          'Hi, Name\n',
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    // xx1AD (3:24)
-                                    left: 0 * fem,
-                                    top: 3 * fem,
-                                    child: Align(
-                                      child: SizedBox(
-                                        width: 69 * fem,
-                                        height: 14 * fem,
-                                        child: Text(
-                                          '00/00/20XX',
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    // welcometoyourdashboardsTK (3:25)
-                                    left: 0 * fem,
-                                    top: 47 * fem,
-                                    child: Align(
-                                      child: SizedBox(
-                                        width: 177 * fem,
-                                        height: 17 * fem,
-                                        child: Text(
-                                          'Welcome to your dashboard.',
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    // ellipse1XXs (3:28)
-                    left: 250 * fem,
-                    top: 13 * fem,
-                    child: Align(
-                      child: SizedBox(
-                        width: 101 * fem,
-                        height: 101 * fem,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.5 * fem),
-                            border: Border.all(color: Color(0xff000000)),
-                            color: Color(0xffd9d9d9),
-                          ),
+                          ],
                         ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 318 * fem,
-                    top: 13 * fem,
-                    child: Align(
-                      child: SizedBox(
-                        width: 27 * fem,
-                        height: 27 * fem,
-                        child: Image.asset(
-                          'assets/images/book_upload/profilenotificationdot-1-WaH.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+                        SizedBox(
+                          height: 30,
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Record your book'),
+      ),
+      body: makeBody(),
+    );
+  }
+
+  Future<void> saveFile() async {
+    DocumentReference sightingRef =
+        FirebaseFirestore.instance.collection('booksentity').doc();
+    try {
+      var imagesUrlArray = [];
+      var imageUrl = "";
+      var audioUrl = "";
+
+      for (int i = 0; i < _audioPaths!.length; i++) {
+        var childPath = _audioPaths![i].keys.first.path.toString().split('/');
+        var storageReferencePageUrls = FirebaseStorage.instance
+            .ref()
+            .child('book_pages')
+            .child(childPath[childPath.length - 1]);
+        var upload =
+            await storageReferencePageUrls.putFile(_audioPaths![i].keys.first);
+        imageUrl = await upload.ref.getDownloadURL();
+
+        var audioPath = _audioPaths![i].values.first.toString().split('/');
+        var storageReference = FirebaseStorage.instance
+            .ref()
+            .child('audios')
+            .child(audioPath[audioPath.length - 1]);
+        var uploadTask =
+            await storageReference.putFile(File(_audioPaths![i].values.first));
+        audioUrl = await uploadTask.ref.getDownloadURL();
+
+        var audioImagePair = {
+          "page": imageUrl,
+          "audio": audioUrl,
+        };
+        imagesUrlArray.add(audioImagePair);
+      }
+
+      sightingRef.set({
+        "cover_url": widget.imageURL.toString(),
+        // "audio_doc_id": audioURl,
+        "audio_Paging_time": _pageTime.values,
+        "author_doc_id": "",
+        "category_main": widget.category.toString(),
+        "category_sub": widget.subCategory.toString(),
+        "pages_url": imagesUrlArray,
+        "title": widget.title.toString(),
+        "topic": widget.topic.toString(),
+      });
+    } catch (e, stacktrace) {}
+  }
+
+  bool uploadAudioFile = false;
+
+  uploadAudio() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['mp3', 'mp4'],
+      allowMultiple: false,
+    );
+
+    PlatformFile file = result!.files.first;
+    Directory tempDir = await getTemporaryDirectory();
+    String dirPath = tempDir.path;
+    // await loadPdf(file.path.toString(), dirPath + '/' + 'file_picker');
+
+    setState(() {
+      uploadAudioFile = true;
+      withAudio = true;
+      recordingStart = false;
+      var imageVoicePair = {
+        widget.images![_currentIndex]: file!.path.toString(),
+      };
+      _audioPaths[_currentIndex] = imageVoicePair;
+      _mPath = imageVoicePair!;
+      _mplaybackReady = true;
+    });
   }
 }

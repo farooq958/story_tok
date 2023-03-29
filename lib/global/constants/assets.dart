@@ -79,6 +79,9 @@ class Assets {
   /// Assets for directional red box
   static const directionalRedBox = "assets/images/directional_red_box.png";
 
+  /// Assets for directional red box
+  static const directionalRedDropDownBox = "assets/images/directional_red_dropshadow.png";
+
   /// Assets for directional back
   static const directionalTextBack = "assets/images/directional_text_back.png";
 
@@ -99,4 +102,83 @@ class Assets {
 
   /// Assets for directional long red box
   static const directionalRedBoxDropdownLong = "assets/images/directional_red_dropshadow_long.png";
+
+  /// Assets for Audio upload Red Music
+  static const audioUploadRedMusic = "assets/images/audioupload_red_music.png";
+
+  /// Assets for Audio upload Red no music
+  static const audioUploadRedNoMusic = "assets/images/audioupload_red_nomusic.png";
+
+  /// Assets for screen preview small
+  static const screenPreviewSmall = "assets/images/Screen_preview_small.png";
+
+  /// Assets for Audio upload Red previous page
+  static const audioUploadRedPreviousPage = "assets/images/audioupload_red_previouspage.png";
+
+  /// Assets for Audio upload Red next page
+  static const audioUploadRedNextPage = "assets/images/audioupload_red_nextpage.png";
+
+  /// Assets for Audio upload Red audio icon
+  static const audioUploadRedAudioIcon = "assets/images/audioupload_red_audioicon.png";
+
+  /// Assets for Audio upload Red pause icon
+  static const audioUploadRedPauseIcon = "assets/images/audioupload_red_pauseicon.png";
+
+  /// Assets for Audio upload Red play icon
+  static const audioUploadRedPlayIcon = "assets/images/audioupload_red_playicon.png";
+
+  /// Assets for Audio upload Red upload icon
+  static const audioUploadRedUploadIcon = "assets/images/audioupload_red_uploadicon.png";
+
+  /// Assets for contributors text red
+  static const contributorsTextRed = "assets/images/contributors_text_red.png";
+
+  /// Assets for keywords text red
+  static const keywordsTextRed = "assets/images/keywords_text_red.png";
+
+  /// Assets for agerange text red
+  static const ageRangeTextRed = "assets/images/agerange_text_red.png";
+
+  /// Assets for reading level text
+  static const readingLevelText = "assets/images/readinglevel_text_red.png";
+
+  /// Assets for genres text red
+  static const genresTextRed = "assets/images/genres_text_red.png";
+
+  /// Assets for Topic text red
+  static const topicsTextRed = "assets/images/topics_text_red.png";
+
+  /// Assets for Audio book description text
+  static const bookDescriptionsTextRed = "assets/images/bookdescription_text_red.png";
+
+  /// Assets for rate text red
+  static const rateTextRed = "assets/images/rate_text_red.png";
+
+  /// Assets for royalty text red
+  static const royaltyTextRed = "assets/images/royalty_text_red.png";
+
+  /// Assets for publishing rights text
+  static const publishingRightsText = "assets/images/publishingrights_text_red.png";
+
+  /// Assets for publishing rights text
+  static const coverRedBook = "assets/images/Cover_Red_book.png";
+
+  /// Assets for publishing rights text
+  static const standAloneRedAdd = "assets/images/standalone_red_add.png";
+
+  /// Assets for publishing rights text
+  static const bookUploadRedIcon2 = "assets/images/bookupload_red_icon2.png";
+
+  /// Assets for publishing rights text
+  static const bookUploadRedIcon1 = "assets/images/bookupload_red_icon1.png";
+
+  /// Assets for publishing rights text
+  static const bookUploadRedIconCongratulations = "assets/images/bookupload_red_congratulations.png";
+
+  /// Assets for publishing rights text
+  static const standaloneGreenFinish = "assets/images/standalone_green_finish.png";
+
+  /// Assets for publishing rights text
+  static const backgroundCircleDots = 'assets/images/background_circledots.png';
+
 }

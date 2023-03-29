@@ -13,14 +13,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:record/record.dart';
 import 'package:storily/components/recording_preview.dart';
 
-/*final List<String> imgList = [
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-  'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-];*/
+import '../global/constants/assets.dart';
+import 'common_upload_book_format.dart';
 
 typedef _Fn = void Function();
 
@@ -60,7 +54,8 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   bool _mplaybackReady = false;
   Stopwatch _timer = Stopwatch();
   File audioFile = File('');
-  List<Map<File, String>> _imagesPath = [];//page as key and path for audio as value
+  List<Map<File, String>> _imagesPath =
+      []; //page as key and path for audio as value
   int _currentIndex = 0;
 
   //slider
@@ -72,8 +67,8 @@ class VoiceRecorderState extends State<VoiceRecorder> {
 
   @override
   void initState() {
-    int length = cachedimages!.length;
-    _imagesPath = List<Map<File, String>>.filled(length, {File(""):""});
+    int length = widget.images!.length;
+    _imagesPath = List<Map<File, String>>.filled(length, {File(""): ""});
     _mPlayer.openPlayer().then((value) {
       setState(() {
         _mPlayerIsInited = true;
@@ -86,7 +81,6 @@ class VoiceRecorderState extends State<VoiceRecorder> {
       });
     });
 
-    InitImageSliders();
     super.initState();
   }
 
@@ -156,7 +150,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
         setState(() {
           start = false;
           var imageVoicePair = {
-            cachedimages![_currentIndex] : value!,
+            widget.images![_currentIndex]: value!,
           };
           _imagesPath[_currentIndex] = imageVoicePair;
           _mPath = value!;
@@ -190,65 +184,11 @@ class VoiceRecorderState extends State<VoiceRecorder> {
     });
   }
 
-// ----------------------------- UI --------------------------------------------
-
-  // _Fn? getRecorderFn() {
-  //   if (!_mRecorderIsInited || !_mPlayer.isStopped) {
-  //     return null;
-  //   }
-  //   return _mRecorder.isStopped ? record : stopRecorder;
-  // }
-
   _Fn? getPlaybackFn() {
     if (!_mPlayerIsInited || !_mplaybackReady || !_mRecorder.isStopped) {
       return null;
     }
     return _mPlayer.isStopped ? play : stopPlayer;
-  }
-
-  //final CarouselController _controller = CarouselController();
-  void InitImageSliders() {
-    imageSliders = cachedimages!.map((item) {
-      return Container(
-        child: Container(
-          margin: EdgeInsets.all(5.0),
-          child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              child: Stack(
-                children: <Widget>[
-                  Image.file(item, fit: BoxFit.cover, width: 1000.0),
-                  Positioned(
-                    bottom: 0.0,
-                    left: 0.0,
-                    right: 0.0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(200, 0, 0, 0),
-                            Color.fromARGB(0, 0, 0, 0)
-                          ],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                        ),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      child: Text(
-                        'No. ${cachedimages!.indexOf(item)} image',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )),
-        ),
-      );
-    }).toList();
   }
 
   @override
@@ -264,10 +204,9 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                   enableInfiniteScroll: false,
                   enlargeCenterPage: true,
                   onPageChanged: (index, reason) {
-                      setState((){
-                        _currentIndex = index;
-
-                      });
+                    setState(() {
+                      _currentIndex = index;
+                    });
                     _pageTime.addAll({index: _timer.elapsedMilliseconds});
                   }),
               items: imageSliders,
@@ -308,7 +247,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                     MaterialPageRoute(
                         builder: (context) => RecordingPreview(
                               pageTime: _pageTime,
-                              images: cachedimages!,
+                              images: widget.images!,
                               imagesPath: _imagesPath,
                             )));
               },
@@ -388,6 +327,9 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   }
 
   Future<void> saveFile() async {
+    DocumentReference sightingRef =
+    FirebaseFirestore.instance.collection('booksentity').doc();
+
     try {
       var imagesUrlArray = [];
       var imageUrl = "";
@@ -395,29 +337,34 @@ class VoiceRecorderState extends State<VoiceRecorder> {
 
       for (int i = 0; i < _imagesPath!.length; i++) {
         var childPath = _imagesPath![i].keys.first.path.toString().split('/');
-        var storageReferencePageUrls =
-        FirebaseStorage.instance.ref().child('book_pages').child(childPath[childPath.length-1]);
-        var upload = await storageReferencePageUrls
-            .putFile(_imagesPath![i].keys.first);
+        var storageReferencePageUrls = FirebaseStorage.instance
+            .ref()
+            .child('book_pages')
+            .child(childPath[childPath.length - 1]);
+        var upload =
+            await storageReferencePageUrls.putFile(_imagesPath![i].keys.first);
         imageUrl = await upload.ref.getDownloadURL();
 
         var audioPath = _imagesPath![i].values.first.toString().split('/');
-        var storageReference =
-        FirebaseStorage.instance.ref().child('audios').child(audioPath[audioPath.length-1]);
-        var uploadTask = await storageReference.putFile(File(_imagesPath![i].values.first));
+        var storageReference = FirebaseStorage.instance
+            .ref()
+            .child('audios')
+            .child(audioPath[audioPath.length - 1]);
+        var uploadTask =
+            await storageReference.putFile(File(_imagesPath![i].values.first));
         audioUrl = await uploadTask.ref.getDownloadURL();
 
         var audioImagePair = {
-          "page":imageUrl,
-          "audio":audioUrl,
+          "page": imageUrl,
+          "audio": audioUrl,
         };
         imagesUrlArray.add(audioImagePair);
       }
 
-      widget.ref.set({
+      sightingRef.set({
         "cover_url": widget.imageURL.toString(),
-       // "audio_doc_id": audioURl,
-        "audio_Paging_time":_pageTime.values,
+        // "audio_doc_id": audioURl,
+        // "audio_Paging_time": _pageTime.values,
         "author_doc_id": "",
         "category_main": widget.category.toString(),
         "category_sub": widget.subCategory.toString(),
@@ -425,28 +372,6 @@ class VoiceRecorderState extends State<VoiceRecorder> {
         "title": widget.title.toString(),
         "topic": widget.topic.toString(),
       });
-
-    /*  var audioPath = _mPath.toString().split('/');
-      var storageReference =
-          FirebaseStorage.instance.ref().child('audios').child(audioPath[audioPath.length-1]);
-      UploadTask uploadTask = storageReference.putFile(File(_mPath));*/
-      /*await uploadTask.then((res) {
-        storageReference.getDownloadURL().then((audioURl) {
-
-
-          widget.ref.set({
-            "cover_url": widget.imageURL.toString(),
-            "audio_doc_id": audioURl,
-            "audio_Paging_time":_pageTime.values,
-            "author_doc_id": "",
-            "category_main": widget.category.toString(),
-            "category_sub": widget.subCategory.toString(),
-            "pages_url": imagesUrlArray,
-            "title": widget.title.toString(),
-            "topic": widget.topic.toString(),
-          });
-        });
-      });*/
     } catch (e, stacktrace) {}
   }
 }

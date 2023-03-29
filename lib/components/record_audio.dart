@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:storily/components/page_uploader.dart';
 import '../global/constants/assets.dart';
+import '../screens/book_upload/book-preview-screen.dart';
 import 'common_upload_book_format.dart';
 
 class RecordAudio extends StatefulWidget {
+  final images;
+  final imagesPath;
+
+  const RecordAudio({Key? key, required this.images, this.imagesPath})
+      : super(key: key);
+
   @override
   RecordAudioState createState() => RecordAudioState();
 }
@@ -46,28 +53,45 @@ class RecordAudioState extends State<RecordAudio>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Stack(
               children: [
-                SizedBox(
-                  height: 20,
+                Container(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Image.asset(
+                        Assets.backgroundCircleDots,
+                        height: MediaQuery.of(context).size.height / 8,
+                        width: MediaQuery.of(context).size.height / 8,
+                      )
+                    ],
+                  ),
                 ),
-                uploadBookFormatHeader(
-                  '12/03/2023',
-                  'Hi, Team',
-                  'Welcome to your board',
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Stack(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    addNewBookWidget(context, Assets.subMenuRedBox,
-                        MediaQuery.of(context).size.width * 0.90),
-                    addNewBookWidget(context, Assets.subMenuRedText,
-                        MediaQuery.of(context).size.width * 0.90),
-                    addNewBookWidget(context, Assets.subMenuExit,
-                        MediaQuery.of(context).size.width * 0.90),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    uploadBookFormatHeader(
+                      '12/03/2023',
+                      'Hi, Team',
+                      'Welcome to your board',
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Stack(
+                      children: [
+                        addNewBookWidget(context, Assets.subMenuRedBox,
+                            MediaQuery.of(context).size.width * 0.90),
+                        addNewBookWidget(context, Assets.subMenuRedText,
+                            MediaQuery.of(context).size.width * 0.90),
+                        addNewBookWidget(context, Assets.subMenuExit,
+                            MediaQuery.of(context).size.width * 0.90),
+                      ],
+                    ),
                   ],
                 ),
               ],
@@ -189,30 +213,55 @@ class RecordAudioState extends State<RecordAudio>
   }
 
   getEventList() {
+    if (addFilesForPDF) {
+      setState(() {
+        addFilesForPDF = false;
+      });
+      Future.delayed(Duration(milliseconds: 500), () {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) =>
+                VoiceRecorder(widget.images, widget.imagesPath, 'recordnow'),
+            transitionDuration: Duration(milliseconds: 700),
+            transitionsBuilder: (_, a, __, c) =>
+                FadeTransition(opacity: a, child: c),
+          ),
+        );
+      });
+    }
     if (addFiles) {
       setState(() {
         addFiles = false;
       });
-      // Future.delayed(Duration(milliseconds: 500), () {
-      //   Navigator.push(
-      //     context,
-      //     PageRouteBuilder(
-      //       pageBuilder: (_, __, ___) => PageUploader(),
-      //       transitionDuration: Duration(milliseconds: 700),
-      //       transitionsBuilder: (_, a, __, c) =>
-      //           FadeTransition(opacity: a, child: c),
-      //     ),
-      //   );
-      // });
-    }
-    if (addFilesForPDF) {
-      setState(() {
-        addFilesForPDF = false;
+      Future.delayed(Duration(milliseconds: 500), () {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) =>
+                VoiceRecorder(widget.images, widget.imagesPath, 'audio'),
+            transitionDuration: Duration(milliseconds: 700),
+            transitionsBuilder: (_, a, __, c) =>
+                FadeTransition(opacity: a, child: c),
+          ),
+        );
       });
     }
     if (continueWithoutAudio) {
       setState(() {
         continueWithoutAudio = false;
+        Future.delayed(Duration(milliseconds: 500), () {
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) =>
+                  VoiceRecorder(widget.images, widget.imagesPath, 'press continue'),
+              transitionDuration: Duration(milliseconds: 700),
+              transitionsBuilder: (_, a, __, c) =>
+                  FadeTransition(opacity: a, child: c),
+            ),
+          );
+        });
       });
     }
   }

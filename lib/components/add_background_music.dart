@@ -7,6 +7,11 @@ import '../global/constants/assets.dart';
 import 'common_upload_book_format.dart';
 
 class AddBackgroundMusic extends StatefulWidget {
+  final images;
+  final imagesPath;
+
+  const AddBackgroundMusic({Key? key, required this.images, this.imagesPath}) : super(key: key);
+
   @override
   AddBackgroundMusicState createState() => AddBackgroundMusicState();
 }
@@ -24,6 +29,7 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
 
   @override
   void initState() {
+    print(widget.images);
     _controller = AnimationController(
       vsync: this,
       duration: Duration(
@@ -47,28 +53,45 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Stack(
               children: [
-                SizedBox(
-                  height: 20,
+                Container(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Image.asset(
+                        Assets.backgroundCircleDots,
+                        height: MediaQuery.of(context).size.height / 8,
+                        width: MediaQuery.of(context).size.height / 8,
+                      )
+                    ],
+                  ),
                 ),
-                uploadBookFormatHeader(
-                  '12/03/2023',
-                  'Hi, Team',
-                  'Welcome to your board',
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Stack(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    addNewBookWidget(context, Assets.subMenuRedBox,
-                        MediaQuery.of(context).size.width * 0.90),
-                    addNewBookWidget(context, Assets.subMenuRedText,
-                        MediaQuery.of(context).size.width * 0.90),
-                    addNewBookWidget(context, Assets.subMenuExit,
-                        MediaQuery.of(context).size.width * 0.90),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    uploadBookFormatHeader(
+                      '12/03/2023',
+                      'Hi, Team',
+                      'Welcome to your board',
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Stack(
+                      children: [
+                        addNewBookWidget(context, Assets.subMenuRedBox,
+                            MediaQuery.of(context).size.width * 0.90),
+                        addNewBookWidget(context, Assets.subMenuRedText,
+                            MediaQuery.of(context).size.width * 0.90),
+                        addNewBookWidget(context, Assets.subMenuExit,
+                            MediaQuery.of(context).size.width * 0.90),
+                      ],
+                    ),
                   ],
                 ),
               ],
@@ -107,13 +130,14 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
                               boolVal: addFilesForPDF,
                               imageUrl: Assets.redDropShadow,
                               context: context,
-                              textImageUrl: Assets.uploadRedTextRecordNow,
+                              textImageUrl: Assets.audioUploadRedMusic,
                               boxImageUrl: Assets.uploadRedBox,
-                              addFilesImageUrl: Assets.redAddFiles,
+                              addFilesImageUrl: '',
                             ),
                           ),
                           onTap: () {
                             setState(() {
+                              print('Add music');
                               addFilesForPDF = true;
                             });
                           },
@@ -127,13 +151,14 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
                               boolVal: addFiles,
                               imageUrl: Assets.redDropShadow,
                               context: context,
-                              textImageUrl: Assets.uploadRedTextAudio,
+                              textImageUrl: Assets.audioUploadRedNoMusic,
                               boxImageUrl: Assets.uploadRedBox,
-                              addFilesImageUrl: Assets.redAddFiles,
+                              addFilesImageUrl: '',
                             ),
                           ),
                           onTap: () {
                             setState(() {
+                              print('Add no music');
                               addFiles = true;
                             });
                           },
@@ -143,36 +168,6 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
                   ],
                 ),
               ],
-            ),
-            SizedBox(height: 30),
-            GestureDetector(
-              onTapDown: _tapDown,
-              onTapUp: _tapUp,
-              child: Transform.scale(
-                scale: _scale,
-                child: Stack(
-                  children: [
-                    if (!continueWithoutAudio)
-                      Container(
-                        child: addNewBookWidget(
-                            context,
-                            Assets.directionalRedBoxDropdownLong,
-                            MediaQuery.of(context).size.width * 0.90),
-                      ),
-                    addNewBookWidget(context, Assets.directionalRedBoxLong,
-                        MediaQuery.of(context).size.width * 0.90),
-                    addNewBookWidget(
-                        context,
-                        Assets.directionalTextWithoutAudio,
-                        MediaQuery.of(context).size.width * 0.90),
-                  ],
-                ),
-              ),
-              onTap: () {
-                setState(() {
-                  continueWithoutAudio = true;
-                });
-              },
             ),
           ],
         ),
@@ -194,7 +189,6 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
       setState(() {
         addFiles = false;
       });
-
     }
     if (addFilesForPDF) {
       setState(() {
@@ -211,7 +205,10 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
       Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => RecordAudio(),
+          pageBuilder: (_, __, ___) => RecordAudio(
+            imagesPath: widget.imagesPath,
+            images: widget.images,
+          ),
           transitionDuration: Duration(milliseconds: 700),
           transitionsBuilder: (_, a, __, c) =>
               FadeTransition(opacity: a, child: c),
@@ -232,17 +229,17 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
       child: Stack(
         children: [
           if (!boolVal)
-            // dropShadowWidget(
-            //   imageUrl: imageUrl,
-            //   context: context,
-            // ),
-            addFilesWidget(
-              boxImageUrl: boxImageUrl,
-              textImageUrl: textImageUrl,
+            dropShadowWidget(
+              imageUrl: imageUrl,
               context: context,
-              addFilesImageUrl: addFilesImageUrl,
-              imageHeight: MediaQuery.of(context).size.height * 0.10,
             ),
+          addFilesWidget(
+            boxImageUrl: boxImageUrl,
+            textImageUrl: textImageUrl,
+            context: context,
+            addFilesImageUrl: addFilesImageUrl,
+            imageHeight: MediaQuery.of(context).size.height * 0.10,
+          ),
         ],
       ),
     );
