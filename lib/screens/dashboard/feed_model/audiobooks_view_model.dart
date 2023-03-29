@@ -20,6 +20,7 @@ class AudioBookAPI {
       }
 
       modelList.docs.forEach((element) {
+        log(element.data().toString());
         audiobookList.add(AudioBookModel.fromMap(element.data()));
       });
     } catch (e, s) {

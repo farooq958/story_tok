@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:stacked/stacked.dart';
 import 'package:storily/screens/dashboard/data/connections/games_firebase.dart';
@@ -24,77 +24,28 @@ class FeedViewModel extends BaseViewModel {
   }
 
   int index = 0;
+  int? prev;
 
   initializer() async {
     currentItems.addAll(videoSource?.listVideos ?? []);
     currentItems.addAll(gameSource?.listGames ?? []);
     currentItems.addAll(bookSource?.audiobookList ?? []);
-    currentItems.shuffle(Random.secure());
+    currentItems.shuffle(math.Random.secure());
     notifyListeners();
   }
 
   CommonDataModel getItemByIndex(int newIndex) {
-    if (currentItems[index] is VideoModel &&
-        (currentItems[index] as VideoModel).controller!.value.isPlaying) {
-      (currentItems[index] as VideoModel).controller!.pause();
+    currentItems[index].hold();
+    if (prev != null && prev != index && prev != newIndex) {
+      currentItems[prev!].dispose();
     }
+    prev = index;
     index = newIndex;
     final item = currentItems[index];
-    item.loadController().then((value) {
-      if(item is VideoModel) item.controller!.play();
+    item.initiate().then((value) {
+      if (item is VideoModel) item.controller!.play();
       notifyListeners();
     });
     return item;
   }
-
-/*   CommonDataModel? nextItem() {
-    ///[true] will send [VideoModel] & [false] will send GameModel;
-    final option = Random(DateTime.now().microsecondsSinceEpoch).nextBool();
-    if (option) {
-      if (videoSource!.listVideos.length > videoIndex) {
-        return getUpdatedVideo();
-      } else {
-        return getUpdatedGame();
-      }
-    } else {
-      if (prevGame != null) {}
-      if (gameSource!.listGames.length > gameIndex) {
-        return getUpdatedGame();
-      } else {
-        return getUpdatedVideo();
-      }
-    }
-  }
-
-  VideoModel? getUpdatedVideo() {
-    prevVideo = videoIndex;
-    if (prevVideo != null) {
-      videoSource?.listVideos[prevVideo!].controller?.dispose();
-    }
-    final videoModel = videoSource?.listVideos[videoIndex];
-    videoModel?.loadController().then((value) {
-      videoModel.controller!.play();
-      notifyListeners();
-    });
-    videoIndex++;
-    return videoModel;
-  }
-
-  GameModel? getUpdatedGame() {
-    prevGame = gameIndex;
-    final gameModel = gameSource?.listGames[gameIndex];
-    gameModel?.loadController().then((value) {
-      notifyListeners();
-    });
-    gameIndex++;
-    return gameModel;
-  } */
-
-  /* void loadVideo(int index) async {
-    if (videoSource!.listVideos.length > index) {
-      await videoSource!.listVideos[index].loadController();
-      videoSource!.listVideos[index].controller?.play();
-      notifyListeners();
-    }
-  } */
 }

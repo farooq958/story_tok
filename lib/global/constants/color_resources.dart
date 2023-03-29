@@ -41,4 +41,7 @@ class ColorResources {
     800: Color(0x90192D6B),
     900: Color(0xff192D6B),
   };
+
+  static const Color autherProfileBG  = Color.fromRGBO(231, 232, 233, 1.0);
+  static const Color textfieldProfileBG  = Color.fromRGBO(240, 243, 246, 1.0);
 }

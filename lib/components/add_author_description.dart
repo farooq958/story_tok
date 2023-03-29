@@ -7,7 +7,6 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:storily/components/confirm_book_details.dart';
-import 'package:storily/components/voice_recording.dart';
 import 'package:storily/models/book_author_model.dart';
 import '../global/constants/assets.dart';
 import 'common_upload_book_format.dart';
@@ -99,7 +98,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -1032,34 +1031,6 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
 
   String? radioButtonValue;
 
-  navigateToVoiceRecordScreen() async {
-    var imageSplitPath = imagePath.path.toString().split('/');
-    var storageReference = FirebaseStorage.instance
-        .ref()
-        .child('book_cover')
-        .child(imageSplitPath[imageSplitPath.length - 1]);
-    UploadTask uploadTask = storageReference.putFile(imagePath);
-    await uploadTask.then((res) {
-      storageReference.getDownloadURL().then((imageURL) {
-        return Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => VoiceRecorder(
-                    widget.images,
-                    sightingRef,
-                    imageURL,
-                    categoryValue.toString(),
-                    subCategoryValue.toString(),
-                    _titleController.text.toString(),
-                    _tagController.text.toString(),
-                  )
-              /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
-              ),
-        );
-      });
-    });
-  }
-
   textContainer(String label, TextEditingController _controller) {
     return Container(
       margin: EdgeInsets.only(left: 40, right: 40),
@@ -1271,24 +1242,21 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     UploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.then((res) {
       storageReference.getDownloadURL().then((imageURL) {
-        var bookAuthorDetails = BookAuthorModel(
-          cover_url: imageURL,
-          audio_doc_id: '',
-          author_doc_id: '',
-          category_main: categoryValue.toString(),
-          category_sub: subCategoryValue.toString(),
-          pages_url: imagesUrlArray,
-          title: _titleController.text.toString(),
-          topic: _tagController.text.toString(),
-          book_description: _descriptionController.text.toString(),
-          author_name: _authorNameController.text.toString(),
-          keywords: _keyWordsController.text.toString(),
-          price: _priceController.text.toString(),
-          publishing_rights: radioButtonValue,
-        );
-
-        print(bookAuthorDetails);
-        sightingRef.set({bookAuthorDetails});
+        sightingRef.set({
+          "cover_url": imageURL,
+          "audio_doc_id": "",
+          "author_doc_id": "",
+          "category_main": categoryValue.toString(),
+          "category_sub": subCategoryValue.toString(),
+          "pages_url": imagesUrlArray,
+          "title": _titleController.text.toString(),
+          "topic": _tagController.text.toString(),
+          "book_description": _descriptionController.text.toString(),
+          "author_name": _authorNameController.text.toString(),
+          "keywords": _keyWordsController.text.toString(),
+          "price": _priceController.text.toString(),
+          "publishing_rights": radioButtonValue,
+        });
       });
     });
   }

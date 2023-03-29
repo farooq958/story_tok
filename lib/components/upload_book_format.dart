@@ -12,8 +12,6 @@ import 'common_upload_book_format.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf_image_renderer/pdf_image_renderer.dart' as pdfRender;
 
-enum ImageSourceType { gallery, camera }
-
 class UploadBookFormat extends StatefulWidget {
   @override
   UploadBookFormatState createState() => UploadBookFormatState();
@@ -87,7 +85,7 @@ class UploadBookFormatState extends State<UploadBookFormat>
   }
 
   @override
-  Widget build(BuildContext context) {
+  build(BuildContext context) {
     _scale = 1 - _controller.value;
     return Scaffold(
       backgroundColor: Colors.grey[300],

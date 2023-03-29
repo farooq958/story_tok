@@ -68,7 +68,6 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   var title = 'Audio Recording';
 
   Map<int, int> _pageTime = Map();
-  late List<Widget> imageSliders;
   List<File>? cachedimages = <File>[];
 
   VoiceRecorderState({this.cachedimages});
@@ -229,8 +228,8 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Widget makeBody() {
+  build(BuildContext context) {
+    makeBody() {
       return SingleChildScrollView(
         child: Column(
           children: [

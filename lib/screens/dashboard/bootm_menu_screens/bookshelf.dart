@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:storily/screens/dashboard/feed_model/feed_view_model.dart';
 import 'package:storily/screens/dashboard/widgets/flooting_menu.dart';
 
+import '../feed_model/feed_view_model.dart';
+
 class MyBookshelfPage extends StatefulWidget {
-  const MyBookshelfPage({Key? key}) : super(key: key);
+  const  MyBookshelfPage({Key? key}) : super(key: key);
 
   @override
   State<MyBookshelfPage> createState() => _MyBookshelfPageState();
@@ -59,7 +60,7 @@ class _MyBookshelfPageState extends State<MyBookshelfPage> {
                         child: Card(
                           clipBehavior: Clip.hardEdge,
                           child: Image.network(
-                            bookData.pageUrl.first!,
+                            bookData.pageUrl.first.pageUrl!,
                             fit: BoxFit.cover,
                           ),
                         ),

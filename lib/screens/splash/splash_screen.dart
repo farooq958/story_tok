@@ -6,6 +6,8 @@ import 'package:storily/logic/auth_logic.dart';
 import 'package:storily/screens/auth/auth.dart';
 
 class SplashScreen extends StatefulWidget {
+  static String id = "/splashScreen";
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }

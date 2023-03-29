@@ -16,7 +16,9 @@ Widget uploadBookFormatHeader(String date, String name, String label) {
               Text(
                 name,
                 style: TextStyle(
-                    color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ),
               Text(
                 label,
@@ -78,6 +80,10 @@ Widget addFilesWidget(
         Container(
           child: Image.asset(textImageUrl, height: imageHeight),
         ),
+        // Image.asset(
+        //   addFilesImageUrl,
+        //   width: MediaQuery.of(context).size.height * 0.16,
+        // ),
         if (addFilesImageUrl != '')
           Image.asset(
             addFilesImageUrl,
@@ -100,6 +106,34 @@ Widget uploadText({context, label, fontSize}) {
         fontWeight: FontWeight.bold,
         color: Colors.black,
       ),
+    ),
+  );
+}
+
+Widget mainMenuWidget({
+  context,
+  boxImageUrl,
+  addFilesImageUrl,
+}) {
+  return Container(
+    margin: EdgeInsets.only(left: 6.0),
+    height: MediaQuery.of(context).size.height / 3.8,
+    width: MediaQuery.of(context).size.width / 2.2,
+    decoration: BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage(
+          boxImageUrl,
+        ),
+      ),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Image.asset(
+          addFilesImageUrl,
+          width: MediaQuery.of(context).size.height * 0.19,
+        ),
+      ],
     ),
   );
 }

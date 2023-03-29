@@ -1,19 +1,22 @@
-import 'dart:io';
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:stacked/stacked.dart';
+import 'package:storily/cubit/load_main_data_cubit.dart';
+import 'package:storily/cubit/load_recommended_events_cubit.dart';
 import 'package:storily/global/methods/methods.dart';
-import 'package:storily/screens/dashboard/data/model/audiobook_model.dart';
-import 'package:storily/screens/dashboard/data/model/game_model.dart';
-import 'package:storily/screens/dashboard/widgets/book_screen.dart';
-import 'package:storily/screens/dashboard/widgets/game_screen.dart';
-import 'data/model/video_model.dart';
+import 'package:storily/screens/dashboard/widgets/home_screen.dart';
+import 'package:storily/screens/dashboard/bootm_menu_screens/event.dart';
+import 'package:storily/screens/kids_flow/bottomtab/home.dart';
+//import 'data/video_model.dart';
+import '../../cubit/load_upcoming_data_cubit.dart';
 import 'feed_model/feed_view_model.dart';
-import 'icons/feed_icon_data.dart';
 import 'bootm_menu_screens/bookshelf.dart';
-import 'widgets/video_screen.dart';
 
 class FeedDashboard extends StatefulWidget {
-  FeedDashboard({Key? key}) : super(key: key);
+  static String id = "/feedDashboard";
+  const FeedDashboard({Key? key}) : super(key: key);
 
   @override
   _FeedScreenState createState() => _FeedScreenState();
@@ -21,134 +24,94 @@ class FeedDashboard extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedDashboard> {
   final feedViewModel = GetIt.instance<FeedViewModel>();
+
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+
+  int _selectedIndex = 0;
+
   @override
   void initState() {
     super.initState();
     feedViewModel.initializer();
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (_selectedIndex == 0) {
+      Home();
+      log("Home");
+    }
+    if (_selectedIndex == 1) {
+      log("Explore");
+      HomeScreen();
+    }
+    if (_selectedIndex == 2) {
+      //goPage(context, MyBookshelfPage());
+      log("Library");
+      showToast("Library", context);
+      // if (feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.value.isPlaying) {
+      //   feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.pause();
+      // }else{
+      //   goPage(context, MyBookshelfPage());
+      //   log("Library");
+      // }
+      // showToast("Library", context);
+    }
+    if (_selectedIndex == 3) {
+      goPage(context, MyEventPage());
+      context.read<LoadMainDataCubit>().getEventData();
+      context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
+      context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 6);
+     /* GestureDetector(
+          onTap: (){
+            goPage(context, MyEventPage());
+            context.read<LoadMainDataCubit>().getEventData();
+            context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 5);
+
+          }
+      ),*/
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                PageView.builder(
-                  controller: PageController(
-                    initialPage: 0,
-                    viewportFraction: 1,
-                  ),
-                  itemCount: feedViewModel.totalLength,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    final data = feedViewModel.getItemByIndex(index);
-                    if (data is GameModel) {
-                      return GameScreenWidget(gameModel: data);
-                    } else if (data is VideoModel) {
-                      return VideoScreenWidget(video: data);
-                    } else if (data is AudioBookModel) {
-                      return BookScreenWidget(bookData: data);
-                    } else {
-                      return SizedBox();
-                    }
-                  },
-                ),
-                SafeArea(
-                  child: Container(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Following',
-                          style: TextStyle(
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white70,
-                          ),
-                        ),
-                        SizedBox(width: 7),
-                        Container(
-                          color: Colors.white70,
-                          height: 10,
-                          width: 1.0,
-                        ),
-                        SizedBox(width: 7),
-                        Text(
-                          'For You',
-                          style: TextStyle(
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+      body: _selectedIndex == 0 ? Home() : _selectedIndex == 1 ?HomeScreen() : SizedBox(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber.shade800,
+        unselectedLabelStyle: const TextStyle(color: Colors.white),
+        showUnselectedLabels: true,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            backgroundColor: Colors.blueGrey,
+            icon: Image.asset(
+              "assets/icons/home.png",
+              height: 25,
             ),
+            label: "Home",
           ),
-          Container(
-            color: Colors.grey,
-            child: Column(
-              children: [
-                SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        goPage(context, MyBookshelfPage());
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FeedIcons.iconBookSelf,
-                          Text(
-                            'My Bookshelf',
-                            style: TextStyle(
-                              fontSize: 11.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FeedIcons.iconAddContect,
-                        Text(
-                          'Add Content',
-                          style: TextStyle(
-                            fontSize: 11.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FeedIcons.iconEvent,
-                        Text(
-                          'My Event',
-                          style: TextStyle(
-                            fontSize: 11.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: Platform.isIOS ? 40 : 10,
-                )
-              ],
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              "assets/icons/explore.png",
+              height: 25,
             ),
+            label: "Explore",
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              "assets/icons/library.png",
+              height: 25,
+            ),
+            label: "Library",
+          ),
+
+          BottomNavigationBarItem(
+            icon: Image.asset("assets/icons/events.png", height: 25),
+            label: "Event",
           ),
         ],
       ),
