@@ -8,7 +8,7 @@ import 'package:storily/screens/main_home_screen.dart';
 import '../../global/methods/methods.dart';
 import '../dashboard/feed_dashboard.dart';
 import '../dashboard/profile/author_profile.dart';
-import '../kids_flow/bottomtab/bottom_tab.dart';
+
 
 //authentication page, currently has a short cut to the author center, we need to make the screen automatically enters the home scree(displayscreen) after sign in.
 class FirebaseSession extends StatelessWidget {
