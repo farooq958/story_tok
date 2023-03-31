@@ -1,8 +1,11 @@
 import 'package:animated_styled_widget/animated_styled_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/home_video_display_screen.dart';
 import 'package:storily/components/my_storily_author_page.dart';
+import 'package:storily/screens/auth/screens/signup_screen.dart';
 import 'package:storily/screens/main_home_screen.dart';
 
 import '../../global/methods/methods.dart';
@@ -197,14 +200,14 @@ class AuthUI extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     //this is a short cut to the author's page, not for final product
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => MyStorilyAuthorPage()));
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MainHomeScreen()));
+                            builder: (context) => MyStorilyAuthorPage()));
+                    /* Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainHomeScreen()));*/
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0),
@@ -241,7 +244,7 @@ class AuthUI extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => VideoDisplayScreen(
@@ -249,7 +252,11 @@ class AuthUI extends StatelessWidget {
                               "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                         ),
                       ),
-                    );
+                    );*/
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainHomeScreen()));
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0),
@@ -401,22 +408,23 @@ class SignupOrLogin extends StatelessWidget {
               ),
               MaterialButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Material(
-                                child: MultiProvider(
-                                  providers: [
-                                    /* ChangeNotifierProvider(
-                                      create: (_) => CreateUserAccount(),
-                                    ),
-                                    ChangeNotifierProvider(
-                                      create: (_) => ShowCustomAlertDialog(),
-                                    ), */
-                                  ],
-                                  child: CreateAccount(),
-                                ),
-                              )));
+                  Get.to(() => SignUpScreen());
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => Material(
+                  //               child: MultiProvider(
+                  //                 providers: [
+                  //                   /* ChangeNotifierProvider(
+                  //                     create: (_) => CreateUserAccount(),
+                  //                   ),
+                  //                   ChangeNotifierProvider(
+                  //                     create: (_) => ShowCustomAlertDialog(),
+                  //                   ), */
+                  //                 ],
+                  //                 child: CreateAccount(),
+                  //               ),
+                  //             )));
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -465,21 +473,23 @@ class SignupOrLogin extends StatelessWidget {
               MaterialButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Material(
-                                child: MultiProvider(
-                                  providers: [
-                                    /* ChangeNotifierProvider(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Material(
+                        child: Provider(
+                          /* ChangeNotifierProvider(
                                       create: (_) => LoginLogic(),
                                     ),
                                     ChangeNotifierProvider(
                                       create: (_) => ShowCustomAlertDialog(),
                                     ), */
-                                  ],
-                                  child: LoginPage(),
-                                ),
-                              )));
+
+                          create: (BuildContext context) {},
+                          child: LoginPage(),
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   width: 300.0,
