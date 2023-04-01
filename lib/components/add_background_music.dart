@@ -29,7 +29,6 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
 
   @override
   void initState() {
-    print(widget.images);
     _controller = AnimationController(
       vsync: this,
       duration: Duration(
@@ -84,11 +83,11 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
                     ),
                     Stack(
                       children: [
-                        addNewBookWidget(context, Assets.subMenuRedBox,
+                        commonAddBookWidget(context, Assets.subMenuRedBox,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuRedText,
+                        commonAddBookWidget(context, Assets.subMenuRedText,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuExit,
+                        commonAddBookWidget(context, Assets.subMenuExit,
                             MediaQuery.of(context).size.width * 0.90),
                       ],
                     ),
@@ -137,7 +136,6 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
                           ),
                           onTap: () {
                             setState(() {
-                              print('Add music');
                               addFilesForPDF = true;
                             });
                           },
@@ -158,7 +156,6 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
                           ),
                           onTap: () {
                             setState(() {
-                              print('Add no music');
                               addFiles = true;
                             });
                           },

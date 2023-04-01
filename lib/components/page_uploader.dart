@@ -125,11 +125,11 @@ class PageUploaderState extends State<PageUploader> {
                     ),
                     Stack(
                       children: [
-                        addNewBookWidget(context, Assets.subMenuRedBox,
+                        commonAddBookWidget(context, Assets.subMenuRedBox,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuRedText,
+                        commonAddBookWidget(context, Assets.subMenuRedText,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuExit,
+                        commonAddBookWidget(context, Assets.subMenuExit,
                             MediaQuery.of(context).size.width * 0.90),
                       ],
                     ),
@@ -169,21 +169,20 @@ class PageUploaderState extends State<PageUploader> {
                               });
                             }
 
-                            print(_images.length);
                             _selected.removeWhere((element) => element == true);
                             selectedImages.clear();
                           },
                           child: Stack(
                             children: [
-                              addNewBookWidget(context, Assets.editPagesRedBox,
+                              commonAddBookWidget(context, Assets.editPagesRedBox,
                                   MediaQuery.of(context).size.width * 0.30),
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                   context,
                                   Assets.editPagesRedDeleteText,
                                   MediaQuery.of(context).size.width * 0.30),
-                              addNewBookWidget(context, Assets.editPagesRedAdd,
+                              commonAddBookWidget(context, Assets.editPagesRedAdd,
                                   MediaQuery.of(context).size.width * 0.30),
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                   context,
                                   Assets.editPagesRedMinus,
                                   MediaQuery.of(context).size.width * 0.30),
@@ -310,15 +309,15 @@ class PageUploaderState extends State<PageUploader> {
                         InkWell(
                           child: Stack(
                             children: [
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                   context,
                                   Assets.directionalRedDropDownBox,
                                   MediaQuery.of(context).size.width * 0.30),
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                   context,
                                   Assets.directionalRedBox,
                                   MediaQuery.of(context).size.width * 0.30),
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                   context,
                                   Assets.directionalTextBack,
                                   MediaQuery.of(context).size.width * 0.30),
@@ -334,7 +333,6 @@ class PageUploaderState extends State<PageUploader> {
                               Utils().showToastMessage(
                                   "Book has at least 4 pages.", context);
                             } else {
-                              print("_images : $_images");
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -346,15 +344,15 @@ class PageUploaderState extends State<PageUploader> {
                           },
                           child: Stack(
                             children: [
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                   context,
                                   Assets.directionalRedDropDownBox,
                                   MediaQuery.of(context).size.width * 0.30),
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                   context,
                                   Assets.directionalRedBox,
                                   MediaQuery.of(context).size.width * 0.30),
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                   context,
                                   Assets.directionalTextContinue,
                                   MediaQuery.of(context).size.width * 0.30),

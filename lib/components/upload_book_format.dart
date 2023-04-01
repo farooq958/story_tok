@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +75,6 @@ class UploadBookFormatState extends State<UploadBookFormat>
             .asUint8List(rawImage.offsetInBytes, rawImage.lengthInBytes));
 
         images.add(File(image.path));
-        print("Images $images");
       } catch (e) {
         print("Exception e:::: $e");
       }
@@ -124,11 +122,11 @@ class UploadBookFormatState extends State<UploadBookFormat>
                     ),
                     Stack(
                       children: [
-                        addNewBookWidget(context, Assets.subMenuRedBox,
+                        commonAddBookWidget(context, Assets.subMenuRedBox,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuRedText,
+                        commonAddBookWidget(context, Assets.subMenuRedText,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuExit,
+                        commonAddBookWidget(context, Assets.subMenuExit,
                             MediaQuery.of(context).size.width * 0.90),
                       ],
                     ),

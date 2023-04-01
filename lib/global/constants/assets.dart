@@ -209,6 +209,9 @@ class Assets {
   /// Assets for keywords text red
   static const keywordsTextRed = "assets/images/keywords_text_red.png";
 
+  /// Assets for keywords text red
+  static const keywordsSubtext2 = "assets/images/keywords_subtext2.png";
+
   /// Assets for agerange text red
   static const ageRangeTextRed = "assets/images/agerange_text_red.png";
 
@@ -285,8 +288,8 @@ class Assets {
   static const authoranalyticsredtitle =
       "assets/images/authoranalytics_red_text.png";
   /// Assets for authoran alytics red title
+  ///
   static const pagepreviewRedPage =
       "assets/images/pagepreview_red_page.png";
 
-  /// Assets for authoran alytics red box
 }

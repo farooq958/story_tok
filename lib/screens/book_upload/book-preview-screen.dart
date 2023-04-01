@@ -142,12 +142,16 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   }
 
   record() {
-    _audioRecorder.start().then((value) {
-      setState(() {
-        recordingStart = true;
-        _timer.start();
+    try {
+      _audioRecorder.start().then((value) {
+        setState(() {
+          recordingStart = true;
+          _timer.start();
+        });
       });
-    });
+    } catch (e) {
+      print(e);
+    }
   }
 
   recordStop() async {
@@ -212,6 +216,21 @@ class VoiceRecorderState extends State<VoiceRecorder> {
     }
   }
 
+  playAutoAudio() {
+    _mPlayer
+        .startPlayer(
+        fromURI: _audioPaths[_currentIndex].values.first.toString(),
+        //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+        whenFinished: () {
+          setState(() {});
+        })
+        .then((value) {
+      setState(() {
+        startPlaying = true;
+      });
+    });
+  }
+
   void stopPlayer() {
     _mPlayer.stopPlayer().then((value) {
       setState(() {
@@ -264,11 +283,11 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                     ),
                     Stack(
                       children: [
-                        addNewBookWidget(context, Assets.subMenuRedBox,
+                        commonAddBookWidget(context, Assets.subMenuRedBox,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuRedText,
+                        commonAddBookWidget(context, Assets.subMenuRedText,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuExit,
+                        commonAddBookWidget(context, Assets.subMenuExit,
                             MediaQuery.of(context).size.width * 0.90),
                       ],
                     ),
@@ -390,12 +409,12 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                               InkWell(
                                 child: Stack(
                                   children: [
-                                    addNewBookWidget(
+                                    commonAddBookWidget(
                                         context,
                                         Assets.directionalRedBox,
                                         MediaQuery.of(context).size.width *
                                             0.30),
-                                    addNewBookWidget(
+                                    commonAddBookWidget(
                                         context,
                                         Assets.standAloneRedAdd,
                                         MediaQuery.of(context).size.width *
@@ -416,7 +435,6 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                                   width: 100,
                                 ),
                                 onTap: () {
-                                  print("Next Button");
                                 },
                               ),
                             SizedBox(
@@ -457,35 +475,9 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                           ),
                         if (widget.flag == 'recordnow' ||
                             widget.flag == 'audio')
-                          Row(
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              InkWell(
-                                onTap: () {
-                                  recordStop();
-                                },
-                                child: Image.asset(
-                                  Assets.audioUploadRedPauseIcon,
-                                  height: 20,
-                                  width: 20,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  uploadAudioFile ? playUploadedFile() : play();
-                                },
-                                child: Image.asset(
-                                  Assets.audioUploadRedPlayIcon,
-                                  height: 20,
-                                  width: 20,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
                               InkWell(
                                 onTap: () {
                                   if (!recordingStart) {
@@ -495,13 +487,61 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                                   }
                                 },
                                 child: Image.asset(
-                                  Assets.audioUploadRedUploadIcon,
+                                  !recordingStart
+                                      ? Assets.audioUploadRedUploadIcon
+                                      : Assets.audioUploadRedPauseIcon,
                                   height: 20,
                                   width: 20,
                                 ),
                               ),
+                              /*InkWell(
+                                onTap: () {
+                                  recordStop();
+                                },
+                                child: Image.asset(
+                                  Assets.audioUploadRedPauseIcon,
+                                  height: 20,
+                                  width: 20,
+                                ),
+                              ),*/
                               SizedBox(
-                                height: 50,
+                                height: 10,
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    uploadAudioFile
+                                        ? playUploadedFile()
+                                        : play();
+                                  },
+                                  child: Container(
+                                      height: 40,
+                                      width: 180,
+                                      child: Stack(
+                                        children: [
+                                          Image.asset(
+                                            Assets.directionalRedDropDownBox,
+                                            height: 40,
+                                          ),
+                                          Center(
+                                            child: Text(
+                                              "Play Recording",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          )
+                                        ],
+                                      )) /*Image.asset(
+                                  Assets.audioUploadRedPlayIcon,
+                                  height: 20,
+                                  width: 20,
+                                ),*/
+                                  ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                height: 20,
                               ),
                             ],
                           ),
@@ -511,15 +551,15 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                             InkWell(
                               child: Stack(
                                 children: [
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                       context,
                                       Assets.directionalRedDropDownBox,
                                       MediaQuery.of(context).size.width * 0.30),
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                       context,
                                       Assets.directionalRedBox,
                                       MediaQuery.of(context).size.width * 0.30),
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                       context,
                                       Assets.directionalTextBack,
                                       MediaQuery.of(context).size.width * 0.30),
@@ -532,17 +572,17 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                             InkWell(
                               child: Stack(
                                 children: [
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                     context,
                                     Assets.directionalRedDropDownBox,
                                     MediaQuery.of(context).size.width * 0.30,
                                   ),
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                     context,
                                     Assets.directionalRedBox,
                                     MediaQuery.of(context).size.width * 0.30,
                                   ),
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                     context,
                                     Assets.directionalTextContinue,
                                     MediaQuery.of(context).size.width * 0.30,
@@ -557,6 +597,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                                         : 'continue';
                                     title = 'Book Preview';
                                   });
+                                  playAutoAudio();
                                 }
 
                                 if (widget.flag == 'press continue') {
@@ -637,7 +678,6 @@ class VoiceRecorderState extends State<VoiceRecorder> {
 
       sightingRef.set({
         "cover_url": widget.imageURL.toString(),
-        // "audio_doc_id": audioURl,
         "audio_Paging_time": _pageTime.values,
         "author_doc_id": "",
         "category_main": widget.category.toString(),

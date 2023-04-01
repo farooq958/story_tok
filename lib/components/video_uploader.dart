@@ -114,11 +114,11 @@ class VideoUploaderState extends State<VideoUploader> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FilledButton(
-                      onPressed: () async {
-                        _addVideo(context, ImageSourceType.gallery);
-                      },
-                      child: Text("Choose video")),
+                  // FilledButton(
+                  //     onPressed: () async {
+                  //       _addVideo(context, ImageSourceType.gallery);
+                  //     },
+                  //     child: Text("Choose video")),
                   Container(
                     padding: EdgeInsets.all(40),
                     child: _thumbnail != null ? Image.memory(_thumbnail!) : null,
@@ -213,10 +213,10 @@ class VideoUploaderState extends State<VideoUploader> {
 
 
               // Publish button
-              FilledButton(
-                  onPressed: isUploading ? () {print("uploading already in progress.");} : () {_publish();},
-                  child: isUploading ? Text("Uploading...") : Text("Publish")
-              )
+              // FilledButton(
+              //     onPressed: isUploading ? () {print("uploading already in progress.");} : () {_publish();},
+              //     child: isUploading ? Text("Uploading...") : Text("Publish")
+              // )
             ],
           ),
         ));

@@ -7,7 +7,7 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:storily/components/confirm_book_details.dart';
-import 'package:storily/models/book_author_model.dart';
+import 'package:storily/utils.dart';
 import '../global/constants/assets.dart';
 import 'common_upload_book_format.dart';
 
@@ -60,7 +60,6 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   final recorder = FlutterSoundRecorder();
   final player = FlutterSoundPlayer();
   var fileName;
-
   var traditionalData;
   var realisticData;
   var poetryData;
@@ -68,6 +67,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   var nonFictionData;
   var historicalFictionGenresData;
   var fantasyData;
+  var bookDescHint;
 
   final ImagePicker _picker = ImagePicker();
   XFile? image;
@@ -79,10 +79,14 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
   TextEditingController _tagController = TextEditingController();
-  TextEditingController _contributorController = TextEditingController();
+
+  // TextEditingController _contributorController = TextEditingController();
+  List<TextEditingController> _contributorController = [];
 
   SingleValueDropDownController _cnt = SingleValueDropDownController();
   late MultiValueDropDownController _cntMulti;
+  int contributorsLength = 1;
+  var contributorsValueList = [];
 
   //initstate
   @override
@@ -91,10 +95,20 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     _cntMulti = MultiValueDropDownController();
     // TODO: implement initState
     super.initState();
+
+    setState(() {
+      contributorsValueList.add('Author');
+      _contributorController.add(TextEditingController());
+    });
+
+    getBookDescriptionHints();
     getCollection("categories");
     getAgeRangeCollection("agerange");
     getLanguageCollection();
     getContributorCollection();
+    Future.delayed(Duration.zero, () {
+      this.contributorWidgetMethod();
+    });
   }
 
   @override
@@ -139,11 +153,11 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                     ),
                     Stack(
                       children: [
-                        addNewBookWidget(context, Assets.subMenuRedBox,
+                        commonAddBookWidget(context, Assets.subMenuRedBox,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuRedText,
+                        commonAddBookWidget(context, Assets.subMenuRedText,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuExit,
+                        commonAddBookWidget(context, Assets.subMenuExit,
                             MediaQuery.of(context).size.width * 0.90),
                       ],
                     ),
@@ -308,148 +322,159 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                             )
                           ],
                         ),
-                        SizedBox(height: 30),
+                        SizedBox(height: 10),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    margin: EdgeInsets.only(bottom: 5.0),
-                                    child: Image.asset(
-                                      Assets.contributorsTextRed,
-                                      height: 15,
-                                    )),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.3,
-                                  height: 40,
-                                  // margin: EdgeInsets.only(left: 22, right: 22),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    border: Border.all(
-                                      color: Colors.black, // Set border color
-                                      width: 2.0,
-                                    ),
-                                    // Set border width
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 2,
-                                        color: Colors.black,
-                                        offset: Offset(1, 1),
-                                      ),
-                                    ], // Make rounded corner of border
-                                  ),
-                                  child: DropdownButton(
-                                    value: contributorValue,
-                                    icon: Icon(Icons.keyboard_arrow_down),
-                                    items: contributors.map((String items) {
-                                      return DropdownMenuItem(
-                                          value: items,
-                                          child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3,
-                                            child: Text(
-                                              items,
-                                              style: TextStyle(
-                                                  color: Colors.black),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ));
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        contributorValue = newValue!;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
+                            Container(
+                              margin: EdgeInsets.only(left: 22, bottom: 5.0),
+                              child: Image.asset(
+                                Assets.contributorsTextRed,
+                                height: 15,
+                              ),
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 5.0),
-                                  child: Stack(
-                                    children: [
-                                      addNewBookWidget(
-                                          context,
-                                          Assets.editPagesRedBox,
-                                          MediaQuery.of(context).size.width *
-                                              0.15),
-                                      addNewBookWidget(
-                                          context,
-                                          Assets.editPagesRedDeleteText,
-                                          MediaQuery.of(context).size.width *
-                                              0.15),
-                                      addNewBookWidget(
-                                          context,
-                                          Assets.editPagesRedAdd,
-                                          MediaQuery.of(context).size.width *
-                                              0.15),
-                                      addNewBookWidget(
-                                          context,
-                                          Assets.editPagesRedMinus,
-                                          MediaQuery.of(context).size.width *
-                                              0.15),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.4,
-                                  height: 40,
-                                  // margin: EdgeInsets.only(left: 22, right: 22),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    border: Border.all(
-                                      color: Colors.black, // Set border color
-                                      width: 2.0,
-                                    ),
-                                    // Set border width
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 2,
-                                        color: Colors.black,
-                                        offset: Offset(1, 1),
-                                      ),
-                                    ], // Make rounded corner of border
-                                  ),
-                                  child: TextFormField(
-                                    cursorColor: Colors.black,
-                                    textAlign: TextAlign.start,
-                                    decoration: InputDecoration(
-                                        hintText: "Name of your contributor",
-                                        border: InputBorder.none),
-                                    controller: _contributorController,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  contributorsLength++;
+                                  _contributorController
+                                      .add(TextEditingController());
+                                  contributorsValueList.add("Author");
+                                });
+                              },
+                              icon: Icon(Icons.add_circle_rounded),
+                            )
                           ],
                         ),
+                        SizedBox(height: 10),
+                        for (int i = 0; i < contributorsLength; i++)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                width: contributorsLength > 1
+                                    ? MediaQuery.of(context).size.width / 3
+                                    : MediaQuery.of(context).size.width / 2.3,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  border: Border.all(
+                                    color: Colors.black, // Set border color
+                                    width: 2.0,
+                                  ),
+                                  // Set border width
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 2,
+                                      color: Colors.black,
+                                      offset: Offset(1, 1),
+                                    ),
+                                  ], // Make rounded corner of border
+                                ),
+                                child: DropdownButton(
+                                  value: contributorsValueList[i].toString(),
+                                  icon: Icon(Icons.keyboard_arrow_down),
+                                  items: contributors.map((String items) {
+                                    return DropdownMenuItem(
+                                        value: items,
+                                        child: Container(
+                                          width: contributorsLength > 1
+                                              ? MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  4
+                                              : MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3,
+                                          child: Text(
+                                            items,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ));
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      contributorsValueList[i] = newValue!;
+                                    });
+                                  },
+                                ),
+                              ),
+                              Container(
+                                width: contributorsLength > 1
+                                    ? MediaQuery.of(context).size.width / 3
+                                    : MediaQuery.of(context).size.width / 2.3,
+                                height: 40,
+                                // margin: EdgeInsets.only(left: 22, right: 22),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  border: Border.all(
+                                    color: Colors.black, // Set border color
+                                    width: 2.0,
+                                  ),
+                                  // Set border width
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 2,
+                                      color: Colors.black,
+                                      offset: Offset(1, 1),
+                                    ),
+                                  ], // Make rounded corner of border
+                                ),
+                                child: TextFormField(
+                                  cursorColor: Colors.black,
+                                  textAlign: TextAlign.start,
+                                  decoration: InputDecoration(
+                                      hintText: "Name of your contributor",
+                                      border: InputBorder.none),
+                                  controller: _contributorController[i],
+                                ),
+                              ),
+                              if (contributorsLength > 1)
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      contributorsLength--;
+                                    });
+                                  },
+                                  icon: Icon(Icons.remove_circle),
+                                )
+                            ],
+                          ),
                         SizedBox(
                           height: 20.0,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              margin: EdgeInsets.only(bottom: 5.0, left: 22.0),
-                              child: Image.asset(
-                                Assets.keywordsTextRed,
-                                height: 15,
-                              ),
+                            Row(
+                              children: [
+                                Container(
+                                  margin:
+                                      EdgeInsets.only(bottom: 5.0, left: 22),
+                                  child: Image.asset(
+                                    Assets.keywordsTextRed,
+                                    height: 15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  margin:
+                                      EdgeInsets.only(bottom: 5.0, left: 22),
+                                  child: Image.asset(
+                                    Assets.keywordsSubtext2,
+                                    height: 15,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -818,9 +843,9 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                 cursorColor: Colors.black,
                                 textAlign: TextAlign.start,
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText:
-                                        "What is your book about? (Max xxx characters)"),
+                                  border: InputBorder.none,
+                                  hintText: bookDescHint,
+                                ),
                                 controller: _descriptionController,
                               ),
                             ),
@@ -936,16 +961,16 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                             InkWell(
                               child: Stack(
                                 children: [
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                     context,
                                     Assets.directionalRedDropDownBox,
                                     MediaQuery.of(context).size.width * 0.30,
                                   ),
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                       context,
                                       Assets.directionalRedBox,
                                       MediaQuery.of(context).size.width * 0.30),
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                       context,
                                       Assets.directionalTextBack,
                                       MediaQuery.of(context).size.width * 0.30),
@@ -957,55 +982,52 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                             ),
                             InkWell(
                               onTap: () {
-                                print(imagePath);
-                                print(_titleController.text.toString());
-                                print(_authorNameController.text.toString());
-                                print(_keyWordsController.text.toString());
-                                print(_tagController.text.toString());
-                                print(_descriptionController.text.toString());
-                                print(_priceController.text.toString());
-                                print(languageValue);
-                                print(contributorValue);
-                                print(readingLevelValue);
-                                print(ageValue);
-                                print(categoryValue);
-                                print(subCategoryValue);
-                                print(radioButtonValue);
+                                for (int i = 0; i < contributorsLength; i++) {
+                                  addContributorsData.add({
+                                    "name": _contributorController[i].text,
+                                    "type": contributorsValueList[i]
+                                  });
+                                }
 
-                                saveImages(imagePath, sightingRef);
-
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ConfirmBookDetails(
-                                            images: widget.images,
-                                            imagesPath: widget.imagesPath,
-                                            coverImage: imagePath,
-                                            title: _titleController.text,
-                                            authorName:
-                                                _authorNameController.text,
-                                            bookDescription:
-                                                _descriptionController.text,
-                                            bookGenre: categoryValue,
-                                            price: _priceController.text,
-                                            topic: _tagController.text,
-                                          )
-                                      /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
-                                      ),
-                                );
+                                if (imagePath != null) {
+                                  saveImages(imagePath, sightingRef);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ConfirmBookDetails(
+                                              images: widget.images,
+                                              imagesPath: widget.imagesPath,
+                                              coverImage: imagePath,
+                                              title: _titleController.text,
+                                              authorName:
+                                                  _authorNameController.text,
+                                              bookDescription:
+                                                  _descriptionController.text,
+                                              bookGenre: categoryValue,
+                                              price: _priceController.text,
+                                              topic: _tagController.text,
+                                            )
+                                        /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
+                                        ),
+                                  );
+                                } else {
+                                  Utils().showToastMessage(
+                                      "Please select cover image", context);
+                                }
                               },
                               child: Stack(
                                 children: [
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                     context,
                                     Assets.directionalRedDropDownBox,
                                     MediaQuery.of(context).size.width * 0.30,
                                   ),
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                       context,
                                       Assets.directionalRedBox,
                                       MediaQuery.of(context).size.width * 0.30),
-                                  addNewBookWidget(
+                                  commonAddBookWidget(
                                       context,
                                       Assets.directionalTextContinue,
                                       MediaQuery.of(context).size.width * 0.30),
@@ -1029,6 +1051,10 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     );
   }
 
+  var addContributorsData = [];
+  var list = <Widget>[];
+
+  contributorWidgetMethod() {}
   String? radioButtonValue;
 
   textContainer(String label, TextEditingController _controller) {
@@ -1102,7 +1128,6 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   }
 
   getAgeRangeCollection(String collectionName) {
-    var collection = FirebaseFirestore.instance.collection("agerange");
     FirebaseFirestore.instance
         .collection('agerange')
         .get()
@@ -1115,11 +1140,9 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       });
       ageRange = ageData[0];
     });
-    return collection;
   }
 
   getLanguageCollection() {
-    var collection = FirebaseFirestore.instance.collection("agerange");
     FirebaseFirestore.instance
         .collection('Language')
         .get()
@@ -1132,11 +1155,9 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       });
       languages = languageData[0];
     });
-    return collection;
   }
 
   getContributorCollection() {
-    var collection = FirebaseFirestore.instance.collection("contributors");
     FirebaseFirestore.instance
         .collection('contributors')
         .get()
@@ -1147,13 +1168,13 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
           contributorData.add(list.cast<String>());
         });
       });
-      contributors = contributorData[0];
+      setState(() {
+        contributors = contributorData[0];
+      });
     });
-    return collection;
   }
 
   getCollection(String collectionName) {
-    var collection = FirebaseFirestore.instance.collection("categories");
     FirebaseFirestore.instance
         .collection('categories')
         .get()
@@ -1168,7 +1189,20 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       subCategory = data[0][category[0]];
       subCategoryValue = data[0][category[0]][0];
     });
-    return collection;
+  }
+
+  getBookDescriptionHints() {
+    FirebaseFirestore.instance
+        .collection('hints_static')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          bookDescHint = doc["book_description"];
+          print("bookDescHint $bookDescHint");
+        });
+      });
+    });
   }
 
   DocumentReference sightingRef =
@@ -1187,8 +1221,6 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
             .ref()
             .child('book_pages')
             .child(childPath[childPath.length - 1]);
-
-        print("upload variable::: ${widget.audioPaths}");
 
         var upload = await storageReferencePageUrls
             .putFile(widget.audioPaths![i].keys.first);
@@ -1211,17 +1243,12 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
         imagesUrlArray.add(audioImagePair);
       }
     } else {
-      print(widget.images);
-      print(widget.imagesPath);
-
       for (int i = 0; i < widget.images!.length; i++) {
         var childPath = widget.images![i].path.toString().split('/');
         var storageReferencePageUrls = FirebaseStorage.instance
             .ref()
             .child('book_pages')
             .child(childPath[childPath.length - 1]);
-
-        print("upload variable::: ${widget.images}");
 
         var upload = await storageReferencePageUrls.putFile(widget.images![i]);
         imageUrl = await upload.ref.getDownloadURL();
@@ -1253,6 +1280,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
           "topic": _tagController.text.toString(),
           "book_description": _descriptionController.text.toString(),
           "author_name": _authorNameController.text.toString(),
+          "contributors": addContributorsData,
           "keywords": _keyWordsController.text.toString(),
           "price": _priceController.text.toString(),
           "publishing_rights": radioButtonValue,

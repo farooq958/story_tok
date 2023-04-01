@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:storily/components/page_uploader.dart';
 import '../global/constants/assets.dart';
 import '../screens/book_upload/book-preview-screen.dart';
 import 'common_upload_book_format.dart';
@@ -84,11 +83,11 @@ class RecordAudioState extends State<RecordAudio>
                     ),
                     Stack(
                       children: [
-                        addNewBookWidget(context, Assets.subMenuRedBox,
+                        commonAddBookWidget(context, Assets.subMenuRedBox,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuRedText,
+                        commonAddBookWidget(context, Assets.subMenuRedText,
                             MediaQuery.of(context).size.width * 0.90),
-                        addNewBookWidget(context, Assets.subMenuExit,
+                        commonAddBookWidget(context, Assets.subMenuExit,
                             MediaQuery.of(context).size.width * 0.90),
                       ],
                     ),
@@ -113,7 +112,7 @@ class RecordAudioState extends State<RecordAudio>
                   children: [
                     uploadText(
                         context: context,
-                        label: "Please Select Upload Format",
+                        label: "Add a Voice Over?",
                         fontSize: 30.0),
                     SizedBox(
                       height: 30,
@@ -177,14 +176,14 @@ class RecordAudioState extends State<RecordAudio>
                   children: [
                     if (!continueWithoutAudio)
                       Container(
-                        child: addNewBookWidget(
+                        child: commonAddBookWidget(
                             context,
                             Assets.directionalRedBoxDropdownLong,
                             MediaQuery.of(context).size.width * 0.90),
                       ),
-                    addNewBookWidget(context, Assets.directionalRedBoxLong,
+                    commonAddBookWidget(context, Assets.directionalRedBoxLong,
                         MediaQuery.of(context).size.width * 0.90),
-                    addNewBookWidget(
+                    commonAddBookWidget(
                         context,
                         Assets.directionalTextWithoutAudio,
                         MediaQuery.of(context).size.width * 0.90),

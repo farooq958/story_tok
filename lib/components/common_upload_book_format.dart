@@ -38,7 +38,7 @@ Widget uploadBookFormatHeader(String date, String name, String label) {
   );
 }
 
-Widget addNewBookWidget(BuildContext context, String imageUrl, width) {
+Widget commonAddBookWidget(BuildContext context, String imageUrl, width) {
   return Image.asset(
     imageUrl,
     fit: BoxFit.contain,

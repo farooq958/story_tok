@@ -42,7 +42,6 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     // TODO: implement initState
     super.initState();
     boolVal = false;
-    print("object");
   }
 
   @override

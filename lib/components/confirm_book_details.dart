@@ -60,13 +60,6 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
 
   @override
   void initState() {
-    print(widget.images);
-    print(widget.title);
-    print(widget.price);
-    print(widget.authorName);
-    print(widget.topic);
-    print(widget.bookGenre);
-    print(widget.bookDescription);
     super.initState();
   }
 
@@ -105,11 +98,11 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                 ),
                 Stack(
                   children: [
-                    addNewBookWidget(context, Assets.subMenuRedBox,
+                    commonAddBookWidget(context, Assets.subMenuRedBox,
                         MediaQuery.of(context).size.width * 0.90),
-                    addNewBookWidget(context, Assets.subMenuRedText,
+                    commonAddBookWidget(context, Assets.subMenuRedText,
                         MediaQuery.of(context).size.width * 0.90),
-                    addNewBookWidget(context, Assets.subMenuExit,
+                    commonAddBookWidget(context, Assets.subMenuExit,
                         MediaQuery.of(context).size.width * 0.90),
                   ],
                 ),
@@ -276,30 +269,30 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                                   fontSize: 20.0,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
                                       Row(
                                         children: [
                                           Container(
-                                              margin: EdgeInsets.only(
-                                                  left: 5.0, right: 5.0),
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  1.5,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  12,
-                                              child: SingleChildScrollView(
-                                                child: Text(
-                                                  widget.bookDescription,
-                                                  maxLines: 999999,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              )),
+                                            margin: EdgeInsets.only(
+                                                left: 5.0, right: 5.0),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                1.5,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                12,
+                                            child: SingleChildScrollView(
+                                              child: Text(
+                                                widget.bookDescription,
+                                                maxLines: 999999,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -328,15 +321,15 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                         InkWell(
                           child: Stack(
                             children: [
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                   context,
                                   Assets.directionalRedDropDownBox,
                                   MediaQuery.of(context).size.width * 0.30),
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                   context,
                                   Assets.directionalRedBox,
                                   MediaQuery.of(context).size.width * 0.30),
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                   context,
                                   Assets.directionalTextBack,
                                   MediaQuery.of(context).size.width * 0.30),
@@ -349,17 +342,17 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                         InkWell(
                           child: Stack(
                             children: [
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                 context,
                                 Assets.directionalRedDropDownBox,
                                 MediaQuery.of(context).size.width * 0.30,
                               ),
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                 context,
                                 Assets.directionalRedBox,
                                 MediaQuery.of(context).size.width * 0.30,
                               ),
-                              addNewBookWidget(
+                              commonAddBookWidget(
                                 context,
                                 Assets.directionalTextContinue,
                                 MediaQuery.of(context).size.width * 0.30,
@@ -393,7 +386,7 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Record your book'),
+        title: const Text('Confirm Book Details'),
       ),
       body: makeBody(),
     );
@@ -430,19 +423,6 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
         };
         imagesUrlArray.add(audioImagePair);
       }
-
-      // widget.ref.set({
-      //   "cover_url": widget.imageURL.toString(),
-      //   // "audio_doc_id": audioURl,
-      //   "audio_Paging_time": _pageTime.values,
-      //   "author_doc_id": "",
-      //   "category_main": widget.category.toString(),
-      //   "category_sub": widget.subCategory.toString(),
-      //   "pages_url": imagesUrlArray,
-      //   "title": widget.title.toString(),
-      //   "topic": widget.topic.toString(),
-      // });
-
     } catch (e, stacktrace) {}
   }
 }

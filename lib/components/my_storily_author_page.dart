@@ -126,10 +126,11 @@ class AuthorCenterPageUI extends StatelessWidget {
         MaterialButton(
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          UploadBookFormat())); //short cut for author to upload their book
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UploadBookFormat(),
+                ),
+              ); //short cut for author to upload their book
               /*Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(
                       child: ChangeNotifierProvider(
                         create: (_)=>Admin(),
