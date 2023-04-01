@@ -228,7 +228,7 @@ class RecordingPreviewState extends State<RecordingPreview> {
           child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
               child: Stack(
-                children: <Widget>[
+                children: [
                   Image.file(item, fit: BoxFit.cover, width: 1000.0),
                   Positioned(
                     bottom: 0.0,

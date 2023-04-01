@@ -1,10 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/get.dart';
 import 'package:storily/global/methods/methods.dart';
 import 'package:storily/screens/dashboard/widgets/home_screen.dart';
-import 'feed_model/feed_view_model.dart';
-import 'bootm_menu_screens/bookshelf.dart';
+import '../../controllers/main_content_controller.dart';
 
 class FeedDashboard extends StatefulWidget {
   static String id = "/feedDashboard";
@@ -15,16 +14,12 @@ class FeedDashboard extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedDashboard> {
-  final feedViewModel = GetIt.instance<FeedViewModel>();
-
-  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
-
   int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    feedViewModel.initializer();
+    Get.find<MainContentController>().initializer();
   }
 
   void _onItemTapped(int index) {
@@ -95,11 +90,5 @@ class _FeedScreenState extends State<FeedDashboard> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    feedViewModel.controller?.dispose();
-    super.dispose();
   }
 }

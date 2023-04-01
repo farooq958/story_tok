@@ -215,7 +215,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
           child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
               child: Stack(
-                children: <Widget>[
+                children: [
                   Image.file(item, fit: BoxFit.cover, width: 1000.0),
                   Positioned(
                     bottom: 0.0,
@@ -322,7 +322,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
+                  children: [
                     Icon(
                       Icons.mail_outline,
                       color: Colors.black,

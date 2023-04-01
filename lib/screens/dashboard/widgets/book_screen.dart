@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:storily/screens/dashboard/data/model/audiobook_model.dart';
+import 'package:storily/controllers/repositories/models/audiobook_model.dart';
 
 class BookScreenWidget extends StatefulWidget {
   const BookScreenWidget({Key? key, required this.bookData}) : super(key: key);

@@ -37,7 +37,7 @@ class AuthorCenterPageUI extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
+        children: [
           Image.asset('assets/images/bitRead_logo_banner_Placeholder.png', height: MediaQuery.of(context).size.height*0.12,),
           Text("Millions of Stories. \n Free on BitRead.", style: TextStyle(
             fontFamily: 'Proxima Nova',
@@ -48,7 +48,7 @@ class AuthorCenterPageUI extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
+              children: [
                 Text("Upload Video", style: TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: 18.0,
@@ -70,7 +70,7 @@ class AuthorCenterPageUI extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
+                        children: [
                           Icon(Icons.mail_outline, color: Colors.black,),
                           SizedBox(
                             width: 5.0,
@@ -107,7 +107,7 @@ class AuthorCenterPageUI extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
+                        children: [
                           Icon(Icons.mail_outline, color: Colors.black,),
                           SizedBox(
                             width: 5.0,
@@ -144,7 +144,7 @@ class AuthorCenterPageUI extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
+                        children: [
                           Icon(Icons.mail_outline, color: Colors.black,),
                           SizedBox(
                             width: 5.0,
@@ -181,7 +181,7 @@ class AuthorCenterPageUI extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
+                        children: [
                           Icon(Icons.mail_outline, color: Colors.black,),
                           SizedBox(
                             width: 5.0,

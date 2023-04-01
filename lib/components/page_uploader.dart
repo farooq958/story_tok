@@ -161,7 +161,7 @@ class PageUploaderState extends State<PageUploader> {
             ),
             /* Container(
                 child: Column(
-                  children: <Widget>[
+                  children: [
                     MaterialButton(
                       color: Colors.blue,
                       child: Text(
@@ -212,7 +212,7 @@ class PageUploaderState extends State<PageUploader> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
+                        children: [
                           Icon(
                             Icons.mail_outline,
                             color: Colors.black,
@@ -351,7 +351,7 @@ class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
               ? "Image from Camera"
               : "Image from Gallery")),
       body: Column(
-        children: <Widget>[
+        children: [
           SizedBox(
             height: 52,
           ),

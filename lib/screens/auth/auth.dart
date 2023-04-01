@@ -35,7 +35,7 @@ class AuthUI extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
+        children: [
           Image.asset(
             'assets/images/bitread_ph.png',
             height: MediaQuery.of(context).size.height * 0.12,
@@ -52,7 +52,7 @@ class AuthUI extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
+              children: [
                 Text(
                   "Continue with",
                   style: TextStyle(
@@ -80,7 +80,7 @@ class AuthUI extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
+                      children: [
                         Icon(
                           Icons.mail_outline,
                           color: Colors.black,
@@ -122,7 +122,7 @@ class AuthUI extends StatelessWidget {
                 //     child: Row(
                 //       mainAxisAlignment: MainAxisAlignment.center,
                 //       crossAxisAlignment: CrossAxisAlignment.center,
-                //       children: <Widget>[
+                //       children: [
                 //         Icon(Icons.mail_outline, color: Colors.black,),
                 //         SizedBox(
                 //           width: 5.0,
@@ -157,7 +157,7 @@ class AuthUI extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
+                      children: [
                         Icon(
                           Icons.mail_outline,
                           color: Colors.black,
@@ -199,7 +199,7 @@ class AuthUI extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
+                        children: [
                           Icon(
                             Icons.home,
                             color: Colors.black,
@@ -233,7 +233,7 @@ class AuthUI extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
+                        children: [
                           Icon(
                             Icons.dashboard,
                             color: Colors.black,
@@ -286,7 +286,7 @@ class SignupOrLogin extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
+            children: [
               Text(
                 "Email",
                 style: TextStyle(
@@ -338,7 +338,7 @@ class SignupOrLogin extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
+                  children: [
                     Container(
                       alignment: Alignment.center,
                       color: Colors.grey,
@@ -427,14 +427,14 @@ class CreateAccount extends StatelessWidget {
       body: PageView(
         // controller: sessionObj.pctrl,
         physics: ScrollPhysics(parent: NeverScrollableScrollPhysics()),
-        children: <Widget>[
+        children: [
           Container(
             padding: EdgeInsets.all(10.0),
             alignment: Alignment.topLeft,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   "What's your email?",
                   style: TextStyle(
@@ -495,7 +495,7 @@ class CreateAccount extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   "Create a Password",
                   style: TextStyle(
@@ -570,7 +570,7 @@ class CreateAccount extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   "What's your name?",
                   style: TextStyle(
@@ -635,7 +635,7 @@ class CreateAccount extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
+                    children: [
                       Text(
                         "By creating an account, you agree to Spotify's Terms of Service.",
                         textAlign: TextAlign.center,
@@ -677,7 +677,7 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             Text(
               "Email or userame",
               style: TextStyle(
@@ -836,7 +836,7 @@ class PasswordRecovery extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             Text(
               "Email or username",
               style: TextStyle(

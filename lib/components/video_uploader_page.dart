@@ -77,7 +77,7 @@ class _VideoUploaderState extends State<VideoUploader> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
 
         ElevatedButton(
           onPressed: _pickVideo,

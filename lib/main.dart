@@ -4,15 +4,14 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storily/provider/storage_provider.dart';
 import 'package:storily/screens/splash/splash_screen.dart';
-
 import 'routes/routes.dart';
 import 'screens/service_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  initializations();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  setup();
   runApp(
     MultiProvider(
       providers: [

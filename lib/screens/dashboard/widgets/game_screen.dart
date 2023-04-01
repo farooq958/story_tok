@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../data/model/game_model.dart';
+import '../../../controllers/repositories/models/game_model.dart';
 
 typedef UrlCallback = void Function(String url, WebViewController controller);
 
