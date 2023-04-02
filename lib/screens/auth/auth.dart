@@ -8,7 +8,6 @@ import 'package:storily/screens/main_home_screen.dart';
 import '../../global/methods/methods.dart';
 import '../dashboard/feed_dashboard.dart';
 import '../dashboard/profile/author_profile.dart';
-import '../kids_flow/bottomtab/bottom_tab.dart';
 
 //authentication page, currently has a short cut to the author center, we need to make the screen automatically enters the home scree(displayscreen) after sign in.
 class FirebaseSession extends StatelessWidget {
@@ -202,7 +201,7 @@ class AuthUI extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyStorilyAuthorPage()));
-                   /* Navigator.push(
+                    /* Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MainHomeScreen()));*/
@@ -360,40 +359,6 @@ class AuthUI extends StatelessWidget {
                     ),
                   ),
                 ),
-                //   MaterialButton(
-                //   onPressed: () {
-                //     goPage(context, BottomTab());
-                //   },
-                //   child: Container(
-                //     padding: EdgeInsets.all(10.0),
-                //     decoration: BoxDecoration(
-                //       color: Colors.white,
-                //       borderRadius: BorderRadius.circular(100.0),
-                //     ),
-                //     margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       crossAxisAlignment: CrossAxisAlignment.center,
-                //       children: <Widget>[
-                //         Icon(
-                //           Icons.child_care,
-                //           color: Colors.black,
-                //         ),
-                //         SizedBox(
-                //           width: 5.0,
-                //         ),
-                //         Text(
-                //           "Child Flow",
-                //           style: TextStyle(
-                //             color: Colors.black,
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: 16.0,
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
