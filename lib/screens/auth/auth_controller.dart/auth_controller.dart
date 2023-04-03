@@ -1,9 +1,12 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pinput/pinput.dart';
+import 'package:storily/components/validator.dart';
 import 'package:storily/main.dart';
 import 'package:storily/screens/auth/screens/twostepverification_screen.dart';
 
@@ -17,7 +20,9 @@ class AuthController extends GetxController {
 
   RxList profileImageFromFireStore = [].obs;
   RxList profileAvatarImagesFromFireStore = [].obs;
-  RxString selectedCheerCartoon = "".obs;
+  RxString selectedCheerCartoon =
+      "https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/child_profile%2Fbanana_cheer.png?alt=media&token=01a8292a-e4dd-4486-85db-a54550f864ca"
+          .obs;
   RxInt slectedLevel = 1.obs;
 
   Future getCheerCartoonImages() async {
@@ -137,29 +142,119 @@ class AuthController extends GetxController {
   }
 
   List individualsFielsList = [
-    {"headerName": "Full Name", "textController": TextEditingController()},
-    {"headerName": "Date of Birth", "textController": TextEditingController()},
-    {"headerName": "Address Line 1", "textController": TextEditingController()},
-    {"headerName": "Address Line 2", "textController": TextEditingController()},
-    {"headerName": "City", "textController": TextEditingController()},
+    {
+      "headerName": "Full Name",
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateFname(v, "Full Name", "Full Name");
+      }
+    },
+    {
+      "headerName": "Date of Birth",
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateRequired(v!, "DOB");
+      }
+    },
+    {
+      "headerName": "Address Line 1",
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateRequired(
+          v!,
+          "Address Line 1",
+        );
+      }
+    },
+    {
+      "headerName": "Address Line 2",
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateRequired(
+          v!,
+          "Address Line 1",
+        );
+      }
+    },
+    {
+      "headerName": "City",
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateRequired(
+          v!,
+          "City",
+        );
+      }
+    },
     {
       "headerName": "State/Province/Region",
-      "textController": TextEditingController()
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateRequired(
+          v!,
+          "State/Province/Region",
+        );
+      }
     }
   ];
 
   List corporateFielsList = [
-    {"headerName": "Company Name", "textController": TextEditingController()},
+    {
+      "headerName": "Company Name",
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateRequired(v!, "Company name");
+      }
+    },
     {
       "headerName": "Date of Incorporation",
-      "textController": TextEditingController()
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateRequired(
+          v!,
+          "Date of incorporation",
+        );
+      }
     },
-    {"headerName": "Address Line 1", "textController": TextEditingController()},
-    {"headerName": "Address Line 2", "textController": TextEditingController()},
-    {"headerName": "City", "textController": TextEditingController()},
+    {
+      "headerName": "Address Line 1",
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateRequired(
+          v!,
+          "Address Line 1",
+        );
+      }
+    },
+    {
+      "headerName": "Address Line 2",
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateRequired(
+          v!,
+          "Address Line 1",
+        );
+      }
+    },
+    {
+      "headerName": "City",
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateRequired(
+          v!,
+          "City",
+        );
+      }
+    },
     {
       "headerName": "State/Province/Region",
-      "textController": TextEditingController()
+      "textController": TextEditingController(),
+      "Validatior": (String? v) {
+        return Validators.validateRequired(
+          v!,
+          "State/Province/Region",
+        );
+      }
     }
   ];
 

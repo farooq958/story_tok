@@ -50,6 +50,7 @@ dependencies:
   animated_styled_widget: ^0.4.6
   country_picker: ^2.0.20
   pinput: ^2.2.31
+  lottie: ^2.3.1
 
   shared_preferences: ^2.0.18
   cached_network_image: ^3.2.3

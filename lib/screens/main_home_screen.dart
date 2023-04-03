@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:storily/components/upload_book_format.dart';
+import 'package:storily/screens/auth/helpers/authentication_helper.dart';
 import 'package:storily/screens/book_upload/book-confirm-details-screen.dart';
 import 'package:storily/screens/book_upload/book-input-details-screen.dart';
 import 'package:storily/screens/book_upload/book-preview-screen.dart';
@@ -29,6 +30,11 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
       backgroundColor: Colors.grey[300],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          AuthenticationHelper().signOut();
+        },
+      ),
       body: Container(
         color: Color(0xffEEF0F2),
         //color: Color(0xfff0f3f6),

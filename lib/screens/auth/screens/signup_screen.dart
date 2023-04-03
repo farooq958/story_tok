@@ -20,6 +20,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: SingleChildScrollView(
         child: Container(
           height: Get.height,
+          width: Get.width,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(
+                      "assets/images/auth_images/background_signup_colour.png"),
+                  fit: BoxFit.cover)),
           margin:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Stack(

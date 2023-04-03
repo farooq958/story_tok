@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:storily/Utils/process_indicator.dart';
@@ -22,6 +24,7 @@ class AuthenticationHelper {
       {required String signupEmail,
       required String signupPassword,
       required BuildContext context,
+      File? imagePath,
       required String signUpType}) async {
     Circle().show(context);
     try {
@@ -31,14 +34,16 @@ class AuthenticationHelper {
       );
       if (user != null) {
         log(credential.user!.uid);
+        if (imagePath != null) await uploadAuthorsProfile(imagePath, context);
         if (signUpType == "author" || signUpType == "corpo") {
           uploadUserDataInFireStore(signUpType);
           uploadAutherUserDataInFireStore();
         } else {
           uploadUserDataInFireStore(signUpType);
         }
-
-        Get.offAll(() => MainHomeScreen());
+        Circle().hide(context);
+        await Get.offAll(() => MainHomeScreen());
+        getStorage!.erase();
       }
       Circle().hide(context);
       return null;
@@ -59,6 +64,23 @@ class AuthenticationHelper {
     }
   }
 
+//! UPLOAD AUTHOR's PROFILE IMAGE INTO FIRESTORE
+
+  String? downloadUrl;
+
+  uploadAuthorsProfile(_imagePath, context) async {
+    Circle().show(context);
+    final Reference storageRef = FirebaseStorage.instance.ref().child(
+        'author_profile_image/${FirebaseAuth.instance.currentUser!.uid}${_imagePath.path.split('.').last}');
+
+    final TaskSnapshot task = await storageRef.putFile(_imagePath);
+
+    downloadUrl = await storageRef.getDownloadURL();
+
+    log('File uploaded: $downloadUrl');
+    Circle().hide(context);
+  }
+
 //! SET DATA ON FIRESTORE
 
   uploadUserDataInFireStore(String signupType) async {
@@ -69,7 +91,6 @@ class AuthenticationHelper {
       'author_id':
           signupType == "corpo" || signupType == "author" ? user.uid : null,
       'type': signupType == "author" ? 'Author' : 'child',
-
       if (signupType == "author") 'Dob': getStorage!.read("DOB"),
       if (signupType == "corpo")
         'company_name': getStorage!.read("companyName"),
@@ -85,10 +106,11 @@ class AuthenticationHelper {
       'name': getStorage!.read("signup_Name"),
       'nameIndex': getStorage!.read("signup_NameFirstLetter"),
       'premiumMember': false,
-      'profile_url': getStorage!.read("selected_avtar_Pheer_Profile"),
+      'profile_url': signupType == "corpo" || signupType == "author"
+          ? downloadUrl
+          : getStorage!.read("selected_avtar_Pheer_Profile"),
       'reading_level': getStorage!.read("selectedLevel"),
       'uid': user.uid,
-      // Add more fields as needed
     };
     docRef.set(data).then((value) {
       Get.snackbar("Sign Up", "Sign up successfully.",
@@ -106,7 +128,7 @@ class AuthenticationHelper {
         FirebaseFirestore.instance.collection('book_authors').doc(user.uid);
 
     final Map<String, dynamic> data = {
-      'avatar_url': '',
+      'avatar_url': downloadUrl,
       'boigraphy': "",
       'name': getStorage!.read("signup_Name"),
       'books_doc_id': booksDocIdList,
@@ -140,18 +162,26 @@ class AuthenticationHelper {
       Circle().hide(context);
       return null;
     } on FirebaseAuthException catch (e) {
+      log("ERROR $e");
       Circle().hide(context);
+      Get.snackbar("Error", e.toString(),
+          backgroundColor: Colors.red.withOpacity(0.5));
       return e.message;
     }
   }
 
   Future signOut() async {
     await _auth.signOut();
-
+    Get.offAll(() => FirebaseSession());
+    Get.snackbar("Log Out", "Log Out successfully.",
+        backgroundColor: Colors.green.withOpacity(0.5));
     print('signout');
   }
 
   Future<void> sendOTP(String phoneNumber, BuildContext context) async {
+    Get.snackbar("OTP", "We'll sent the OTP to your number!",
+        backgroundColor: Colors.green.withOpacity(0.5));
+
     Circle().show(context);
     log("number ==> $phoneNumber");
     await _auth.verifyPhoneNumber(
@@ -159,20 +189,18 @@ class AuthenticationHelper {
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) {},
       verificationFailed: (FirebaseAuthException e) {
-        Circle().show(context);
-
+        log("ERROR FROM OTP  $e");
         Get.snackbar("Error", e.toString(),
             backgroundColor: Colors.red.withOpacity(0.5));
-        Circle().hide(context);
       },
       codeSent: (String verificationId, int? resendToken) async {
-        Circle().show(context);
+        Get.snackbar("OTP", "We've sent the OTP you your number!",
+            backgroundColor: Colors.green.withOpacity(0.5));
 
         await getStorage!.write("otpVerificationID", verificationId);
         log("--------->> $verificationId ---->>${getStorage!.read("otpVerificationID")} ");
-        Circle().hide(context);
 
-        Get.to(() => OtpVerificationScreen());
+        Get.off(() => OtpVerificationScreen());
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
@@ -190,7 +218,7 @@ class AuthenticationHelper {
         await _auth.signInWithCredential(credential);
     final User? user = userCredential.user;
     if (user != null) {
-      Get.to(() => ChildAuthorSelectionScreen());
+      Get.off(() => ChildAuthorSelectionScreen());
       // The user has been successfully authenticated
     } else {
       Get.snackbar("Error", "Something wend wrong please try again");
