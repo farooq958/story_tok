@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storily/provider/storage_provider.dart';
 import 'package:storily/screens/splash/splash_screen.dart';
-
 import 'routes/routes.dart';
 import 'AppProvider/app_main_provider.dart';
 import 'screens/service_locator.dart';
@@ -22,9 +21,12 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => StorageProvider(prefs)),
       ],
-      child: DevicePreview(enabled: false, builder: (BuildContext context) {
-        return MyApp();
-      },),
+      child: DevicePreview(
+        enabled: false,
+        builder: (BuildContext context) {
+          return MyApp();
+        },
+      ),
     ),
   );
 }
@@ -33,16 +35,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-
       providers: appProvider,
-      child:  ScreenUtilInit(
+      child: ScreenUtilInit(
         //scaleByHeight: true,
         designSize: const Size(320, 680),
         minTextAdapt: true,
         //  splitScreenMode: true,
         useInheritedMediaQuery: true,
         builder: (BuildContext context, Widget? child) {
-
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Spotify Clone',
@@ -59,7 +59,6 @@ class MyApp extends StatelessWidget {
             home: SplashScreen(),
           );
         },
-
       ),
     );
   }

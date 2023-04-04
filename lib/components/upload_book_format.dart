@@ -27,9 +27,10 @@ class UploadBookFormatState extends State<UploadBookFormat>
   bool addFilesForPDF = false;
   var images = <File>[];
   var pdf = pw.Document();
-
+  bool isPressed = false;
   late double _scale;
   late AnimationController _controller;
+  var from;
 
   @override
   void initState() {
@@ -159,19 +160,16 @@ class UploadBookFormatState extends State<UploadBookFormat>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        GestureDetector(
+                        InkWell(
                           onTapDown: _tapDown,
                           onTapUp: _tapUp,
-                          child: Transform.scale(
-                            scale: _scale,
-                            child: _animatedButton(
-                              boolVal: addFilesForPDF,
-                              imageUrl: Assets.redDropShadow,
-                              context: context,
-                              textImageUrl: Assets.pdfTextImage,
-                              boxImageUrl: Assets.uploadRedBox,
-                              addFilesImageUrl: Assets.redAddFiles,
-                            ),
+                          child: _animatedButton(
+                            boolVal: addFilesForPDF,
+                            imageUrl: Assets.redDropShadow,
+                            context: context,
+                            textImageUrl: Assets.pdfTextImage,
+                            boxImageUrl: Assets.uploadRedBox,
+                            addFilesImageUrl: Assets.redAddFiles,
                           ),
                           onTap: () {
                             setState(() {
@@ -182,16 +180,13 @@ class UploadBookFormatState extends State<UploadBookFormat>
                         GestureDetector(
                           onTapDown: _tapDown,
                           onTapUp: _tapUp,
-                          child: Transform.scale(
-                            scale: _scale,
-                            child: _animatedButton(
-                              boolVal: addFiles,
-                              imageUrl: Assets.redDropShadow,
-                              context: context,
-                              textImageUrl: Assets.imageTextImage,
-                              boxImageUrl: Assets.uploadRedBox,
-                              addFilesImageUrl: Assets.redAddFiles,
-                            ),
+                          child: _animatedButton(
+                            boolVal: addFiles,
+                            imageUrl: Assets.redDropShadow,
+                            context: context,
+                            textImageUrl: Assets.imageTextImage,
+                            boxImageUrl: Assets.uploadRedBox,
+                            addFilesImageUrl: Assets.redAddFiles,
                           ),
                           onTap: () {
                             setState(() {
@@ -219,8 +214,6 @@ class UploadBookFormatState extends State<UploadBookFormat>
     await _controller.reverse();
     getEventList();
   }
-
-  var from;
 
   getEventList() async {
     if (addFiles) {

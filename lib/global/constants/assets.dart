@@ -154,10 +154,10 @@ class Assets {
       "assets/images/authoranalytics_green_title.png";
 
   /// Assets for upload record text
-  static const uploadRedTextRecordNow = "assets/images/upload_red_text_recordnow.png";
+  static const uploadRedTextRecordNow = "assets/images/recordnow_text.png";
 
   /// Assets for upload audio text
-  static const uploadRedTextAudio = "assets/images/upload_red_text_audio.png";
+  static const uploadRedTextAudio = "assets/images/audio_text.png";
 
   /// Assets for directional text without audio text
   static const directionalTextWithoutAudio = "assets/images/directional_text_withoutaudio.png";
