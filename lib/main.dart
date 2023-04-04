@@ -1,8 +1,11 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/route_manager.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storily/provider/storage_provider.dart';
@@ -12,8 +15,12 @@ import 'routes/routes.dart';
 import 'AppProvider/app_main_provider.dart';
 import 'screens/service_locator.dart';
 
+GetStorage? getStorage;
+final FirebaseStorage storage = FirebaseStorage.instance;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  getStorage = GetStorage();
   await Firebase.initializeApp();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   setup();
@@ -22,9 +29,12 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => StorageProvider(prefs)),
       ],
-      child: DevicePreview(enabled: false, builder: (BuildContext context) {
-        return MyApp();
-      },),
+      child: DevicePreview(
+        enabled: false,
+        builder: (BuildContext context) {
+          return MyApp();
+        },
+      ),
     ),
   );
 }
@@ -33,17 +43,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-
       providers: appProvider,
-      child:  ScreenUtilInit(
+      child: ScreenUtilInit(
         //scaleByHeight: true,
         designSize: const Size(320, 680),
         minTextAdapt: true,
         //  splitScreenMode: true,
         useInheritedMediaQuery: true,
         builder: (BuildContext context, Widget? child) {
-
-          return MaterialApp(
+          return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Spotify Clone',
             theme: ThemeData(
@@ -59,7 +67,6 @@ class MyApp extends StatelessWidget {
             home: SplashScreen(),
           );
         },
-
       ),
     );
   }

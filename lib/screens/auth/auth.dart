@@ -1,8 +1,12 @@
 import 'package:animated_styled_widget/animated_styled_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/home_video_display_screen.dart';
 import 'package:storily/components/my_storily_author_page.dart';
+import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
+import 'package:storily/screens/auth/screens/signup_screen.dart';
 import 'package:storily/screens/main_home_screen.dart';
 
 import '../../global/methods/methods.dart';
@@ -121,7 +125,7 @@ class AuthUI extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SignupOrLogin()));
+                            builder: (context) => SignUpScreen()));
                   },
                   builder: (context, state) {
                     Widget child;
@@ -202,7 +206,7 @@ class AuthUI extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyStorilyAuthorPage()));
-                   /* Navigator.push(
+                    /* Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MainHomeScreen()));*/
@@ -360,40 +364,6 @@ class AuthUI extends StatelessWidget {
                     ),
                   ),
                 ),
-                //   MaterialButton(
-                //   onPressed: () {
-                //     goPage(context, BottomTab());
-                //   },
-                //   child: Container(
-                //     padding: EdgeInsets.all(10.0),
-                //     decoration: BoxDecoration(
-                //       color: Colors.white,
-                //       borderRadius: BorderRadius.circular(100.0),
-                //     ),
-                //     margin: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       crossAxisAlignment: CrossAxisAlignment.center,
-                //       children: <Widget>[
-                //         Icon(
-                //           Icons.child_care,
-                //           color: Colors.black,
-                //         ),
-                //         SizedBox(
-                //           width: 5.0,
-                //         ),
-                //         Text(
-                //           "Child Flow",
-                //           style: TextStyle(
-                //             color: Colors.black,
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: 16.0,
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -440,22 +410,24 @@ class SignupOrLogin extends StatelessWidget {
               ),
               MaterialButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Material(
-                                child: MultiProvider(
-                                  providers: [
-                                    /* ChangeNotifierProvider(
-                                      create: (_) => CreateUserAccount(),
-                                    ),
-                                    ChangeNotifierProvider(
-                                      create: (_) => ShowCustomAlertDialog(),
-                                    ), */
-                                  ],
-                                  child: CreateAccount(),
-                                ),
-                              )));
+                  Get.to(() => SignUpScreen());
+                  // Get.to(() => ChildAuthorSelectionScreen());
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => Material(
+                  //               child: MultiProvider(
+                  //                 providers: [
+                  //                   /* ChangeNotifierProvider(
+                  //                     create: (_) => CreateUserAccount(),
+                  //                   ),
+                  //                   ChangeNotifierProvider(
+                  //                     create: (_) => ShowCustomAlertDialog(),
+                  //                   ), */
+                  //                 ],
+                  //                 child: CreateAccount(),
+                  //               ),
+                  //             )));
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -504,21 +476,23 @@ class SignupOrLogin extends StatelessWidget {
               MaterialButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Material(
-                                child: MultiProvider(
-                                  providers: [
-                                    /* ChangeNotifierProvider(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Material(
+                        child: Provider(
+                          /* ChangeNotifierProvider(
                                       create: (_) => LoginLogic(),
                                     ),
                                     ChangeNotifierProvider(
                                       create: (_) => ShowCustomAlertDialog(),
                                     ), */
-                                  ],
-                                  child: LoginPage(),
-                                ),
-                              )));
+
+                          create: (BuildContext context) {},
+                          child: LoginPage(),
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   width: 300.0,

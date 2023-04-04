@@ -40,6 +40,7 @@ dependencies:
   firebase_database: ^10.0.14
   webview_flutter: ^4.0.5
   fluttertoast: ^8.2.1
+  get_storage: ^2.1.1
   record: ^4.4.4
   flutter_profile_picture: ^2.0.0
   stream_mixin: ^3.0.4
@@ -47,6 +48,9 @@ dependencies:
   uuid: ^3.0.7
   selectable_container: ^1.0.7
   animated_styled_widget: ^0.4.6
+  country_picker: ^2.0.20
+  pinput: ^2.2.31
+  lottie: ^2.3.1
 
   shared_preferences: ^2.0.18
   cached_network_image: ^3.2.3
@@ -66,6 +70,7 @@ dependencies:
 
   audioplayers: ^3.0.1
   just_audio: ^0.9.32
+  get: ^4.6.5
 
 
 dev_dependencies:
@@ -98,6 +103,8 @@ flutter:
     - assets/images/home/numbers/red/
     - assets/images/home/achievement/
     - assets/images/book_upload/
+    - assets/images/auth_images/
+    - assets/images/choose_friend/
     - assets/images/video_upload/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
