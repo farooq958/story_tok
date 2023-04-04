@@ -201,272 +201,256 @@ class _AuthorScreenState extends State<AuthorScreen> {
             //! MAIN CONTENT
             Container(
               margin: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom * 0.5),
-              child: Positioned(
-                top: Get.height * 0.35,
-                right: Get.width * 0.15,
-                left: Get.width * 0.15,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 80),
-                  child: ListView(
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(width: Get.width),
-                      // Image.asset(
-                      //   "assets/images/auth_images/signup_author_icon.png",
-                      //   height: 100,
-                      // ),
-                      Stack(
-                        alignment: Alignment.topCenter,
-                        children: [
-                          // Image.asset('assets/images/auth_images/signup_author_icon.png'),
-                          Container(
-                            width: Get.width,
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 80, left: 20, right: 20),
+                child: ListView(
+                  // shrinkWrap: true,
+                  // physics: NeverScrollableScrollPhysics(),
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(width: Get.width),
+                    Stack(
+                      alignment: Alignment.topCenter,
+                      children: [
+                        Container(
+                          width: Get.width,
+                          height: 130,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          child: Container(
                             height: 130,
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            child: Container(
-                              height: 130,
-                              width: 130,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                                border: image == null
-                                    ? null
-                                    : Border.all(color: Colors.black, width: 5),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(130),
-                                child: image != null
-                                    ? Image.file(
-                                        image!,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        "assets/images/auth_images/signup_author_icon.png"),
+                            width: 130,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                              border: image == null
+                                  ? null
+                                  : Border.all(color: Colors.black, width: 5),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(130),
+                              child: image != null
+                                  ? Image.file(
+                                      image!,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      "assets/images/auth_images/signup_author_icon.png"),
 
-                                // image == null
-                                //     ? Image.asset(
-                                //         "assets/images/auth_images/signup_author_icon.png")
-                                //     : NetworkImageWidget(
-                                //         //! MAIN IMAGE
-                                //         imageUrl:
-                                //             "assets/images/auth_images/signup_author_icon.png",
-                                //       ),
-                              ),
+                              // image == null
+                              //     ? Image.asset(
+                              //         "assets/images/auth_images/signup_author_icon.png")
+                              //     : NetworkImageWidget(
+                              //         //! MAIN IMAGE
+                              //         imageUrl:
+                              //             "assets/images/auth_images/signup_author_icon.png",
+                              //       ),
                             ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: -80,
-                            child: GestureDetector(
-                              onTap: () {
-                                // pickImage(ImageSource.camera);
-                                showModalBottomSheet(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(6))),
-                                  backgroundColor: Colors.white,
-                                  context: context,
-                                  builder: (context) {
-                                    return Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SizedBox(height: 20),
-                                        IntrinsicHeight(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      pickImage(
-                                                          ImageSource.camera);
-                                                      Get.back();
-                                                    },
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8),
-                                                      height: 42,
-                                                      width: 42,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        // gradient: const LinearGradient(
-                                                        //     colors: gradientColors),
-                                                        border: Border.all(
-                                                            color: Colors.grey,
-                                                            width: 3),
-                                                      ),
-                                                      child: Image.asset(
-                                                          "assets/images/auth_images/camera.png"),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 10),
-                                                  Text(
-                                                    "CAMERA",
-                                                    style: TextStyle().copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              VerticalDivider(
-                                                color: Colors.grey,
-                                                thickness: 2,
-                                              ),
-                                              Column(
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      pickImage(
-                                                          ImageSource.gallery);
-                                                      Get.back();
-                                                    },
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8),
-                                                      height: 42,
-                                                      width: 42,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        // gradient: const LinearGradient(
-                                                        //     colors: gradientColors),
-                                                        border: Border.all(
-                                                            color: Colors.grey,
-                                                            width: 3),
-                                                      ),
-                                                      child: Image.asset(
-                                                          "assets/images/auth_images/galery.png"),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 10),
-                                                  Text(
-                                                    "GALLERY",
-                                                    style: TextStyle().copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        )
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                height: 42,
-                                width: 42,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                  border:
-                                      Border.all(color: Colors.black, width: 3),
-                                ),
-                                child: Image.asset(
-                                    "assets/images/auth_images/camera.png"),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 10),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Business type",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w900),
                           ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: -80,
+                          child: GestureDetector(
                             onTap: () {
-                              authController.selectdedbussinessType.value =
-                                  "ind";
-                            },
-                            child: Obx(
-                              () =>
-                                  authController.selectdedbussinessType.value ==
-                                          "ind"
-                                      ? Image.asset(
-                                          "assets/images/auth_images/selectiondot_green_full.png",
-                                          height: 20,
-                                        )
-                                      : Image.asset(
-                                          "assets/images/auth_images/selectiondot_green_empty.png",
-                                          height: 20,
+                              // pickImage(ImageSource.camera);
+                              showModalBottomSheet(
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(6))),
+                                backgroundColor: Colors.white,
+                                context: context,
+                                builder: (context) {
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(height: 20),
+                                      IntrinsicHeight(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    pickImage(
+                                                        ImageSource.camera);
+                                                    Get.back();
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(8),
+                                                    height: 42,
+                                                    width: 42,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      // gradient: const LinearGradient(
+                                                      //     colors: gradientColors),
+                                                      border: Border.all(
+                                                          color: Colors.grey,
+                                                          width: 3),
+                                                    ),
+                                                    child: Image.asset(
+                                                        "assets/images/auth_images/camera.png"),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Text(
+                                                  "CAMERA",
+                                                  style: TextStyle().copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            VerticalDivider(
+                                              color: Colors.grey,
+                                              thickness: 2,
+                                            ),
+                                            Column(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    pickImage(
+                                                        ImageSource.gallery);
+                                                    Get.back();
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(8),
+                                                    height: 42,
+                                                    width: 42,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      // gradient: const LinearGradient(
+                                                      //     colors: gradientColors),
+                                                      border: Border.all(
+                                                          color: Colors.grey,
+                                                          width: 3),
+                                                    ),
+                                                    child: Image.asset(
+                                                        "assets/images/auth_images/galery.png"),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Text(
+                                                  "GALLERY",
+                                                  style: TextStyle().copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              height: 42,
+                              width: 42,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                border:
+                                    Border.all(color: Colors.black, width: 3),
+                              ),
+                              child: Image.asset(
+                                  "assets/images/auth_images/camera.png"),
                             ),
                           ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "Individual",
-                            style: TextStyle(
-                                fontSize: 12, fontFamily: 'Proxima Nova Bold'),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              authController.selectdedbussinessType.value =
-                                  "cop";
-                            },
-                            child: Obx(
-                              () =>
-                                  authController.selectdedbussinessType.value !=
-                                          "ind"
-                                      ? Image.asset(
-                                          "assets/images/auth_images/selectiondot_green_full.png",
-                                          height: 20,
-                                        )
-                                      : Image.asset(
-                                          "assets/images/auth_images/selectiondot_green_empty.png",
-                                          height: 20,
-                                        ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "Corporation",
-                            style: TextStyle(
-                                fontSize: 12, fontFamily: 'Proxima Nova Bold'),
-                          ),
-                        ],
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Business type",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w900),
+                        ),
                       ),
-                      Obx(
-                        () => (authController.selectdedbussinessType.value ==
-                                "ind")
-                            ? IndividualsUiWidgets(
-                                authorImageFile: image,
-                              )
-                            : CorporationWidget(),
-                      ),
-                    ],
-                  ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            authController.selectdedbussinessType.value = "ind";
+                          },
+                          child: Obx(
+                            () => authController.selectdedbussinessType.value ==
+                                    "ind"
+                                ? Image.asset(
+                                    "assets/images/auth_images/selectiondot_green_full.png",
+                                    height: 20,
+                                  )
+                                : Image.asset(
+                                    "assets/images/auth_images/selectiondot_green_empty.png",
+                                    height: 20,
+                                  ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Individual",
+                          style: TextStyle(
+                              fontSize: 12, fontFamily: 'Proxima Nova Bold'),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            authController.selectdedbussinessType.value = "cop";
+                          },
+                          child: Obx(
+                            () => authController.selectdedbussinessType.value !=
+                                    "ind"
+                                ? Image.asset(
+                                    "assets/images/auth_images/selectiondot_green_full.png",
+                                    height: 20,
+                                  )
+                                : Image.asset(
+                                    "assets/images/auth_images/selectiondot_green_empty.png",
+                                    height: 20,
+                                  ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Corporation",
+                          style: TextStyle(
+                              fontSize: 12, fontFamily: 'Proxima Nova Bold'),
+                        ),
+                      ],
+                    ),
+                    Obx(
+                      () =>
+                          (authController.selectdedbussinessType.value == "ind")
+                              ? IndividualsUiWidgets(
+                                  authorImageFile: image,
+                                )
+                              : CorporationWidget(),
+                    ),
+                  ],
                 ),
               ),
             ),

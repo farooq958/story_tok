@@ -255,7 +255,9 @@ class _ChildScreenState extends State<ChildScreen> {
                               getStorage!.write("selected_avtar_Pheer_Profile",
                                   authController.selectedCheerCartoon.value);
                               Get.snackbar("Selected",
-                                  "Image has been selected successfully.");
+                                  "Image has been selected successfully.",
+                                  backgroundColor:
+                                      Colors.green.withOpacity(0.5));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10),
@@ -291,7 +293,9 @@ class _ChildScreenState extends State<ChildScreen> {
                       (index) => InkWell(
                             onTap: () {
                               Get.snackbar("Selected",
-                                  "Level ${index + 1} has been selected successfully.");
+                                  "Level ${index + 1} has been selected successfully.",
+                                  backgroundColor:
+                                      Colors.green.withOpacity(0.5));
                               authController.slectedLevel.value = index + 1;
                               log("selectde level ${authController.slectedLevel.value}");
                               getStorage!.write("selectedLevel",
@@ -311,12 +315,19 @@ class _ChildScreenState extends State<ChildScreen> {
                   GestureDetector(
                     onTap: () async {
                       log(getStorage!.read("signup_Email"));
-                      await AuthenticationHelper().signupUser(
+                      await AuthenticationHelper()
+                          .signupUser(
                         signUpType: "child",
                         context: context,
                         signupEmail: getStorage!.read("signup_Email"),
                         signupPassword: getStorage!.read("signup_Password"),
-                      );
+                      )
+                          .whenComplete(() {
+                        log("WHEN COMPLETED");
+                        authController.clearAllController();
+                        getStorage!.erase();
+                      });
+                      ;
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(

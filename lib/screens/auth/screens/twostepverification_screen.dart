@@ -7,10 +7,13 @@ import 'package:storily/components/validator.dart';
 import 'package:storily/main.dart';
 import 'package:storily/screens/auth/auth_controller.dart/auth_controller.dart';
 import 'package:storily/screens/auth/helpers/authentication_helper.dart';
+import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
 import 'package:storily/screens/auth/screens/otpverification_screen.dart';
 
 class TwoStepVerification extends StatefulWidget {
-  const TwoStepVerification({Key? key}) : super(key: key);
+  TwoStepVerification({Key? key, required this.fromLogin}) : super(key: key);
+
+  bool fromLogin;
 
   @override
   State<TwoStepVerification> createState() => _TwoStepVerificationState();
@@ -183,15 +186,15 @@ class _TwoStepVerificationState extends State<TwoStepVerification> {
             ),
 
             //! MAIN CONTENT
-            Container(
-              margin: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom * 0.5),
-              child: Positioned(
-                top: Get.height * 0.35,
-                right: Get.width * 0.15,
-                left: Get.width * 0.15,
+            Positioned(
+              right: Get.width * 0.15,
+              left: Get.width * 0.15,
+              bottom: Get.height * 0.25,
+              child: Container(
+                margin: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom * 0.3),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: Form(
                     key: twoStepKey,
                     child: Column(
@@ -231,132 +234,138 @@ class _TwoStepVerificationState extends State<TwoStepVerification> {
                         SizedBox(
                           height: 5,
                         ),
-                        Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                showCountryPicker(
-                                  context: context,
-                                  countryListTheme: CountryListThemeData(
-                                    flagSize: 25,
-                                    backgroundColor: Colors.white,
-                                    textStyle: TextStyle(
-                                        fontSize: 16, color: Colors.blueGrey),
-                                    bottomSheetHeight:
-                                        500, // Optional. Country list modal height
-                                    //Optional. Sets the border radius for the bottomsheet.
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20.0),
-                                      topRight: Radius.circular(20.0),
-                                    ),
-                                    //Optional. Styles the search field.
-                                    inputDecoration: InputDecoration(
-                                      labelText: 'Search',
-                                      hintText: 'Start typing to search',
-                                      prefixIcon: const Icon(Icons.search),
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: const Color(0xFF8C98A8)
-                                              .withOpacity(0.2),
+                        IntrinsicHeight(
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  showCountryPicker(
+                                    context: context,
+                                    countryListTheme: CountryListThemeData(
+                                      flagSize: 25,
+                                      backgroundColor: Colors.white,
+                                      textStyle: TextStyle(
+                                          fontSize: 16, color: Colors.blueGrey),
+                                      bottomSheetHeight:
+                                          500, // Optional. Country list modal height
+                                      //Optional. Sets the border radius for the bottomsheet.
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20.0),
+                                        topRight: Radius.circular(20.0),
+                                      ),
+
+                                      //Optional. Styles the search field.
+                                      inputDecoration: InputDecoration(
+                                        labelText: 'Search',
+                                        hintText: 'Start typing to search',
+                                        prefixIcon: const Icon(Icons.search),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: const Color(0xFF8C98A8)
+                                                .withOpacity(0.2),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  onSelect: (Country country) {
-                                    authController.selectedCountryPhoneCode
-                                        .value = country.phoneCode;
-                                    authController.selectedCountyCode.value =
-                                        country.countryCode;
-                                  },
-                                );
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                width: 80,
-                                height: 30,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Obx(
-                                        () => Text(
-                                          "${authController.selectedCountyCode.value} + ${authController.selectedCountryPhoneCode.value}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w900,
-                                              fontSize: 12),
-                                        ),
-                                      ),
-                                    ),
-                                    Image.asset(
-                                      "assets/images/auth_images/down_arrow_icon.png",
-                                      height: 5,
-                                    ),
-                                  ],
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.withOpacity(.1),
-                                  borderRadius: BorderRadius.circular(7),
-                                  border:
-                                      Border.all(color: Colors.black, width: 3),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: (value) {
-                                  log("CHecl");
-                                  return Validators.validateContact(value!);
+                                    onSelect: (Country country) {
+                                      authController.selectedCountryName.value =
+                                          country.displayNameNoCountryCode;
+                                      authController.selectedCountryPhoneCode
+                                          .value = country.phoneCode;
+                                      authController.selectedCountyCode.value =
+                                          country.countryCode;
+                                    },
+                                  );
                                 },
-                                controller: authController.mobileController,
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  fillColor: Colors.grey.withOpacity(.1),
-                                  filled: true,
-                                  errorStyle: const TextStyle(fontSize: 10),
-                                  isCollapsed: true,
-                                  // constraints: BoxConstraints(maxHeight: 30, minHeight: 30),
-                                  border: OutlineInputBorder(),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: BorderSide(
-                                          color: Colors.black, width: 2)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.black, width: 2)),
-                                  errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.red, width: 2)),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.red, width: 2)),
-                                  hintText: "Enter your mobile number",
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 7, horizontal: 10),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  width: 80,
+                                  height: 30,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Obx(
+                                          () => Text(
+                                            "${authController.selectedCountyCode.value} + ${authController.selectedCountryPhoneCode.value}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w900,
+                                                fontSize: 12),
+                                          ),
+                                        ),
+                                      ),
+                                      Image.asset(
+                                        "assets/images/auth_images/down_arrow_icon.png",
+                                        height: 5,
+                                      ),
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.withOpacity(.1),
+                                    borderRadius: BorderRadius.circular(7),
+                                    border: Border.all(
+                                        color: Colors.black, width: 3),
+                                  ),
                                 ),
-                                cursorColor: Colors.black,
-                                maxLines: 1,
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w900),
                               ),
-                              // Container(
-                              //   alignment: Alignment.center,
-                              //   // width: 180,
-                              //   height: 30,
-                              //   padding: EdgeInsets.symmetric(horizontal: 10),
-                              //   child:
-                              //   decoration: BoxDecoration(
-                              //       color: Colors.grey.withOpacity(.1),
-                              //       borderRadius: BorderRadius.circular(7),
-                              //       border: Border.all(color: Colors.black, width: 3)),
-                              // ),
-                            ),
-                          ],
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: (value) {
+                                    log("CHecl");
+                                    return Validators.validateContact(value!);
+                                  },
+                                  controller: authController.mobileController,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.grey.withOpacity(.1),
+                                    filled: true,
+                                    errorStyle: const TextStyle(fontSize: 10),
+                                    isCollapsed: true,
+                                    // constraints: BoxConstraints(maxHeight: 30, minHeight: 30),
+                                    border: OutlineInputBorder(),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(7),
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 2)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 2)),
+                                    errorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.red, width: 2)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.red, width: 2)),
+                                    hintText: "Enter your mobile number",
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 7, horizontal: 10),
+                                  ),
+                                  cursorColor: Colors.black,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w900),
+                                ),
+                                // Container(
+                                //   alignment: Alignment.center,
+                                //   // width: 180,
+                                //   height: 30,
+                                //   padding: EdgeInsets.symmetric(horizontal: 10),
+                                //   child:
+                                //   decoration: BoxDecoration(
+                                //       color: Colors.grey.withOpacity(.1),
+                                //       borderRadius: BorderRadius.circular(7),
+                                //       border: Border.all(color: Colors.black, width: 3)),
+                                // ),
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 5,
@@ -379,11 +388,12 @@ class _TwoStepVerificationState extends State<TwoStepVerification> {
                               //     authController.selectedCountryPhoneCode.value +
                               //     authController.mobileController.text);
 
-                              AuthenticationHelper().sendOTP(
-                                  "+${authController.selectedCountryPhoneCode.value + " " + authController.mobileController.text}",
-                                  context);
                               getStorage!.write("phone",
                                   authController.mobileController.text);
+                              AuthenticationHelper().sendOTP(
+                                  "+${authController.selectedCountryPhoneCode.value + " " + authController.mobileController.text}",
+                                  context,
+                                  false);
                             }
                           },
                           child: Padding(

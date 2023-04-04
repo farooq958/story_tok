@@ -7,6 +7,8 @@ import 'package:storily/components/validator.dart';
 import 'package:storily/main.dart';
 import 'package:storily/screens/auth/auth_controller.dart/auth_controller.dart';
 import 'package:storily/screens/auth/helpers/authentication_helper.dart';
+import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
+import 'package:storily/screens/auth/screens/otpverification_screen.dart';
 import 'package:storily/screens/auth/screens/twostepverification_screen.dart';
 
 class SignUpUIWidget extends StatefulWidget {

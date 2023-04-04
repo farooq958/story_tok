@@ -137,7 +137,10 @@ class AuthController extends GetxController {
     log("3");
     getStorage!.write("signup_Password", signuppasswordController.text);
     log("4");
-    await Get.to(() => TwoStepVerification());
+    await Get.to(() => TwoStepVerification(
+          fromLogin: false,
+        ));
+
     log("5");
   }
 
@@ -284,4 +287,22 @@ class AuthController extends GetxController {
       Color: Colors.yellow
     }
   ];
+
+  clearAllController() {
+    signupEmailController.clear();
+    signupNameController.clear();
+    signuppasswordController.clear();
+    loginEmailController.clear();
+    loginPasswordController.clear();
+    mobileController.clear();
+    phoneController.clear();
+    otpController.clear();
+    individualsFielsList.forEach((e) {
+      e["textController"].clear();
+    });
+    corporateFielsList.forEach((e) {
+      e["textController"].clear();
+    });
+    postalCodeController.clear();
+  }
 }

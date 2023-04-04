@@ -7,7 +7,9 @@ import 'package:storily/screens/auth/helpers/authentication_helper.dart';
 import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({Key? key}) : super(key: key);
+  OtpVerificationScreen({Key? key, this.fromLogin}) : super(key: key);
+
+  bool? fromLogin;
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -177,107 +179,109 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             ),
 
             //! MAIN CONTENT
-            Container(
-              margin: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom * 0.5),
-              child: Positioned(
-                top: Get.height * 0.35,
-                right: Get.width * 0.15,
-                left: Get.width * 0.15,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        "assets/images/auth_images/twostepverification_Text.png",
-                        width: Get.width,
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        "Enter the phone number where you would like to receive one time password\n(OTP).",
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w900),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "Enter OTP",
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w900),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        child: Pinput(
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          // validator: (val) {
-                          //   return Validators.validateDigits(val!, "OTP", 6);
-                          // },
-                          length: 6,
-                          controller: authController.otpController,
-                          defaultPinTheme: PinTheme(
-                            textStyle: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black),
-                            margin: EdgeInsets.only(right: 1.5, left: 1.5),
-                            height: 40,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.black.withOpacity(0.5),
-                                  width: 1),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
+            Positioned(
+              // top: Get.height * 0.35,
+              right: Get.width * 0.15,
+              left: Get.width * 0.15,
+              bottom: Get.height * 0.25,
+              child: Container(
+                margin: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom * 0.3),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      "assets/images/auth_images/twostepverification_Text.png",
+                      width: Get.width,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "Enter the phone number where you would like to receive one time password\n(OTP).",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w900),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "Enter OTP",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w900),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      child: Pinput(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        // validator: (val) {
+                        //   return Validators.validateDigits(val!, "OTP", 6);
+                        // },
+                        length: 6,
+                        controller: authController.otpController,
+                        defaultPinTheme: PinTheme(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w700, color: Colors.black),
+                          margin: EdgeInsets.only(right: 1.5, left: 1.5),
+                          height: 40,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.black.withOpacity(0.5), width: 1),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            AuthenticationHelper().sendOTP(
-                                "+${authController.selectedCountryPhoneCode.value + " " + authController.mobileController.text}",
-                                context);
-                          },
-                          child: Text(
-                            "Resend Otp",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w900),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        "Message and data rates may apply.",
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.w900),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      GestureDetector(
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "Message and data rates may apply.",
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: GestureDetector(
                         onTap: () {
-                          AuthenticationHelper().verifyOTP(
-                              authController.otpController.text, context);
+                          AuthenticationHelper().sendOTP(
+                              "+${authController.selectedCountryPhoneCode.value + " " + authController.mobileController.text}",
+                              context,
+                              false);
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Image.asset(
-                              "assets/images/auth_images/standalone_green_continue.png"),
+                        child: Text(
+                          "Resend Otp",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w900),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        AuthenticationHelper().verifyOTP(
+                            authController.otpController.text,
+                            context,
+                            widget.fromLogin!);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Image.asset(
+                            "assets/images/auth_images/standalone_green_continue.png"),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
