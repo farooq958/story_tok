@@ -65,6 +65,20 @@ class _HomeState extends State<Home> {
   late QuerySnapshot querySnapshotFavBooks;
   var favBooksLists = [];
 
+//Animation for kids progress
+
+  double books_read_plan_height = 430.0;
+  double current_books_read_plan_height = 430.0;
+  bool isShowBookRead = false;
+
+  double problem_solved_plan_height = 440.0;
+  double current_problem_solved_plan_height = 440.0;
+  bool isShowProblemSolved = false;
+
+  double day_streak_plan_height = 470.0;
+  double current_day_streak_plan_height = 470.0;
+  bool isShowDayStreak = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -119,6 +133,26 @@ class _HomeState extends State<Home> {
               day_steak += arrayAggregation[0]['books_read'];
               display_day_steak = (day_steak.toInt()).toString();
             }
+//Calculation for animation for day streak progress
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              double avg_day_streak = 0.0;
+              avg_day_streak = (day_streak_plan_height * day_steak) / 100;
+              current_day_streak_plan_height =
+                  day_streak_plan_height - avg_day_streak;
+              print('##### TOTAL HEIGHT day_streak $day_streak_plan_height');
+              print(
+                  '##### CURRENT HEIGHT day_streak $current_day_streak_plan_height');
+
+              setState(() {
+                current_day_streak_plan_height;
+              });
+              Future.delayed(const Duration(milliseconds: 1000), () {
+                isShowDayStreak = true;
+                setState(() {
+                  isShowDayStreak;
+                });
+              });
+            });
 
             for (int j = 0; j < inProgressAchievedLists.length; j++) {
               if (inProgressAchievedLists[j]['name'] == 'day streak') {
@@ -170,6 +204,28 @@ class _HomeState extends State<Home> {
               problem_solved += arrayAggregation[0]['books_read'];
               display_problem_solved = (problem_solved.toInt()).toString();
             }
+//Calculation for animation for problem solved progress
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              double avg_problem_solved = 0.0;
+              avg_problem_solved =
+                  (problem_solved_plan_height * problem_solved) / 100;
+              current_problem_solved_plan_height =
+                  problem_solved_plan_height - avg_problem_solved;
+              print(
+                  '##### TOTAL HEIGHT problem_solved $problem_solved_plan_height');
+              print(
+                  '##### CURRENT HEIGHT problem_solved $current_problem_solved_plan_height');
+
+              setState(() {
+                current_problem_solved_plan_height;
+              });
+              Future.delayed(const Duration(milliseconds: 1000), () {
+                isShowProblemSolved = true;
+                setState(() {
+                  isShowProblemSolved;
+                });
+              });
+            });
 
             for (int j = 0; j < inProgressAchievedLists.length; j++) {
               if (inProgressAchievedLists[j]['name'] == 'problems solved') {
@@ -221,6 +277,26 @@ class _HomeState extends State<Home> {
               books_read += arrayAggregation[0]['books_read'];
               display_books_read = (books_read.toInt()).toString();
             }
+//Calculation for animation for books read progress
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              double avg_books_read = 0.0;
+              avg_books_read = (books_read_plan_height * books_read) / 100;
+              current_books_read_plan_height =
+                  books_read_plan_height - avg_books_read;
+              print('##### TOTAL HEIGHT $books_read_plan_height');
+              print('##### CURRENT HEIGHT $current_books_read_plan_height');
+
+              setState(() {
+                current_books_read_plan_height;
+              });
+              Future.delayed(const Duration(milliseconds: 1000), () {
+                isShowBookRead = true;
+                setState(() {
+                  isShowBookRead;
+                });
+              });
+            });
+
             for (int j = 0; j < inProgressAchievedLists.length; j++) {
               if (inProgressAchievedLists[j]['name'] == 'books read') {
                 level_amount_books_read +=
@@ -522,7 +598,7 @@ class _HomeState extends State<Home> {
                         // left: MediaQuery.of(context).size.width / 2 - 100,
                         top: 2,
                         child: Container(
-                          width: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width - 40,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -580,564 +656,1735 @@ class _HomeState extends State<Home> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: first_char_level_amount_books_read ==
-                                            '1'
-                                        ? Image.asset(
-                                            'assets/images/home/numbers/blue/1_blue.png')
-                                        : first_char_level_amount_books_read ==
-                                                '2'
-                                            ? Image.asset(
-                                                'assets/images/home/numbers/blue/2_blue.png')
-                                            : first_char_level_amount_books_read ==
-                                                    '3'
-                                                ? Image.asset(
-                                                    'assets/images/home/numbers/blue/3_blue.png')
-                                                : first_char_level_amount_books_read ==
-                                                        '4'
-                                                    ? Image.asset(
-                                                        'assets/images/home/numbers/blue/4_blue.png')
-                                                    : first_char_level_amount_books_read ==
-                                                            '5'
-                                                        ? Image.asset(
-                                                            'assets/images/home/numbers/blue/5_blue.png')
-                                                        : first_char_level_amount_books_read ==
-                                                                '6'
-                                                            ? Image.asset(
-                                                                'assets/images/home/numbers/blue/6_blue.png')
-                                                            : first_char_level_amount_books_read ==
-                                                                    '7'
-                                                                ? Image.asset(
-                                                                    'assets/images/home/numbers/blue/7_blue.png')
-                                                                : first_char_level_amount_books_read ==
-                                                                        '8'
-                                                                    ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/8_blue.png')
-                                                                    : first_char_level_amount_books_read ==
-                                                                            '9'
-                                                                        ? Image.asset(
-                                                                            'assets/images/home/numbers/blue/9_blue.png')
-                                                                        : first_char_level_amount_books_read ==
-                                                                                '0'
-                                                                            ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                                            : SizedBox()),
-                                Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: second_char_level_amount_books_read ==
-                                            '1'
-                                        ? Image.asset(
-                                            'assets/images/home/numbers/blue/1_blue.png')
-                                        : second_char_level_amount_books_read ==
-                                                '2'
-                                            ? Image.asset(
-                                                'assets/images/home/numbers/blue/2_blue.png')
-                                            : second_char_level_amount_books_read ==
-                                                    '3'
-                                                ? Image.asset(
-                                                    'assets/images/home/numbers/blue/3_blue.png')
-                                                : second_char_level_amount_books_read ==
-                                                        '4'
-                                                    ? Image.asset(
-                                                        'assets/images/home/numbers/blue/4_blue.png')
-                                                    : second_char_level_amount_books_read ==
-                                                            '5'
-                                                        ? Image.asset(
-                                                            'assets/images/home/numbers/blue/5_blue.png')
-                                                        : second_char_level_amount_books_read ==
-                                                                '6'
-                                                            ? Image.asset(
-                                                                'assets/images/home/numbers/blue/6_blue.png')
-                                                            : second_char_level_amount_books_read ==
-                                                                    '7'
-                                                                ? Image.asset(
-                                                                    'assets/images/home/numbers/blue/7_blue.png')
-                                                                : second_char_level_amount_books_read ==
-                                                                        '8'
-                                                                    ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/8_blue.png')
-                                                                    : second_char_level_amount_books_read ==
-                                                                            '9'
-                                                                        ? Image.asset(
-                                                                            'assets/images/home/numbers/blue/9_blue.png')
-                                                                        : second_char_level_amount_books_read ==
-                                                                                '0'
-                                                                            ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                                            : SizedBox()),
-                                Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: third_char_level_amount_books_read ==
-                                            '1'
-                                        ? Image.asset(
-                                            'assets/images/home/numbers/blue/1_blue.png')
-                                        : third_char_level_amount_books_read ==
-                                                '2'
-                                            ? Image.asset(
-                                                'assets/images/home/numbers/blue/2_blue.png')
-                                            : third_char_level_amount_books_read ==
-                                                    '3'
-                                                ? Image.asset(
-                                                    'assets/images/home/numbers/blue/3_blue.png')
-                                                : third_char_level_amount_books_read ==
-                                                        '4'
-                                                    ? Image.asset(
-                                                        'assets/images/home/numbers/blue/4_blue.png')
-                                                    : third_char_level_amount_books_read ==
-                                                            '5'
-                                                        ? Image.asset(
-                                                            'assets/images/home/numbers/blue/5_blue.png')
-                                                        : third_char_level_amount_books_read ==
-                                                                '6'
-                                                            ? Image.asset(
-                                                                'assets/images/home/numbers/blue/6_blue.png')
-                                                            : third_char_level_amount_books_read ==
-                                                                    '7'
-                                                                ? Image.asset(
-                                                                    'assets/images/home/numbers/blue/7_blue.png')
-                                                                : third_char_level_amount_books_read ==
-                                                                        '8'
-                                                                    ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/8_blue.png')
-                                                                    : third_char_level_amount_books_read ==
-                                                                            '9'
-                                                                        ? Image.asset(
-                                                                            'assets/images/home/numbers/blue/9_blue.png')
-                                                                        : third_char_level_amount_books_read ==
-                                                                                '0'
-                                                                            ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                                            : SizedBox()),
-                              ],
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 5.0, right: 20.0),
-                              child: RotatedBox(
-                                quarterTurns: -1,
-                                child: LinearPercentIndicator(
-                                  width: 240.0,
-                                  lineHeight: 24.0,
-                                  barRadius: Radius.circular(10.0),
-                                  percent: books_read / 100,
-                                  // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
-                                  // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
-                                  backgroundColor: books_read_bgcolor != ''
-                                      ? HexColor(books_read_bgcolor)
-                                          .withOpacity(0.1)
-                                      : Colors
-                                          .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
-                                  progressColor: books_read_bgcolor != ''
-                                      ? HexColor(books_read_bgcolor)
-                                          .withOpacity(1.0)
-                                      : Colors
-                                          .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 5.0, bottom: 10.0, right: 20),
-                              child: Column(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 350,
+                      child: Stack(
+                        //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Positioned(
+                            left: 10,
+                            child: isShowBookRead
+                                ? Container(
+                                    height: 330,
+                                    child: Stack(children: [
+                                      Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Stack(
+                                                children:[
+                                                  isShowBookRead? Container(
+                                                      height: 40,
+                                                      width: 30,
+                                                      child: Image.asset(
+                                                          'assets/images/home/numbers_purple_stars_L.png')):SizedBox(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:20.0,left: 20.0),
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: first_char_level_amount_books_read ==
+                                                              '1'
+                                                          ? Image.asset(
+                                                              'assets/images/home/numbers/blue/1_blue.png')
+                                                          : first_char_level_amount_books_read ==
+                                                                  '2'
+                                                              ? Image.asset(
+                                                                  'assets/images/home/numbers/blue/2_blue.png')
+                                                              : first_char_level_amount_books_read ==
+                                                                      '3'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/blue/3_blue.png')
+                                                                  : first_char_level_amount_books_read ==
+                                                                          '4'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/blue/4_blue.png')
+                                                                      : first_char_level_amount_books_read ==
+                                                                              '5'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/blue/5_blue.png')
+                                                                          : first_char_level_amount_books_read ==
+                                                                                  '6'
+                                                                              ? Image.asset(
+                                                                                  'assets/images/home/numbers/blue/6_blue.png')
+                                                                              : first_char_level_amount_books_read == '7'
+                                                                                  ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                                                  : first_char_level_amount_books_read == '8'
+                                                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                                                      : first_char_level_amount_books_read == '9'
+                                                                                          ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                                                          : first_char_level_amount_books_read == '0'
+                                                                                              ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                                                              : SizedBox()),
+                                                  ),
+                                              ]),
+                                              Stack(
+                                                children:[
+                                                  isShowBookRead && third_char_level_amount_books_read == ''? Padding(
+                                                    padding: const EdgeInsets.only(left:20.0),
+                                                    child: Container(
+                                                        height: 40,
+                                                        width: 30,
+                                                        child: Image.asset(
+                                                            'assets/images/home/numbers_purple_stars_R.png')),
+                                                  ):SizedBox(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:20.0),
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: second_char_level_amount_books_read ==
+                                                              '1'
+                                                          ? Image.asset(
+                                                              'assets/images/home/numbers/blue/1_blue.png')
+                                                          : second_char_level_amount_books_read ==
+                                                                  '2'
+                                                              ? Image.asset(
+                                                                  'assets/images/home/numbers/blue/2_blue.png')
+                                                              : second_char_level_amount_books_read ==
+                                                                      '3'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/blue/3_blue.png')
+                                                                  : second_char_level_amount_books_read ==
+                                                                          '4'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/blue/4_blue.png')
+                                                                      : second_char_level_amount_books_read ==
+                                                                              '5'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/blue/5_blue.png')
+                                                                          : second_char_level_amount_books_read ==
+                                                                                  '6'
+                                                                              ? Image.asset(
+                                                                                  'assets/images/home/numbers/blue/6_blue.png')
+                                                                              : second_char_level_amount_books_read == '7'
+                                                                                  ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                                                  : second_char_level_amount_books_read == '8'
+                                                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                                                      : second_char_level_amount_books_read == '9'
+                                                                                          ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                                                          : second_char_level_amount_books_read == '0'
+                                                                                              ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                                                              : SizedBox()),
+                                                  ),
+                                             ] ),
+                                              Stack(
+                                                children:[
+                                                  isShowBookRead && third_char_level_amount_books_read != ''? Padding(
+                                                    padding: const EdgeInsets.only(left:20.0),
+                                                    child: Container(
+                                                        height: 40,
+                                                        width: 30,
+                                                        child: Image.asset(
+                                                            'assets/images/home/numbers_purple_stars_R.png')),
+                                                  ):SizedBox(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:20.0),
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: third_char_level_amount_books_read ==
+                                                              '1'
+                                                          ? Image.asset(
+                                                              'assets/images/home/numbers/blue/1_blue.png')
+                                                          : third_char_level_amount_books_read ==
+                                                                  '2'
+                                                              ? Image.asset(
+                                                                  'assets/images/home/numbers/blue/2_blue.png')
+                                                              : third_char_level_amount_books_read ==
+                                                                      '3'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/blue/3_blue.png')
+                                                                  : third_char_level_amount_books_read ==
+                                                                          '4'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/blue/4_blue.png')
+                                                                      : third_char_level_amount_books_read ==
+                                                                              '5'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/blue/5_blue.png')
+                                                                          : third_char_level_amount_books_read ==
+                                                                                  '6'
+                                                                              ? Image.asset(
+                                                                                  'assets/images/home/numbers/blue/6_blue.png')
+                                                                              : third_char_level_amount_books_read == '7'
+                                                                                  ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                                                  : third_char_level_amount_books_read == '8'
+                                                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                                                      : third_char_level_amount_books_read == '9'
+                                                                                          ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                                                          : third_char_level_amount_books_read == '0'
+                                                                                              ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                                                              : SizedBox()),
+                                                  ),
+                                              ]),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0, right: 0.0),
+                                            child: Stack(children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0),
+                                                child: RotatedBox(
+                                                  quarterTurns: -1,
+                                                  child: LinearPercentIndicator(
+                                                    width: 240.0,
+                                                    lineHeight: 24.0,
+                                                    barRadius:
+                                                        Radius.circular(10.0),
+                                                    percent: books_read / 100,
+                                                    // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                                                    // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                                                    backgroundColor:
+                                                        books_read_bgcolor != ''
+                                                            ? HexColor(
+                                                                    books_read_bgcolor)
+                                                                .withOpacity(
+                                                                    0.1)
+                                                            : Colors
+                                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                                                    progressColor: books_read_bgcolor !=
+                                                            ''
+                                                        ? HexColor(
+                                                                books_read_bgcolor)
+                                                            .withOpacity(1.0)
+                                                        : Colors
+                                                            .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, left: 10.0),
+                                                child: RotatedBox(
+                                                  quarterTurns: -1,
+                                                  child: Container(
+                                                      width: 220.0,
+                                                      height: 26,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 3,
+                                                            color:
+                                                                Colors.black),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                      )),
+                                                ),
+                                              ),
+                                              // Padding(
+                                              //   padding: const EdgeInsets.only(left:3.0),
+                                              //   child: Container(
+                                              //     height: 80,
+                                              //     width: 40,
+                                              //     child: Image.asset(
+                                              //         'assets/images/home/Kids_progressbar_blueicon.png'),
+                                              //   ),
+                                              // ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 3.0),
+                                                child: AnimatedContainer(
+                                                  duration:
+                                                      Duration(seconds: 3),
+                                                  height:
+                                                      current_books_read_plan_height, //430
+                                                  width: 40,
+                                                  child: Image.asset(
+                                                      'assets/images/home/Kids_progressbar_blueicon.png'),
+                                                ),
+                                              ),
+                                            ]),
+                                          ),
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(
+                                          //       top: 5.0, bottom: 10.0, right: 20),
+                                          //   child: Column(
+                                          //     children: [
+                                          //       Text(display_books_read,
+                                          //           style: TextStyle(
+                                          //             color: books_read_bgcolor != ''
+                                          //                 ? HexColor(books_read_bgcolor)
+                                          //                     .withOpacity(1.0)
+                                          //                 : Colors
+                                          //                     .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                          //             fontWeight: FontWeight.w600,
+                                          //             fontSize: 28.0,
+                                          //           )),
+                                          //       Text("${books_read_name}!".toUpperCase(),
+                                          //           style: TextStyle(
+                                          //             color: Colors.black,
+                                          //             fontWeight: FontWeight.w700,
+                                          //             fontSize: 12.0,
+                                          //           ))
+                                          //     ],
+                                          //   ),
+                                          // ),
+                                        ],
+                                      ),
+                                      isShowBookRead
+                                          ? SizedBox(height: 10)
+                                          : SizedBox(),
+                                      isShowBookRead
+                                          ? Positioned(
+                                              left: 35,
+                                              bottom: 0,
+
+                                              child: Column(
+                                                children: [
+                                                  Text(display_books_read,
+                                                      style: TextStyle(
+                                                        color: books_read_bgcolor !=
+                                                                ''
+                                                            ? HexColor(
+                                                                    books_read_bgcolor)
+                                                                .withOpacity(
+                                                                    1.0)
+                                                            : Colors
+                                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 28.0,
+                                                      )),
+                                                  Text(
+                                                      "${books_read_name}!"
+                                                          .toUpperCase(),
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 9.0,
+                                                      ))
+                                                ],
+                                              ),
+                                            )
+                                          : SizedBox()
+                                    ]),
+                                  )
+                                : Stack(children: [
+                              Column(
                                 children: [
-                                  Text(display_books_read,
-                                      style: TextStyle(
-                                        color: books_read_bgcolor != ''
-                                            ? HexColor(books_read_bgcolor)
+                                  Row(
+                                    children: [
+                                      Stack(
+                                          children:[
+                                            isShowBookRead? Container(
+                                                height: 40,
+                                                width: 30,
+                                                child: Image.asset(
+                                                    'assets/images/home/numbers_purple_stars_L.png')):SizedBox(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top:20.0,left: 20.0),
+                                              child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: first_char_level_amount_books_read ==
+                                                      '1'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/1_blue.png')
+                                                      : first_char_level_amount_books_read ==
+                                                      '2'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/2_blue.png')
+                                                      : first_char_level_amount_books_read ==
+                                                      '3'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/3_blue.png')
+                                                      : first_char_level_amount_books_read ==
+                                                      '4'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/4_blue.png')
+                                                      : first_char_level_amount_books_read ==
+                                                      '5'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/5_blue.png')
+                                                      : first_char_level_amount_books_read ==
+                                                      '6'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/6_blue.png')
+                                                      : first_char_level_amount_books_read == '7'
+                                                      ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                      : first_char_level_amount_books_read == '8'
+                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                      : first_char_level_amount_books_read == '9'
+                                                      ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                      : first_char_level_amount_books_read == '0'
+                                                      ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                      : SizedBox()),
+                                            ),
+                                          ]),
+                                      Stack(
+                                          children:[
+                                            isShowBookRead && third_char_level_amount_books_read == ''? Container(
+                                                height: 40,
+                                                width: 30,
+                                                child: Image.asset(
+                                                    'assets/images/home/numbers_purple_stars_R.png')):SizedBox(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top:20.0),
+                                              child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: second_char_level_amount_books_read ==
+                                                      '1'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/1_blue.png')
+                                                      : second_char_level_amount_books_read ==
+                                                      '2'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/2_blue.png')
+                                                      : second_char_level_amount_books_read ==
+                                                      '3'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/3_blue.png')
+                                                      : second_char_level_amount_books_read ==
+                                                      '4'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/4_blue.png')
+                                                      : second_char_level_amount_books_read ==
+                                                      '5'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/5_blue.png')
+                                                      : second_char_level_amount_books_read ==
+                                                      '6'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/6_blue.png')
+                                                      : second_char_level_amount_books_read == '7'
+                                                      ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                      : second_char_level_amount_books_read == '8'
+                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                      : second_char_level_amount_books_read == '9'
+                                                      ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                      : second_char_level_amount_books_read == '0'
+                                                      ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                      : SizedBox()),
+                                            ),
+                                          ] ),
+                                      Stack(
+                                          children:[
+                                            isShowBookRead && third_char_level_amount_books_read != ''? Padding(
+                                              padding: const EdgeInsets.only(left:20.0),
+                                              child: Container(
+                                                  height: 40,
+                                                  width: 30,
+                                                  child: Image.asset(
+                                                      'assets/images/home/numbers_purple_stars_R.png')),
+                                            ):SizedBox(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top:20.0),
+                                              child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: third_char_level_amount_books_read ==
+                                                      '1'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/1_blue.png')
+                                                      : third_char_level_amount_books_read ==
+                                                      '2'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/2_blue.png')
+                                                      : third_char_level_amount_books_read ==
+                                                      '3'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/3_blue.png')
+                                                      : third_char_level_amount_books_read ==
+                                                      '4'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/4_blue.png')
+                                                      : third_char_level_amount_books_read ==
+                                                      '5'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/5_blue.png')
+                                                      : third_char_level_amount_books_read ==
+                                                      '6'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/blue/6_blue.png')
+                                                      : third_char_level_amount_books_read == '7'
+                                                      ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                      : third_char_level_amount_books_read == '8'
+                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                      : third_char_level_amount_books_read == '9'
+                                                      ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                      : third_char_level_amount_books_read == '0'
+                                                      ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                      : SizedBox()),
+                                            ),
+                                          ]),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5.0, right: 0.0),
+                                    child: Stack(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10.0),
+                                        child: RotatedBox(
+                                          quarterTurns: -1,
+                                          child: LinearPercentIndicator(
+                                            width: 240.0,
+                                            lineHeight: 24.0,
+                                            barRadius:
+                                            Radius.circular(10.0),
+                                            percent: books_read / 100,
+                                            // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                                            // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                                            backgroundColor:
+                                            books_read_bgcolor != ''
+                                                ? HexColor(
+                                                books_read_bgcolor)
+                                                .withOpacity(
+                                                0.1)
+                                                : Colors
+                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                                            progressColor: books_read_bgcolor !=
+                                                ''
+                                                ? HexColor(
+                                                books_read_bgcolor)
                                                 .withOpacity(1.0)
-                                            : Colors
-                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 28.0,
-                                      )),
-                                  Text("${books_read_name}!".toUpperCase(),
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12.0,
-                                      ))
+                                                : Colors
+                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 10.0, left: 10.0),
+                                        child: RotatedBox(
+                                          quarterTurns: -1,
+                                          child: Container(
+                                              width: 220.0,
+                                              height: 26,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 3,
+                                                    color:
+                                                    Colors.black),
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(10.0),
+                                              )),
+                                        ),
+                                      ),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.only(left:3.0),
+                                      //   child: Container(
+                                      //     height: 80,
+                                      //     width: 40,
+                                      //     child: Image.asset(
+                                      //         'assets/images/home/Kids_progressbar_blueicon.png'),
+                                      //   ),
+                                      // ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 3.0),
+                                        child: AnimatedContainer(
+                                          duration:
+                                          Duration(seconds: 3),
+                                          height:
+                                          current_books_read_plan_height, //430
+                                          width: 40,
+                                          child: Image.asset(
+                                              'assets/images/home/Kids_progressbar_blueicon.png'),
+                                        ),
+                                      ),
+                                    ]),
+                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(
+                                  //       top: 5.0, bottom: 10.0, right: 20),
+                                  //   child: Column(
+                                  //     children: [
+                                  //       Text(display_books_read,
+                                  //           style: TextStyle(
+                                  //             color: books_read_bgcolor != ''
+                                  //                 ? HexColor(books_read_bgcolor)
+                                  //                     .withOpacity(1.0)
+                                  //                 : Colors
+                                  //                     .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                  //             fontWeight: FontWeight.w600,
+                                  //             fontSize: 28.0,
+                                  //           )),
+                                  //       Text("${books_read_name}!".toUpperCase(),
+                                  //           style: TextStyle(
+                                  //             color: Colors.black,
+                                  //             fontWeight: FontWeight.w700,
+                                  //             fontSize: 12.0,
+                                  //           ))
+                                  //     ],
+                                  //   ),
+                                  // ),
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: first_char_level_amount_problem_solved ==
-                                            '1'
-                                        ? Image.asset(
-                                            'assets/images/home/numbers/green/1_green.png')
-                                        : first_char_level_amount_problem_solved ==
-                                                '2'
-                                            ? Image.asset(
-                                                'assets/images/home/numbers/green/2_green.png')
-                                            : first_char_level_amount_problem_solved ==
-                                                    '3'
-                                                ? Image.asset(
-                                                    'assets/images/home/numbers/green/3_green.png')
-                                                : first_char_level_amount_problem_solved ==
-                                                        '4'
-                                                    ? Image.asset(
-                                                        'assets/images/home/numbers/green/4_green.png')
-                                                    : first_char_level_amount_problem_solved ==
-                                                            '5'
-                                                        ? Image.asset(
-                                                            'assets/images/home/numbers/green/5_green.png')
-                                                        : first_char_level_amount_problem_solved ==
-                                                                '6'
-                                                            ? Image.asset(
-                                                                'assets/images/home/numbers/green/6_green.png')
-                                                            : first_char_level_amount_problem_solved ==
-                                                                    '7'
-                                                                ? Image.asset(
-                                                                    'assets/images/home/numbers/green/7_green.png')
-                                                                : first_char_level_amount_problem_solved ==
-                                                                        '8'
-                                                                    ? Image.asset(
-                                                                        'assets/images/home/numbers/green/8_green.png')
-                                                                    : first_char_level_amount_problem_solved ==
-                                                                            '9'
-                                                                        ? Image.asset(
-                                                                            'assets/images/home/numbers/green/9_green.png')
-                                                                        : first_char_level_amount_problem_solved ==
-                                                                                '0'
-                                                                            ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                                            : SizedBox()),
-                                Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: second_char_level_amount_problem_solved ==
-                                            '1'
-                                        ? Image.asset(
-                                            'assets/images/home/numbers/green/1_green.png')
-                                        : second_char_level_amount_problem_solved ==
-                                                '2'
-                                            ? Image.asset(
-                                                'assets/images/home/numbers/green/2_green.png')
-                                            : second_char_level_amount_problem_solved ==
-                                                    '3'
-                                                ? Image.asset(
-                                                    'assets/images/home/numbers/green/3_green.png')
-                                                : second_char_level_amount_problem_solved ==
-                                                        '4'
-                                                    ? Image.asset(
-                                                        'assets/images/home/numbers/green/4_green.png')
-                                                    : second_char_level_amount_problem_solved ==
-                                                            '5'
-                                                        ? Image.asset(
-                                                            'assets/images/home/numbers/green/5_green.png')
-                                                        : second_char_level_amount_problem_solved ==
-                                                                '6'
-                                                            ? Image.asset(
-                                                                'assets/images/home/numbers/green/6_green.png')
-                                                            : second_char_level_amount_problem_solved ==
-                                                                    '7'
-                                                                ? Image.asset(
-                                                                    'assets/images/home/numbers/green/7_green.png')
-                                                                : second_char_level_amount_problem_solved ==
-                                                                        '8'
-                                                                    ? Image.asset(
-                                                                        'assets/images/home/numbers/green/8_green.png')
-                                                                    : second_char_level_amount_problem_solved ==
-                                                                            '9'
-                                                                        ? Image.asset(
-                                                                            'assets/images/home/numbers/green/9_green.png')
-                                                                        : second_char_level_amount_problem_solved ==
-                                                                                '0'
-                                                                            ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                                            : SizedBox()),
-                                Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: third_char_level_amount_problem_solved ==
-                                            '1'
-                                        ? Image.asset(
-                                            'assets/images/home/numbers/green/1_green.png')
-                                        : third_char_level_amount_problem_solved ==
-                                                '2'
-                                            ? Image.asset(
-                                                'assets/images/home/numbers/green/2_green.png')
-                                            : third_char_level_amount_problem_solved ==
-                                                    '3'
-                                                ? Image.asset(
-                                                    'assets/images/home/numbers/green/3_green.png')
-                                                : third_char_level_amount_problem_solved ==
-                                                        '4'
-                                                    ? Image.asset(
-                                                        'assets/images/home/numbers/green/4_green.png')
-                                                    : third_char_level_amount_problem_solved ==
-                                                            '5'
-                                                        ? Image.asset(
-                                                            'assets/images/home/numbers/green/5_green.png')
-                                                        : third_char_level_amount_problem_solved ==
-                                                                '6'
-                                                            ? Image.asset(
-                                                                'assets/images/home/numbers/green/6_green.png')
-                                                            : third_char_level_amount_problem_solved ==
-                                                                    '7'
-                                                                ? Image.asset(
-                                                                    'assets/images/home/numbers/green/7_green.png')
-                                                                : third_char_level_amount_problem_solved ==
-                                                                        '8'
-                                                                    ? Image.asset(
-                                                                        'assets/images/home/numbers/green/8_green.png')
-                                                                    : third_char_level_amount_problem_solved ==
-                                                                            '9'
-                                                                        ? Image.asset(
-                                                                            'assets/images/home/numbers/green/9_green.png')
-                                                                        : third_char_level_amount_problem_solved ==
-                                                                                '0'
-                                                                            ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                                            : SizedBox()),
-                              ],
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 5.0, right: 20),
-                              child: RotatedBox(
-                                quarterTurns: -1,
-                                child: LinearPercentIndicator(
-                                  width: 240.0,
-                                  lineHeight: 24.0,
-                                  barRadius: Radius.circular(10.0),
-                                  percent: problem_solved / 100,
-                                  backgroundColor: problems_solved_bgcolor != ''
-                                      ? HexColor(problems_solved_bgcolor)
-                                          .withOpacity(0.1)
-                                      : Colors
-                                          .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(0.1) : Colors.white,//Color.fromRGBO(121, 205, 31, 0.1),
-                                  progressColor: problems_solved_bgcolor != ''
-                                      ? HexColor(problems_solved_bgcolor)
-                                          .withOpacity(1.0)
-                                      : Colors
-                                          .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
+                              isShowBookRead
+                                  ? SizedBox(height: 10)
+                                  : SizedBox(),
+                              isShowBookRead
+                                  ? Positioned(
+                                left: 35,
+                                bottom: 0,
+
+                                child: Column(
+                                  children: [
+                                    Text(display_books_read,
+                                        style: TextStyle(
+                                          color: books_read_bgcolor !=
+                                              ''
+                                              ? HexColor(
+                                              books_read_bgcolor)
+                                              .withOpacity(
+                                              1.0)
+                                              : Colors
+                                              .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                          fontWeight:
+                                          FontWeight.w600,
+                                          fontSize: 28.0,
+                                        )),
+                                    Text(
+                                        "${books_read_name}!"
+                                            .toUpperCase(),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight:
+                                          FontWeight.w700,
+                                          fontSize: 9.0,
+                                        ))
+                                  ],
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 5.0, bottom: 10.0, right: 20),
-                              child: Column(
+                              )
+                                  : SizedBox()
+                            ]),
+                          ),
+                          Positioned(
+                            left: (MediaQuery.of(context).size.width / 2) - 45,
+                            child: isShowProblemSolved
+                                ? Container(
+                                    height: 330,
+                                    child: Stack(children: [
+                                      Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Stack(
+                                                children:[
+                                                  isShowProblemSolved? Container(
+                                                      height: 40,
+                                                      width: 30,
+                                                      child: Image.asset(
+                                                          'assets/images/home/numbers_green_stars_L.png')):SizedBox(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:20.0,left: 20.0),
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: first_char_level_amount_problem_solved ==
+                                                              '1'
+                                                          ? Image.asset(
+                                                              'assets/images/home/numbers/green/1_green.png')
+                                                          : first_char_level_amount_problem_solved ==
+                                                                  '2'
+                                                              ? Image.asset(
+                                                                  'assets/images/home/numbers/green/2_green.png')
+                                                              : first_char_level_amount_problem_solved ==
+                                                                      '3'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/green/3_green.png')
+                                                                  : first_char_level_amount_problem_solved ==
+                                                                          '4'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/green/4_green.png')
+                                                                      : first_char_level_amount_problem_solved ==
+                                                                              '5'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/green/5_green.png')
+                                                                          : first_char_level_amount_problem_solved ==
+                                                                                  '6'
+                                                                              ? Image.asset(
+                                                                                  'assets/images/home/numbers/green/6_green.png')
+                                                                              : first_char_level_amount_problem_solved == '7'
+                                                                                  ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                                                  : first_char_level_amount_problem_solved == '8'
+                                                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                                                      : first_char_level_amount_problem_solved == '9'
+                                                                                          ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                                                          : first_char_level_amount_problem_solved == '0'
+                                                                                              ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                                                              : SizedBox()),
+                                                  ),
+                                              ]),
+                                              Stack(
+                                                children:[
+                                                  isShowProblemSolved && third_char_level_amount_problem_solved == ''? Padding(
+                                                    padding: const EdgeInsets.only(left:20.0),
+                                                    child: Container(
+                                                        height: 40,
+                                                        width: 30,
+                                                        child: Image.asset(
+                                                            'assets/images/home/numbers_green_stars_R.png')),
+                                                  ):SizedBox(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:20.0),
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: second_char_level_amount_problem_solved ==
+                                                              '1'
+                                                          ? Image.asset(
+                                                              'assets/images/home/numbers/green/1_green.png')
+                                                          : second_char_level_amount_problem_solved ==
+                                                                  '2'
+                                                              ? Image.asset(
+                                                                  'assets/images/home/numbers/green/2_green.png')
+                                                              : second_char_level_amount_problem_solved ==
+                                                                      '3'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/green/3_green.png')
+                                                                  : second_char_level_amount_problem_solved ==
+                                                                          '4'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/green/4_green.png')
+                                                                      : second_char_level_amount_problem_solved ==
+                                                                              '5'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/green/5_green.png')
+                                                                          : second_char_level_amount_problem_solved ==
+                                                                                  '6'
+                                                                              ? Image.asset(
+                                                                                  'assets/images/home/numbers/green/6_green.png')
+                                                                              : second_char_level_amount_problem_solved == '7'
+                                                                                  ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                                                  : second_char_level_amount_problem_solved == '8'
+                                                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                                                      : second_char_level_amount_problem_solved == '9'
+                                                                                          ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                                                          : second_char_level_amount_problem_solved == '0'
+                                                                                              ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                                                              : SizedBox()),
+                                                  ),
+                                             ] ),
+                                              Stack(
+                                                children:[
+                                                  isShowProblemSolved && third_char_level_amount_problem_solved != ''? Padding(
+                                                    padding: const EdgeInsets.only(left:20.0),
+                                                    child: Container(
+                                                        height: 40,
+                                                        width: 30,
+                                                        child: Image.asset(
+                                                            'assets/images/home/numbers_green_stars_R.png')),
+                                                  ):SizedBox(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:20.0),
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: third_char_level_amount_problem_solved ==
+                                                              '1'
+                                                          ? Image.asset(
+                                                              'assets/images/home/numbers/green/1_green.png')
+                                                          : third_char_level_amount_problem_solved ==
+                                                                  '2'
+                                                              ? Image.asset(
+                                                                  'assets/images/home/numbers/green/2_green.png')
+                                                              : third_char_level_amount_problem_solved ==
+                                                                      '3'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/green/3_green.png')
+                                                                  : third_char_level_amount_problem_solved ==
+                                                                          '4'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/green/4_green.png')
+                                                                      : third_char_level_amount_problem_solved ==
+                                                                              '5'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/green/5_green.png')
+                                                                          : third_char_level_amount_problem_solved ==
+                                                                                  '6'
+                                                                              ? Image.asset(
+                                                                                  'assets/images/home/numbers/green/6_green.png')
+                                                                              : third_char_level_amount_problem_solved == '7'
+                                                                                  ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                                                  : third_char_level_amount_problem_solved == '8'
+                                                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                                                      : third_char_level_amount_problem_solved == '9'
+                                                                                          ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                                                          : third_char_level_amount_problem_solved == '0'
+                                                                                              ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                                                              : SizedBox()),
+                                                  ),
+                                             ] ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0, right: 25),
+                                            child: Stack(children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0),
+                                                child: RotatedBox(
+                                                  quarterTurns: -1,
+                                                  child: LinearPercentIndicator(
+                                                    width: 240.0,
+                                                    lineHeight: 24.0,
+                                                    barRadius:
+                                                        Radius.circular(10.0),
+                                                    percent:
+                                                        problem_solved / 100,
+                                                    backgroundColor:
+                                                        problems_solved_bgcolor !=
+                                                                ''
+                                                            ? HexColor(
+                                                                    problems_solved_bgcolor)
+                                                                .withOpacity(
+                                                                    0.1)
+                                                            : Colors
+                                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(0.1) : Colors.white,//Color.fromRGBO(121, 205, 31, 0.1),
+                                                    progressColor:
+                                                        problems_solved_bgcolor !=
+                                                                ''
+                                                            ? HexColor(
+                                                                    problems_solved_bgcolor)
+                                                                .withOpacity(
+                                                                    1.0)
+                                                            : Colors
+                                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, left: 10.0),
+                                                child: RotatedBox(
+                                                  quarterTurns: -1,
+                                                  child: Container(
+                                                      width: 220.0,
+                                                      height: 26,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 3,
+                                                            color:
+                                                                Colors.black),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                      )),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 3.0),
+                                                child: AnimatedContainer(
+                                                  duration:
+                                                      Duration(seconds: 3),
+                                                  height:
+                                                      current_problem_solved_plan_height, //430
+                                                  width: 40,
+                                                  child: Image.asset(
+                                                      'assets/images/home/Kids_progressbar_greenicon.png'),
+                                                ),
+                                              ),
+                                            ]),
+                                          ),
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(
+                                          //       top: 5.0, bottom: 10.0, right: 20),
+                                          //   child: Column(
+                                          //     children: [
+                                          //       Text(display_problem_solved,
+                                          //           style: TextStyle(
+                                          //             color: problems_solved_bgcolor != ''
+                                          //                 ? HexColor(
+                                          //                         problems_solved_bgcolor)
+                                          //                     .withOpacity(1.0)
+                                          //                 : Colors
+                                          //                     .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
+                                          //             fontWeight: FontWeight.w600,
+                                          //             fontSize: 28.0,
+                                          //           )),
+                                          //       Text(
+                                          //           "${problems_solved_name}!"
+                                          //               .toUpperCase(),
+                                          //           style: TextStyle(
+                                          //             color: Colors.black,
+                                          //             fontWeight: FontWeight.w700,
+                                          //             fontSize: 12.0,
+                                          //           ))
+                                          //     ],
+                                          //   ),
+                                          // )
+                                        ],
+                                      ),
+                                      isShowProblemSolved
+                                          ? SizedBox(height: 10)
+                                          : SizedBox(),
+                                      isShowProblemSolved
+                                          ? Positioned(
+                                               left: 18,
+                                              //right:10,
+                                              bottom: 0,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10.0),
+                                                    child: Text(
+                                                        display_problem_solved,
+                                                        style: TextStyle(
+                                                          color: problems_solved_bgcolor !=
+                                                                  ''
+                                                              ? HexColor(
+                                                                      problems_solved_bgcolor)
+                                                                  .withOpacity(
+                                                                      1.0)
+                                                              : Colors
+                                                                  .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 28.0,
+                                                        )),
+                                                  ),
+                                                  Text(
+                                                      "${problems_solved_name}!"
+                                                          .toUpperCase(),
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 9.0,
+                                                      ))
+                                                ],
+                                              ),
+                                            )
+                                          : SizedBox()
+                                    ]),
+                                  )
+                                : Stack(children: [
+                              Column(
                                 children: [
-                                  Text(display_problem_solved,
-                                      style: TextStyle(
-                                        color: problems_solved_bgcolor != ''
-                                            ? HexColor(problems_solved_bgcolor)
-                                                .withOpacity(1.0)
-                                            : Colors
+                                  Row(
+                                    children: [
+                                      Stack(
+                                          children:[
+                                            isShowProblemSolved? Container(
+                                                height: 40,
+                                                width: 30,
+                                                child: Image.asset(
+                                                    'assets/images/home/numbers_green_stars_L.png')):SizedBox(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top:20.0,left: 20.0),
+                                              child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: first_char_level_amount_problem_solved ==
+                                                      '1'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/1_green.png')
+                                                      : first_char_level_amount_problem_solved ==
+                                                      '2'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/2_green.png')
+                                                      : first_char_level_amount_problem_solved ==
+                                                      '3'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/3_green.png')
+                                                      : first_char_level_amount_problem_solved ==
+                                                      '4'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/4_green.png')
+                                                      : first_char_level_amount_problem_solved ==
+                                                      '5'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/5_green.png')
+                                                      : first_char_level_amount_problem_solved ==
+                                                      '6'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/6_green.png')
+                                                      : first_char_level_amount_problem_solved == '7'
+                                                      ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                      : first_char_level_amount_problem_solved == '8'
+                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                      : first_char_level_amount_problem_solved == '9'
+                                                      ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                      : first_char_level_amount_problem_solved == '0'
+                                                      ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                      : SizedBox()),
+                                            ),
+                                          ]),
+                                      Stack(
+                                          children:[
+                                            isShowProblemSolved && third_char_level_amount_problem_solved == ''? Padding(
+                                              padding: const EdgeInsets.only(left:20.0),
+                                              child: Container(
+                                                  height: 40,
+                                                  width: 30,
+                                                  child: Image.asset(
+                                                      'assets/images/home/numbers_green_stars_R.png')),
+                                            ):SizedBox(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top:20.0),
+                                              child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: second_char_level_amount_problem_solved ==
+                                                      '1'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/1_green.png')
+                                                      : second_char_level_amount_problem_solved ==
+                                                      '2'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/2_green.png')
+                                                      : second_char_level_amount_problem_solved ==
+                                                      '3'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/3_green.png')
+                                                      : second_char_level_amount_problem_solved ==
+                                                      '4'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/4_green.png')
+                                                      : second_char_level_amount_problem_solved ==
+                                                      '5'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/5_green.png')
+                                                      : second_char_level_amount_problem_solved ==
+                                                      '6'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/6_green.png')
+                                                      : second_char_level_amount_problem_solved == '7'
+                                                      ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                      : second_char_level_amount_problem_solved == '8'
+                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                      : second_char_level_amount_problem_solved == '9'
+                                                      ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                      : second_char_level_amount_problem_solved == '0'
+                                                      ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                      : SizedBox()),
+                                            ),
+                                          ] ),
+                                      Stack(
+                                          children:[
+                                            isShowProblemSolved && third_char_level_amount_problem_solved != ''? Padding(
+                                              padding: const EdgeInsets.only(left:20.0),
+                                              child: Container(
+                                                  height: 40,
+                                                  width: 30,
+                                                  child: Image.asset(
+                                                      'assets/images/home/numbers_green_stars_R.png')),
+                                            ):SizedBox(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top:20.0),
+                                              child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: third_char_level_amount_problem_solved ==
+                                                      '1'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/1_green.png')
+                                                      : third_char_level_amount_problem_solved ==
+                                                      '2'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/2_green.png')
+                                                      : third_char_level_amount_problem_solved ==
+                                                      '3'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/3_green.png')
+                                                      : third_char_level_amount_problem_solved ==
+                                                      '4'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/4_green.png')
+                                                      : third_char_level_amount_problem_solved ==
+                                                      '5'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/5_green.png')
+                                                      : third_char_level_amount_problem_solved ==
+                                                      '6'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/green/6_green.png')
+                                                      : third_char_level_amount_problem_solved == '7'
+                                                      ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                      : third_char_level_amount_problem_solved == '8'
+                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                      : third_char_level_amount_problem_solved == '9'
+                                                      ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                      : third_char_level_amount_problem_solved == '0'
+                                                      ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                      : SizedBox()),
+                                            ),
+                                          ] ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5.0, right: 25),
+                                    child: Stack(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10.0),
+                                        child: RotatedBox(
+                                          quarterTurns: -1,
+                                          child: LinearPercentIndicator(
+                                            width: 240.0,
+                                            lineHeight: 24.0,
+                                            barRadius:
+                                            Radius.circular(10.0),
+                                            percent:
+                                            problem_solved / 100,
+                                            backgroundColor:
+                                            problems_solved_bgcolor !=
+                                                ''
+                                                ? HexColor(
+                                                problems_solved_bgcolor)
+                                                .withOpacity(
+                                                0.1)
+                                                : Colors
+                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(0.1) : Colors.white,//Color.fromRGBO(121, 205, 31, 0.1),
+                                            progressColor:
+                                            problems_solved_bgcolor !=
+                                                ''
+                                                ? HexColor(
+                                                problems_solved_bgcolor)
+                                                .withOpacity(
+                                                1.0)
+                                                : Colors
                                                 .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 28.0,
-                                      )),
-                                  Text("${problems_solved_name}!".toUpperCase(),
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12.0,
-                                      ))
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 10.0, left: 10.0),
+                                        child: RotatedBox(
+                                          quarterTurns: -1,
+                                          child: Container(
+                                              width: 220.0,
+                                              height: 26,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 3,
+                                                    color:
+                                                    Colors.black),
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(10.0),
+                                              )),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 3.0),
+                                        child: AnimatedContainer(
+                                          duration:
+                                          Duration(seconds: 3),
+                                          height:
+                                          current_problem_solved_plan_height, //430
+                                          width: 40,
+                                          child: Image.asset(
+                                              'assets/images/home/Kids_progressbar_greenicon.png'),
+                                        ),
+                                      ),
+                                    ]),
+                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(
+                                  //       top: 5.0, bottom: 10.0, right: 20),
+                                  //   child: Column(
+                                  //     children: [
+                                  //       Text(display_problem_solved,
+                                  //           style: TextStyle(
+                                  //             color: problems_solved_bgcolor != ''
+                                  //                 ? HexColor(
+                                  //                         problems_solved_bgcolor)
+                                  //                     .withOpacity(1.0)
+                                  //                 : Colors
+                                  //                     .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
+                                  //             fontWeight: FontWeight.w600,
+                                  //             fontSize: 28.0,
+                                  //           )),
+                                  //       Text(
+                                  //           "${problems_solved_name}!"
+                                  //               .toUpperCase(),
+                                  //           style: TextStyle(
+                                  //             color: Colors.black,
+                                  //             fontWeight: FontWeight.w700,
+                                  //             fontSize: 12.0,
+                                  //           ))
+                                  //     ],
+                                  //   ),
+                                  // )
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: first_char_level_amount_day_streak ==
-                                            '1'
-                                        ? Image.asset(
-                                            'assets/images/home/numbers/red/1_red.png')
-                                        : first_char_level_amount_day_streak ==
-                                                '2'
-                                            ? Image.asset(
-                                                'assets/images/home/numbers/red/2_red.png')
-                                            : first_char_level_amount_day_streak ==
-                                                    '3'
-                                                ? Image.asset(
-                                                    'assets/images/home/numbers/red/3_red.png')
-                                                : first_char_level_amount_day_streak ==
-                                                        '4'
-                                                    ? Image.asset(
-                                                        'assets/images/home/numbers/red/4_red.png')
-                                                    : first_char_level_amount_day_streak ==
-                                                            '5'
-                                                        ? Image.asset(
-                                                            'assets/images/home/numbers/red/5_red.png')
-                                                        : first_char_level_amount_day_streak ==
-                                                                '6'
-                                                            ? Image.asset(
-                                                                'assets/images/home/numbers/red/6_red.png')
-                                                            : first_char_level_amount_day_streak ==
-                                                                    '7'
-                                                                ? Image.asset(
-                                                                    'assets/images/home/numbers/red/7_red.png')
-                                                                : first_char_level_amount_day_streak ==
-                                                                        '8'
-                                                                    ? Image.asset(
-                                                                        'assets/images/home/numbers/red/8_red.png')
-                                                                    : first_char_level_amount_day_streak ==
-                                                                            '9'
-                                                                        ? Image.asset(
-                                                                            'assets/images/home/numbers/red/9_red.png')
-                                                                        : first_char_level_amount_day_streak ==
-                                                                                '0'
-                                                                            ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                                            : SizedBox()),
-                                Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: second_char_level_amount_day_streak ==
-                                            '1'
-                                        ? Image.asset(
-                                            'assets/images/home/numbers/red/1_red.png')
-                                        : second_char_level_amount_day_streak ==
-                                                '2'
-                                            ? Image.asset(
-                                                'assets/images/home/numbers/red/2_red.png')
-                                            : second_char_level_amount_day_streak ==
-                                                    '3'
-                                                ? Image.asset(
-                                                    'assets/images/home/numbers/red/3_red.png')
-                                                : second_char_level_amount_day_streak ==
-                                                        '4'
-                                                    ? Image.asset(
-                                                        'assets/images/home/numbers/red/4_red.png')
-                                                    : second_char_level_amount_day_streak ==
-                                                            '5'
-                                                        ? Image.asset(
-                                                            'assets/images/home/numbers/red/5_red.png')
-                                                        : second_char_level_amount_day_streak ==
-                                                                '6'
-                                                            ? Image.asset(
-                                                                'assets/images/home/numbers/red/6_red.png')
-                                                            : second_char_level_amount_day_streak ==
-                                                                    '7'
-                                                                ? Image.asset(
-                                                                    'assets/images/home/numbers/red/7_red.png')
-                                                                : second_char_level_amount_day_streak ==
-                                                                        '8'
-                                                                    ? Image.asset(
-                                                                        'assets/images/home/numbers/red/8_red.png')
-                                                                    : second_char_level_amount_day_streak ==
-                                                                            '9'
-                                                                        ? Image.asset(
-                                                                            'assets/images/home/numbers/red/9_red.png')
-                                                                        : second_char_level_amount_day_streak ==
-                                                                                '0'
-                                                                            ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                                            : SizedBox()),
-                                Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: third_char_level_amount_day_streak ==
-                                            '1'
-                                        ? Image.asset(
-                                            'assets/images/home/numbers/red/1_red.png')
-                                        : third_char_level_amount_day_streak ==
-                                                '2'
-                                            ? Image.asset(
-                                                'assets/images/home/numbers/red/2_red.png')
-                                            : third_char_level_amount_day_streak ==
-                                                    '3'
-                                                ? Image.asset(
-                                                    'assets/images/home/numbers/red/3_red.png')
-                                                : third_char_level_amount_day_streak ==
-                                                        '4'
-                                                    ? Image.asset(
-                                                        'assets/images/home/numbers/red/4_red.png')
-                                                    : third_char_level_amount_day_streak ==
-                                                            '5'
-                                                        ? Image.asset(
-                                                            'assets/images/home/numbers/red/5_red.png')
-                                                        : third_char_level_amount_day_streak ==
-                                                                '6'
-                                                            ? Image.asset(
-                                                                'assets/images/home/numbers/red/6_red.png')
-                                                            : third_char_level_amount_day_streak ==
-                                                                    '7'
-                                                                ? Image.asset(
-                                                                    'assets/images/home/numbers/red/7_red.png')
-                                                                : third_char_level_amount_day_streak ==
-                                                                        '8'
-                                                                    ? Image.asset(
-                                                                        'assets/images/home/numbers/red/8_red.png')
-                                                                    : third_char_level_amount_day_streak ==
-                                                                            '9'
-                                                                        ? Image.asset(
-                                                                            'assets/images/home/numbers/red/9_red.png')
-                                                                        : third_char_level_amount_day_streak ==
-                                                                                '0'
-                                                                            ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                                            : SizedBox()),
-                              ],
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 5.0, right: 20),
-                              child: RotatedBox(
-                                quarterTurns: -1,
-                                child: LinearPercentIndicator(
-                                  width: 240.0,
-                                  lineHeight: 24.0,
-                                  barRadius: Radius.circular(10.0),
-                                  percent: day_steak / 100,
-                                  backgroundColor: day_streak_bgcolor != ''
-                                      ? HexColor(day_streak_bgcolor)
-                                          .withOpacity(0.1)
-                                      : Colors
-                                          .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(0.1) : Colors.white,//Color.fromRGBO(242, 25, 43, 0.1),
-                                  progressColor: day_streak_bgcolor != ''
-                                      ? HexColor(day_streak_bgcolor)
-                                          .withOpacity(1.0)
-                                      : Colors
-                                          .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(242, 25, 43, 1.0),
+                              isShowProblemSolved
+                                  ? SizedBox(height: 10)
+                                  : SizedBox(),
+                              isShowProblemSolved
+                                  ? Positioned(
+                                left: 18,
+                                //right:10,
+                                bottom: 0,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                      const EdgeInsets.only(
+                                          right: 10.0),
+                                      child: Text(
+                                          display_problem_solved,
+                                          style: TextStyle(
+                                            color: problems_solved_bgcolor !=
+                                                ''
+                                                ? HexColor(
+                                                problems_solved_bgcolor)
+                                                .withOpacity(
+                                                1.0)
+                                                : Colors
+                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
+                                            fontWeight:
+                                            FontWeight.w600,
+                                            fontSize: 28.0,
+                                          )),
+                                    ),
+                                    Text(
+                                        "${problems_solved_name}!"
+                                            .toUpperCase(),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight:
+                                          FontWeight.w700,
+                                          fontSize: 9.0,
+                                        ))
+                                  ],
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 5.0, bottom: 10.0, right: 20),
-                              child: Column(
+                              )
+                                  : SizedBox()
+                            ]),
+                          ),
+                          Positioned(
+                            right: 0,
+                            child: isShowDayStreak
+                                ? Container(
+                                    height: 330,
+                                    child: Stack(children: [
+                                      Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Stack(
+                                                children:[
+                                                  isShowDayStreak? Container(
+                                                      height: 40,
+                                                      width: 30,
+                                                      child: Image.asset(
+                                                          'assets/images/home/numbers_yellow_stars_L.png')):SizedBox(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left:20.0,top:20.0),
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: first_char_level_amount_day_streak ==
+                                                              '1'
+                                                          ? Image.asset(
+                                                              'assets/images/home/numbers/red/1_red.png')
+                                                          : first_char_level_amount_day_streak ==
+                                                                  '2'
+                                                              ? Image.asset(
+                                                                  'assets/images/home/numbers/red/2_red.png')
+                                                              : first_char_level_amount_day_streak ==
+                                                                      '3'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/red/3_red.png')
+                                                                  : first_char_level_amount_day_streak ==
+                                                                          '4'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/red/4_red.png')
+                                                                      : first_char_level_amount_day_streak ==
+                                                                              '5'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/red/5_red.png')
+                                                                          : first_char_level_amount_day_streak ==
+                                                                                  '6'
+                                                                              ? Image.asset(
+                                                                                  'assets/images/home/numbers/red/6_red.png')
+                                                                              : first_char_level_amount_day_streak == '7'
+                                                                                  ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                                                  : first_char_level_amount_day_streak == '8'
+                                                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                                                      : first_char_level_amount_day_streak == '9'
+                                                                                          ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                                                          : first_char_level_amount_day_streak == '0'
+                                                                                              ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                                                              : SizedBox()),
+                                                  ),
+                                              ]),
+                                              Stack(
+                                                children:[
+                                                  isShowDayStreak && third_char_level_amount_day_streak == ''? Padding(
+                                                      padding: const EdgeInsets.only(left:20.0),
+                                                      child: Container(
+                                                          height: 40,
+                                                          width: 30,
+                                                          child: Image.asset(
+                                                              'assets/images/home/numbers_yellow_stars_R.png'))):SizedBox(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:20.0),
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: second_char_level_amount_day_streak ==
+                                                              '1'
+                                                          ? Image.asset(
+                                                              'assets/images/home/numbers/red/1_red.png')
+                                                          : second_char_level_amount_day_streak ==
+                                                                  '2'
+                                                              ? Image.asset(
+                                                                  'assets/images/home/numbers/red/2_red.png')
+                                                              : second_char_level_amount_day_streak ==
+                                                                      '3'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/red/3_red.png')
+                                                                  : second_char_level_amount_day_streak ==
+                                                                          '4'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/red/4_red.png')
+                                                                      : second_char_level_amount_day_streak ==
+                                                                              '5'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/red/5_red.png')
+                                                                          : second_char_level_amount_day_streak ==
+                                                                                  '6'
+                                                                              ? Image.asset(
+                                                                                  'assets/images/home/numbers/red/6_red.png')
+                                                                              : second_char_level_amount_day_streak == '7'
+                                                                                  ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                                                  : second_char_level_amount_day_streak == '8'
+                                                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                                                      : second_char_level_amount_day_streak == '9'
+                                                                                          ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                                                          : second_char_level_amount_day_streak == '0'
+                                                                                              ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                                                              : SizedBox()),
+                                                  ),
+                                             ] ),
+                                              Stack(
+                                                children:[
+                                                  isShowDayStreak && third_char_level_amount_day_streak != ''? Padding(
+                                                    padding: const EdgeInsets.only(left:20.0),
+                                                    child: Container(
+                                                        height: 40,
+                                                        width: 30,
+                                                        child: Image.asset(
+                                                            'assets/images/home/numbers_yellow_stars_R.png')),
+                                                  ):SizedBox(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:20.0),
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: third_char_level_amount_day_streak ==
+                                                              '1'
+                                                          ? Image.asset(
+                                                              'assets/images/home/numbers/red/1_red.png')
+                                                          : third_char_level_amount_day_streak ==
+                                                                  '2'
+                                                              ? Image.asset(
+                                                                  'assets/images/home/numbers/red/2_red.png')
+                                                              : third_char_level_amount_day_streak ==
+                                                                      '3'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/red/3_red.png')
+                                                                  : third_char_level_amount_day_streak ==
+                                                                          '4'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/red/4_red.png')
+                                                                      : third_char_level_amount_day_streak ==
+                                                                              '5'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/red/5_red.png')
+                                                                          : third_char_level_amount_day_streak ==
+                                                                                  '6'
+                                                                              ? Image.asset(
+                                                                                  'assets/images/home/numbers/red/6_red.png')
+                                                                              : third_char_level_amount_day_streak == '7'
+                                                                                  ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                                                  : third_char_level_amount_day_streak == '8'
+                                                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                                                      : third_char_level_amount_day_streak == '9'
+                                                                                          ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                                                          : third_char_level_amount_day_streak == '0'
+                                                                                              ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                                                              : SizedBox()),
+                                                  ),
+                                              ]),
+                                            ],
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 5.0, right: 0),
+                                              child: Stack(children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      right: 20.0,bottom: 35),
+                                                  child: RotatedBox(
+                                                    quarterTurns: -1,
+                                                    child: LinearPercentIndicator(
+                                                      width: 240.0,
+                                                      lineHeight: 24.0,
+                                                      barRadius:
+                                                          Radius.circular(10.0),
+                                                      percent: day_steak / 100,
+                                                      backgroundColor:
+                                                          day_streak_bgcolor != ''
+                                                              ? HexColor(
+                                                                      day_streak_bgcolor)
+                                                                  .withOpacity(
+                                                                      0.1)
+                                                              : Colors
+                                                                  .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(0.1) : Colors.white,//Color.fromRGBO(242, 25, 43, 0.1),
+                                                      progressColor: day_streak_bgcolor !=
+                                                              ''
+                                                          ? HexColor(
+                                                                  day_streak_bgcolor)
+                                                              .withOpacity(1.0)
+                                                          : Colors
+                                                              .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(242, 25, 43, 1.0),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      top: 10.0, right: 20),
+                                                  child: RotatedBox(
+                                                    quarterTurns: -1,
+                                                    child: Container(
+                                                        width: 220.0,
+                                                        height: 26,
+                                                        decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 3,
+                                                              color:
+                                                                  Colors.black),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10.0),
+                                                        )),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top:60.0),
+                                                  child: AnimatedContainer(
+                                                    duration:
+                                                        Duration(seconds: 3),
+                                                    height:
+                                                        current_day_streak_plan_height, //430
+                                                    width: 25,
+                                                    //color: Colors.red,
+                                                    child: Image.asset(
+                                                        'assets/images/home/Kids_progressbar_redicon.png'),
+                                                  ),
+                                                ),
+                                              ]),
+                                            ),
+                                          ),
+
+                                        ],
+                                      ),
+
+                                      isShowDayStreak
+                                          ? Positioned(
+                                              right: 47,
+                                              bottom: 0,
+                                              child: Column(
+                                                children: [
+                                                  Text(display_day_steak,
+                                                      style: TextStyle(
+                                                        color: day_streak_bgcolor !=
+                                                                ''
+                                                            ? HexColor(
+                                                                    day_streak_bgcolor)
+                                                                .withOpacity(
+                                                                    1.0)
+                                                            : Colors
+                                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(242, 25, 43, 1.0),
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 28.0,
+                                                      )),
+                                                  Text(
+                                                      "${day_streak_name}!"
+                                                          .toUpperCase(),
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 9.0,
+                                                      ))
+                                                ],
+                                              ),
+                                            )
+                                          : SizedBox()
+                                    ]),
+                                  )
+                                : Stack(children: [
+                              Column(
                                 children: [
-                                  Text(display_day_steak,
-                                      style: TextStyle(
-                                        color: day_streak_bgcolor != ''
-                                            ? HexColor(day_streak_bgcolor)
+                                  Row(
+                                    children: [
+                                      Stack(
+                                          children:[
+                                            isShowDayStreak? Container(
+                                                height: 40,
+                                                width: 30,
+                                                child: Image.asset(
+                                                    'assets/images/home/numbers_yellow_stars_L.png')):SizedBox(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left:20.0,top:20.0),
+                                              child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: first_char_level_amount_day_streak ==
+                                                      '1'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/1_red.png')
+                                                      : first_char_level_amount_day_streak ==
+                                                      '2'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/2_red.png')
+                                                      : first_char_level_amount_day_streak ==
+                                                      '3'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/3_red.png')
+                                                      : first_char_level_amount_day_streak ==
+                                                      '4'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/4_red.png')
+                                                      : first_char_level_amount_day_streak ==
+                                                      '5'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/5_red.png')
+                                                      : first_char_level_amount_day_streak ==
+                                                      '6'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/6_red.png')
+                                                      : first_char_level_amount_day_streak == '7'
+                                                      ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                      : first_char_level_amount_day_streak == '8'
+                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                      : first_char_level_amount_day_streak == '9'
+                                                      ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                      : first_char_level_amount_day_streak == '0'
+                                                      ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                      : SizedBox()),
+                                            ),
+                                          ]),
+                                      Stack(
+                                          children:[
+                                            isShowDayStreak && third_char_level_amount_day_streak == ''? Padding(
+                                                padding: const EdgeInsets.only(left:20.0),
+                                                child: Container(
+                                                    height: 40,
+                                                    width: 30,
+                                                    child: Image.asset(
+                                                        'assets/images/home/numbers_yellow_stars_R.png'))):SizedBox(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top:20.0),
+                                              child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: second_char_level_amount_day_streak ==
+                                                      '1'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/1_red.png')
+                                                      : second_char_level_amount_day_streak ==
+                                                      '2'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/2_red.png')
+                                                      : second_char_level_amount_day_streak ==
+                                                      '3'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/3_red.png')
+                                                      : second_char_level_amount_day_streak ==
+                                                      '4'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/4_red.png')
+                                                      : second_char_level_amount_day_streak ==
+                                                      '5'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/5_red.png')
+                                                      : second_char_level_amount_day_streak ==
+                                                      '6'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/6_red.png')
+                                                      : second_char_level_amount_day_streak == '7'
+                                                      ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                      : second_char_level_amount_day_streak == '8'
+                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                      : second_char_level_amount_day_streak == '9'
+                                                      ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                      : second_char_level_amount_day_streak == '0'
+                                                      ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                      : SizedBox()),
+                                            ),
+                                          ] ),
+                                      Stack(
+                                          children:[
+                                            isShowDayStreak && third_char_level_amount_day_streak != ''? Padding(
+                                              padding: const EdgeInsets.only(left:20.0),
+                                              child: Container(
+                                                  height: 40,
+                                                  width: 30,
+                                                  child: Image.asset(
+                                                      'assets/images/home/numbers_yellow_stars_R.png')),
+                                            ):SizedBox(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top:20.0),
+                                              child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: third_char_level_amount_day_streak ==
+                                                      '1'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/1_red.png')
+                                                      : third_char_level_amount_day_streak ==
+                                                      '2'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/2_red.png')
+                                                      : third_char_level_amount_day_streak ==
+                                                      '3'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/3_red.png')
+                                                      : third_char_level_amount_day_streak ==
+                                                      '4'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/4_red.png')
+                                                      : third_char_level_amount_day_streak ==
+                                                      '5'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/5_red.png')
+                                                      : third_char_level_amount_day_streak ==
+                                                      '6'
+                                                      ? Image.asset(
+                                                      'assets/images/home/numbers/red/6_red.png')
+                                                      : third_char_level_amount_day_streak == '7'
+                                                      ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                      : third_char_level_amount_day_streak == '8'
+                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                      : third_char_level_amount_day_streak == '9'
+                                                      ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                      : third_char_level_amount_day_streak == '0'
+                                                      ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                      : SizedBox()),
+                                            ),
+                                          ]),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5.0, right: 0),
+                                    child: Stack(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 20.0,bottom: 55),
+                                        child: RotatedBox(
+                                          quarterTurns: -1,
+                                          child: LinearPercentIndicator(
+                                            width: 240.0,
+                                            lineHeight: 24.0,
+                                            barRadius:
+                                            Radius.circular(10.0),
+                                            percent: day_steak / 100,
+                                            backgroundColor:
+                                            day_streak_bgcolor != ''
+                                                ? HexColor(
+                                                day_streak_bgcolor)
+                                                .withOpacity(
+                                                0.1)
+                                                : Colors
+                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(0.1) : Colors.white,//Color.fromRGBO(242, 25, 43, 0.1),
+                                            progressColor: day_streak_bgcolor !=
+                                                ''
+                                                ? HexColor(
+                                                day_streak_bgcolor)
                                                 .withOpacity(1.0)
-                                            : Colors
+                                                : Colors
                                                 .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(242, 25, 43, 1.0),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 28.0,
-                                      )),
-                                  Text("${day_streak_name}!".toUpperCase(),
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12.0,
-                                      ))
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 10.0, right: 20),
+                                        child: RotatedBox(
+                                          quarterTurns: -1,
+                                          child: Container(
+                                              width: 220.0,
+                                              height: 26,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 3,
+                                                    color:
+                                                    Colors.black),
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(10.0),
+                                              )),
+                                        ),
+                                      ),
+                                      AnimatedContainer(
+                                        duration:
+                                        Duration(seconds: 3),
+                                        height:
+                                        current_day_streak_plan_height, //430
+                                        width: 25,
+                                        //color: Colors.red,
+                                        child: Image.asset(
+                                            'assets/images/home/Kids_progressbar_redicon.png'),
+                                      ),
+                                    ]),
+                                  ),
+
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                      ],
+
+                              isShowDayStreak
+                                  ? Positioned(
+                                right: 30,
+                                bottom: 0,
+                                child: Column(
+                                  children: [
+                                    Text(display_day_steak,
+                                        style: TextStyle(
+                                          color: day_streak_bgcolor !=
+                                              ''
+                                              ? HexColor(
+                                              day_streak_bgcolor)
+                                              .withOpacity(
+                                              1.0)
+                                              : Colors
+                                              .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(242, 25, 43, 1.0),
+                                          fontWeight:
+                                          FontWeight.w600,
+                                          fontSize: 28.0,
+                                        )),
+                                    Text(
+                                        "${day_streak_name}!"
+                                            .toUpperCase(),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight:
+                                          FontWeight.w700,
+                                          fontSize: 9.0,
+                                        ))
+                                  ],
+                                ),
+                              )
+                                  : SizedBox()
+                            ]),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -1172,13 +2419,13 @@ class _HomeState extends State<Home> {
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 20.0,
+                                  fontSize: 22.0,
                                 )),
                             Text("Look at all your achievements!",
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 14.0,
+                                  fontSize: 18.0,
                                 ))
                           ],
                         ),
@@ -1243,10 +2490,12 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
-                            height: 150,
-                            width: 90,
-                            child:
-                                Image.asset('assets/images/home/cat_wave.png'),
+                            height: 160,
+                            width: 150,
+                            child: Image.asset(
+                              'assets/images/home/orange_cheer.png',
+                              fit: BoxFit.fitHeight,
+                            ),
                           ),
                         ],
                       ),
@@ -1266,72 +2515,88 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 100.0, left: 10.0),
-                    child: GridView.builder(
-                      itemCount: favBooksLists.length,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3),
-                      itemBuilder: (BuildContext context, int index) {
-                        // return bookListRow(bookLists[index]);
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 10.0, left: 10.0, right: 10.0),
-                          child: Stack(children: [
-                            Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                      height: 50,
-                                      width: 70,
-                                      child: CachedNetworkImage(
-                                          imageUrl: favBooksLists[index]
-                                                          ['cover_url'] !=
-                                                      null &&
-                                                  favBooksLists[index]
-                                                          ['cover_url'] !=
-                                                      ''
-                                              ? favBooksLists[index]
-                                                  ['cover_url']
-                                              : '',
-                                          // fit: BoxFit.fill,
-                                          placeholder: (context, url) =>
-                                              Transform.scale(
-                                                scale: 0.5,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: Color.fromRGBO(
-                                                      216, 209, 231, 1.0),
-                                                ),
-                                              ))
-                                      //   //  Image.asset('assets/images/profile.png'),
-                                      //   // child: Image.network(
-                                      //   //     mainCategoryData[index]
-                                      //   //         ['catimage1url']),
-                                      // ),
-                                      // child: Image.asset(
-                                      //     'assets/images/home/kidsevent_preview_yellow_box.png'),
-                                      ),
-                                ),
-                              ],
-                            ),
+                  Stack(children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 100.0, left: 10.0),
+                      child: GridView.builder(
+                        itemCount: favBooksLists.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3),
+                        itemBuilder: (BuildContext context, int index) {
+                          // return bookListRow(bookLists[index]);
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                bottom: 10.0, left: 10.0, right: 10.0),
+                            child: Stack(children: [
+                              Column(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                        height: 50,
+                                        width: 70,
+                                        child: CachedNetworkImage(
+                                            imageUrl: favBooksLists[index]
+                                                            ['cover_url'] !=
+                                                        null &&
+                                                    favBooksLists[index]
+                                                            ['cover_url'] !=
+                                                        ''
+                                                ? favBooksLists[index]
+                                                    ['cover_url']
+                                                : '',
+                                            // fit: BoxFit.fill,
+                                            placeholder: (context, url) =>
+                                                Transform.scale(
+                                                  scale: 0.5,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: Color.fromRGBO(
+                                                        216, 209, 231, 1.0),
+                                                  ),
+                                                ))
+                                        //   //  Image.asset('assets/images/profile.png'),
+                                        //   // child: Image.network(
+                                        //   //     mainCategoryData[index]
+                                        //   //         ['catimage1url']),
+                                        // ),
+                                        // child: Image.asset(
+                                        //     'assets/images/home/kidsevent_preview_yellow_box.png'),
+                                        ),
+                                  ),
+                                ],
+                              ),
 
-                            // Container(
-                            //   // height: 150,
-                            //   decoration: BoxDecoration(
-                            //     image: DecorationImage(
-                            //       image: AssetImage(
-                            //           'assets/images/books/pagepreview_red_page.png'),
-                            //     ),
-                            //   ),
-                            // ),
-                          ]),
-                        );
-                      },
+                              // Container(
+                              //   // height: 150,
+                              //   decoration: BoxDecoration(
+                              //     image: DecorationImage(
+                              //       image: AssetImage(
+                              //           'assets/images/books/pagepreview_red_page.png'),
+                              //     ),
+                              //   ),
+                              // ),
+                            ]),
+                          );
+                        },
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            height: 100,
+                            width: 100,
+                            child: Image.asset(
+                                'assets/images/home/background_kids_square.png'),
+                          ),
+                        ],
+                      ),
+                    )
+                  ]),
                 ],
               ),
             ]),
