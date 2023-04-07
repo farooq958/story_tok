@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
@@ -45,7 +43,8 @@ class VoiceRecorder extends StatefulWidget {
   VoiceRecorderState createState() => VoiceRecorderState(cachedimages: images);
 }
 
-class VoiceRecorderState extends State<VoiceRecorder> {
+class VoiceRecorderState extends State<VoiceRecorder>
+    with SingleTickerProviderStateMixin {
   List imagesPath = [];
   bool recordingStart = false;
   bool withAudio = false;
@@ -65,6 +64,8 @@ class VoiceRecorderState extends State<VoiceRecorder> {
       []; //page as key and path for audio as value
   int _currentIndex = 0;
   int length = 0;
+  late AnimationController _animationController;
+
   var title = 'Audio Recording';
 
   Map<int, int> _pageTime = Map();
@@ -74,6 +75,9 @@ class VoiceRecorderState extends State<VoiceRecorder> {
 
   @override
   void initState() {
+    _animationController =
+        new AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _animationController.repeat(reverse: true);
     length = widget.images!.length;
     _audioPaths = List<Map<File, String>>.filled(length, {File(""): ""});
     _mPlayer.openPlayer().then((value) {
@@ -219,11 +223,11 @@ class VoiceRecorderState extends State<VoiceRecorder> {
   playAutoAudio() {
     _mPlayer
         .startPlayer(
-        fromURI: _audioPaths[_currentIndex].values.first.toString(),
-        //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
-        whenFinished: () {
-          setState(() {});
-        })
+            fromURI: _audioPaths[_currentIndex].values.first.toString(),
+            //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+            whenFinished: () {
+              setState(() {});
+            })
         .then((value) {
       setState(() {
         startPlaying = true;
@@ -332,7 +336,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                                   height: 30,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
@@ -354,22 +358,6 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                                       width: MediaQuery.of(context).size.width /
                                           1.5,
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.only(right: 30),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          if (length - 1 > _currentIndex) {
-                                            setState(() {
-                                              _currentIndex++;
-                                            });
-                                          }
-                                        },
-                                        icon: Icon(
-                                          Icons.arrow_right,
-                                          size: 50,
-                                        ),
-                                      ),
-                                    )
                                   ],
                                 ),
                                 SizedBox(
@@ -386,8 +374,9 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            if (widget.flag == 'audio' ||
-                                widget.flag == 'recordnow')
+                            // if (widget.flag == 'audio' ||
+                            //     widget.flag == 'recordnow')
+                            if (_currentIndex != 0)
                               InkWell(
                                 child: Image.asset(
                                   Assets.audioUploadRedPreviousPage,
@@ -396,6 +385,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                                 ),
                                 onTap: () {
                                   if (_currentIndex > 0) {
+                                    stopPlayer();
                                     setState(() {
                                       _currentIndex--;
                                     });
@@ -428,20 +418,30 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                                 },
                               ),
                             if (widget.flag == 'recordnow')
-                              InkWell(
-                                child: Image.asset(
-                                  Assets.audioUploadRedAudioIcon,
-                                  height: 100,
-                                  width: 100,
-                                ),
-                                onTap: () {
-                                },
-                              ),
+                              startPlaying
+                                  ? InkWell(
+                                      child: Image.asset(
+                                        Assets.audioUploadRedAudioIcon,
+                                        height: 100,
+                                        width: 100,
+                                        opacity: _animationController,
+                                      ),
+                                      onTap: () {},
+                                    )
+                                  : InkWell(
+                                      child: Image.asset(
+                                        Assets.audioUploadRedAudioIcon,
+                                        height: 100,
+                                        width: 100,
+                                      ),
+                                      onTap: () {},
+                                    ),
                             SizedBox(
                               width: 10,
                             ),
-                            if (widget.flag == 'audio' ||
-                                widget.flag == 'recordnow')
+                            // if (widget.flag == 'audio' ||
+                            //     widget.flag == 'recordnow')
+                            if (length - 1 > _currentIndex)
                               InkWell(
                                 child: Image.asset(
                                   Assets.audioUploadRedNextPage,
@@ -449,8 +449,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                                   width: 100,
                                 ),
                                 onTap: () {
-                                  print("length :: $length");
-                                  print("currentIndex :: $_currentIndex");
+                                  stopPlayer();
                                   if (length - 1 > _currentIndex) {
                                     setState(() {
                                       _currentIndex++;
@@ -592,6 +591,7 @@ class VoiceRecorderState extends State<VoiceRecorder> {
                               onTap: () {
                                 if (widget.flag != 'press continue') {
                                   setState(() {
+                                    _currentIndex = 0;
                                     widget.flag = widget.flag == 'continue'
                                         ? 'press continue'
                                         : 'continue';
@@ -642,59 +642,12 @@ class VoiceRecorderState extends State<VoiceRecorder> {
     );
   }
 
-  Future<void> saveFile() async {
-    DocumentReference sightingRef =
-        FirebaseFirestore.instance.collection('booksentity').doc();
-    try {
-      var imagesUrlArray = [];
-      var imageUrl = "";
-      var audioUrl = "";
-
-      for (int i = 0; i < _audioPaths!.length; i++) {
-        var childPath = _audioPaths![i].keys.first.path.toString().split('/');
-        var storageReferencePageUrls = FirebaseStorage.instance
-            .ref()
-            .child('book_pages')
-            .child(childPath[childPath.length - 1]);
-        var upload =
-            await storageReferencePageUrls.putFile(_audioPaths![i].keys.first);
-        imageUrl = await upload.ref.getDownloadURL();
-
-        var audioPath = _audioPaths![i].values.first.toString().split('/');
-        var storageReference = FirebaseStorage.instance
-            .ref()
-            .child('audios')
-            .child(audioPath[audioPath.length - 1]);
-        var uploadTask =
-            await storageReference.putFile(File(_audioPaths![i].values.first));
-        audioUrl = await uploadTask.ref.getDownloadURL();
-
-        var audioImagePair = {
-          "page": imageUrl,
-          "audio": audioUrl,
-        };
-        imagesUrlArray.add(audioImagePair);
-      }
-
-      sightingRef.set({
-        "cover_url": widget.imageURL.toString(),
-        "audio_Paging_time": _pageTime.values,
-        "author_doc_id": "",
-        "category_main": widget.category.toString(),
-        "category_sub": widget.subCategory.toString(),
-        "pages_url": imagesUrlArray,
-        "title": widget.title.toString(),
-        "topic": widget.topic.toString(),
-      });
-    } catch (e, stacktrace) {}
-  }
-
   bool uploadAudioFile = false;
 
   uploadAudio() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['mp3', 'mp4'],
+      allowedExtensions: ['mp3', 'mp4', '.wav'],
       allowMultiple: false,
     );
 

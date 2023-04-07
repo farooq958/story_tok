@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:image_picker/image_picker.dart';
@@ -57,6 +58,9 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     '6th Grade: 6.0 - 6.9'
   ];
 
+  int max_limit = 7;
+  var errorText = '';
+
   final recorder = FlutterSoundRecorder();
   final player = FlutterSoundPlayer();
   var fileName;
@@ -68,6 +72,8 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   var historicalFictionGenresData;
   var fantasyData;
   var bookDescHint;
+  var label;
+  var topic_label;
 
   final ImagePicker _picker = ImagePicker();
   XFile? image;
@@ -87,6 +93,8 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   late MultiValueDropDownController _cntMulti;
   int contributorsLength = 1;
   var contributorsValueList = [];
+  var addContributorsData = [];
+  var list = <Widget>[];
 
   //initstate
   @override
@@ -101,6 +109,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       _contributorController.add(TextEditingController());
     });
 
+    getLabels();
     getBookDescriptionHints();
     getCollection("categories");
     getAgeRangeCollection("agerange");
@@ -462,6 +471,15 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     height: 15,
                                   ),
                                 ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    bottom: 5.0,
+                                    left: 10,
+                                  ),
+                                  child: Text(
+                                    '($label)',
+                                  ),
+                                ),
                               ],
                             ),
                             Row(
@@ -761,13 +779,21 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  margin:
-                                      EdgeInsets.only(bottom: 5.0, left: 3.0),
-                                  child: Image.asset(
-                                    Assets.topicsTextRed,
-                                    height: 15,
-                                  ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          bottom: 5.0, left: 3.0),
+                                      child: Image.asset(
+                                        Assets.topicsTextRed,
+                                        height: 15,
+                                      ),
+                                    ),
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            bottom: 5.0, left: 10),
+                                        child: Text('($topic_label)')),
+                                  ],
                                 ),
                                 Container(
                                   width:
@@ -794,11 +820,16 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     cursorColor: Colors.black,
                                     textAlign: TextAlign.start,
                                     decoration: InputDecoration(
-                                        hintText: "Book Topic(s)",
-                                        border: InputBorder.none),
+                                      hintText: "Book Topic(s) and separate with a comma",
+                                      border: InputBorder.none,
+                                    ),
                                     controller: _tagController,
                                   ),
                                 ),
+                                if (errorText.isNotEmpty)
+                                  Container(
+                                    child: Text(errorText, style: TextStyle(color: Colors.red),),
+                                  ),
                               ],
                             ),
                           ],
@@ -989,28 +1020,37 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                   });
                                 }
 
+                                var split =
+                                    _tagController.text.toString().split(' ');
                                 if (imagePath != null) {
                                   saveImages(imagePath, sightingRef);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ConfirmBookDetails(
-                                              images: widget.images,
-                                              imagesPath: widget.imagesPath,
-                                              coverImage: imagePath,
-                                              title: _titleController.text,
-                                              authorName:
-                                                  _authorNameController.text,
-                                              bookDescription:
-                                                  _descriptionController.text,
-                                              bookGenre: categoryValue,
-                                              price: _priceController.text,
-                                              topic: _tagController.text,
-                                            )
-                                        /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
-                                        ),
-                                  );
+                                  if (split.length > max_limit) {
+                                    setState(() {
+                                      errorText = 'Reached max limit';
+                                    });
+                                  } else {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ConfirmBookDetails(
+                                                images: widget.images,
+                                                imagesPath: widget.imagesPath,
+                                                coverImage: imagePath,
+                                                title: _titleController.text,
+                                                authorName:
+                                                    _authorNameController.text,
+                                                bookDescription:
+                                                    _descriptionController.text,
+                                                bookGenre: categoryValue,
+                                                subBookGenre: subCategoryValue,
+                                                price: _priceController.text,
+                                                topic: _tagController.text,
+                                              )
+                                          /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
+                                          ),
+                                    );
+                                  }
                                 } else {
                                   Utils().showToastMessage(
                                       "Please select cover image", context);
@@ -1050,9 +1090,6 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       ),
     );
   }
-
-  var addContributorsData = [];
-  var list = <Widget>[];
 
   contributorWidgetMethod() {}
   String? radioButtonValue;
@@ -1142,7 +1179,10 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     });
   }
 
-  getLanguageCollection() {
+  getLanguageCollection() async {
+    FlutterSecureStorage storage = FlutterSecureStorage();
+    var bg_music = await storage.read(key: 'bg_music');
+    print("bg_music : $bg_music");
     FirebaseFirestore.instance
         .collection('Language')
         .get()
@@ -1205,6 +1245,31 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     });
   }
 
+  getLabels() {
+    FirebaseFirestore.instance
+        .collection('labels')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          label = doc["label"];
+          print("bookDescHint $label");
+        });
+      });
+    });
+    FirebaseFirestore.instance
+        .collection('topic_label')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          topic_label = doc["topic_label"];
+          print("bookDescHint $topic_label");
+        });
+      });
+    });
+  }
+
   DocumentReference sightingRef =
       FirebaseFirestore.instance.collection('booksentity').doc();
 
@@ -1212,6 +1277,9 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     var imagesUrlArray = [];
     var imageUrl = "";
     var audioUrl = "";
+    FlutterSecureStorage storage = FlutterSecureStorage();
+
+    var bg_music = await storage.read(key: 'bg_music');
 
     if (widget.withAudio) {
       for (int i = 0; i < widget.audioPaths!.length; i++) {
@@ -1262,28 +1330,41 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
     }
 
     var imageSplitPath = _image.path.toString().split('/');
+    var bgAudioPath = bg_music.toString().split('/');
     var storageReference = FirebaseStorage.instance
         .ref()
         .child('book_cover')
         .child(imageSplitPath[imageSplitPath.length - 1]);
+    var bgAudio = FirebaseStorage.instance
+        .ref()
+        .child('bg_music')
+        .child(bgAudioPath[imageSplitPath.length - 1]);
+
     UploadTask uploadTask = storageReference.putFile(_image);
-    await uploadTask.then((res) {
-      storageReference.getDownloadURL().then((imageURL) {
-        sightingRef.set({
-          "cover_url": imageURL,
-          "audio_doc_id": "",
-          "author_doc_id": "",
-          "category_main": categoryValue.toString(),
-          "category_sub": subCategoryValue.toString(),
-          "pages_url": imagesUrlArray,
-          "title": _titleController.text.toString(),
-          "topic": _tagController.text.toString(),
-          "book_description": _descriptionController.text.toString(),
-          "author_name": _authorNameController.text.toString(),
-          "contributors": addContributorsData,
-          "keywords": _keyWordsController.text.toString(),
-          "price": _priceController.text.toString(),
-          "publishing_rights": radioButtonValue,
+    UploadTask bgTask = storageReference.putString(bgAudio.toString());
+
+    await bgTask.then((res) {
+      storageReference.getDownloadURL().then((value) async {
+        await uploadTask.then((res) {
+          storageReference.getDownloadURL().then((imageURL) {
+            sightingRef.set({
+              "bg_music_url": value.toString(),
+              "cover_url": imageURL,
+              "audio_doc_id": "",
+              "author_doc_id": "",
+              "category_main": categoryValue.toString(),
+              "category_sub": subCategoryValue.toString(),
+              "pages_url": imagesUrlArray,
+              "title": _titleController.text.toString(),
+              "topic": _tagController.text.toString(),
+              "book_description": _descriptionController.text.toString(),
+              "author_name": _authorNameController.text.toString(),
+              "contributors": addContributorsData,
+              "keywords": _keyWordsController.text.toString(),
+              "price": _priceController.text.toString(),
+              "publishing_rights": radioButtonValue,
+            });
+          });
         });
       });
     });

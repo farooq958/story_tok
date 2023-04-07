@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 import 'package:record/record.dart';
+import 'package:storily/screens/auth/auth.dart';
 import '../../global/constants/assets.dart';
 
 const theSource = AudioSource.microphone;
@@ -98,10 +99,18 @@ class CongratulationsScreenState extends State<CongratulationsScreen> {
               SizedBox(
                 height: 20,
               ),
-              Image.asset(
+              InkWell(child: Image.asset(
                 Assets.standaloneGreenFinish,
                 width: MediaQuery.of(context).size.width / 2,
-              ),
+              ),onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FirebaseSession()
+                    /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
+                  ),
+                );
+              },),
               SizedBox(
                 height: 20,
               ),

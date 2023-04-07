@@ -21,6 +21,7 @@ class ConfirmBookDetails extends StatefulWidget {
   final price;
   final topic;
   final bookGenre;
+  final subBookGenre;
 
   const ConfirmBookDetails({
     Key? key,
@@ -33,6 +34,7 @@ class ConfirmBookDetails extends StatefulWidget {
     this.price,
     this.topic,
     this.bookGenre,
+    this.subBookGenre,
   }) : super(key: key);
 
   @override
@@ -179,57 +181,93 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                       8.0,
                                     ), //<-- SEE HERE
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        margin: EdgeInsets.all(5.0),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    7,
-                                                child: Text('Genres')),
-                                            SizedBox(
-                                              width: 5,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.all(5.0),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            7,
+                                                    child: Text(
+                                                      'Genres',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      5,
+                                                  child: Text(widget.bookGenre),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      5,
+                                                  child:
+                                                      Text(widget.subBookGenre),
+                                                ),
+                                                SizedBox(
+                                                  width: 15,
+                                                ),
+                                              ],
                                             ),
-                                            SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    5,
-                                                child: Text(widget.bookGenre)),
-                                            SizedBox(
-                                              width: 15,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.all(5.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            7,
+                                                    child: Text(
+                                                      'Topics',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      5,
+                                                  child: Text(widget.topic),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.all(5.0),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    7,
-                                                child: Text('Topics')),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    5,
-                                                child: Text(widget.topic)),
-                                          ],
-                                        ),
-                                      ),
+                                      Image.asset(Assets.readingLevel2Badge,
+                                          height: 50, width: 50)
                                     ],
                                   ),
                                   height:

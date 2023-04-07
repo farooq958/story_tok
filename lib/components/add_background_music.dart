@@ -1,7 +1,10 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:storily/components/page_uploader.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:storily/components/record_audio.dart';
 import '../global/constants/assets.dart';
 import 'common_upload_book_format.dart';
@@ -10,7 +13,8 @@ class AddBackgroundMusic extends StatefulWidget {
   final images;
   final imagesPath;
 
-  const AddBackgroundMusic({Key? key, required this.images, this.imagesPath}) : super(key: key);
+  const AddBackgroundMusic({Key? key, required this.images, this.imagesPath})
+      : super(key: key);
 
   @override
   AddBackgroundMusicState createState() => AddBackgroundMusicState();
@@ -26,6 +30,21 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
   bool continueWithoutAudio = false;
   late double _scale;
   late AnimationController _controller;
+  bool uploadAudioFile = false;
+  bool recordingStart = false;
+  bool withAudio = false;
+
+  //recorder
+  Stopwatch _timer = Stopwatch();
+  File audioFile = File('');
+  List<Map<File, String>> _audioPaths =
+      []; //page as key and path for audio as value
+  int _currentIndex = 0;
+  int length = 0;
+  var title = 'Audio Recording';
+
+  Map<int, int> _pageTime = Map();
+  List<File>? cachedimages = <File>[];
 
   @override
   void initState() {
@@ -138,6 +157,7 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
                             setState(() {
                               addFilesForPDF = true;
                             });
+                            uploadAudio();
                           },
                         ),
                         GestureDetector(
@@ -240,5 +260,28 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
         ],
       ),
     );
+  }
+
+  var bgAudioPath;
+  uploadAudio() async {
+    FlutterSecureStorage storage = FlutterSecureStorage();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['mp3', 'mp4', '.wav'],
+      allowMultiple: false,
+    );
+
+    PlatformFile file = result!.files.first;
+    Directory tempDir = await getTemporaryDirectory();
+    String dirPath = tempDir.path;
+    // await loadPdf(file.path.toString(), dirPath + '/' + 'file_picker');
+    setState(() {
+      uploadAudioFile = true;
+      withAudio = true;
+      recordingStart = false;
+      bgAudioPath = file!.path.toString();
+    });
+
+    await storage.write(key: 'bg_music', value: bgAudioPath);
   }
 }

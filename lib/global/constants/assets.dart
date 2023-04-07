@@ -292,4 +292,7 @@ class Assets {
   static const pagepreviewRedPage =
       "assets/images/pagepreview_red_page.png";
 
+  static const readingLevel2Badge =
+      "assets/images/readinglevel2_blue_icon.png";
+
 }
