@@ -42,6 +42,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   var ageData = [];
   var languageData = [];
   var contributorData = [];
+  bool errors = false;
 
   List<String> category = [];
   List<String> ageRange = [];
@@ -59,7 +60,12 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   ];
 
   int max_limit = 7;
-  var errorText = '';
+  var topicErrorText = '';
+  var keyboardErrorText = '';
+  var titleErrorText = '';
+  var bookDescErrorText = '';
+  var priceErrorText = '';
+  var authorErrorText = '';
 
   final recorder = FlutterSoundRecorder();
   final player = FlutterSoundPlayer();
@@ -235,6 +241,18 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     controller: _titleController,
                                   ),
                                 ),
+                                if (titleErrorText.isNotEmpty)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        child: Text(
+                                          titleErrorText,
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 SizedBox(
                                   height: 20,
                                 ),
@@ -327,6 +345,18 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     controller: _authorNameController,
                                   ),
                                 ),
+                                if (authorErrorText.isNotEmpty)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        child: Text(
+                                          authorErrorText,
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                               ],
                             )
                           ],
@@ -525,6 +555,19 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                             controller: _keyWordsController,
                           ),
                         ),
+                        if (keyboardErrorText.isNotEmpty)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(left: 22),
+                                child: Text(
+                                  keyboardErrorText,
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            ],
+                          ),
                         SizedBox(
                           height: 20,
                         ),
@@ -820,15 +863,19 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     cursorColor: Colors.black,
                                     textAlign: TextAlign.start,
                                     decoration: InputDecoration(
-                                      hintText: "Book Topic(s) and separate with a comma",
+                                      hintText:
+                                          "Book Topic(s) and separate with a comma",
                                       border: InputBorder.none,
                                     ),
                                     controller: _tagController,
                                   ),
                                 ),
-                                if (errorText.isNotEmpty)
+                                if (topicErrorText.isNotEmpty)
                                   Container(
-                                    child: Text(errorText, style: TextStyle(color: Colors.red),),
+                                    child: Text(
+                                      topicErrorText,
+                                      style: TextStyle(color: Colors.red),
+                                    ),
                                   ),
                               ],
                             ),
@@ -841,45 +888,58 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(bottom: 5.0, left: 3.0),
+                              margin: EdgeInsets.only(bottom: 5.0, left: 22.0),
                               child: Image.asset(
                                 Assets.bookDescriptionsTextRed,
                                 height: 15,
                               ),
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width / 1.1,
-                              height: MediaQuery.of(context).size.height / 3,
-                              // margin: EdgeInsets.only(left: 22, right: 22),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                border: Border.all(
-                                  color: Colors.black, // Set border color
-                                  width: 2.0,
-                                ),
-                                // Set border width
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 2,
-                                    color: Colors.black,
-                                    offset: Offset(1, 1),
+                                width: MediaQuery.of(context).size.width / 1.1,
+                                height: MediaQuery.of(context).size.height / 3,
+                                margin: EdgeInsets.only(left: 22, right: 22),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  border: Border.all(
+                                    color: Colors.black, // Set border color
+                                    width: 2.0,
                                   ),
-                                ], // Make rounded corner of border
-                              ),
-                              child: TextFormField(
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 999,
-                                cursorColor: Colors.black,
-                                textAlign: TextAlign.start,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: bookDescHint,
+                                  // Set border width
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 2,
+                                      color: Colors.black,
+                                      offset: Offset(1, 1),
+                                    ),
+                                  ], // Make rounded corner of border
                                 ),
-                                controller: _descriptionController,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: 999,
+                                  cursorColor: Colors.black,
+                                  textAlign: TextAlign.start,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: bookDescHint,
+                                  ),
+                                  controller: _descriptionController,
+                                )),
+                            if (bookDescErrorText.isNotEmpty)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        bottom: 5.0, left: 22.0),
+                                    child: Text(
+                                      bookDescErrorText,
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
                           ],
                         ),
                         SizedBox(
@@ -929,6 +989,18 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     controller: _priceController,
                                   ),
                                 ),
+                                if (priceErrorText.isNotEmpty)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        child: Text(
+                                          priceErrorText,
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                               ],
                             ),
                             InkWell(
@@ -1019,16 +1091,73 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     "type": contributorsValueList[i]
                                   });
                                 }
-
-                                var split =
+                                setState(() {
+                                  keyboardErrorText = priceErrorText =
+                                      titleErrorText = priceErrorText =
+                                          authorErrorText =
+                                              bookDescErrorText = topicErrorText = '';
+                                  errors = false;
+                                });
+                                var keyBoardTextSplit = _keyWordsController.text
+                                    .toString()
+                                    .split(' ');
+                                var topicSplit =
                                     _tagController.text.toString().split(' ');
                                 if (imagePath != null) {
                                   saveImages(imagePath, sightingRef);
-                                  if (split.length > max_limit) {
+                                  if (topicSplit.length > max_limit) {
                                     setState(() {
-                                      errorText = 'Reached max limit';
+                                      topicErrorText = 'Reached max limit';
+                                      errors = true;
                                     });
-                                  } else {
+                                  }
+                                  if (_titleController.text.isEmpty) {
+                                    setState(() {
+                                      titleErrorText = "Required";
+                                      errors = true;
+                                    });
+                                  }
+                                  if (_authorNameController.text.isEmpty) {
+                                    setState(() {
+                                      authorErrorText = "Required";
+                                      errors = true;
+                                    });
+                                  }
+                                  if (_descriptionController.text.isEmpty) {
+                                    setState(() {
+                                      bookDescErrorText = "Required";
+                                      errors = true;
+                                    });
+                                  }
+                                  if (_priceController.text.isEmpty) {
+                                    setState(() {
+                                      priceErrorText = "Required";
+                                      errors = true;
+                                    });
+                                  }
+                                  if (_tagController.text.isEmpty) {
+                                    setState(() {
+                                      topicErrorText = "Required";
+                                      errors = true;
+                                    });
+                                  }
+                                  if (_keyWordsController.text.isEmpty) {
+                                    setState(() {
+                                      keyboardErrorText = "Required";
+                                      errors = true;
+                                    });
+                                  }
+                                  if (keyBoardTextSplit.length > max_limit) {
+                                    setState(() {
+                                      keyboardErrorText = 'Reached max limit';
+                                      errors = true;
+                                    });
+                                  }
+                                  if(radioButtonValue.toString() == 'null'){
+                                    Utils().showToastMessage(
+                                        "Please select publishing rights", context);
+                                  }
+                                  if (!errors) {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

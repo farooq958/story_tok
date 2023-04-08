@@ -389,6 +389,9 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                     setState(() {
                                       _currentIndex--;
                                     });
+                                    if(widget.flag == 'continue'){
+                                      playAutoAudio();
+                                    }
                                   }
                                 },
                               ),
@@ -454,6 +457,10 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                     setState(() {
                                       _currentIndex++;
                                     });
+                                    print(widget.flag);
+                                    if(widget.flag == 'continue'){
+                                      playAutoAudio();
+                                    }
                                   }
                                 },
                               )
@@ -601,6 +608,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                 }
 
                                 if (widget.flag == 'press continue') {
+                                  stopPlayer();
                                   // saveFile();
                                   Navigator.push(
                                     context,
