@@ -22,54 +22,49 @@ class _HomeState extends State<Home> {
   var userLists = [];
   var earnAchievedLists = [];
   var inProgressAchievedLists = [];
+  var inProgressAchievedNameLists = [];
 
-//Aggregation Variable use for day streak
-  double level_amount_day_streak = 0.0;
-  String display_level_amount_day_streak = '';
-  String first_char_level_amount_day_streak = '0';
-  String second_char_level_amount_day_streak = '0';
-  String third_char_level_amount_day_streak = '';
+//Dynamic Achievement var declaration
+  var level_amount = [];
+  var display_level_amount = [];
+  var first_char_level_amount = [];
+  var second_char_level_amount = [];
+  var third_char_level_amount = [];
+  var achievement_bgcolor = [];
+  var achievement_name = [];
+  var aggregation_rules = [];
+  var total = [];
 
-//Aggregation Variable use for books read
-  double level_amount_books_read = 0.0;
-  String display_level_amount_books_read = '';
-  String first_char_level_amount_books_read = '0';
-  String second_char_level_amount_books_read = '0';
-  String third_char_level_amount_books_read = '';
+  String first_char_level_amount_ach1 = '0';
+  String second_char_level_amount_ach1 = '0';
+  String third_char_level_amount_ach1 = '';
 
-//Aggregation Variable use for problem solved
-  double level_amount_problem_solved = 0.0;
-  String display_level_amount_problem_solved = '';
-  String first_char_level_amount_problem_solved = '0';
-  String second_char_level_amount_problem_solved = '0';
-  String third_char_level_amount_problem_solved = '';
+  String first_char_level_amount_ach2 = '0';
+  String second_char_level_amount_ach2 = '0';
+  String third_char_level_amount_ach2 = '';
 
-//Aggregation for books read, problem solved, day steak
-
-  double books_read = 0;
-  double problem_solved = 0;
-  double day_steak = 0;
-
-  var display_books_read = '0';
-  var display_problem_solved = '0';
-  var display_day_steak = '0';
-
-  var books_read_bgcolor = '';
-  var problems_solved_bgcolor = '';
-  var day_streak_bgcolor = '';
-  var books_read_name = '';
-  var problems_solved_name = '';
-  var day_streak_name = '';
+  String first_char_level_amount_ach3 = '0';
+  String second_char_level_amount_ach3 = '0';
+  String third_char_level_amount_ach3 = '';
 
   late Query collectionRefFavBooks;
   late QuerySnapshot querySnapshotFavBooks;
   var favBooksLists = [];
 
+  late Query collectionAvatar;
+  late QuerySnapshot querySnapshotAvatar;
+  var avatarLists = [];
+
 //Animation for kids progress
 
-  double books_read_plan_height = 430.0;
-  double current_books_read_plan_height = 430.0;
-  bool isShowBookRead = false;
+  double ach1_plan_height = 430.0;
+  double current_ach1_plan_height = 430.0;
+
+  double ach2_plan_height = 440.0;
+  double current_ach2_plan_height = 440.0;
+
+  double ach3_plan_height = 470.0;
+  double current_ach3_plan_height = 470.0;
 
   double problem_solved_plan_height = 440.0;
   double current_problem_solved_plan_height = 440.0;
@@ -77,7 +72,16 @@ class _HomeState extends State<Home> {
 
   double day_streak_plan_height = 470.0;
   double current_day_streak_plan_height = 470.0;
-  bool isShowDayStreak = false;
+  bool isShow1Achievement = false;
+  bool isShow2Achievement = false;
+  bool isShow3Achievement = false;
+
+  double reading_time_plan_height = 430.0;
+  double current_reading_time_plan_height = 430.0;
+  bool isShowReadingTime = false;
+
+  var profileUrlKey = '';
+  var profileUrl = '';
 
   @override
   void initState() {
@@ -122,221 +126,185 @@ class _HomeState extends State<Home> {
           querySnapshotAchievment.docs.map((doc) => doc.data()).toList();
       if (inProgressAchievedLists.isNotEmpty) {
         for (int i = 0; i < inProgressAchievedLists.length; i++) {
-          if (inProgressAchievedLists[i]['name'] == 'day streak') {
-            level_amount_day_streak = 0.0;
-            display_level_amount_day_streak = '';
-            first_char_level_amount_day_streak = '0';
-            second_char_level_amount_day_streak = '0';
-            third_char_level_amount_day_streak = '';
-            var arrayAggregation = inProgressAchievedLists[i]['aggregation'];
-            if (arrayAggregation.length > 0) {
-              day_steak += arrayAggregation[0]['books_read'];
-              display_day_steak = (day_steak.toInt()).toString();
+          inProgressAchievedNameLists.add(inProgressAchievedLists[i]['name']);
+//Stored aggregation rules
+          var arrayAggregation = inProgressAchievedLists[i]['aggregation'];
+          if (arrayAggregation.length > 0) {
+            aggregation_rules.add(arrayAggregation);
+          }
+        }
+
+        for (int i = 0; i < inProgressAchievedLists.length; i++) {
+          if (inProgressAchievedLists[i]['Is_aggregate_field_value'] == false) {
+            print(
+                '#### AGGREGATION RULES ${aggregation_rules.length > 0 ? aggregation_rules[0] : ''}');
+            // print('#### User List ${userLists[i]}');
+            String name = '';
+            if (aggregation_rules.length > 0) {
+              name = aggregation_rules[0][0];
             }
-//Calculation for animation for day streak progress
-            Future.delayed(const Duration(milliseconds: 1000), () {
-              double avg_day_streak = 0.0;
-              avg_day_streak = (day_streak_plan_height * day_steak) / 100;
-              current_day_streak_plan_height =
-                  day_streak_plan_height - avg_day_streak;
-              print('##### TOTAL HEIGHT day_streak $day_streak_plan_height');
-              print(
-                  '##### CURRENT HEIGHT day_streak $current_day_streak_plan_height');
-
-              setState(() {
-                current_day_streak_plan_height;
-              });
-              Future.delayed(const Duration(milliseconds: 1000), () {
-                isShowDayStreak = true;
-                setState(() {
-                  isShowDayStreak;
-                });
-              });
-            });
-
-            for (int j = 0; j < inProgressAchievedLists.length; j++) {
-              if (inProgressAchievedLists[j]['name'] == 'day streak') {
-                level_amount_day_streak +=
-                    inProgressAchievedLists[j]['level_amount'];
-                day_streak_bgcolor = inProgressAchievedLists[j]['color'];
-                day_streak_name = inProgressAchievedLists[j]['name'];
+            print('#### name $name');
+            for (int i = 0; i < userLists.length; i++) {
+              if (userLists[i].containsKey(name)) {
+                print('#### key exists');
+                total.add(userLists[i][name].length);
+              } else {
+                print('#### key not exists');
+                var snackBar = SnackBar(content: Text('key not exists'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
             }
-            level_amount_day_streak = level_amount_day_streak / 2;
-            display_level_amount_day_streak =
-                (level_amount_day_streak.toInt()).toString();
-            if (display_level_amount_day_streak.length == 3) {
-              for (int i = display_level_amount_day_streak.length - 1;
-                  i >= 0;
-                  i--) {
-                if (i == 2) {
-                  third_char_level_amount_day_streak =
-                      display_level_amount_day_streak[i];
+          } else {
+            String key1 = '';
+            String key2 = '';
+            if (aggregation_rules.length > 0) {
+              print('#### Aggregation RULES Array ${aggregation_rules}');
+              if (aggregation_rules.length >= 2) {
+                key1 = aggregation_rules[1][0];
+                key2 = aggregation_rules[1][1];
+              }
+            }
+            num cnt = 0;
+            for (int i = 0; i < userLists.length; i++) {
+              if (userLists[i].containsKey(key1)) {
+                print('#### Aggregation key exists');
+                var dic = userLists[i][key1];
+                print('#### Aggregation Dic $dic');
+                for (int j = 0; j < dic.length; j++) {
+                  if (dic[j].containsKey(key2)) {
+                    cnt += dic[j][key2];
+                  }
+                }
+              } else {
+                print('#### Aggregation key not exists');
+                var snackBar =
+                    SnackBar(content: Text('Aggregation key not exists'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+            }
+            total.add(cnt);
+            print('#### Total AGGRE $total');
+          }
+          print('#### Total $total');
+
+          level_amount.add(inProgressAchievedLists[i]['level_amount']);
+          achievement_bgcolor.add(inProgressAchievedLists[i]['color']);
+          achievement_name.add(inProgressAchievedLists[i]['name']);
+
+          print('#### level_amount $i ${level_amount[i]}');
+          print('#### achievement_bgcolor $i ${achievement_bgcolor[i]}');
+          print('#### achievement_name $i ${achievement_name[i]}');
+
+          // if (inProgressAchievedLists.length == 1) {
+          var number = (level_amount[i].toInt()).toString();
+          if (number.length == 3) {
+            for (int k = number.length - 1; k >= 0; k--) {
+              if (k == 2) {
+                if (i == 0) {
+                  third_char_level_amount_ach1 = number[k];
                 } else if (i == 1) {
-                  second_char_level_amount_day_streak =
-                      display_level_amount_day_streak[i];
+                  third_char_level_amount_ach2 = number[k];
                 } else {
-                  first_char_level_amount_day_streak =
-                      display_level_amount_day_streak[i];
+                  third_char_level_amount_ach3 = number[k];
                 }
-              }
-            } else if (display_level_amount_day_streak.length == 2) {
-              for (int i = display_level_amount_day_streak.length - 1;
-                  i >= 0;
-                  i--) {
-                if (i == 1) {
-                  second_char_level_amount_day_streak =
-                      display_level_amount_day_streak[i];
-                } else {
-                  first_char_level_amount_day_streak =
-                      display_level_amount_day_streak[i];
-                }
-              }
-            }
-          } else if (inProgressAchievedLists[i]['name'] == 'problems solved') {
-            level_amount_problem_solved = 0.0;
-            display_level_amount_problem_solved = '';
-            first_char_level_amount_problem_solved = '0';
-            second_char_level_amount_problem_solved = '0';
-            third_char_level_amount_problem_solved = '';
-            var arrayAggregation = inProgressAchievedLists[i]['aggregation'];
-            if (arrayAggregation.length > 0) {
-              problem_solved += arrayAggregation[0]['books_read'];
-              display_problem_solved = (problem_solved.toInt()).toString();
-            }
-//Calculation for animation for problem solved progress
-            Future.delayed(const Duration(milliseconds: 1000), () {
-              double avg_problem_solved = 0.0;
-              avg_problem_solved =
-                  (problem_solved_plan_height * problem_solved) / 100;
-              current_problem_solved_plan_height =
-                  problem_solved_plan_height - avg_problem_solved;
-              print(
-                  '##### TOTAL HEIGHT problem_solved $problem_solved_plan_height');
-              print(
-                  '##### CURRENT HEIGHT problem_solved $current_problem_solved_plan_height');
-
-              setState(() {
-                current_problem_solved_plan_height;
-              });
-              Future.delayed(const Duration(milliseconds: 1000), () {
-                isShowProblemSolved = true;
-                setState(() {
-                  isShowProblemSolved;
-                });
-              });
-            });
-
-            for (int j = 0; j < inProgressAchievedLists.length; j++) {
-              if (inProgressAchievedLists[j]['name'] == 'problems solved') {
-                level_amount_problem_solved +=
-                    inProgressAchievedLists[j]['level_amount'];
-                problems_solved_bgcolor = inProgressAchievedLists[j]['color'];
-                problems_solved_name = inProgressAchievedLists[j]['name'];
-              }
-            }
-            level_amount_problem_solved = level_amount_problem_solved / 2;
-            display_level_amount_problem_solved =
-                (level_amount_problem_solved.toInt()).toString();
-            if (display_level_amount_problem_solved.length == 3) {
-              for (int i = display_level_amount_problem_solved.length - 1;
-                  i >= 0;
-                  i--) {
-                if (i == 2) {
-                  third_char_level_amount_problem_solved =
-                      display_level_amount_problem_solved[i];
+              } else if (k == 1) {
+                if (i == 0) {
+                  second_char_level_amount_ach1 = number[k];
                 } else if (i == 1) {
-                  second_char_level_amount_problem_solved =
-                      display_level_amount_problem_solved[i];
+                  second_char_level_amount_ach2 = number[k];
                 } else {
-                  first_char_level_amount_problem_solved =
-                      display_level_amount_problem_solved[i];
+                  second_char_level_amount_ach3 = number[k];
                 }
-              }
-            } else if (display_level_amount_problem_solved.length == 2) {
-              for (int i = display_level_amount_problem_solved.length - 1;
-                  i >= 0;
-                  i--) {
-                if (i == 1) {
-                  second_char_level_amount_problem_solved =
-                      display_level_amount_problem_solved[i];
-                } else {
-                  first_char_level_amount_problem_solved =
-                      display_level_amount_problem_solved[i];
-                }
-              }
-            }
-          } else if (inProgressAchievedLists[i]['name'] == 'books read') {
-            level_amount_books_read = 0.0;
-            display_level_amount_books_read = '';
-            first_char_level_amount_books_read = '0';
-            second_char_level_amount_books_read = '0';
-            third_char_level_amount_books_read = '';
-            var arrayAggregation = inProgressAchievedLists[i]['aggregation'];
-            if (arrayAggregation.length > 0) {
-              books_read += arrayAggregation[0]['books_read'];
-              display_books_read = (books_read.toInt()).toString();
-            }
-//Calculation for animation for books read progress
-            Future.delayed(const Duration(milliseconds: 1000), () {
-              double avg_books_read = 0.0;
-              avg_books_read = (books_read_plan_height * books_read) / 100;
-              current_books_read_plan_height =
-                  books_read_plan_height - avg_books_read;
-              print('##### TOTAL HEIGHT $books_read_plan_height');
-              print('##### CURRENT HEIGHT $current_books_read_plan_height');
-
-              setState(() {
-                current_books_read_plan_height;
-              });
-              Future.delayed(const Duration(milliseconds: 1000), () {
-                isShowBookRead = true;
-                setState(() {
-                  isShowBookRead;
-                });
-              });
-            });
-
-            for (int j = 0; j < inProgressAchievedLists.length; j++) {
-              if (inProgressAchievedLists[j]['name'] == 'books read') {
-                level_amount_books_read +=
-                    inProgressAchievedLists[j]['level_amount'];
-                books_read_bgcolor = inProgressAchievedLists[j]['color'];
-                books_read_name = inProgressAchievedLists[j]['name'];
-              }
-            }
-            level_amount_books_read = level_amount_books_read / 2;
-            display_level_amount_books_read =
-                (level_amount_books_read.toInt()).toString();
-            if (display_level_amount_books_read.length == 3) {
-              for (int i = display_level_amount_books_read.length - 1;
-                  i >= 0;
-                  i--) {
-                if (i == 2) {
-                  third_char_level_amount_books_read =
-                      display_level_amount_books_read[i];
+              } else {
+                if (i == 0) {
+                  first_char_level_amount_ach1 = number[k];
                 } else if (i == 1) {
-                  second_char_level_amount_books_read =
-                      display_level_amount_books_read[i];
+                  first_char_level_amount_ach2 = number[k];
                 } else {
-                  first_char_level_amount_books_read =
-                      display_level_amount_books_read[i];
+                  first_char_level_amount_ach3 = number[k];
                 }
               }
-            } else if (display_level_amount_books_read.length == 2) {
-              for (int i = display_level_amount_books_read.length - 1;
-                  i >= 0;
-                  i--) {
-                if (i == 1) {
-                  second_char_level_amount_books_read =
-                      display_level_amount_books_read[i];
+            }
+          } else if (number.length == 2) {
+            for (int k = number.length - 1; k >= 0; k--) {
+              if (k == 1) {
+                if (i == 0) {
+                  second_char_level_amount_ach1 = number[k];
+                } else if (i == 1) {
+                  second_char_level_amount_ach2 = number[k];
                 } else {
-                  first_char_level_amount_books_read =
-                      display_level_amount_books_read[i];
+                  second_char_level_amount_ach3 = number[k];
+                }
+              } else {
+                if (i == 0) {
+                  first_char_level_amount_ach1 = number[k];
+                } else if (i == 1) {
+                  first_char_level_amount_ach2 = number[k];
+                } else {
+                  first_char_level_amount_ach3 = number[k];
                 }
               }
             }
           }
+          if (i == 0) {
+            //Calculation for animation for Achievement 1 progress
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              double avg_books_read = 0.0;
+              avg_books_read = (ach1_plan_height * total[i]) / 100;
+              current_ach1_plan_height = ach1_plan_height - avg_books_read;
+              print('##### TOTAL HEIGHT ACH1 $ach1_plan_height');
+              print('##### CURRENT HEIGHT ACH1 $current_ach1_plan_height');
+
+              setState(() {
+                current_ach1_plan_height;
+              });
+              Future.delayed(const Duration(milliseconds: 1000), () {
+                isShow1Achievement = true;
+                setState(() {
+                  isShow1Achievement;
+                });
+              });
+            });
+          } else if (i == 1) {
+            //Calculation for animation for Achievement 1 progress
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              double avg_books_read = 0.0;
+              avg_books_read = (ach2_plan_height * total[i]) / 100;
+              current_ach2_plan_height = ach2_plan_height - avg_books_read;
+              print('##### TOTAL HEIGHT ACH2 $ach2_plan_height');
+              print('##### CURRENT HEIGHT ACH2 $current_ach2_plan_height');
+
+              setState(() {
+                current_ach2_plan_height;
+              });
+              Future.delayed(const Duration(milliseconds: 1000), () {
+                isShow2Achievement = true;
+                setState(() {
+                  isShow2Achievement;
+                });
+              });
+            });
+          } else {
+            //Calculation for animation for Achievement 1 progress
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              double avg_books_read = 0.0;
+              avg_books_read = (ach3_plan_height * total[i]) / 100;
+              current_ach2_plan_height = ach3_plan_height - avg_books_read;
+              print('##### TOTAL HEIGHT ACH3 $ach3_plan_height');
+              print('##### CURRENT HEIGHT ACH3 $current_ach3_plan_height');
+
+              setState(() {
+                current_ach3_plan_height;
+              });
+              Future.delayed(const Duration(milliseconds: 1000), () {
+                isShow3Achievement = true;
+                setState(() {
+                  isShow3Achievement;
+                });
+              });
+            });
+          }
+          //   }
         }
       }
     }
@@ -344,24 +312,9 @@ class _HomeState extends State<Home> {
     setState(() {
       earnAchievedLists;
       inProgressAchievedLists;
-      first_char_level_amount_day_streak;
-      second_char_level_amount_day_streak;
-      third_char_level_amount_day_streak;
-      first_char_level_amount_books_read;
-      second_char_level_amount_books_read;
-      third_char_level_amount_books_read;
-      first_char_level_amount_problem_solved;
-      second_char_level_amount_problem_solved;
-      third_char_level_amount_problem_solved;
-      display_books_read;
-      display_problem_solved;
-      display_day_steak;
-      books_read_bgcolor;
-      problems_solved_bgcolor;
-      day_streak_bgcolor;
-      books_read_name;
-      day_streak_name;
-      problems_solved_name;
+      level_amount;
+      achievement_bgcolor;
+      achievement_name;
     });
   }
 
@@ -403,6 +356,38 @@ class _HomeState extends State<Home> {
       }
     }
     getEarnAchievmentLevelData(docInProgressIDS, false);
+
+    profileUrlKey = userLists.isNotEmpty ? userLists[0]['profile_url'] : '';
+    getProfileData();
+  }
+
+  Future<void> getProfileData() async {
+    collectionAvatar =
+        FirebaseFirestore.instance.collection('kids_avatar_collection_static');
+
+    // Get docs from collection reference
+    querySnapshotAvatar = await collectionAvatar.get();
+
+    // Get data from docs and convert map to List
+    avatarLists = querySnapshotAvatar.docs.map((doc) => doc.data()).toList();
+
+    for (int i = 0; i < avatarLists.length; i++) {
+      if (avatarLists[i].containsKey(profileUrlKey)) {
+        print('#### key exists');
+        var arrayAvatarList = avatarLists[i][profileUrlKey];
+        profileUrl = arrayAvatarList['cheer'];
+
+        setState(() {
+          profileUrl;
+        });
+      } else {
+        print('#### key not exists');
+        var snackBar = SnackBar(
+            content:
+                Text('$profileUrlKey key not exists in avatar collection'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
   }
 
   Future<void> getFavouriteBooksData() async {
@@ -426,6 +411,7 @@ class _HomeState extends State<Home> {
         }
       }
     }
+    print("### FAV BOOK ${favBookId.length}");
 
     getFavouriteBookData(favBookId);
   }
@@ -441,6 +427,11 @@ class _HomeState extends State<Home> {
     // Get data from docs and convert map to List
     favBooksLists =
         querySnapshotFavBooks.docs.map((doc) => doc.data()).toList();
+
+    favBooksLists
+        .sort((a, b) => a['reading_duration'].compareTo(b['reading_duration']));
+
+    print("### FAV BOOKlist ${favBooksLists.length}");
 
     setState(() {
       favBooksLists;
@@ -569,11 +560,11 @@ class _HomeState extends State<Home> {
                                 borderRadius: BorderRadius.circular(65),
                                 border:
                                     Border.all(width: 5, color: Colors.black)),
-                            child: userLists.isNotEmpty
+                            child: profileUrl != ''
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(50.0),
                                     child: CachedNetworkImage(
-                                        imageUrl: userLists[0]['profile_url'],
+                                        imageUrl: profileUrl,
                                         fit: BoxFit.cover,
                                         placeholder: (context, url) =>
                                             CircularProgressIndicator()),
@@ -662,1726 +653,2051 @@ class _HomeState extends State<Home> {
                       child: Stack(
                         //mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Positioned(
-                            left: 10,
-                            child: isShowBookRead
-                                ? Container(
-                                    height: 330,
-                                    child: Stack(children: [
-                                      Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Stack(
-                                                children:[
-                                                  isShowBookRead? Container(
-                                                      height: 40,
-                                                      width: 30,
-                                                      child: Image.asset(
-                                                          'assets/images/home/numbers_purple_stars_L.png')):SizedBox(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:20.0,left: 20.0),
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      child: first_char_level_amount_books_read ==
-                                                              '1'
-                                                          ? Image.asset(
-                                                              'assets/images/home/numbers/blue/1_blue.png')
-                                                          : first_char_level_amount_books_read ==
-                                                                  '2'
-                                                              ? Image.asset(
-                                                                  'assets/images/home/numbers/blue/2_blue.png')
-                                                              : first_char_level_amount_books_read ==
-                                                                      '3'
-                                                                  ? Image.asset(
-                                                                      'assets/images/home/numbers/blue/3_blue.png')
-                                                                  : first_char_level_amount_books_read ==
-                                                                          '4'
-                                                                      ? Image.asset(
-                                                                          'assets/images/home/numbers/blue/4_blue.png')
-                                                                      : first_char_level_amount_books_read ==
-                                                                              '5'
-                                                                          ? Image.asset(
-                                                                              'assets/images/home/numbers/blue/5_blue.png')
-                                                                          : first_char_level_amount_books_read ==
-                                                                                  '6'
-                                                                              ? Image.asset(
-                                                                                  'assets/images/home/numbers/blue/6_blue.png')
-                                                                              : first_char_level_amount_books_read == '7'
-                                                                                  ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                                                  : first_char_level_amount_books_read == '8'
-                                                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                                                      : first_char_level_amount_books_read == '9'
-                                                                                          ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                                                          : first_char_level_amount_books_read == '0'
-                                                                                              ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                                                              : SizedBox()),
-                                                  ),
-                                              ]),
-                                              Stack(
-                                                children:[
-                                                  isShowBookRead && third_char_level_amount_books_read == ''? Padding(
-                                                    padding: const EdgeInsets.only(left:20.0),
-                                                    child: Container(
-                                                        height: 40,
-                                                        width: 30,
-                                                        child: Image.asset(
-                                                            'assets/images/home/numbers_purple_stars_R.png')),
-                                                  ):SizedBox(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:20.0),
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      child: second_char_level_amount_books_read ==
-                                                              '1'
-                                                          ? Image.asset(
-                                                              'assets/images/home/numbers/blue/1_blue.png')
-                                                          : second_char_level_amount_books_read ==
-                                                                  '2'
-                                                              ? Image.asset(
-                                                                  'assets/images/home/numbers/blue/2_blue.png')
-                                                              : second_char_level_amount_books_read ==
-                                                                      '3'
-                                                                  ? Image.asset(
-                                                                      'assets/images/home/numbers/blue/3_blue.png')
-                                                                  : second_char_level_amount_books_read ==
-                                                                          '4'
-                                                                      ? Image.asset(
-                                                                          'assets/images/home/numbers/blue/4_blue.png')
-                                                                      : second_char_level_amount_books_read ==
-                                                                              '5'
-                                                                          ? Image.asset(
-                                                                              'assets/images/home/numbers/blue/5_blue.png')
-                                                                          : second_char_level_amount_books_read ==
-                                                                                  '6'
-                                                                              ? Image.asset(
-                                                                                  'assets/images/home/numbers/blue/6_blue.png')
-                                                                              : second_char_level_amount_books_read == '7'
-                                                                                  ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                                                  : second_char_level_amount_books_read == '8'
-                                                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                                                      : second_char_level_amount_books_read == '9'
-                                                                                          ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                                                          : second_char_level_amount_books_read == '0'
-                                                                                              ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                                                              : SizedBox()),
-                                                  ),
-                                             ] ),
-                                              Stack(
-                                                children:[
-                                                  isShowBookRead && third_char_level_amount_books_read != ''? Padding(
-                                                    padding: const EdgeInsets.only(left:20.0),
-                                                    child: Container(
-                                                        height: 40,
-                                                        width: 30,
-                                                        child: Image.asset(
-                                                            'assets/images/home/numbers_purple_stars_R.png')),
-                                                  ):SizedBox(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:20.0),
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      child: third_char_level_amount_books_read ==
-                                                              '1'
-                                                          ? Image.asset(
-                                                              'assets/images/home/numbers/blue/1_blue.png')
-                                                          : third_char_level_amount_books_read ==
-                                                                  '2'
-                                                              ? Image.asset(
-                                                                  'assets/images/home/numbers/blue/2_blue.png')
-                                                              : third_char_level_amount_books_read ==
-                                                                      '3'
-                                                                  ? Image.asset(
-                                                                      'assets/images/home/numbers/blue/3_blue.png')
-                                                                  : third_char_level_amount_books_read ==
-                                                                          '4'
-                                                                      ? Image.asset(
-                                                                          'assets/images/home/numbers/blue/4_blue.png')
-                                                                      : third_char_level_amount_books_read ==
-                                                                              '5'
-                                                                          ? Image.asset(
-                                                                              'assets/images/home/numbers/blue/5_blue.png')
-                                                                          : third_char_level_amount_books_read ==
-                                                                                  '6'
-                                                                              ? Image.asset(
-                                                                                  'assets/images/home/numbers/blue/6_blue.png')
-                                                                              : third_char_level_amount_books_read == '7'
-                                                                                  ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                                                  : third_char_level_amount_books_read == '8'
-                                                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                                                      : third_char_level_amount_books_read == '9'
-                                                                                          ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                                                          : third_char_level_amount_books_read == '0'
-                                                                                              ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                                                              : SizedBox()),
-                                                  ),
-                                              ]),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5.0, right: 0.0),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Row(
+                              mainAxisAlignment:
+                                  inProgressAchievedLists.length == 1
+                                      ? MainAxisAlignment.center
+                                      : inProgressAchievedLists.length == 2
+                                          ? MainAxisAlignment.spaceEvenly
+                                          : MainAxisAlignment.spaceBetween,
+                              children: [
+                                inProgressAchievedLists.length >= 1
+                                    ? isShow1Achievement
+                                        ? Container(
+                                            height: 350,
                                             child: Stack(children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10.0),
-                                                child: RotatedBox(
-                                                  quarterTurns: -1,
-                                                  child: LinearPercentIndicator(
-                                                    width: 240.0,
-                                                    lineHeight: 24.0,
-                                                    barRadius:
-                                                        Radius.circular(10.0),
-                                                    percent: books_read / 100,
-                                                    // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
-                                                    // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
-                                                    backgroundColor:
-                                                        books_read_bgcolor != ''
-                                                            ? HexColor(
-                                                                    books_read_bgcolor)
-                                                                .withOpacity(
-                                                                    0.1)
-                                                            : Colors
-                                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
-                                                    progressColor: books_read_bgcolor !=
-                                                            ''
-                                                        ? HexColor(
-                                                                books_read_bgcolor)
-                                                            .withOpacity(1.0)
-                                                        : Colors
-                                                            .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, left: 10.0),
-                                                child: RotatedBox(
-                                                  quarterTurns: -1,
-                                                  child: Container(
-                                                      width: 220.0,
-                                                      height: 26,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 3,
-                                                            color:
-                                                                Colors.black),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.0),
-                                                      )),
-                                                ),
-                                              ),
-                                              // Padding(
-                                              //   padding: const EdgeInsets.only(left:3.0),
-                                              //   child: Container(
-                                              //     height: 80,
-                                              //     width: 40,
-                                              //     child: Image.asset(
-                                              //         'assets/images/home/Kids_progressbar_blueicon.png'),
-                                              //   ),
-                                              // ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 3.0),
-                                                child: AnimatedContainer(
-                                                  duration:
-                                                      Duration(seconds: 3),
-                                                  height:
-                                                      current_books_read_plan_height, //430
-                                                  width: 40,
-                                                  child: Image.asset(
-                                                      'assets/images/home/Kids_progressbar_blueicon.png'),
-                                                ),
-                                              ),
-                                            ]),
-                                          ),
-                                          // Padding(
-                                          //   padding: const EdgeInsets.only(
-                                          //       top: 5.0, bottom: 10.0, right: 20),
-                                          //   child: Column(
-                                          //     children: [
-                                          //       Text(display_books_read,
-                                          //           style: TextStyle(
-                                          //             color: books_read_bgcolor != ''
-                                          //                 ? HexColor(books_read_bgcolor)
-                                          //                     .withOpacity(1.0)
-                                          //                 : Colors
-                                          //                     .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
-                                          //             fontWeight: FontWeight.w600,
-                                          //             fontSize: 28.0,
-                                          //           )),
-                                          //       Text("${books_read_name}!".toUpperCase(),
-                                          //           style: TextStyle(
-                                          //             color: Colors.black,
-                                          //             fontWeight: FontWeight.w700,
-                                          //             fontSize: 12.0,
-                                          //           ))
-                                          //     ],
-                                          //   ),
-                                          // ),
-                                        ],
-                                      ),
-                                      isShowBookRead
-                                          ? SizedBox(height: 10)
-                                          : SizedBox(),
-                                      isShowBookRead
-                                          ? Positioned(
-                                              left: 35,
-                                              bottom: 0,
-
-                                              child: Column(
+                                              Column(
                                                 children: [
-                                                  Text(display_books_read,
-                                                      style: TextStyle(
-                                                        color: books_read_bgcolor !=
+                                                  Row(
+                                                    children: [
+                                                      Stack(children: [
+                                                        //isShowBookRead?
+                                                        Container(
+                                                            height: 40,
+                                                            width: 30,
+                                                            child: Image.asset(
+                                                                'assets/images/home/numbers_purple_stars_L.png')),
+                                                        // :SizedBox(),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 30.0,
+                                                                  left: 0.0),
+                                                          child: Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: first_char_level_amount_ach1 ==
+                                                                      '1'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/blue/1_blue.png')
+                                                                  : first_char_level_amount_ach1 ==
+                                                                          '2'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/blue/2_blue.png')
+                                                                      : first_char_level_amount_ach1 ==
+                                                                              '3'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/blue/3_blue.png')
+                                                                          : first_char_level_amount_ach1 == '4'
+                                                                              ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                                                              : first_char_level_amount_ach1 == '5'
+                                                                                  ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                                                                  : first_char_level_amount_ach1 == '6'
+                                                                                      ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                                                                      : first_char_level_amount_ach1 == '7'
+                                                                                          ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                                                          : first_char_level_amount_ach1 == '8'
+                                                                                              ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                                                              : first_char_level_amount_ach1 == '9'
+                                                                                                  ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                                                                  : first_char_level_amount_ach1 == '0'
+                                                                                                      ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                                                                      : SizedBox()),
+                                                        ),
+                                                      ]),
+                                                      Stack(children: [
+                                                        //isShowBookRead &&
+                                                        third_char_level_amount_ach1 ==
                                                                 ''
-                                                            ? HexColor(
-                                                                    books_read_bgcolor)
-                                                                .withOpacity(
-                                                                    1.0)
-                                                            : Colors
-                                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 28.0,
-                                                      )),
-                                                  Text(
-                                                      "${books_read_name}!"
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontSize: 9.0,
-                                                      ))
+                                                            ? Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            0.0),
+                                                                child: Container(
+                                                                    height: 40,
+                                                                    width: 30,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            'assets/images/home/numbers_purple_stars_R.png')),
+                                                              )
+                                                            : SizedBox(),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 30.0),
+                                                          child: Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: second_char_level_amount_ach1 ==
+                                                                      '1'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/blue/1_blue.png')
+                                                                  : second_char_level_amount_ach1 ==
+                                                                          '2'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/blue/2_blue.png')
+                                                                      : second_char_level_amount_ach1 ==
+                                                                              '3'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/blue/3_blue.png')
+                                                                          : second_char_level_amount_ach1 == '4'
+                                                                              ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                                                              : second_char_level_amount_ach1 == '5'
+                                                                                  ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                                                                  : second_char_level_amount_ach1 == '6'
+                                                                                      ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                                                                      : second_char_level_amount_ach1 == '7'
+                                                                                          ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                                                          : second_char_level_amount_ach1 == '8'
+                                                                                              ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                                                              : second_char_level_amount_ach1 == '9'
+                                                                                                  ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                                                                  : second_char_level_amount_ach1 == '0'
+                                                                                                      ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                                                                      : SizedBox()),
+                                                        ),
+                                                      ]),
+                                                      Stack(children: [
+                                                        // isShowBookRead &&
+                                                        third_char_level_amount_ach1 !=
+                                                                ''
+                                                            ? Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            0.0),
+                                                                child: Container(
+                                                                    height: 40,
+                                                                    width: 30,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            'assets/images/home/numbers_purple_stars_R.png')),
+                                                              )
+                                                            : SizedBox(),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 30.0),
+                                                          child: Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: third_char_level_amount_ach1 ==
+                                                                      '1'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/blue/1_blue.png')
+                                                                  : third_char_level_amount_ach1 ==
+                                                                          '2'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/blue/2_blue.png')
+                                                                      : third_char_level_amount_ach1 ==
+                                                                              '3'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/blue/3_blue.png')
+                                                                          : third_char_level_amount_ach1 == '4'
+                                                                              ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                                                              : third_char_level_amount_ach1 == '5'
+                                                                                  ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                                                                  : third_char_level_amount_ach1 == '6'
+                                                                                      ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                                                                      : third_char_level_amount_ach1 == '7'
+                                                                                          ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                                                          : third_char_level_amount_ach1 == '8'
+                                                                                              ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                                                              : third_char_level_amount_ach1 == '9'
+                                                                                                  ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                                                                  : third_char_level_amount_ach1 == '0'
+                                                                                                      ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                                                                      : SizedBox()),
+                                                        ),
+                                                      ]),
+                                                    ],
+                                                  ),
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 5.0,
+                                                              right: 0.0,
+                                                              bottom: 45),
+                                                      child: Stack(children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 10.0),
+                                                          child: RotatedBox(
+                                                            quarterTurns: -1,
+                                                            child:
+                                                                LinearPercentIndicator(
+                                                              width: 240.0,
+                                                              lineHeight: 24.0,
+                                                              barRadius: Radius
+                                                                  .circular(
+                                                                      10.0),
+                                                              percent:
+                                                                  total[0] /
+                                                                      100,
+                                                              // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                                                              // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                                                              backgroundColor: achievement_bgcolor[
+                                                                          0] !=
+                                                                      ''
+                                                                  ? HexColor(
+                                                                          achievement_bgcolor[
+                                                                              0])
+                                                                      .withOpacity(
+                                                                          0.1)
+                                                                  : Colors
+                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                                                              progressColor: achievement_bgcolor[
+                                                                          0] !=
+                                                                      ''
+                                                                  ? HexColor(
+                                                                          achievement_bgcolor[
+                                                                              0])
+                                                                      .withOpacity(
+                                                                          1.0)
+                                                                  : Colors
+                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 10.0,
+                                                                  left: 10.0),
+                                                          child: RotatedBox(
+                                                            quarterTurns: -1,
+                                                            child: Container(
+                                                                width: 220.0,
+                                                                height: 26,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border.all(
+                                                                      width: 3,
+                                                                      color: Colors
+                                                                          .black),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10.0),
+                                                                )),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: total[0] >=
+                                                                      0 &&
+                                                                  total[0] <= 50
+                                                              ? EdgeInsets.only(
+                                                                  left: 3.0,
+                                                                  top: total[0] >=
+                                                                              0 &&
+                                                                          total[0] <=
+                                                                              20
+                                                                      ? 180
+                                                                      : total[0] > 20 &&
+                                                                              total[0] <= 30
+                                                                          ? 130
+                                                                          : total[0] > 30 && total[0] <= 40
+                                                                              ? 90
+                                                                              : total[0] > 40 && total[0] <= 50
+                                                                                  ? 20
+                                                                                  : 0,
+                                                                )
+                                                              : EdgeInsets.only(
+                                                                  left: 3.0,
+                                                                  bottom: total[0] >
+                                                                              50 &&
+                                                                          total[0] <=
+                                                                              60
+                                                                      ? 20
+                                                                      : total[0] > 60 &&
+                                                                              total[0] <= 70
+                                                                          ? 70
+                                                                          : total[0] > 70 && total[0] <= 80
+                                                                              ? 110
+                                                                              : total[0] > 80 && total[0] <= 90
+                                                                                  ? 160
+                                                                                  : 170,
+                                                                ),
+                                                          child:
+                                                              AnimatedContainer(
+                                                            //color: Colors.red,
+                                                            duration: Duration(
+                                                                seconds: 3),
+                                                            height:
+                                                                current_ach1_plan_height, //430
+                                                            width: 40,
+                                                            child: Image.asset(
+                                                                'assets/images/home/Kids_progressbar_blueicon.png'),
+                                                          ),
+                                                        ),
+                                                      ]),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
-                                            )
-                                          : SizedBox()
-                                    ]),
-                                  )
-                                : Stack(children: [
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Stack(
-                                          children:[
-                                            isShowBookRead? Container(
-                                                height: 40,
-                                                width: 30,
-                                                child: Image.asset(
-                                                    'assets/images/home/numbers_purple_stars_L.png')):SizedBox(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top:20.0,left: 20.0),
-                                              child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  child: first_char_level_amount_books_read ==
-                                                      '1'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/1_blue.png')
-                                                      : first_char_level_amount_books_read ==
-                                                      '2'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/2_blue.png')
-                                                      : first_char_level_amount_books_read ==
-                                                      '3'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/3_blue.png')
-                                                      : first_char_level_amount_books_read ==
-                                                      '4'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/4_blue.png')
-                                                      : first_char_level_amount_books_read ==
-                                                      '5'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/5_blue.png')
-                                                      : first_char_level_amount_books_read ==
-                                                      '6'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/6_blue.png')
-                                                      : first_char_level_amount_books_read == '7'
-                                                      ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                      : first_char_level_amount_books_read == '8'
-                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                      : first_char_level_amount_books_read == '9'
-                                                      ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                      : first_char_level_amount_books_read == '0'
-                                                      ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                      : SizedBox()),
-                                            ),
-                                          ]),
-                                      Stack(
-                                          children:[
-                                            isShowBookRead && third_char_level_amount_books_read == ''? Container(
-                                                height: 40,
-                                                width: 30,
-                                                child: Image.asset(
-                                                    'assets/images/home/numbers_purple_stars_R.png')):SizedBox(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top:20.0),
-                                              child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  child: second_char_level_amount_books_read ==
-                                                      '1'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/1_blue.png')
-                                                      : second_char_level_amount_books_read ==
-                                                      '2'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/2_blue.png')
-                                                      : second_char_level_amount_books_read ==
-                                                      '3'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/3_blue.png')
-                                                      : second_char_level_amount_books_read ==
-                                                      '4'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/4_blue.png')
-                                                      : second_char_level_amount_books_read ==
-                                                      '5'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/5_blue.png')
-                                                      : second_char_level_amount_books_read ==
-                                                      '6'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/6_blue.png')
-                                                      : second_char_level_amount_books_read == '7'
-                                                      ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                      : second_char_level_amount_books_read == '8'
-                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                      : second_char_level_amount_books_read == '9'
-                                                      ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                      : second_char_level_amount_books_read == '0'
-                                                      ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                      : SizedBox()),
-                                            ),
-                                          ] ),
-                                      Stack(
-                                          children:[
-                                            isShowBookRead && third_char_level_amount_books_read != ''? Padding(
-                                              padding: const EdgeInsets.only(left:20.0),
-                                              child: Container(
-                                                  height: 40,
-                                                  width: 30,
-                                                  child: Image.asset(
-                                                      'assets/images/home/numbers_purple_stars_R.png')),
-                                            ):SizedBox(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top:20.0),
-                                              child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  child: third_char_level_amount_books_read ==
-                                                      '1'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/1_blue.png')
-                                                      : third_char_level_amount_books_read ==
-                                                      '2'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/2_blue.png')
-                                                      : third_char_level_amount_books_read ==
-                                                      '3'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/3_blue.png')
-                                                      : third_char_level_amount_books_read ==
-                                                      '4'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/4_blue.png')
-                                                      : third_char_level_amount_books_read ==
-                                                      '5'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/5_blue.png')
-                                                      : third_char_level_amount_books_read ==
-                                                      '6'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/blue/6_blue.png')
-                                                      : third_char_level_amount_books_read == '7'
-                                                      ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                      : third_char_level_amount_books_read == '8'
-                                                      ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                      : third_char_level_amount_books_read == '9'
-                                                      ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                      : third_char_level_amount_books_read == '0'
-                                                      ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                      : SizedBox()),
-                                            ),
-                                          ]),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 5.0, right: 0.0),
-                                    child: Stack(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10.0),
-                                        child: RotatedBox(
-                                          quarterTurns: -1,
-                                          child: LinearPercentIndicator(
-                                            width: 240.0,
-                                            lineHeight: 24.0,
-                                            barRadius:
-                                            Radius.circular(10.0),
-                                            percent: books_read / 100,
-                                            // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
-                                            // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
-                                            backgroundColor:
-                                            books_read_bgcolor != ''
-                                                ? HexColor(
-                                                books_read_bgcolor)
-                                                .withOpacity(
-                                                0.1)
-                                                : Colors
-                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
-                                            progressColor: books_read_bgcolor !=
-                                                ''
-                                                ? HexColor(
-                                                books_read_bgcolor)
-                                                .withOpacity(1.0)
-                                                : Colors
-                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10.0, left: 10.0),
-                                        child: RotatedBox(
-                                          quarterTurns: -1,
-                                          child: Container(
-                                              width: 220.0,
-                                              height: 26,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    width: 3,
-                                                    color:
-                                                    Colors.black),
-                                                borderRadius:
-                                                BorderRadius
-                                                    .circular(10.0),
-                                              )),
-                                        ),
-                                      ),
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(left:3.0),
-                                      //   child: Container(
-                                      //     height: 80,
-                                      //     width: 40,
-                                      //     child: Image.asset(
-                                      //         'assets/images/home/Kids_progressbar_blueicon.png'),
-                                      //   ),
-                                      // ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 3.0),
-                                        child: AnimatedContainer(
-                                          duration:
-                                          Duration(seconds: 3),
-                                          height:
-                                          current_books_read_plan_height, //430
-                                          width: 40,
-                                          child: Image.asset(
-                                              'assets/images/home/Kids_progressbar_blueicon.png'),
-                                        ),
-                                      ),
-                                    ]),
-                                  ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(
-                                  //       top: 5.0, bottom: 10.0, right: 20),
-                                  //   child: Column(
-                                  //     children: [
-                                  //       Text(display_books_read,
-                                  //           style: TextStyle(
-                                  //             color: books_read_bgcolor != ''
-                                  //                 ? HexColor(books_read_bgcolor)
-                                  //                     .withOpacity(1.0)
-                                  //                 : Colors
-                                  //                     .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
-                                  //             fontWeight: FontWeight.w600,
-                                  //             fontSize: 28.0,
-                                  //           )),
-                                  //       Text("${books_read_name}!".toUpperCase(),
-                                  //           style: TextStyle(
-                                  //             color: Colors.black,
-                                  //             fontWeight: FontWeight.w700,
-                                  //             fontSize: 12.0,
-                                  //           ))
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                              isShowBookRead
-                                  ? SizedBox(height: 10)
-                                  : SizedBox(),
-                              isShowBookRead
-                                  ? Positioned(
-                                left: 35,
-                                bottom: 0,
-
-                                child: Column(
-                                  children: [
-                                    Text(display_books_read,
-                                        style: TextStyle(
-                                          color: books_read_bgcolor !=
-                                              ''
-                                              ? HexColor(
-                                              books_read_bgcolor)
-                                              .withOpacity(
-                                              1.0)
-                                              : Colors
-                                              .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
-                                          fontWeight:
-                                          FontWeight.w600,
-                                          fontSize: 28.0,
-                                        )),
-                                    Text(
-                                        "${books_read_name}!"
-                                            .toUpperCase(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight:
-                                          FontWeight.w700,
-                                          fontSize: 9.0,
-                                        ))
-                                  ],
-                                ),
-                              )
-                                  : SizedBox()
-                            ]),
-                          ),
-                          Positioned(
-                            left: (MediaQuery.of(context).size.width / 2) - 45,
-                            child: isShowProblemSolved
-                                ? Container(
-                                    height: 330,
-                                    child: Stack(children: [
-                                      Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Stack(
-                                                children:[
-                                                  isShowProblemSolved? Container(
-                                                      height: 40,
-                                                      width: 30,
-                                                      child: Image.asset(
-                                                          'assets/images/home/numbers_green_stars_L.png')):SizedBox(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:20.0,left: 20.0),
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      child: first_char_level_amount_problem_solved ==
-                                                              '1'
-                                                          ? Image.asset(
-                                                              'assets/images/home/numbers/green/1_green.png')
-                                                          : first_char_level_amount_problem_solved ==
-                                                                  '2'
-                                                              ? Image.asset(
-                                                                  'assets/images/home/numbers/green/2_green.png')
-                                                              : first_char_level_amount_problem_solved ==
-                                                                      '3'
-                                                                  ? Image.asset(
-                                                                      'assets/images/home/numbers/green/3_green.png')
-                                                                  : first_char_level_amount_problem_solved ==
-                                                                          '4'
-                                                                      ? Image.asset(
-                                                                          'assets/images/home/numbers/green/4_green.png')
-                                                                      : first_char_level_amount_problem_solved ==
-                                                                              '5'
-                                                                          ? Image.asset(
-                                                                              'assets/images/home/numbers/green/5_green.png')
-                                                                          : first_char_level_amount_problem_solved ==
-                                                                                  '6'
-                                                                              ? Image.asset(
-                                                                                  'assets/images/home/numbers/green/6_green.png')
-                                                                              : first_char_level_amount_problem_solved == '7'
-                                                                                  ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                                                  : first_char_level_amount_problem_solved == '8'
-                                                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                                                      : first_char_level_amount_problem_solved == '9'
-                                                                                          ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                                                          : first_char_level_amount_problem_solved == '0'
-                                                                                              ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                                                              : SizedBox()),
-                                                  ),
-                                              ]),
-                                              Stack(
-                                                children:[
-                                                  isShowProblemSolved && third_char_level_amount_problem_solved == ''? Padding(
-                                                    padding: const EdgeInsets.only(left:20.0),
-                                                    child: Container(
-                                                        height: 40,
-                                                        width: 30,
-                                                        child: Image.asset(
-                                                            'assets/images/home/numbers_green_stars_R.png')),
-                                                  ):SizedBox(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:20.0),
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      child: second_char_level_amount_problem_solved ==
-                                                              '1'
-                                                          ? Image.asset(
-                                                              'assets/images/home/numbers/green/1_green.png')
-                                                          : second_char_level_amount_problem_solved ==
-                                                                  '2'
-                                                              ? Image.asset(
-                                                                  'assets/images/home/numbers/green/2_green.png')
-                                                              : second_char_level_amount_problem_solved ==
-                                                                      '3'
-                                                                  ? Image.asset(
-                                                                      'assets/images/home/numbers/green/3_green.png')
-                                                                  : second_char_level_amount_problem_solved ==
-                                                                          '4'
-                                                                      ? Image.asset(
-                                                                          'assets/images/home/numbers/green/4_green.png')
-                                                                      : second_char_level_amount_problem_solved ==
-                                                                              '5'
-                                                                          ? Image.asset(
-                                                                              'assets/images/home/numbers/green/5_green.png')
-                                                                          : second_char_level_amount_problem_solved ==
-                                                                                  '6'
-                                                                              ? Image.asset(
-                                                                                  'assets/images/home/numbers/green/6_green.png')
-                                                                              : second_char_level_amount_problem_solved == '7'
-                                                                                  ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                                                  : second_char_level_amount_problem_solved == '8'
-                                                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                                                      : second_char_level_amount_problem_solved == '9'
-                                                                                          ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                                                          : second_char_level_amount_problem_solved == '0'
-                                                                                              ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                                                              : SizedBox()),
-                                                  ),
-                                             ] ),
-                                              Stack(
-                                                children:[
-                                                  isShowProblemSolved && third_char_level_amount_problem_solved != ''? Padding(
-                                                    padding: const EdgeInsets.only(left:20.0),
-                                                    child: Container(
-                                                        height: 40,
-                                                        width: 30,
-                                                        child: Image.asset(
-                                                            'assets/images/home/numbers_green_stars_R.png')),
-                                                  ):SizedBox(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:20.0),
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      child: third_char_level_amount_problem_solved ==
-                                                              '1'
-                                                          ? Image.asset(
-                                                              'assets/images/home/numbers/green/1_green.png')
-                                                          : third_char_level_amount_problem_solved ==
-                                                                  '2'
-                                                              ? Image.asset(
-                                                                  'assets/images/home/numbers/green/2_green.png')
-                                                              : third_char_level_amount_problem_solved ==
-                                                                      '3'
-                                                                  ? Image.asset(
-                                                                      'assets/images/home/numbers/green/3_green.png')
-                                                                  : third_char_level_amount_problem_solved ==
-                                                                          '4'
-                                                                      ? Image.asset(
-                                                                          'assets/images/home/numbers/green/4_green.png')
-                                                                      : third_char_level_amount_problem_solved ==
-                                                                              '5'
-                                                                          ? Image.asset(
-                                                                              'assets/images/home/numbers/green/5_green.png')
-                                                                          : third_char_level_amount_problem_solved ==
-                                                                                  '6'
-                                                                              ? Image.asset(
-                                                                                  'assets/images/home/numbers/green/6_green.png')
-                                                                              : third_char_level_amount_problem_solved == '7'
-                                                                                  ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                                                  : third_char_level_amount_problem_solved == '8'
-                                                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                                                      : third_char_level_amount_problem_solved == '9'
-                                                                                          ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                                                          : third_char_level_amount_problem_solved == '0'
-                                                                                              ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                                                              : SizedBox()),
-                                                  ),
-                                             ] ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5.0, right: 25),
-                                            child: Stack(children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10.0),
-                                                child: RotatedBox(
-                                                  quarterTurns: -1,
-                                                  child: LinearPercentIndicator(
-                                                    width: 240.0,
-                                                    lineHeight: 24.0,
-                                                    barRadius:
-                                                        Radius.circular(10.0),
-                                                    percent:
-                                                        problem_solved / 100,
-                                                    backgroundColor:
-                                                        problems_solved_bgcolor !=
-                                                                ''
-                                                            ? HexColor(
-                                                                    problems_solved_bgcolor)
-                                                                .withOpacity(
-                                                                    0.1)
-                                                            : Colors
-                                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(0.1) : Colors.white,//Color.fromRGBO(121, 205, 31, 0.1),
-                                                    progressColor:
-                                                        problems_solved_bgcolor !=
-                                                                ''
-                                                            ? HexColor(
-                                                                    problems_solved_bgcolor)
-                                                                .withOpacity(
-                                                                    1.0)
-                                                            : Colors
-                                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, left: 10.0),
-                                                child: RotatedBox(
-                                                  quarterTurns: -1,
-                                                  child: Container(
-                                                      width: 220.0,
-                                                      height: 26,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 3,
-                                                            color:
-                                                                Colors.black),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.0),
-                                                      )),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 3.0),
-                                                child: AnimatedContainer(
-                                                  duration:
-                                                      Duration(seconds: 3),
-                                                  height:
-                                                      current_problem_solved_plan_height, //430
-                                                  width: 40,
-                                                  child: Image.asset(
-                                                      'assets/images/home/Kids_progressbar_greenicon.png'),
-                                                ),
-                                              ),
+                                              isShow1Achievement
+                                                  ? Positioned(
+                                                      left: 20, //35,
+                                                      bottom: 5,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                              total[0]
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                color: achievement_bgcolor[
+                                                                            0] !=
+                                                                        ''
+                                                                    ? HexColor(achievement_bgcolor[
+                                                                            0])
+                                                                        .withOpacity(
+                                                                            1.0)
+                                                                    : Colors
+                                                                        .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 28.0,
+                                                              )),
+                                                          Text(
+                                                              "${achievement_name[0]}"
+                                                                  .toUpperCase(),
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                fontSize: 9.0,
+                                                              ))
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : SizedBox()
                                             ]),
-                                          ),
-                                          // Padding(
-                                          //   padding: const EdgeInsets.only(
-                                          //       top: 5.0, bottom: 10.0, right: 20),
-                                          //   child: Column(
-                                          //     children: [
-                                          //       Text(display_problem_solved,
-                                          //           style: TextStyle(
-                                          //             color: problems_solved_bgcolor != ''
-                                          //                 ? HexColor(
-                                          //                         problems_solved_bgcolor)
-                                          //                     .withOpacity(1.0)
-                                          //                 : Colors
-                                          //                     .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
-                                          //             fontWeight: FontWeight.w600,
-                                          //             fontSize: 28.0,
-                                          //           )),
-                                          //       Text(
-                                          //           "${problems_solved_name}!"
-                                          //               .toUpperCase(),
-                                          //           style: TextStyle(
-                                          //             color: Colors.black,
-                                          //             fontWeight: FontWeight.w700,
-                                          //             fontSize: 12.0,
-                                          //           ))
-                                          //     ],
-                                          //   ),
-                                          // )
-                                        ],
-                                      ),
-                                      isShowProblemSolved
-                                          ? SizedBox(height: 10)
-                                          : SizedBox(),
-                                      isShowProblemSolved
-                                          ? Positioned(
-                                               left: 18,
-                                              //right:10,
-                                              bottom: 0,
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 10.0),
-                                                    child: Text(
-                                                        display_problem_solved,
-                                                        style: TextStyle(
-                                                          color: problems_solved_bgcolor !=
-                                                                  ''
-                                                              ? HexColor(
-                                                                      problems_solved_bgcolor)
-                                                                  .withOpacity(
-                                                                      1.0)
-                                                              : Colors
-                                                                  .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 28.0,
-                                                        )),
-                                                  ),
-                                                  Text(
-                                                      "${problems_solved_name}!"
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontSize: 9.0,
-                                                      ))
-                                                ],
-                                              ),
-                                            )
-                                          : SizedBox()
-                                    ]),
-                                  )
-                                : Stack(children: [
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Stack(
-                                          children:[
-                                            isShowProblemSolved? Container(
-                                                height: 40,
-                                                width: 30,
-                                                child: Image.asset(
-                                                    'assets/images/home/numbers_green_stars_L.png')):SizedBox(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top:20.0,left: 20.0),
-                                              child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  child: first_char_level_amount_problem_solved ==
-                                                      '1'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/1_green.png')
-                                                      : first_char_level_amount_problem_solved ==
-                                                      '2'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/2_green.png')
-                                                      : first_char_level_amount_problem_solved ==
-                                                      '3'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/3_green.png')
-                                                      : first_char_level_amount_problem_solved ==
-                                                      '4'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/4_green.png')
-                                                      : first_char_level_amount_problem_solved ==
-                                                      '5'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/5_green.png')
-                                                      : first_char_level_amount_problem_solved ==
-                                                      '6'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/6_green.png')
-                                                      : first_char_level_amount_problem_solved == '7'
-                                                      ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                      : first_char_level_amount_problem_solved == '8'
-                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                      : first_char_level_amount_problem_solved == '9'
-                                                      ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                      : first_char_level_amount_problem_solved == '0'
-                                                      ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                      : SizedBox()),
-                                            ),
-                                          ]),
-                                      Stack(
-                                          children:[
-                                            isShowProblemSolved && third_char_level_amount_problem_solved == ''? Padding(
-                                              padding: const EdgeInsets.only(left:20.0),
-                                              child: Container(
-                                                  height: 40,
-                                                  width: 30,
-                                                  child: Image.asset(
-                                                      'assets/images/home/numbers_green_stars_R.png')),
-                                            ):SizedBox(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top:20.0),
-                                              child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  child: second_char_level_amount_problem_solved ==
-                                                      '1'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/1_green.png')
-                                                      : second_char_level_amount_problem_solved ==
-                                                      '2'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/2_green.png')
-                                                      : second_char_level_amount_problem_solved ==
-                                                      '3'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/3_green.png')
-                                                      : second_char_level_amount_problem_solved ==
-                                                      '4'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/4_green.png')
-                                                      : second_char_level_amount_problem_solved ==
-                                                      '5'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/5_green.png')
-                                                      : second_char_level_amount_problem_solved ==
-                                                      '6'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/6_green.png')
-                                                      : second_char_level_amount_problem_solved == '7'
-                                                      ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                      : second_char_level_amount_problem_solved == '8'
-                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                      : second_char_level_amount_problem_solved == '9'
-                                                      ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                      : second_char_level_amount_problem_solved == '0'
-                                                      ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                      : SizedBox()),
-                                            ),
-                                          ] ),
-                                      Stack(
-                                          children:[
-                                            isShowProblemSolved && third_char_level_amount_problem_solved != ''? Padding(
-                                              padding: const EdgeInsets.only(left:20.0),
-                                              child: Container(
-                                                  height: 40,
-                                                  width: 30,
-                                                  child: Image.asset(
-                                                      'assets/images/home/numbers_green_stars_R.png')),
-                                            ):SizedBox(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top:20.0),
-                                              child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  child: third_char_level_amount_problem_solved ==
-                                                      '1'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/1_green.png')
-                                                      : third_char_level_amount_problem_solved ==
-                                                      '2'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/2_green.png')
-                                                      : third_char_level_amount_problem_solved ==
-                                                      '3'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/3_green.png')
-                                                      : third_char_level_amount_problem_solved ==
-                                                      '4'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/4_green.png')
-                                                      : third_char_level_amount_problem_solved ==
-                                                      '5'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/5_green.png')
-                                                      : third_char_level_amount_problem_solved ==
-                                                      '6'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/green/6_green.png')
-                                                      : third_char_level_amount_problem_solved == '7'
-                                                      ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                      : third_char_level_amount_problem_solved == '8'
-                                                      ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                      : third_char_level_amount_problem_solved == '9'
-                                                      ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                      : third_char_level_amount_problem_solved == '0'
-                                                      ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                      : SizedBox()),
-                                            ),
-                                          ] ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 5.0, right: 25),
-                                    child: Stack(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10.0),
-                                        child: RotatedBox(
-                                          quarterTurns: -1,
-                                          child: LinearPercentIndicator(
-                                            width: 240.0,
-                                            lineHeight: 24.0,
-                                            barRadius:
-                                            Radius.circular(10.0),
-                                            percent:
-                                            problem_solved / 100,
-                                            backgroundColor:
-                                            problems_solved_bgcolor !=
-                                                ''
-                                                ? HexColor(
-                                                problems_solved_bgcolor)
-                                                .withOpacity(
-                                                0.1)
-                                                : Colors
-                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(0.1) : Colors.white,//Color.fromRGBO(121, 205, 31, 0.1),
-                                            progressColor:
-                                            problems_solved_bgcolor !=
-                                                ''
-                                                ? HexColor(
-                                                problems_solved_bgcolor)
-                                                .withOpacity(
-                                                1.0)
-                                                : Colors
-                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10.0, left: 10.0),
-                                        child: RotatedBox(
-                                          quarterTurns: -1,
-                                          child: Container(
-                                              width: 220.0,
-                                              height: 26,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    width: 3,
-                                                    color:
-                                                    Colors.black),
-                                                borderRadius:
-                                                BorderRadius
-                                                    .circular(10.0),
-                                              )),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 3.0),
-                                        child: AnimatedContainer(
-                                          duration:
-                                          Duration(seconds: 3),
-                                          height:
-                                          current_problem_solved_plan_height, //430
-                                          width: 40,
-                                          child: Image.asset(
-                                              'assets/images/home/Kids_progressbar_greenicon.png'),
-                                        ),
-                                      ),
-                                    ]),
-                                  ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(
-                                  //       top: 5.0, bottom: 10.0, right: 20),
-                                  //   child: Column(
-                                  //     children: [
-                                  //       Text(display_problem_solved,
-                                  //           style: TextStyle(
-                                  //             color: problems_solved_bgcolor != ''
-                                  //                 ? HexColor(
-                                  //                         problems_solved_bgcolor)
-                                  //                     .withOpacity(1.0)
-                                  //                 : Colors
-                                  //                     .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
-                                  //             fontWeight: FontWeight.w600,
-                                  //             fontSize: 28.0,
-                                  //           )),
-                                  //       Text(
-                                  //           "${problems_solved_name}!"
-                                  //               .toUpperCase(),
-                                  //           style: TextStyle(
-                                  //             color: Colors.black,
-                                  //             fontWeight: FontWeight.w700,
-                                  //             fontSize: 12.0,
-                                  //           ))
-                                  //     ],
-                                  //   ),
-                                  // )
-                                ],
-                              ),
-                              isShowProblemSolved
-                                  ? SizedBox(height: 10)
-                                  : SizedBox(),
-                              isShowProblemSolved
-                                  ? Positioned(
-                                left: 18,
-                                //right:10,
-                                bottom: 0,
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                      const EdgeInsets.only(
-                                          right: 10.0),
-                                      child: Text(
-                                          display_problem_solved,
-                                          style: TextStyle(
-                                            color: problems_solved_bgcolor !=
-                                                ''
-                                                ? HexColor(
-                                                problems_solved_bgcolor)
-                                                .withOpacity(
-                                                1.0)
-                                                : Colors
-                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[1]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(121, 205, 31, 1.0),
-                                            fontWeight:
-                                            FontWeight.w600,
-                                            fontSize: 28.0,
-                                          )),
-                                    ),
-                                    Text(
-                                        "${problems_solved_name}!"
-                                            .toUpperCase(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight:
-                                          FontWeight.w700,
-                                          fontSize: 9.0,
-                                        ))
-                                  ],
-                                ),
-                              )
-                                  : SizedBox()
-                            ]),
-                          ),
-                          Positioned(
-                            right: 0,
-                            child: isShowDayStreak
-                                ? Container(
-                                    height: 330,
-                                    child: Stack(children: [
-                                      Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Stack(
-                                                children:[
-                                                  isShowDayStreak? Container(
-                                                      height: 40,
-                                                      width: 30,
-                                                      child: Image.asset(
-                                                          'assets/images/home/numbers_yellow_stars_L.png')):SizedBox(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left:20.0,top:20.0),
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      child: first_char_level_amount_day_streak ==
-                                                              '1'
-                                                          ? Image.asset(
-                                                              'assets/images/home/numbers/red/1_red.png')
-                                                          : first_char_level_amount_day_streak ==
-                                                                  '2'
-                                                              ? Image.asset(
-                                                                  'assets/images/home/numbers/red/2_red.png')
-                                                              : first_char_level_amount_day_streak ==
-                                                                      '3'
-                                                                  ? Image.asset(
-                                                                      'assets/images/home/numbers/red/3_red.png')
-                                                                  : first_char_level_amount_day_streak ==
-                                                                          '4'
-                                                                      ? Image.asset(
-                                                                          'assets/images/home/numbers/red/4_red.png')
-                                                                      : first_char_level_amount_day_streak ==
-                                                                              '5'
-                                                                          ? Image.asset(
-                                                                              'assets/images/home/numbers/red/5_red.png')
-                                                                          : first_char_level_amount_day_streak ==
-                                                                                  '6'
-                                                                              ? Image.asset(
-                                                                                  'assets/images/home/numbers/red/6_red.png')
-                                                                              : first_char_level_amount_day_streak == '7'
-                                                                                  ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                                                  : first_char_level_amount_day_streak == '8'
-                                                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                                                      : first_char_level_amount_day_streak == '9'
-                                                                                          ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                                                          : first_char_level_amount_day_streak == '0'
-                                                                                              ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                                                              : SizedBox()),
-                                                  ),
-                                              ]),
-                                              Stack(
-                                                children:[
-                                                  isShowDayStreak && third_char_level_amount_day_streak == ''? Padding(
-                                                      padding: const EdgeInsets.only(left:20.0),
-                                                      child: Container(
+                                          )
+                                        : Stack(children: [
+                                            Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Stack(children: [
+                                                      //isShowBookRead?
+                                                      Container(
                                                           height: 40,
                                                           width: 30,
                                                           child: Image.asset(
-                                                              'assets/images/home/numbers_yellow_stars_R.png'))):SizedBox(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:20.0),
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      child: second_char_level_amount_day_streak ==
-                                                              '1'
-                                                          ? Image.asset(
-                                                              'assets/images/home/numbers/red/1_red.png')
-                                                          : second_char_level_amount_day_streak ==
-                                                                  '2'
-                                                              ? Image.asset(
-                                                                  'assets/images/home/numbers/red/2_red.png')
-                                                              : second_char_level_amount_day_streak ==
-                                                                      '3'
-                                                                  ? Image.asset(
-                                                                      'assets/images/home/numbers/red/3_red.png')
-                                                                  : second_char_level_amount_day_streak ==
-                                                                          '4'
-                                                                      ? Image.asset(
-                                                                          'assets/images/home/numbers/red/4_red.png')
-                                                                      : second_char_level_amount_day_streak ==
-                                                                              '5'
-                                                                          ? Image.asset(
-                                                                              'assets/images/home/numbers/red/5_red.png')
-                                                                          : second_char_level_amount_day_streak ==
-                                                                                  '6'
-                                                                              ? Image.asset(
-                                                                                  'assets/images/home/numbers/red/6_red.png')
-                                                                              : second_char_level_amount_day_streak == '7'
-                                                                                  ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                                                  : second_char_level_amount_day_streak == '8'
-                                                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                                                      : second_char_level_amount_day_streak == '9'
-                                                                                          ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                                                          : second_char_level_amount_day_streak == '0'
-                                                                                              ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                                                              : SizedBox()),
-                                                  ),
-                                             ] ),
-                                              Stack(
-                                                children:[
-                                                  isShowDayStreak && third_char_level_amount_day_streak != ''? Padding(
-                                                    padding: const EdgeInsets.only(left:20.0),
-                                                    child: Container(
-                                                        height: 40,
-                                                        width: 30,
-                                                        child: Image.asset(
-                                                            'assets/images/home/numbers_yellow_stars_R.png')),
-                                                  ):SizedBox(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:20.0),
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      child: third_char_level_amount_day_streak ==
-                                                              '1'
-                                                          ? Image.asset(
-                                                              'assets/images/home/numbers/red/1_red.png')
-                                                          : third_char_level_amount_day_streak ==
-                                                                  '2'
-                                                              ? Image.asset(
-                                                                  'assets/images/home/numbers/red/2_red.png')
-                                                              : third_char_level_amount_day_streak ==
-                                                                      '3'
-                                                                  ? Image.asset(
-                                                                      'assets/images/home/numbers/red/3_red.png')
-                                                                  : third_char_level_amount_day_streak ==
-                                                                          '4'
-                                                                      ? Image.asset(
-                                                                          'assets/images/home/numbers/red/4_red.png')
-                                                                      : third_char_level_amount_day_streak ==
-                                                                              '5'
-                                                                          ? Image.asset(
-                                                                              'assets/images/home/numbers/red/5_red.png')
-                                                                          : third_char_level_amount_day_streak ==
-                                                                                  '6'
-                                                                              ? Image.asset(
-                                                                                  'assets/images/home/numbers/red/6_red.png')
-                                                                              : third_char_level_amount_day_streak == '7'
-                                                                                  ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                                                  : third_char_level_amount_day_streak == '8'
-                                                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                                                      : third_char_level_amount_day_streak == '9'
-                                                                                          ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                                                          : third_char_level_amount_day_streak == '0'
-                                                                                              ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                                                              : SizedBox()),
-                                                  ),
-                                              ]),
-                                            ],
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 5.0, right: 0),
-                                              child: Stack(children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      right: 20.0,bottom: 35),
-                                                  child: RotatedBox(
-                                                    quarterTurns: -1,
-                                                    child: LinearPercentIndicator(
-                                                      width: 240.0,
-                                                      lineHeight: 24.0,
-                                                      barRadius:
-                                                          Radius.circular(10.0),
-                                                      percent: day_steak / 100,
-                                                      backgroundColor:
-                                                          day_streak_bgcolor != ''
-                                                              ? HexColor(
-                                                                      day_streak_bgcolor)
-                                                                  .withOpacity(
-                                                                      0.1)
-                                                              : Colors
-                                                                  .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(0.1) : Colors.white,//Color.fromRGBO(242, 25, 43, 0.1),
-                                                      progressColor: day_streak_bgcolor !=
+                                                              'assets/images/home/numbers_purple_stars_L.png')),
+                                                      // :SizedBox(),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 30.0,
+                                                                left: 0.0),
+                                                        child: Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            child: first_char_level_amount_ach1 ==
+                                                                    '1'
+                                                                ? Image.asset(
+                                                                    'assets/images/home/numbers/blue/1_blue.png')
+                                                                : first_char_level_amount_ach1 ==
+                                                                        '2'
+                                                                    ? Image.asset(
+                                                                        'assets/images/home/numbers/blue/2_blue.png')
+                                                                    : first_char_level_amount_ach1 ==
+                                                                            '3'
+                                                                        ? Image.asset(
+                                                                            'assets/images/home/numbers/blue/3_blue.png')
+                                                                        : first_char_level_amount_ach1 ==
+                                                                                '4'
+                                                                            ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                                                            : first_char_level_amount_ach1 == '5'
+                                                                                ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                                                                : first_char_level_amount_ach1 == '6'
+                                                                                    ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                                                                    : first_char_level_amount_ach1 == '7'
+                                                                                        ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                                                        : first_char_level_amount_ach1 == '8'
+                                                                                            ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                                                            : first_char_level_amount_ach1 == '9'
+                                                                                                ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                                                                : first_char_level_amount_ach1 == '0'
+                                                                                                    ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                                                                    : SizedBox()),
+                                                      ),
+                                                    ]),
+                                                    Stack(children: [
+                                                      //isShowBookRead &&
+                                                      third_char_level_amount_ach1 ==
                                                               ''
-                                                          ? HexColor(
-                                                                  day_streak_bgcolor)
-                                                              .withOpacity(1.0)
-                                                          : Colors
-                                                              .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(242, 25, 43, 1.0),
+                                                          ? Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          0.0),
+                                                              child: Container(
+                                                                  height: 40,
+                                                                  width: 30,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          'assets/images/home/numbers_purple_stars_R.png')),
+                                                            )
+                                                          : SizedBox(),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 30.0),
+                                                        child: Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            child: second_char_level_amount_ach1 ==
+                                                                    '1'
+                                                                ? Image.asset(
+                                                                    'assets/images/home/numbers/blue/1_blue.png')
+                                                                : second_char_level_amount_ach1 ==
+                                                                        '2'
+                                                                    ? Image.asset(
+                                                                        'assets/images/home/numbers/blue/2_blue.png')
+                                                                    : second_char_level_amount_ach1 ==
+                                                                            '3'
+                                                                        ? Image.asset(
+                                                                            'assets/images/home/numbers/blue/3_blue.png')
+                                                                        : second_char_level_amount_ach1 ==
+                                                                                '4'
+                                                                            ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                                                            : second_char_level_amount_ach1 == '5'
+                                                                                ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                                                                : second_char_level_amount_ach1 == '6'
+                                                                                    ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                                                                    : second_char_level_amount_ach1 == '7'
+                                                                                        ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                                                        : second_char_level_amount_ach1 == '8'
+                                                                                            ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                                                            : second_char_level_amount_ach1 == '9'
+                                                                                                ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                                                                : second_char_level_amount_ach1 == '0'
+                                                                                                    ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                                                                    : SizedBox()),
+                                                      ),
+                                                    ]),
+                                                    Stack(children: [
+                                                      // isShowBookRead &&
+                                                      third_char_level_amount_ach1 !=
+                                                              ''
+                                                          ? Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          0.0),
+                                                              child: Container(
+                                                                  height: 40,
+                                                                  width: 30,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          'assets/images/home/numbers_purple_stars_R.png')),
+                                                            )
+                                                          : SizedBox(),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 30.0),
+                                                        child: Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            child: third_char_level_amount_ach1 ==
+                                                                    '1'
+                                                                ? Image.asset(
+                                                                    'assets/images/home/numbers/blue/1_blue.png')
+                                                                : third_char_level_amount_ach1 ==
+                                                                        '2'
+                                                                    ? Image.asset(
+                                                                        'assets/images/home/numbers/blue/2_blue.png')
+                                                                    : third_char_level_amount_ach1 ==
+                                                                            '3'
+                                                                        ? Image.asset(
+                                                                            'assets/images/home/numbers/blue/3_blue.png')
+                                                                        : third_char_level_amount_ach1 ==
+                                                                                '4'
+                                                                            ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                                                            : third_char_level_amount_ach1 == '5'
+                                                                                ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                                                                : third_char_level_amount_ach1 == '6'
+                                                                                    ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                                                                    : third_char_level_amount_ach1 == '7'
+                                                                                        ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                                                        : third_char_level_amount_ach1 == '8'
+                                                                                            ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                                                            : third_char_level_amount_ach1 == '9'
+                                                                                                ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                                                                : third_char_level_amount_ach1 == '0'
+                                                                                                    ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                                                                    : SizedBox()),
+                                                      ),
+                                                    ]),
+                                                  ],
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 5.0,
+                                                            right: 0.0,
+                                                            bottom: 45),
+                                                    child: Stack(children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 10.0),
+                                                        child: RotatedBox(
+                                                          quarterTurns: -1,
+                                                          child:
+                                                              LinearPercentIndicator(
+                                                            width: 240.0,
+                                                            lineHeight: 24.0,
+                                                            barRadius:
+                                                                Radius.circular(
+                                                                    10.0),
+                                                            percent:
+                                                                total[0] / 100,
+                                                            // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                                                            // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                                                            backgroundColor: achievement_bgcolor[
+                                                                        0] !=
+                                                                    ''
+                                                                ? HexColor(
+                                                                        achievement_bgcolor[
+                                                                            0])
+                                                                    .withOpacity(
+                                                                        0.1)
+                                                                : Colors
+                                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                                                            progressColor: achievement_bgcolor[
+                                                                        0] !=
+                                                                    ''
+                                                                ? HexColor(
+                                                                        achievement_bgcolor[
+                                                                            0])
+                                                                    .withOpacity(
+                                                                        1.0)
+                                                                : Colors
+                                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 10.0,
+                                                                left: 10.0),
+                                                        child: RotatedBox(
+                                                          quarterTurns: -1,
+                                                          child: Container(
+                                                              width: 220.0,
+                                                              height: 26,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border: Border.all(
+                                                                    width: 3,
+                                                                    color: Colors
+                                                                        .black),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: total[0] >=
+                                                                    0 &&
+                                                                total[0] <= 50
+                                                            ? EdgeInsets.only(
+                                                                left: 3.0,
+                                                                top: total[0] >=
+                                                                            0 &&
+                                                                        total[0] <=
+                                                                            20
+                                                                    ? 180
+                                                                    : total[0] >
+                                                                                20 &&
+                                                                            total[0] <=
+                                                                                30
+                                                                        ? 130
+                                                                        : total[0] > 30 &&
+                                                                                total[0] <= 40
+                                                                            ? 90
+                                                                            : total[0] > 40 && total[0] <= 50
+                                                                                ? 20
+                                                                                : 0,
+                                                              )
+                                                            : EdgeInsets.only(
+                                                                left: 3.0,
+                                                                bottom: total[0] >
+                                                                            50 &&
+                                                                        total[0] <=
+                                                                            60
+                                                                    ? 20
+                                                                    : total[0] >
+                                                                                60 &&
+                                                                            total[0] <=
+                                                                                70
+                                                                        ? 70
+                                                                        : total[0] > 70 &&
+                                                                                total[0] <= 80
+                                                                            ? 110
+                                                                            : total[0] > 80 && total[0] <= 90
+                                                                                ? 160
+                                                                                : 170,
+                                                              ),
+                                                        child:
+                                                            AnimatedContainer(
+                                                          //color: Colors.red,
+                                                          duration: Duration(
+                                                              seconds: 3),
+                                                          height:
+                                                              current_ach1_plan_height, //430
+                                                          width: 40,
+                                                          child: Image.asset(
+                                                              'assets/images/home/Kids_progressbar_blueicon.png'),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            isShow1Achievement
+                                                ? Positioned(
+                                                    left: 20, //35,
+                                                    bottom: 5,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                            total[0].toString(),
+                                                            style: TextStyle(
+                                                              color: achievement_bgcolor[
+                                                                          0] !=
+                                                                      ''
+                                                                  ? HexColor(
+                                                                          achievement_bgcolor[
+                                                                              0])
+                                                                      .withOpacity(
+                                                                          1.0)
+                                                                  : Colors
+                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 28.0,
+                                                            )),
+                                                        Text(
+                                                            "${achievement_name[0]}"
+                                                                .toUpperCase(),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontSize: 9.0,
+                                                            ))
+                                                      ],
+                                                    ),
+                                                  )
+                                                : SizedBox()
+                                          ])
+                                    : SizedBox(),
+                                inProgressAchievedLists.length >= 2
+                                    ? isShow2Achievement
+                                        ? Container(
+                                            height: 350,
+                                            child: Stack(children: [
+                                              Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Stack(children: [
+                                                        //isShowBookRead?
+                                                        Container(
+                                                            height: 40,
+                                                            width: 30,
+                                                            child: Image.asset(
+                                                                'assets/images/home/numbers_green_stars_L.png')),
+                                                        // :SizedBox(),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 30.0,
+                                                                  left: 0.0),
+                                                          child: Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: first_char_level_amount_ach2 ==
+                                                                      '1'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/green/1_green.png')
+                                                                  : first_char_level_amount_ach2 ==
+                                                                          '2'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/green/2_green.png')
+                                                                      : first_char_level_amount_ach2 ==
+                                                                              '3'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/green/3_green.png')
+                                                                          : first_char_level_amount_ach2 == '4'
+                                                                              ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                                                              : first_char_level_amount_ach2 == '5'
+                                                                                  ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                                                                  : first_char_level_amount_ach2 == '6'
+                                                                                      ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                                                                      : first_char_level_amount_ach2 == '7'
+                                                                                          ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                                                          : first_char_level_amount_ach2 == '8'
+                                                                                              ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                                                              : first_char_level_amount_ach2 == '9'
+                                                                                                  ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                                                                  : first_char_level_amount_ach2 == '0'
+                                                                                                      ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                                                                      : SizedBox()),
+                                                        ),
+                                                      ]),
+                                                      Stack(children: [
+                                                        //isShowBookRead &&
+                                                        third_char_level_amount_ach2 ==
+                                                                ''
+                                                            ? Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            0.0),
+                                                                child: Container(
+                                                                    height: 40,
+                                                                    width: 30,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            'assets/images/home/numbers_green_stars_R.png')),
+                                                              )
+                                                            : SizedBox(),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 30.0),
+                                                          child: Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: second_char_level_amount_ach2 ==
+                                                                      '1'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/green/1_green.png')
+                                                                  : second_char_level_amount_ach2 ==
+                                                                          '2'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/green/2_green.png')
+                                                                      : second_char_level_amount_ach2 ==
+                                                                              '3'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/green/3_green.png')
+                                                                          : second_char_level_amount_ach2 == '4'
+                                                                              ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                                                              : second_char_level_amount_ach2 == '5'
+                                                                                  ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                                                                  : second_char_level_amount_ach2 == '6'
+                                                                                      ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                                                                      : second_char_level_amount_ach2 == '7'
+                                                                                          ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                                                          : second_char_level_amount_ach2 == '8'
+                                                                                              ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                                                              : second_char_level_amount_ach2 == '9'
+                                                                                                  ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                                                                  : second_char_level_amount_ach2 == '0'
+                                                                                                      ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                                                                      : SizedBox()),
+                                                        ),
+                                                      ]),
+                                                      Stack(children: [
+                                                        // isShowBookRead &&
+                                                        third_char_level_amount_ach2 !=
+                                                                ''
+                                                            ? Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            0.0),
+                                                                child: Container(
+                                                                    height: 40,
+                                                                    width: 30,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            'assets/images/home/numbers_green_stars_R.png')),
+                                                              )
+                                                            : SizedBox(),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 30.0),
+                                                          child: Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: third_char_level_amount_ach2 ==
+                                                                      '1'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/green/1_green.png')
+                                                                  : third_char_level_amount_ach2 ==
+                                                                          '2'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/green/2_green.png')
+                                                                      : third_char_level_amount_ach2 ==
+                                                                              '3'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/green/3_green.png')
+                                                                          : third_char_level_amount_ach2 == '4'
+                                                                              ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                                                              : third_char_level_amount_ach2 == '5'
+                                                                                  ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                                                                  : third_char_level_amount_ach2 == '6'
+                                                                                      ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                                                                      : third_char_level_amount_ach2 == '7'
+                                                                                          ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                                                          : third_char_level_amount_ach2 == '8'
+                                                                                              ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                                                              : third_char_level_amount_ach2 == '9'
+                                                                                                  ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                                                                  : third_char_level_amount_ach2 == '0'
+                                                                                                      ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                                                                      : SizedBox()),
+                                                        ),
+                                                      ]),
+                                                    ],
+                                                  ),
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 5.0,
+                                                              right: 0.0,
+                                                              bottom: 45),
+                                                      child: Stack(children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 10.0),
+                                                          child: RotatedBox(
+                                                            quarterTurns: -1,
+                                                            child:
+                                                                LinearPercentIndicator(
+                                                              width: 240.0,
+                                                              lineHeight: 24.0,
+                                                              barRadius: Radius
+                                                                  .circular(
+                                                                      10.0),
+                                                              percent:
+                                                                  total[1] /
+                                                                      100,
+                                                              // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                                                              // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                                                              backgroundColor: achievement_bgcolor[
+                                                                          1] !=
+                                                                      ''
+                                                                  ? HexColor(
+                                                                          achievement_bgcolor[
+                                                                              1])
+                                                                      .withOpacity(
+                                                                          0.1)
+                                                                  : Colors
+                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                                                              progressColor: achievement_bgcolor[
+                                                                          1] !=
+                                                                      ''
+                                                                  ? HexColor(
+                                                                          achievement_bgcolor[
+                                                                              1])
+                                                                      .withOpacity(
+                                                                          1.0)
+                                                                  : Colors
+                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 10.0,
+                                                                  left: 10.0),
+                                                          child: RotatedBox(
+                                                            quarterTurns: -1,
+                                                            child: Container(
+                                                                width: 220.0,
+                                                                height: 26,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border.all(
+                                                                      width: 3,
+                                                                      color: Colors
+                                                                          .black),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10.0),
+                                                                )),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: total[1] >=
+                                                                      0 &&
+                                                                  total[1] <= 50
+                                                              ? EdgeInsets.only(
+                                                                  left: 3.0,
+                                                                  top: total[1] >=
+                                                                              0 &&
+                                                                          total[1] <=
+                                                                              20
+                                                                      ? 190
+                                                                      : total[1] > 20 &&
+                                                                              total[1] <= 30
+                                                                          ? 120
+                                                                          : total[1] > 30 && total[1] <= 40
+                                                                              ? 80
+                                                                              : total[1] > 40 && total[1] <= 50
+                                                                                  ? 10
+                                                                                  : 0,
+                                                                )
+                                                              : EdgeInsets.only(
+                                                                  left: 3.0,
+                                                                  bottom: total[1] >
+                                                                              50 &&
+                                                                          total[1] <=
+                                                                              60
+                                                                      ? 10
+                                                                      : total[1] > 60 &&
+                                                                              total[1] <= 70
+                                                                          ? 60
+                                                                          : total[1] > 70 && total[1] <= 80
+                                                                              ? 100
+                                                                              : total[1] > 80 && total[1] <= 90
+                                                                                  ? 150
+                                                                                  : 170,
+                                                                ),
+                                                          child:
+                                                              AnimatedContainer(
+                                                            //color: Colors.red,
+                                                            duration: Duration(
+                                                                seconds: 3),
+                                                            height:
+                                                                current_ach2_plan_height, //430
+                                                            width: 40,
+                                                            child: Image.asset(
+                                                                'assets/images/home/Kids_progressbar_greenicon.png'),
+                                                          ),
+                                                        ),
+                                                      ]),
                                                     ),
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 10.0, right: 20),
-                                                  child: RotatedBox(
-                                                    quarterTurns: -1,
-                                                    child: Container(
-                                                        width: 220.0,
-                                                        height: 26,
-                                                        decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              width: 3,
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10.0),
-                                                        )),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top:60.0),
-                                                  child: AnimatedContainer(
-                                                    duration:
-                                                        Duration(seconds: 3),
-                                                    height:
-                                                        current_day_streak_plan_height, //430
-                                                    width: 25,
-                                                    //color: Colors.red,
-                                                    child: Image.asset(
-                                                        'assets/images/home/Kids_progressbar_redicon.png'),
-                                                  ),
-                                                ),
-                                              ]),
-                                            ),
-                                          ),
-
-                                        ],
-                                      ),
-
-                                      isShowDayStreak
-                                          ? Positioned(
-                                              right: 47,
-                                              bottom: 0,
-                                              child: Column(
-                                                children: [
-                                                  Text(display_day_steak,
-                                                      style: TextStyle(
-                                                        color: day_streak_bgcolor !=
-                                                                ''
-                                                            ? HexColor(
-                                                                    day_streak_bgcolor)
-                                                                .withOpacity(
-                                                                    1.0)
-                                                            : Colors
-                                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(242, 25, 43, 1.0),
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 28.0,
-                                                      )),
-                                                  Text(
-                                                      "${day_streak_name}!"
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontSize: 9.0,
-                                                      ))
                                                 ],
                                               ),
-                                            )
-                                          : SizedBox()
-                                    ]),
-                                  )
-                                : Stack(children: [
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Stack(
-                                          children:[
-                                            isShowDayStreak? Container(
-                                                height: 40,
-                                                width: 30,
-                                                child: Image.asset(
-                                                    'assets/images/home/numbers_yellow_stars_L.png')):SizedBox(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left:20.0,top:20.0),
-                                              child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  child: first_char_level_amount_day_streak ==
-                                                      '1'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/1_red.png')
-                                                      : first_char_level_amount_day_streak ==
-                                                      '2'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/2_red.png')
-                                                      : first_char_level_amount_day_streak ==
-                                                      '3'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/3_red.png')
-                                                      : first_char_level_amount_day_streak ==
-                                                      '4'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/4_red.png')
-                                                      : first_char_level_amount_day_streak ==
-                                                      '5'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/5_red.png')
-                                                      : first_char_level_amount_day_streak ==
-                                                      '6'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/6_red.png')
-                                                      : first_char_level_amount_day_streak == '7'
-                                                      ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                      : first_char_level_amount_day_streak == '8'
-                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                      : first_char_level_amount_day_streak == '9'
-                                                      ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                      : first_char_level_amount_day_streak == '0'
-                                                      ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                      : SizedBox()),
+                                              isShow2Achievement
+                                                  ? Positioned(
+                                                      left: 5,
+                                                      bottom: 5,
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                              total[1]
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                color: achievement_bgcolor[
+                                                                            1] !=
+                                                                        ''
+                                                                    ? HexColor(achievement_bgcolor[
+                                                                            1])
+                                                                        .withOpacity(
+                                                                            1.0)
+                                                                    : Colors
+                                                                        .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 28.0,
+                                                              )),
+                                                          Text(
+                                                              "${achievement_name[1]}"
+                                                                  .toUpperCase(),
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                fontSize: 9.0,
+                                                              ))
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : SizedBox()
+                                            ]),
+                                          )
+                                        : Stack(children: [
+                                            Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Stack(children: [
+                                                      //isShowBookRead?
+                                                      Container(
+                                                          height: 40,
+                                                          width: 30,
+                                                          child: Image.asset(
+                                                              'assets/images/home/numbers_green_stars_L.png')),
+                                                      // :SizedBox(),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 30.0,
+                                                                left: 0.0),
+                                                        child: Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            child: first_char_level_amount_ach2 ==
+                                                                    '1'
+                                                                ? Image.asset(
+                                                                    'assets/images/home/numbers/green/1_green.png')
+                                                                : first_char_level_amount_ach2 ==
+                                                                        '2'
+                                                                    ? Image.asset(
+                                                                        'assets/images/home/numbers/green/2_green.png')
+                                                                    : first_char_level_amount_ach2 ==
+                                                                            '3'
+                                                                        ? Image.asset(
+                                                                            'assets/images/home/numbers/green/3_green.png')
+                                                                        : first_char_level_amount_ach2 ==
+                                                                                '4'
+                                                                            ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                                                            : first_char_level_amount_ach2 == '5'
+                                                                                ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                                                                : first_char_level_amount_ach2 == '6'
+                                                                                    ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                                                                    : first_char_level_amount_ach2 == '7'
+                                                                                        ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                                                        : first_char_level_amount_ach2 == '8'
+                                                                                            ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                                                            : first_char_level_amount_ach2 == '9'
+                                                                                                ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                                                                : first_char_level_amount_ach2 == '0'
+                                                                                                    ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                                                                    : SizedBox()),
+                                                      ),
+                                                    ]),
+                                                    Stack(children: [
+                                                      //isShowBookRead &&
+                                                      third_char_level_amount_ach2 ==
+                                                              ''
+                                                          ? Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          0.0),
+                                                              child: Container(
+                                                                  height: 40,
+                                                                  width: 30,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          'assets/images/home/numbers_green_stars_R.png')),
+                                                            )
+                                                          : SizedBox(),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 30.0),
+                                                        child: Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            child: second_char_level_amount_ach2 ==
+                                                                    '1'
+                                                                ? Image.asset(
+                                                                    'assets/images/home/numbers/green/1_green.png')
+                                                                : second_char_level_amount_ach2 ==
+                                                                        '2'
+                                                                    ? Image.asset(
+                                                                        'assets/images/home/numbers/green/2_green.png')
+                                                                    : second_char_level_amount_ach2 ==
+                                                                            '3'
+                                                                        ? Image.asset(
+                                                                            'assets/images/home/numbers/green/3_green.png')
+                                                                        : second_char_level_amount_ach2 ==
+                                                                                '4'
+                                                                            ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                                                            : second_char_level_amount_ach2 == '5'
+                                                                                ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                                                                : second_char_level_amount_ach2 == '6'
+                                                                                    ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                                                                    : second_char_level_amount_ach2 == '7'
+                                                                                        ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                                                        : second_char_level_amount_ach2 == '8'
+                                                                                            ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                                                            : second_char_level_amount_ach2 == '9'
+                                                                                                ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                                                                : second_char_level_amount_ach2 == '0'
+                                                                                                    ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                                                                    : SizedBox()),
+                                                      ),
+                                                    ]),
+                                                    Stack(children: [
+                                                      // isShowBookRead &&
+                                                      third_char_level_amount_ach2 !=
+                                                              ''
+                                                          ? Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          0.0),
+                                                              child: Container(
+                                                                  height: 40,
+                                                                  width: 30,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          'assets/images/home/numbers_green_stars_R.png')),
+                                                            )
+                                                          : SizedBox(),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 30.0),
+                                                        child: Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            child: third_char_level_amount_ach2 ==
+                                                                    '1'
+                                                                ? Image.asset(
+                                                                    'assets/images/home/numbers/green/1_green.png')
+                                                                : third_char_level_amount_ach2 ==
+                                                                        '2'
+                                                                    ? Image.asset(
+                                                                        'assets/images/home/numbers/green/2_green.png')
+                                                                    : third_char_level_amount_ach2 ==
+                                                                            '3'
+                                                                        ? Image.asset(
+                                                                            'assets/images/home/numbers/green/3_green.png')
+                                                                        : third_char_level_amount_ach2 ==
+                                                                                '4'
+                                                                            ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                                                            : third_char_level_amount_ach2 == '5'
+                                                                                ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                                                                : third_char_level_amount_ach2 == '6'
+                                                                                    ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                                                                    : third_char_level_amount_ach2 == '7'
+                                                                                        ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                                                        : third_char_level_amount_ach2 == '8'
+                                                                                            ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                                                            : third_char_level_amount_ach2 == '9'
+                                                                                                ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                                                                : third_char_level_amount_ach2 == '0'
+                                                                                                    ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                                                                    : SizedBox()),
+                                                      ),
+                                                    ]),
+                                                  ],
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 5.0,
+                                                            right: 0.0,
+                                                            bottom: 45),
+                                                    child: Stack(children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 10.0),
+                                                        child: RotatedBox(
+                                                          quarterTurns: -1,
+                                                          child:
+                                                              LinearPercentIndicator(
+                                                            width: 240.0,
+                                                            lineHeight: 24.0,
+                                                            barRadius:
+                                                                Radius.circular(
+                                                                    10.0),
+                                                            percent:
+                                                                total[1] / 100,
+                                                            // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                                                            // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                                                            backgroundColor: achievement_bgcolor[
+                                                                        1] !=
+                                                                    ''
+                                                                ? HexColor(
+                                                                        achievement_bgcolor[
+                                                                            1])
+                                                                    .withOpacity(
+                                                                        0.1)
+                                                                : Colors
+                                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                                                            progressColor: achievement_bgcolor[
+                                                                        1] !=
+                                                                    ''
+                                                                ? HexColor(
+                                                                        achievement_bgcolor[
+                                                                            1])
+                                                                    .withOpacity(
+                                                                        1.0)
+                                                                : Colors
+                                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 10.0,
+                                                                left: 10.0),
+                                                        child: RotatedBox(
+                                                          quarterTurns: -1,
+                                                          child: Container(
+                                                              width: 220.0,
+                                                              height: 26,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border: Border.all(
+                                                                    width: 3,
+                                                                    color: Colors
+                                                                        .black),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: total[1] >=
+                                                                    0 &&
+                                                                total[1] <= 50
+                                                            ? EdgeInsets.only(
+                                                                left: 3.0,
+                                                                top: total[1] >=
+                                                                            0 &&
+                                                                        total[1] <=
+                                                                            20
+                                                                    ? 190
+                                                                    : total[1] >
+                                                                                20 &&
+                                                                            total[1] <=
+                                                                                30
+                                                                        ? 120
+                                                                        : total[1] > 30 &&
+                                                                                total[1] <= 40
+                                                                            ? 80
+                                                                            : total[1] > 40 && total[1] <= 50
+                                                                                ? 10
+                                                                                : 0,
+                                                              )
+                                                            : EdgeInsets.only(
+                                                                left: 3.0,
+                                                                bottom: total[1] >
+                                                                            50 &&
+                                                                        total[1] <=
+                                                                            60
+                                                                    ? 10
+                                                                    : total[1] >
+                                                                                60 &&
+                                                                            total[1] <=
+                                                                                70
+                                                                        ? 60
+                                                                        : total[1] > 70 &&
+                                                                                total[1] <= 80
+                                                                            ? 100
+                                                                            : total[1] > 80 && total[1] <= 90
+                                                                                ? 150
+                                                                                : 170,
+                                                              ),
+                                                        child:
+                                                            AnimatedContainer(
+                                                          //color: Colors.red,
+                                                          duration: Duration(
+                                                              seconds: 3),
+                                                          height:
+                                                              current_ach2_plan_height, //430
+                                                          width: 40,
+                                                          child: Image.asset(
+                                                              'assets/images/home/Kids_progressbar_greenicon.png'),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ]),
-                                      Stack(
-                                          children:[
-                                            isShowDayStreak && third_char_level_amount_day_streak == ''? Padding(
-                                                padding: const EdgeInsets.only(left:20.0),
-                                                child: Container(
-                                                    height: 40,
-                                                    width: 30,
-                                                    child: Image.asset(
-                                                        'assets/images/home/numbers_yellow_stars_R.png'))):SizedBox(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top:20.0),
-                                              child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  child: second_char_level_amount_day_streak ==
-                                                      '1'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/1_red.png')
-                                                      : second_char_level_amount_day_streak ==
-                                                      '2'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/2_red.png')
-                                                      : second_char_level_amount_day_streak ==
-                                                      '3'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/3_red.png')
-                                                      : second_char_level_amount_day_streak ==
-                                                      '4'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/4_red.png')
-                                                      : second_char_level_amount_day_streak ==
-                                                      '5'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/5_red.png')
-                                                      : second_char_level_amount_day_streak ==
-                                                      '6'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/6_red.png')
-                                                      : second_char_level_amount_day_streak == '7'
-                                                      ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                      : second_char_level_amount_day_streak == '8'
-                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                      : second_char_level_amount_day_streak == '9'
-                                                      ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                      : second_char_level_amount_day_streak == '0'
-                                                      ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                      : SizedBox()),
-                                            ),
-                                          ] ),
-                                      Stack(
-                                          children:[
-                                            isShowDayStreak && third_char_level_amount_day_streak != ''? Padding(
-                                              padding: const EdgeInsets.only(left:20.0),
-                                              child: Container(
-                                                  height: 40,
-                                                  width: 30,
-                                                  child: Image.asset(
-                                                      'assets/images/home/numbers_yellow_stars_R.png')),
-                                            ):SizedBox(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top:20.0),
-                                              child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  child: third_char_level_amount_day_streak ==
-                                                      '1'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/1_red.png')
-                                                      : third_char_level_amount_day_streak ==
-                                                      '2'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/2_red.png')
-                                                      : third_char_level_amount_day_streak ==
-                                                      '3'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/3_red.png')
-                                                      : third_char_level_amount_day_streak ==
-                                                      '4'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/4_red.png')
-                                                      : third_char_level_amount_day_streak ==
-                                                      '5'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/5_red.png')
-                                                      : third_char_level_amount_day_streak ==
-                                                      '6'
-                                                      ? Image.asset(
-                                                      'assets/images/home/numbers/red/6_red.png')
-                                                      : third_char_level_amount_day_streak == '7'
-                                                      ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                      : third_char_level_amount_day_streak == '8'
-                                                      ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                      : third_char_level_amount_day_streak == '9'
-                                                      ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                      : third_char_level_amount_day_streak == '0'
-                                                      ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                      : SizedBox()),
-                                            ),
-                                          ]),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 5.0, right: 0),
-                                    child: Stack(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 20.0,bottom: 55),
-                                        child: RotatedBox(
-                                          quarterTurns: -1,
-                                          child: LinearPercentIndicator(
-                                            width: 240.0,
-                                            lineHeight: 24.0,
-                                            barRadius:
-                                            Radius.circular(10.0),
-                                            percent: day_steak / 100,
-                                            backgroundColor:
-                                            day_streak_bgcolor != ''
-                                                ? HexColor(
-                                                day_streak_bgcolor)
-                                                .withOpacity(
-                                                0.1)
-                                                : Colors
-                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(0.1) : Colors.white,//Color.fromRGBO(242, 25, 43, 0.1),
-                                            progressColor: day_streak_bgcolor !=
-                                                ''
-                                                ? HexColor(
-                                                day_streak_bgcolor)
-                                                .withOpacity(1.0)
-                                                : Colors
-                                                .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(242, 25, 43, 1.0),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10.0, right: 20),
-                                        child: RotatedBox(
-                                          quarterTurns: -1,
-                                          child: Container(
-                                              width: 220.0,
-                                              height: 26,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    width: 3,
-                                                    color:
-                                                    Colors.black),
-                                                borderRadius:
-                                                BorderRadius
-                                                    .circular(10.0),
-                                              )),
-                                        ),
-                                      ),
-                                      AnimatedContainer(
-                                        duration:
-                                        Duration(seconds: 3),
-                                        height:
-                                        current_day_streak_plan_height, //430
-                                        width: 25,
-                                        //color: Colors.red,
-                                        child: Image.asset(
-                                            'assets/images/home/Kids_progressbar_redicon.png'),
-                                      ),
-                                    ]),
-                                  ),
+                                            isShow2Achievement
+                                                ? Positioned(
+                                                    left: 5,
+                                                    bottom: 5,
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                            total[1].toString(),
+                                                            style: TextStyle(
+                                                              color: achievement_bgcolor[
+                                                                          1] !=
+                                                                      ''
+                                                                  ? HexColor(
+                                                                          achievement_bgcolor[
+                                                                              1])
+                                                                      .withOpacity(
+                                                                          1.0)
+                                                                  : Colors
+                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 28.0,
+                                                            )),
+                                                        Text(
+                                                            "${achievement_name[1]}"
+                                                                .toUpperCase(),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontSize: 9.0,
+                                                            ))
+                                                      ],
+                                                    ),
+                                                  )
+                                                : SizedBox()
+                                          ])
+                                    : SizedBox(),
+                                inProgressAchievedLists.length == 3
+                                    ? isShow3Achievement
+                                        ? Container(
+                                            height: 350,
+                                            child: Stack(children: [
+                                              Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Stack(children: [
+                                                        //isShowBookRead?
+                                                        Container(
+                                                            height: 40,
+                                                            width: 30,
+                                                            child: Image.asset(
+                                                                'assets/images/home/numbers_yellow_stars_L.png')),
+                                                        // :SizedBox(),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 30.0,
+                                                                  left: 0.0),
+                                                          child: Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: first_char_level_amount_ach3 ==
+                                                                      '1'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/red/1_red.png')
+                                                                  : first_char_level_amount_ach3 ==
+                                                                          '2'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/red/2_red.png')
+                                                                      : first_char_level_amount_ach3 ==
+                                                                              '3'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/red/3_red.png')
+                                                                          : first_char_level_amount_ach3 == '4'
+                                                                              ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                                                              : first_char_level_amount_ach3 == '5'
+                                                                                  ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                                                                  : first_char_level_amount_ach3 == '6'
+                                                                                      ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                                                                      : first_char_level_amount_ach3 == '7'
+                                                                                          ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                                                          : first_char_level_amount_ach3 == '8'
+                                                                                              ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                                                              : first_char_level_amount_ach3 == '9'
+                                                                                                  ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                                                                  : first_char_level_amount_ach3 == '0'
+                                                                                                      ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                                                                      : SizedBox()),
+                                                        ),
+                                                      ]),
+                                                      Stack(children: [
+                                                        //isShowBookRead &&
+                                                        third_char_level_amount_ach3 ==
+                                                                ''
+                                                            ? Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            0.0),
+                                                                child: Container(
+                                                                    height: 40,
+                                                                    width: 30,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            'assets/images/home/numbers_yellow_stars_R.png')),
+                                                              )
+                                                            : SizedBox(),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 30.0),
+                                                          child: Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: second_char_level_amount_ach3 ==
+                                                                      '1'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/red/1_red.png')
+                                                                  : second_char_level_amount_ach3 ==
+                                                                          '2'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/red/2_red.png')
+                                                                      : second_char_level_amount_ach3 ==
+                                                                              '3'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/red/3_red.png')
+                                                                          : second_char_level_amount_ach3 == '4'
+                                                                              ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                                                              : second_char_level_amount_ach3 == '5'
+                                                                                  ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                                                                  : second_char_level_amount_ach3 == '6'
+                                                                                      ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                                                                      : second_char_level_amount_ach3 == '7'
+                                                                                          ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                                                          : second_char_level_amount_ach3 == '8'
+                                                                                              ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                                                              : second_char_level_amount_ach3 == '9'
+                                                                                                  ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                                                                  : second_char_level_amount_ach3 == '0'
+                                                                                                      ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                                                                      : SizedBox()),
+                                                        ),
+                                                      ]),
+                                                      Stack(children: [
+                                                        // isShowBookRead &&
+                                                        third_char_level_amount_ach3 !=
+                                                                ''
+                                                            ? Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            0.0),
+                                                                child: Container(
+                                                                    height: 40,
+                                                                    width: 30,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            'assets/images/home/numbers_yellow_stars_R.png')),
+                                                              )
+                                                            : SizedBox(),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 30.0),
+                                                          child: Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: third_char_level_amount_ach3 ==
+                                                                      '1'
+                                                                  ? Image.asset(
+                                                                      'assets/images/home/numbers/red/1_red.png')
+                                                                  : third_char_level_amount_ach3 ==
+                                                                          '2'
+                                                                      ? Image.asset(
+                                                                          'assets/images/home/numbers/red/2_red.png')
+                                                                      : third_char_level_amount_ach3 ==
+                                                                              '3'
+                                                                          ? Image.asset(
+                                                                              'assets/images/home/numbers/red/3_red.png')
+                                                                          : third_char_level_amount_ach3 == '4'
+                                                                              ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                                                              : third_char_level_amount_ach3 == '5'
+                                                                                  ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                                                                  : third_char_level_amount_ach3 == '6'
+                                                                                      ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                                                                      : third_char_level_amount_ach3 == '7'
+                                                                                          ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                                                          : third_char_level_amount_ach3 == '8'
+                                                                                              ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                                                              : third_char_level_amount_ach3 == '9'
+                                                                                                  ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                                                                  : third_char_level_amount_ach3 == '0'
+                                                                                                      ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                                                                      : SizedBox()),
+                                                        ),
+                                                      ]),
+                                                    ],
+                                                  ),
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 5.0,
+                                                              right: 0.0,
+                                                              bottom: 45),
+                                                      child: Stack(children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 0.0),
+                                                          child: RotatedBox(
+                                                            quarterTurns: -1,
+                                                            child:
+                                                                LinearPercentIndicator(
+                                                              width: 240.0,
+                                                              lineHeight: 24.0,
+                                                              barRadius: Radius
+                                                                  .circular(
+                                                                      10.0),
+                                                              percent:
+                                                                  total[2] /
+                                                                      100,
+                                                              // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                                                              // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                                                              backgroundColor: achievement_bgcolor[
+                                                                          2] !=
+                                                                      ''
+                                                                  ? HexColor(
+                                                                          achievement_bgcolor[
+                                                                              2])
+                                                                      .withOpacity(
+                                                                          0.1)
+                                                                  : Colors
+                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                                                              progressColor: achievement_bgcolor[
+                                                                          2] !=
+                                                                      ''
+                                                                  ? HexColor(
+                                                                          achievement_bgcolor[
+                                                                              2])
+                                                                      .withOpacity(
+                                                                          1.0)
+                                                                  : Colors
+                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 10.0,
+                                                                  left: 0.0),
+                                                          child: RotatedBox(
+                                                            quarterTurns: -1,
+                                                            child: Container(
+                                                                width: 220.0,
+                                                                height: 26,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border.all(
+                                                                      width: 3,
+                                                                      color: Colors
+                                                                          .black),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10.0),
+                                                                )),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: total[2] >=
+                                                                      0 &&
+                                                                  total[2] <= 50
+                                                              ? EdgeInsets.only(
+                                                                  left: 0.0,
+                                                                  top: total[2] >=
+                                                                              0 &&
+                                                                          total[2] <=
+                                                                              20
+                                                                      ? 170
+                                                                      : total[2] > 20 &&
+                                                                              total[2] <= 30
+                                                                          ? 120
+                                                                          : total[2] > 30 && total[2] <= 40
+                                                                              ? 80
+                                                                              : total[2] > 40 && total[2] <= 50
+                                                                                  ? 10
+                                                                                  : 0,
+                                                                )
+                                                              : EdgeInsets.only(
+                                                                  left: 0.0,
+                                                                  bottom: total[2] >
+                                                                              50 &&
+                                                                          total[2] <=
+                                                                              60
+                                                                      ? 10
+                                                                      : total[2] > 60 &&
+                                                                              total[2] <= 70
+                                                                          ? 60
+                                                                          : total[2] > 70 && total[2] <= 80
+                                                                              ? 100
+                                                                              : total[2] > 80 && total[2] <= 90
+                                                                                  ? 150
+                                                                                  : 170,
+                                                                ),
+                                                          child:
+                                                              AnimatedContainer(
+                                                            //color: Colors.red,
+                                                            duration: Duration(
+                                                                seconds: 3),
+                                                            height:
+                                                                current_ach3_plan_height, //430
+                                                            width: 30,
+                                                            child: Image.asset(
+                                                                'assets/images/home/Kids_progressbar_redicon.png'),
+                                                          ),
+                                                        ),
+                                                      ]),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              isShow3Achievement
+                                                  ? Positioned(
+                                                      //left: 15,
+                                                      bottom: 5,
+                                                      right: 20,
 
-                                ],
-                              ),
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                              total[2]
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                color: achievement_bgcolor[
+                                                                            2] !=
+                                                                        ''
+                                                                    ? HexColor(achievement_bgcolor[
+                                                                            2])
+                                                                        .withOpacity(
+                                                                            1.0)
+                                                                    : Colors
+                                                                        .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 28.0,
+                                                              )),
+                                                          Text(
+                                                              "${achievement_name[2]}"
+                                                                  .toUpperCase(),
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                fontSize: 9.0,
+                                                              ))
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : SizedBox()
+                                            ]),
+                                          )
+                                        : Stack(children: [
+                                            Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Stack(children: [
+                                                      //isShowBookRead?
+                                                      Container(
+                                                          height: 40,
+                                                          width: 30,
+                                                          child: Image.asset(
+                                                              'assets/images/home/numbers_yellow_stars_L.png')),
+                                                      // :SizedBox(),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 30.0,
+                                                                left: 0.0),
+                                                        child: Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            child: first_char_level_amount_ach3 ==
+                                                                    '1'
+                                                                ? Image.asset(
+                                                                    'assets/images/home/numbers/red/1_red.png')
+                                                                : first_char_level_amount_ach3 ==
+                                                                        '2'
+                                                                    ? Image.asset(
+                                                                        'assets/images/home/numbers/red/2_red.png')
+                                                                    : first_char_level_amount_ach3 ==
+                                                                            '3'
+                                                                        ? Image.asset(
+                                                                            'assets/images/home/numbers/red/3_red.png')
+                                                                        : first_char_level_amount_ach3 ==
+                                                                                '4'
+                                                                            ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                                                            : first_char_level_amount_ach3 == '5'
+                                                                                ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                                                                : first_char_level_amount_ach3 == '6'
+                                                                                    ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                                                                    : first_char_level_amount_ach3 == '7'
+                                                                                        ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                                                        : first_char_level_amount_ach3 == '8'
+                                                                                            ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                                                            : first_char_level_amount_ach3 == '9'
+                                                                                                ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                                                                : first_char_level_amount_ach3 == '0'
+                                                                                                    ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                                                                    : SizedBox()),
+                                                      ),
+                                                    ]),
+                                                    Stack(children: [
+                                                      //isShowBookRead &&
+                                                      third_char_level_amount_ach3 ==
+                                                              ''
+                                                          ? Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          0.0),
+                                                              child: Container(
+                                                                  height: 40,
+                                                                  width: 30,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          'assets/images/home/numbers_yellow_stars_R.png')),
+                                                            )
+                                                          : SizedBox(),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 30.0),
+                                                        child: Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            child: second_char_level_amount_ach3 ==
+                                                                    '1'
+                                                                ? Image.asset(
+                                                                    'assets/images/home/numbers/red/1_red.png')
+                                                                : second_char_level_amount_ach3 ==
+                                                                        '2'
+                                                                    ? Image.asset(
+                                                                        'assets/images/home/numbers/red/2_red.png')
+                                                                    : second_char_level_amount_ach3 ==
+                                                                            '3'
+                                                                        ? Image.asset(
+                                                                            'assets/images/home/numbers/red/3_red.png')
+                                                                        : second_char_level_amount_ach3 ==
+                                                                                '4'
+                                                                            ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                                                            : second_char_level_amount_ach3 == '5'
+                                                                                ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                                                                : second_char_level_amount_ach3 == '6'
+                                                                                    ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                                                                    : second_char_level_amount_ach3 == '7'
+                                                                                        ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                                                        : second_char_level_amount_ach3 == '8'
+                                                                                            ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                                                            : second_char_level_amount_ach3 == '9'
+                                                                                                ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                                                                : second_char_level_amount_ach3 == '0'
+                                                                                                    ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                                                                    : SizedBox()),
+                                                      ),
+                                                    ]),
+                                                    Stack(children: [
+                                                      // isShowBookRead &&
+                                                      third_char_level_amount_ach3 !=
+                                                              ''
+                                                          ? Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          0.0),
+                                                              child: Container(
+                                                                  height: 40,
+                                                                  width: 30,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          'assets/images/home/numbers_yellow_stars_R.png')),
+                                                            )
+                                                          : SizedBox(),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 30.0),
+                                                        child: Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            child: third_char_level_amount_ach3 ==
+                                                                    '1'
+                                                                ? Image.asset(
+                                                                    'assets/images/home/numbers/red/1_red.png')
+                                                                : third_char_level_amount_ach3 ==
+                                                                        '2'
+                                                                    ? Image.asset(
+                                                                        'assets/images/home/numbers/red/2_red.png')
+                                                                    : third_char_level_amount_ach3 ==
+                                                                            '3'
+                                                                        ? Image.asset(
+                                                                            'assets/images/home/numbers/red/3_red.png')
+                                                                        : third_char_level_amount_ach3 ==
+                                                                                '4'
+                                                                            ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                                                            : third_char_level_amount_ach3 == '5'
+                                                                                ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                                                                : third_char_level_amount_ach3 == '6'
+                                                                                    ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                                                                    : third_char_level_amount_ach3 == '7'
+                                                                                        ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                                                        : third_char_level_amount_ach3 == '8'
+                                                                                            ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                                                            : third_char_level_amount_ach3 == '9'
+                                                                                                ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                                                                : third_char_level_amount_ach3 == '0'
+                                                                                                    ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                                                                    : SizedBox()),
+                                                      ),
+                                                    ]),
+                                                  ],
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 5.0,
+                                                            right: 0.0,
+                                                            bottom: 45),
+                                                    child: Stack(children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 0.0),
+                                                        child: RotatedBox(
+                                                          quarterTurns: -1,
+                                                          child:
+                                                              LinearPercentIndicator(
+                                                            width: 240.0,
+                                                            lineHeight: 24.0,
+                                                            barRadius:
+                                                                Radius.circular(
+                                                                    10.0),
+                                                            percent:
+                                                                total[2] / 100,
+                                                            // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                                                            // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                                                            backgroundColor: achievement_bgcolor[
+                                                                        2] !=
+                                                                    ''
+                                                                ? HexColor(
+                                                                        achievement_bgcolor[
+                                                                            2])
+                                                                    .withOpacity(
+                                                                        0.1)
+                                                                : Colors
+                                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                                                            progressColor: achievement_bgcolor[
+                                                                        2] !=
+                                                                    ''
+                                                                ? HexColor(
+                                                                        achievement_bgcolor[
+                                                                            2])
+                                                                    .withOpacity(
+                                                                        1.0)
+                                                                : Colors
+                                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 10.0,
+                                                                left: 0.0),
+                                                        child: RotatedBox(
+                                                          quarterTurns: -1,
+                                                          child: Container(
+                                                              width: 220.0,
+                                                              height: 26,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border: Border.all(
+                                                                    width: 3,
+                                                                    color: Colors
+                                                                        .black),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: total[2] >=
+                                                                    0 &&
+                                                                total[2] <= 50
+                                                            ? EdgeInsets.only(
+                                                                left: 0.0,
+                                                                top: total[2] >=
+                                                                            0 &&
+                                                                        total[2] <=
+                                                                            20
+                                                                    ? 170
+                                                                    : total[2] >
+                                                                                20 &&
+                                                                            total[2] <=
+                                                                                30
+                                                                        ? 120
+                                                                        : total[2] > 30 &&
+                                                                                total[2] <= 40
+                                                                            ? 80
+                                                                            : total[2] > 40 && total[2] <= 50
+                                                                                ? 10
+                                                                                : 0,
+                                                              )
+                                                            : EdgeInsets.only(
+                                                                left: 0.0,
+                                                                bottom: total[2] >
+                                                                            50 &&
+                                                                        total[2] <=
+                                                                            60
+                                                                    ? 10
+                                                                    : total[2] >
+                                                                                60 &&
+                                                                            total[2] <=
+                                                                                70
+                                                                        ? 60
+                                                                        : total[2] > 70 &&
+                                                                                total[2] <= 80
+                                                                            ? 100
+                                                                            : total[2] > 80 && total[2] <= 90
+                                                                                ? 150
+                                                                                : 170,
+                                                              ),
+                                                        child:
+                                                            AnimatedContainer(
+                                                          //color: Colors.red,
+                                                          duration: Duration(
+                                                              seconds: 3),
+                                                          height:
+                                                              current_ach3_plan_height, //430
+                                                          width: 30,
+                                                          child: Image.asset(
+                                                              'assets/images/home/Kids_progressbar_redicon.png'),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            isShow3Achievement
+                                                ? Positioned(
+                                                    //left: 15,
+                                                    bottom: 5,
+                                                    right: 20,
 
-                              isShowDayStreak
-                                  ? Positioned(
-                                right: 30,
-                                bottom: 0,
-                                child: Column(
-                                  children: [
-                                    Text(display_day_steak,
-                                        style: TextStyle(
-                                          color: day_streak_bgcolor !=
-                                              ''
-                                              ? HexColor(
-                                              day_streak_bgcolor)
-                                              .withOpacity(
-                                              1.0)
-                                              : Colors
-                                              .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[2]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(242, 25, 43, 1.0),
-                                          fontWeight:
-                                          FontWeight.w600,
-                                          fontSize: 28.0,
-                                        )),
-                                    Text(
-                                        "${day_streak_name}!"
-                                            .toUpperCase(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight:
-                                          FontWeight.w700,
-                                          fontSize: 9.0,
-                                        ))
-                                  ],
-                                ),
-                              )
-                                  : SizedBox()
-                            ]),
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                            total[2].toString(),
+                                                            style: TextStyle(
+                                                              color: achievement_bgcolor[
+                                                                          2] !=
+                                                                      ''
+                                                                  ? HexColor(
+                                                                          achievement_bgcolor[
+                                                                              2])
+                                                                      .withOpacity(
+                                                                          1.0)
+                                                                  : Colors
+                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 28.0,
+                                                            )),
+                                                        Text(
+                                                            "${achievement_name[2]}"
+                                                                .toUpperCase(),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontSize: 9.0,
+                                                            ))
+                                                      ],
+                                                    ),
+                                                  )
+                                                : SizedBox()
+                                          ])
+                                    : SizedBox(),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -2489,14 +2805,17 @@ class _HomeState extends State<Home> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(
-                            height: 160,
-                            width: 150,
-                            child: Image.asset(
-                              'assets/images/home/orange_cheer.png',
-                              fit: BoxFit.fitHeight,
-                            ),
-                          ),
+                          profileUrl != ''
+                              ? Container(
+                                  height: 160,
+                                  width: 150,
+                                  child: CachedNetworkImage(
+                                      imageUrl: profileUrl,
+                                      fit: BoxFit.fitHeight,
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator()),
+                                )
+                              : SizedBox(),
                         ],
                       ),
                     )
@@ -2517,9 +2836,11 @@ class _HomeState extends State<Home> {
                   ),
                   Stack(children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 100.0, left: 10.0),
+                      padding: const EdgeInsets.only(right: 120.0, left: 10.0),
                       child: GridView.builder(
-                        itemCount: favBooksLists.length,
+                        itemCount: favBooksLists.length <= 9
+                            ? favBooksLists.length
+                            : 9,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
