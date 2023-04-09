@@ -43,6 +43,8 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
   var languageData = [];
   var contributorData = [];
   bool errors = false;
+  var topicSplit;
+  var keyBoardTextSplit;
 
   List<String> category = [];
   List<String> ageRange = [];
@@ -1098,11 +1100,13 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                               bookDescErrorText = topicErrorText = '';
                                   errors = false;
                                 });
-                                var keyBoardTextSplit = _keyWordsController.text
-                                    .toString()
-                                    .split(' ');
-                                var topicSplit =
-                                    _tagController.text.toString().split(' ');
+                                setState(() {
+                                  keyBoardTextSplit = _keyWordsController.text
+                                      .toString()
+                                      .split(',');
+                                  topicSplit=
+                                      _tagController.text.toString().split(',');
+                                });
                                 if (imagePath != null) {
                                   saveImages(imagePath, sightingRef);
                                   if (topicSplit.length > max_limit) {
@@ -1174,7 +1178,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                                 bookGenre: categoryValue,
                                                 subBookGenre: subCategoryValue,
                                                 price: _priceController.text,
-                                                topic: _tagController.text,
+                                                topic: topicSplit,
                                               )
                                           /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
                                           ),

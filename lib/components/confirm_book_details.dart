@@ -234,32 +234,63 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                             ),
                                           ),
                                           Container(
+                                            height: 70,
                                             margin: EdgeInsets.all(5.0),
                                             child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
                                                 SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      7,
+                                                  child: Text(
+                                                    'Topics',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  child: Container(
                                                     width:
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width /
-                                                            7,
-                                                    child: Text(
-                                                      'Topics',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    )),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      5,
-                                                  child: Text(widget.topic),
+                                                            2,
+                                                    margin: EdgeInsets.only(
+                                                        right: 5.0),
+                                                    child: Container(
+                                                      height: 55,
+                                                      child: Wrap(
+                                                        children: [
+                                                          for (int i = 0;
+                                                              i <
+                                                                  widget.topic
+                                                                      .length;
+                                                              i++)
+                                                            Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      right: 3),
+                                                              child: Text(
+                                                                widget.topic[i]
+                                                                    .toString(),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 2,
+                                                              ),
+                                                            )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -271,7 +302,7 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                     ],
                                   ),
                                   height:
-                                      MediaQuery.of(context).size.height / 8,
+                                      MediaQuery.of(context).size.height / 6,
                                   width:
                                       MediaQuery.of(context).size.width / 1.2,
                                 )
@@ -297,18 +328,46 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
-                                            margin: EdgeInsets.only(
-                                                left: 5.0, right: 5.0),
+                                            margin: EdgeInsets.only(left: 5),
                                             child: Text(
                                               widget.title,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(right: 5),
+                                            child: Text(
+                                              "C\$" + widget.price,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                   fontSize: 20.0,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                         ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(left: 5),
+                                            child: Text(
+                                              widget.authorName,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ]
                                       ),
                                       Row(
                                         children: [
@@ -336,7 +395,7 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                     ],
                                   ),
                                   height:
-                                      MediaQuery.of(context).size.height / 8,
+                                      MediaQuery.of(context).size.height / 4,
                                   width:
                                       MediaQuery.of(context).size.width / 1.2,
                                 )
