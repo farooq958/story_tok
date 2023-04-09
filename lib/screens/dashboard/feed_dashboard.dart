@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:storily/global/methods/methods.dart';
 import 'package:storily/screens/dashboard/widgets/home_screen.dart';
 import '../../controllers/main_content_controller.dart';
+import '../../controllers/repositories/videos_repository.dart';
+import 'bootm_menu_screens/bookshelf.dart';
+import 'data/model/video_model.dart';
 
 class FeedDashboard extends StatefulWidget {
   static String id = "/feedDashboard";
@@ -14,7 +17,10 @@ class FeedDashboard extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedDashboard> {
+
   int _selectedIndex = 0;
+  late VideosAPI videoSource;
+  List<CommonDataModel> currentItems = [];
 
   @override
   void initState() {
@@ -34,16 +40,15 @@ class _FeedScreenState extends State<FeedDashboard> {
       log("Explore");
     }
     if (_selectedIndex == 2) {
-      //goPage(context, MyBookshelfPage());
-      log("Library");
-      showToast("Library", context);
-      // if (feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.value.isPlaying) {
-      //   feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.pause();
+      var contentController = Get.find<MainContentController>().initializer();
+      // 
+      // if (contentController!.videoSource.listVideos[contentController!.index].controller!.value.isPlaying) {
+      //   contentController!.videoSource.listVideos[contentController!.index].controller!.pause();
       // }else{
-      //   goPage(context, MyBookshelfPage());
+      //   
       //   log("Library");
       // }
-      // showToast("Library", context);
+      Get.to(()=>MyBookshelfPage());
     }
     if (_selectedIndex == 3) {
       log("Events");

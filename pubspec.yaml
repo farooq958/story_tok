@@ -49,6 +49,7 @@ dependencies:
   audioplayers: ^3.0.1
   just_audio: ^0.9.32
   get: ^4.6.5
+  intl: ^0.17.0
 
 
 dev_dependencies:

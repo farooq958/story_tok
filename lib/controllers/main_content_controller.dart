@@ -18,8 +18,6 @@ class MainContentController extends GetxController {
     viewportFraction: 1,
   ).obs();
 
-  // final VideoPlayerController videoController = VideoPlayerController.network(dataSource);
-
   List<CommonDataModel> currentItems = [];
   int get totalLength => currentItems.length;
   int get currentIndex => index;
@@ -56,15 +54,5 @@ class MainContentController extends GetxController {
       update();
     });
     return item;
-  }
-
-  callUpwardSwipe() {
-    contentPageController.nextPage(
-        duration: Duration(milliseconds: 370), curve: Curves.easeIn);
-  }
-
-  callDownwardSwipe() {
-    contentPageController.previousPage(
-        duration: Duration(milliseconds: 370), curve: Curves.easeIn);
   }
 }

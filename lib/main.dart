@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:storily/provider/storage_provider.dart';
+import 'package:storily/controllers/main_content_controller.dart';
 import 'package:storily/screens/splash/splash_screen.dart';
 import 'routes/routes.dart';
 import 'screens/service_locator.dart';
@@ -12,20 +12,16 @@ void main() async {
   await Firebase.initializeApp();
   initializations();
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  Get.put(MainContentController());
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => StorageProvider(prefs)),
-      ],
-      child: MyApp(),
-    ),
+   MyApp(),
   );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Spotify Clone',
       theme: ThemeData(

@@ -29,41 +29,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onVerticalDragUpdate: (details) {
-        int sensitivity = 8; //** This gives a ([sensitivity * 2]) depth of sensitivity to the swipe! **/
-        if (details.delta.dy > sensitivity) {
-          contentController.callDownwardSwipe();
-        } else if (details.delta.dy < (-sensitivity)) {
-          contentController.callUpwardSwipe();
-        }
-      },
-      child: AbsorbPointer(
-        absorbing: true,
-        child: PageView.custom(
-          childrenDelegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final data = contentController.getItemByIndex(index);
-              if (data is GameModel) {
-                log('#GameScreen');
-                return GameScreenWidget(gameModel: data);
-              } else if (data is VideoModel) {
-                log('#VideoScreen');
-                return VideoScreenWidget(videoController: data);
-              } else if (data is AudioBookModel) {
-                log('#BookScreen');
-                return BookScreenWidget(bookData: data);
-              } else {
-                log('#NoScreen');
-                return SizedBox();
-              }
-            },
-            childCount: contentController.totalLength,
-          ),
-          controller: contentController.contentPageController,
-          scrollDirection: Axis.vertical,
-        ),
+    return PageView.custom(
+      childrenDelegate: SliverChildBuilderDelegate(
+        (context, index) {
+          final data = contentController.getItemByIndex(index);
+          if (data is GameModel) {
+            log('#GameScreen');
+            return GameScreenWidget(gameModel: data);
+          } else if (data is VideoModel) {
+            log('#VideoScreen');
+            return VideoScreenWidget(videoController: data);
+          } else if (data is AudioBookModel) {
+            log('#BookScreen');
+            return BookScreenWidget(bookData: data);
+          } else {
+            log('#NoScreen');
+            return SizedBox();
+          }
+        },
+        childCount: contentController.totalLength,
       ),
+      controller: contentController.contentPageController,
+      scrollDirection: Axis.vertical,
     );
   }
 }
