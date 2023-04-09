@@ -685,510 +685,2943 @@ class _HomeState extends State<Home> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 350,
-                      child: Stack(
-                        //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Row(
-                              mainAxisAlignment:
-                                  inProgressAchievedLists.length == 1
-                                      ? MainAxisAlignment.center
-                                      : inProgressAchievedLists.length == 2
-                                          ? MainAxisAlignment.spaceEvenly
-                                          : MainAxisAlignment.spaceBetween,
-                              children: [
-                                inProgressAchievedLists.length >= 1
-                                    ? isShow1Achievement
-                                        ? Container(
-                                            height: 350,
-                                            child: Stack(children: [
-                                              Column(
-                                                children: [
-                                                  Container(
-
-                                                      child:Column(
-                                                        children: [
-
-                                                          Row(
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              Container(
-                                                                  height: 40,
-                                                                  width: 30,
-                                                                  child: Image.asset(
-                                                                      'assets/images/home/numbers_purple_stars_L.png')),
-                                                              // Row(
-                                                              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                              //     children:[
-                                                              //       Container(
-                                                              //           height: 40,
-                                                              //           width: 30,
-                                                              //           child: Image.asset(
-                                                              //               'assets/images/home/numbers_purple_stars_L.png')),
-                                                              //       Container(
-                                                              //           height: 40,
-                                                              //           width: 30,
-                                                              //           child: Image
-                                                              //               .asset(
-                                                              //               'assets/images/home/numbers_purple_stars_R.png'))
-                                                              //     ]
-                                                              // ),
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:30.0),
-                                                                child: Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    child: first_char_level_amount_ach1 ==
-                                                                        '1'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/1_blue.png')
-                                                                        : first_char_level_amount_ach1 ==
-                                                                        '2'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/2_blue.png')
-                                                                        : first_char_level_amount_ach1 ==
-                                                                        '3'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/3_blue.png')
-                                                                        : first_char_level_amount_ach1 == '4'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
-                                                                        : first_char_level_amount_ach1 == '5'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
-                                                                        : first_char_level_amount_ach1 == '6'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
-                                                                        : first_char_level_amount_ach1 == '7'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                                        : first_char_level_amount_ach1 == '8'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                                        : first_char_level_amount_ach1 == '9'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                                        : first_char_level_amount_ach1 == '0'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                                        : SizedBox()),
-                                                              ),
-                                                              second_char_level_amount_ach1 != '' ?
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:30.0),
-                                                                child: Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    child: second_char_level_amount_ach1 ==
-                                                                        '1'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/1_blue.png')
-                                                                        : second_char_level_amount_ach1 ==
-                                                                        '2'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/2_blue.png')
-                                                                        : second_char_level_amount_ach1 ==
-                                                                        '3'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/3_blue.png')
-                                                                        : second_char_level_amount_ach1 == '4'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
-                                                                        : second_char_level_amount_ach1 == '5'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
-                                                                        : second_char_level_amount_ach1 == '6'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
-                                                                        : second_char_level_amount_ach1 == '7'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                                        : second_char_level_amount_ach1 == '8'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                                        : second_char_level_amount_ach1 == '9'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                                        : second_char_level_amount_ach1 == '0'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                                        : SizedBox(width: 0)),
-                                                              ):
-                                                              SizedBox(width: 0),
-                                                              third_char_level_amount_ach1 != '' ?
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:30.0),
-                                                                child: Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    child: third_char_level_amount_ach1 ==
-                                                                        '1'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/1_blue.png')
-                                                                        : third_char_level_amount_ach1 ==
-                                                                        '2'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/2_blue.png')
-                                                                        : third_char_level_amount_ach1 ==
-                                                                        '3'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/blue/3_blue.png')
-                                                                        : third_char_level_amount_ach1 == '4'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
-                                                                        : third_char_level_amount_ach1 == '5'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
-                                                                        : third_char_level_amount_ach1 == '6'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
-                                                                        : third_char_level_amount_ach1 == '7'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                                        : third_char_level_amount_ach1 == '8'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                                        : third_char_level_amount_ach1 == '9'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                                        : third_char_level_amount_ach1 == '0'
-                                                                        ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                                        : SizedBox(width: 0)),
-                                                              ):
-                                                              SizedBox(width: 0),
-                                                              Container(
-                                                                  height: 40,
-                                                                  width: 30,
-                                                                  child: Image
-                                                                      .asset(
-                                                                      'assets/images/home/numbers_purple_stars_R.png'))
-                                                            ],
-                                                          )
-                                                        ],
-                                                      )
-                                                  ),
-
-
-                                                  // Row(
-                                                  //   children: [
-                                                  //     Stack(children: [
-                                                  //       //isShowBookRead?
-                                                  //       Container(
-                                                  //           height: 40,
-                                                  //           width: 30,
-                                                  //           child: Image.asset(
-                                                  //               'assets/images/home/numbers_purple_stars_L.png')),
-                                                  //       // :SizedBox(),
-                                                  //       Padding(
-                                                  //         padding:
-                                                  //             const EdgeInsets
-                                                  //                     .only(
-                                                  //                 top: 30.0,
-                                                  //                 left: 0.0),
-                                                  //         child: Container(
-                                                  //             height: 30,
-                                                  //             width: 30,
-                                                  //             child: first_char_level_amount_ach1 ==
-                                                  //                     '1'
-                                                  //                 ? Image.asset(
-                                                  //                     'assets/images/home/numbers/blue/1_blue.png')
-                                                  //                 : first_char_level_amount_ach1 ==
-                                                  //                         '2'
-                                                  //                     ? Image.asset(
-                                                  //                         'assets/images/home/numbers/blue/2_blue.png')
-                                                  //                     : first_char_level_amount_ach1 ==
-                                                  //                             '3'
-                                                  //                         ? Image.asset(
-                                                  //                             'assets/images/home/numbers/blue/3_blue.png')
-                                                  //                         : first_char_level_amount_ach1 == '4'
-                                                  //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
-                                                  //                             : first_char_level_amount_ach1 == '5'
-                                                  //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
-                                                  //                                 : first_char_level_amount_ach1 == '6'
-                                                  //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
-                                                  //                                     : first_char_level_amount_ach1 == '7'
-                                                  //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                  //                                         : first_char_level_amount_ach1 == '8'
-                                                  //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                  //                                             : first_char_level_amount_ach1 == '9'
-                                                  //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                  //                                                 : first_char_level_amount_ach1 == '0'
-                                                  //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                  //                                                     : SizedBox()),
-                                                  //       ),
-                                                  //     ]),
-                                                  //     Stack(children: [
-                                                  //       //isShowBookRead &&
-                                                  //       third_char_level_amount_ach1 ==
-                                                  //               ''
-                                                  //           ? Padding(
-                                                  //               padding:
-                                                  //                   const EdgeInsets
-                                                  //                           .only(
-                                                  //                       left:
-                                                  //                           0.0),
-                                                  //               child: Container(
-                                                  //                   height: 40,
-                                                  //                   width: 30,
-                                                  //                   child: Image
-                                                  //                       .asset(
-                                                  //                           'assets/images/home/numbers_purple_stars_R.png')),
-                                                  //             )
-                                                  //           : SizedBox(),
-                                                  //       Padding(
-                                                  //         padding:
-                                                  //             const EdgeInsets
-                                                  //                     .only(
-                                                  //                 top: 30.0),
-                                                  //         child: Container(
-                                                  //             height: 30,
-                                                  //             width: 30,
-                                                  //             child: second_char_level_amount_ach1 ==
-                                                  //                     '1'
-                                                  //                 ? Image.asset(
-                                                  //                     'assets/images/home/numbers/blue/1_blue.png')
-                                                  //                 : second_char_level_amount_ach1 ==
-                                                  //                         '2'
-                                                  //                     ? Image.asset(
-                                                  //                         'assets/images/home/numbers/blue/2_blue.png')
-                                                  //                     : second_char_level_amount_ach1 ==
-                                                  //                             '3'
-                                                  //                         ? Image.asset(
-                                                  //                             'assets/images/home/numbers/blue/3_blue.png')
-                                                  //                         : second_char_level_amount_ach1 == '4'
-                                                  //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
-                                                  //                             : second_char_level_amount_ach1 == '5'
-                                                  //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
-                                                  //                                 : second_char_level_amount_ach1 == '6'
-                                                  //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
-                                                  //                                     : second_char_level_amount_ach1 == '7'
-                                                  //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                  //                                         : second_char_level_amount_ach1 == '8'
-                                                  //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                  //                                             : second_char_level_amount_ach1 == '9'
-                                                  //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                  //                                                 : second_char_level_amount_ach1 == '0'
-                                                  //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                  //                                                     : SizedBox()),
-                                                  //       ),
-                                                  //     ]),
-                                                  //     Stack(children: [
-                                                  //       // isShowBookRead &&
-                                                  //       third_char_level_amount_ach1 !=
-                                                  //               ''
-                                                  //           ? Padding(
-                                                  //               padding:
-                                                  //                   const EdgeInsets
-                                                  //                           .only(
-                                                  //                       left:
-                                                  //                           0.0),
-                                                  //               child: Container(
-                                                  //                   height: 40,
-                                                  //                   width: 30,
-                                                  //                   child: Image
-                                                  //                       .asset(
-                                                  //                           'assets/images/home/numbers_purple_stars_R.png')),
-                                                  //             )
-                                                  //           : SizedBox(),
-                                                  //       Padding(
-                                                  //         padding:
-                                                  //             const EdgeInsets
-                                                  //                     .only(
-                                                  //                 top: 30.0),
-                                                  //         child: Container(
-                                                  //             height: 30,
-                                                  //             width: 30,
-                                                  //             child: third_char_level_amount_ach1 ==
-                                                  //                     '1'
-                                                  //                 ? Image.asset(
-                                                  //                     'assets/images/home/numbers/blue/1_blue.png')
-                                                  //                 : third_char_level_amount_ach1 ==
-                                                  //                         '2'
-                                                  //                     ? Image.asset(
-                                                  //                         'assets/images/home/numbers/blue/2_blue.png')
-                                                  //                     : third_char_level_amount_ach1 ==
-                                                  //                             '3'
-                                                  //                         ? Image.asset(
-                                                  //                             'assets/images/home/numbers/blue/3_blue.png')
-                                                  //                         : third_char_level_amount_ach1 == '4'
-                                                  //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
-                                                  //                             : third_char_level_amount_ach1 == '5'
-                                                  //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
-                                                  //                                 : third_char_level_amount_ach1 == '6'
-                                                  //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
-                                                  //                                     : third_char_level_amount_ach1 == '7'
-                                                  //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
-                                                  //                                         : third_char_level_amount_ach1 == '8'
-                                                  //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
-                                                  //                                             : third_char_level_amount_ach1 == '9'
-                                                  //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
-                                                  //                                                 : third_char_level_amount_ach1 == '0'
-                                                  //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
-                                                  //                                                     : SizedBox()),
-                                                  //       ),
-                                                  //     ]),
-                                                  //   ],
-                                                  // ),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 5.0,
-                                                              right: 0.0,
-                                                              bottom: 45),
-                                                      child: Stack(children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 10.0),
-                                                          child: RotatedBox(
-                                                            quarterTurns: -1,
-                                                            child:
-                                                                LinearPercentIndicator(
-                                                              width: 240.0,
-                                                              lineHeight: 24.0,
-                                                              barRadius: Radius
-                                                                  .circular(
-                                                                      10.0),
-                                                              percent:
-                                                              (total[0] * avgAmount[0]) / 100,
-                                                              // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
-                                                              // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
-                                                              backgroundColor: achievement_bgcolor[
-                                                                          0] !=
-                                                                      ''
-                                                                  ? HexColor(
-                                                                          achievement_bgcolor[
-                                                                              0])
-                                                                      .withOpacity(
-                                                                          0.1)
-                                                                  : Colors
-                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
-                                                              progressColor: achievement_bgcolor[
-                                                                          0] !=
-                                                                      ''
-                                                                  ? HexColor(
-                                                                          achievement_bgcolor[
-                                                                              0])
-                                                                      .withOpacity(
-                                                                          1.0)
-                                                                  : Colors
-                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  top: 10.0,
-                                                                  left: 10.0),
-                                                          child: RotatedBox(
-                                                            quarterTurns: -1,
-                                                            child: Container(
-                                                                width: 220.0,
-                                                                height: 26,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  border: Border.all(
-                                                                      width: 3,
-                                                                      color: Colors
-                                                                          .black),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10.0),
-                                                                )),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding: total[0]*avgAmount[0] >=
-                                                                      0 &&
-                                                                  total[0]*avgAmount[0] <= 50
-                                                              ? EdgeInsets.only(
-                                                                  left: 3.0,
-                                                                  top: total[0]*avgAmount[0] >=
-                                                                              0 &&
-                                                                          total[0]*avgAmount[0] <=
-                                                                              20
-                                                                      ? 180
-                                                                      : total[0]*avgAmount[0] > 20 &&
-                                                                              total[0]*avgAmount[0] <= 30
-                                                                          ? 130
-                                                                          : total[0]*avgAmount[0] > 30 && total[0]*avgAmount[0] <= 40
-                                                                              ? 90
-                                                                              : total[0]*avgAmount[0] > 40 && total[0]*avgAmount[0] <= 50
-                                                                                  ? 20
-                                                                                  : 0,
-                                                                )
-                                                              : EdgeInsets.only(
-                                                                  left: 3.0,
-                                                                  bottom: total[0]*avgAmount[0] >
-                                                                              50 &&
-                                                                          total[0]*avgAmount[0] <=
-                                                                              60
-                                                                      ? 20
-                                                                      : total[0]*avgAmount[0] > 60 &&
-                                                                              total[0]*avgAmount[0] <= 70
-                                                                          ? 70
-                                                                          : total[0]*avgAmount[0] > 70 && total[0]*avgAmount[0] <= 80
-                                                                              ? 110
-                                                                              : total[0]*avgAmount[0] > 80 && total[0]*avgAmount[0] <= 90
-                                                                                  ? 160
-                                                                                  : 170,
-                                                                ),
-                                                          child:
-                                                              AnimatedContainer(
-                                                            //color: Colors.red,
-                                                            duration: Duration(
-                                                                seconds: 3),
-                                                            height:
-                                                                current_ach1_plan_height, //430
-                                                            width: 40,
-                                                            child: Image.asset(
-                                                                'assets/images/home/Kids_progressbar_blueicon.png'),
-                                                          ),
-                                                        ),
-                                                      ]),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              isShow1Achievement
-                                                  ? Positioned(
-                                                      left: 0, //35,
-                                                      bottom: 5,
-                                                      child: Container(
-                                                        width:second_char_level_amount_ach1 == '' && third_char_level_amount_ach1 == ''?95:third_char_level_amount_ach1 == ''?115:145,
-
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                                total[0]
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                  color: achievement_bgcolor[
-                                                                              0] !=
-                                                                          ''
-                                                                      ? HexColor(achievement_bgcolor[
-                                                                              0])
-                                                                          .withOpacity(
-                                                                              1.0)
-                                                                      : Colors
-                                                                          .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 28.0,
-                                                                )),
-                                                            Text(
-                                                                "${achievement_name[0]}"
-                                                                    .toUpperCase(),
-                                                                style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                  fontSize: 9.0,
-                                                                ))
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : SizedBox()
-                                            ]),
-                                          )
-                                        : Stack(children: [
+                    // child: Container(
+                    //   width: MediaQuery.of(context).size.width,
+                    //   height: 350,
+                    //   child: Stack(
+                    //     //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //     children: [
+                    //       Padding(
+                    //         padding:
+                    //             const EdgeInsets.only(left: 10.0, right: 10.0),
+                    //         child: Row(
+                    //           mainAxisAlignment:
+                    //               inProgressAchievedLists.length == 1
+                    //                   ? MainAxisAlignment.center
+                    //                   : inProgressAchievedLists.length == 2
+                    //                       ? MainAxisAlignment.spaceEvenly
+                    //                       : MainAxisAlignment.spaceBetween,
+                    //           children: [
+                    //             inProgressAchievedLists.length >= 1
+                    //                 ? isShow1Achievement
+                    //                     ? Container(
+                    //                         height: 350,
+                    //                         child: Stack(children: [
+                    //                           Column(
+                    //                             children: [
+                    //                               Container(
+                    //
+                    //                                   child:Column(
+                    //                                     children: [
+                    //
+                    //                                       Row(
+                    //                                           mainAxisAlignment: MainAxisAlignment.center,
+                    //                                         children: [
+                    //                                           Container(
+                    //                                               height: 40,
+                    //                                               width: 30,
+                    //                                               child: Image.asset(
+                    //                                                   'assets/images/home/numbers_purple_stars_L.png')),
+                    //                                           // Row(
+                    //                                           //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //                                           //     children:[
+                    //                                           //       Container(
+                    //                                           //           height: 40,
+                    //                                           //           width: 30,
+                    //                                           //           child: Image.asset(
+                    //                                           //               'assets/images/home/numbers_purple_stars_L.png')),
+                    //                                           //       Container(
+                    //                                           //           height: 40,
+                    //                                           //           width: 30,
+                    //                                           //           child: Image
+                    //                                           //               .asset(
+                    //                                           //               'assets/images/home/numbers_purple_stars_R.png'))
+                    //                                           //     ]
+                    //                                           // ),
+                    //                                           Padding(
+                    //                                             padding: const EdgeInsets.only(top:30.0),
+                    //                                             child: Container(
+                    //                                                 height: 30,
+                    //                                                 width: 30,
+                    //                                                 child: first_char_level_amount_ach1 ==
+                    //                                                     '1'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/blue/1_blue.png')
+                    //                                                     : first_char_level_amount_ach1 ==
+                    //                                                     '2'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/blue/2_blue.png')
+                    //                                                     : first_char_level_amount_ach1 ==
+                    //                                                     '3'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/blue/3_blue.png')
+                    //                                                     : first_char_level_amount_ach1 == '4'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                                                     : first_char_level_amount_ach1 == '5'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                                                     : first_char_level_amount_ach1 == '6'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                                                     : first_char_level_amount_ach1 == '7'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                                                     : first_char_level_amount_ach1 == '8'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                                                     : first_char_level_amount_ach1 == '9'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                                                     : first_char_level_amount_ach1 == '0'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                                                     : SizedBox()),
+                    //                                           ),
+                    //                                           second_char_level_amount_ach1 != '' ?
+                    //                                           Padding(
+                    //                                             padding: const EdgeInsets.only(top:30.0),
+                    //                                             child: Container(
+                    //                                                 height: 30,
+                    //                                                 width: 30,
+                    //                                                 child: second_char_level_amount_ach1 ==
+                    //                                                     '1'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/blue/1_blue.png')
+                    //                                                     : second_char_level_amount_ach1 ==
+                    //                                                     '2'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/blue/2_blue.png')
+                    //                                                     : second_char_level_amount_ach1 ==
+                    //                                                     '3'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/blue/3_blue.png')
+                    //                                                     : second_char_level_amount_ach1 == '4'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                                                     : second_char_level_amount_ach1 == '5'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                                                     : second_char_level_amount_ach1 == '6'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                                                     : second_char_level_amount_ach1 == '7'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                                                     : second_char_level_amount_ach1 == '8'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                                                     : second_char_level_amount_ach1 == '9'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                                                     : second_char_level_amount_ach1 == '0'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                                                     : SizedBox(width: 0)),
+                    //                                           ):
+                    //                                           SizedBox(width: 0),
+                    //                                           third_char_level_amount_ach1 != '' ?
+                    //                                           Padding(
+                    //                                             padding: const EdgeInsets.only(top:30.0),
+                    //                                             child: Container(
+                    //                                                 height: 30,
+                    //                                                 width: 30,
+                    //                                                 child: third_char_level_amount_ach1 ==
+                    //                                                     '1'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/blue/1_blue.png')
+                    //                                                     : third_char_level_amount_ach1 ==
+                    //                                                     '2'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/blue/2_blue.png')
+                    //                                                     : third_char_level_amount_ach1 ==
+                    //                                                     '3'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/blue/3_blue.png')
+                    //                                                     : third_char_level_amount_ach1 == '4'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                                                     : third_char_level_amount_ach1 == '5'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                                                     : third_char_level_amount_ach1 == '6'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                                                     : third_char_level_amount_ach1 == '7'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                                                     : third_char_level_amount_ach1 == '8'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                                                     : third_char_level_amount_ach1 == '9'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                                                     : third_char_level_amount_ach1 == '0'
+                    //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                                                     : SizedBox(width: 0)),
+                    //                                           ):
+                    //                                           SizedBox(width: 0),
+                    //                                           Container(
+                    //                                               height: 40,
+                    //                                               width: 30,
+                    //                                               child: Image
+                    //                                                   .asset(
+                    //                                                   'assets/images/home/numbers_purple_stars_R.png'))
+                    //                                         ],
+                    //                                       )
+                    //                                     ],
+                    //                                   )
+                    //                               ),
+                    //
+                    //
+                    //                               // Row(
+                    //                               //   children: [
+                    //                               //     Stack(children: [
+                    //                               //       //isShowBookRead?
+                    //                               //       Container(
+                    //                               //           height: 40,
+                    //                               //           width: 30,
+                    //                               //           child: Image.asset(
+                    //                               //               'assets/images/home/numbers_purple_stars_L.png')),
+                    //                               //       // :SizedBox(),
+                    //                               //       Padding(
+                    //                               //         padding:
+                    //                               //             const EdgeInsets
+                    //                               //                     .only(
+                    //                               //                 top: 30.0,
+                    //                               //                 left: 0.0),
+                    //                               //         child: Container(
+                    //                               //             height: 30,
+                    //                               //             width: 30,
+                    //                               //             child: first_char_level_amount_ach1 ==
+                    //                               //                     '1'
+                    //                               //                 ? Image.asset(
+                    //                               //                     'assets/images/home/numbers/blue/1_blue.png')
+                    //                               //                 : first_char_level_amount_ach1 ==
+                    //                               //                         '2'
+                    //                               //                     ? Image.asset(
+                    //                               //                         'assets/images/home/numbers/blue/2_blue.png')
+                    //                               //                     : first_char_level_amount_ach1 ==
+                    //                               //                             '3'
+                    //                               //                         ? Image.asset(
+                    //                               //                             'assets/images/home/numbers/blue/3_blue.png')
+                    //                               //                         : first_char_level_amount_ach1 == '4'
+                    //                               //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                               //                             : first_char_level_amount_ach1 == '5'
+                    //                               //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                               //                                 : first_char_level_amount_ach1 == '6'
+                    //                               //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                               //                                     : first_char_level_amount_ach1 == '7'
+                    //                               //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                               //                                         : first_char_level_amount_ach1 == '8'
+                    //                               //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                               //                                             : first_char_level_amount_ach1 == '9'
+                    //                               //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                               //                                                 : first_char_level_amount_ach1 == '0'
+                    //                               //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                               //                                                     : SizedBox()),
+                    //                               //       ),
+                    //                               //     ]),
+                    //                               //     Stack(children: [
+                    //                               //       //isShowBookRead &&
+                    //                               //       third_char_level_amount_ach1 ==
+                    //                               //               ''
+                    //                               //           ? Padding(
+                    //                               //               padding:
+                    //                               //                   const EdgeInsets
+                    //                               //                           .only(
+                    //                               //                       left:
+                    //                               //                           0.0),
+                    //                               //               child: Container(
+                    //                               //                   height: 40,
+                    //                               //                   width: 30,
+                    //                               //                   child: Image
+                    //                               //                       .asset(
+                    //                               //                           'assets/images/home/numbers_purple_stars_R.png')),
+                    //                               //             )
+                    //                               //           : SizedBox(),
+                    //                               //       Padding(
+                    //                               //         padding:
+                    //                               //             const EdgeInsets
+                    //                               //                     .only(
+                    //                               //                 top: 30.0),
+                    //                               //         child: Container(
+                    //                               //             height: 30,
+                    //                               //             width: 30,
+                    //                               //             child: second_char_level_amount_ach1 ==
+                    //                               //                     '1'
+                    //                               //                 ? Image.asset(
+                    //                               //                     'assets/images/home/numbers/blue/1_blue.png')
+                    //                               //                 : second_char_level_amount_ach1 ==
+                    //                               //                         '2'
+                    //                               //                     ? Image.asset(
+                    //                               //                         'assets/images/home/numbers/blue/2_blue.png')
+                    //                               //                     : second_char_level_amount_ach1 ==
+                    //                               //                             '3'
+                    //                               //                         ? Image.asset(
+                    //                               //                             'assets/images/home/numbers/blue/3_blue.png')
+                    //                               //                         : second_char_level_amount_ach1 == '4'
+                    //                               //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                               //                             : second_char_level_amount_ach1 == '5'
+                    //                               //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                               //                                 : second_char_level_amount_ach1 == '6'
+                    //                               //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                               //                                     : second_char_level_amount_ach1 == '7'
+                    //                               //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                               //                                         : second_char_level_amount_ach1 == '8'
+                    //                               //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                               //                                             : second_char_level_amount_ach1 == '9'
+                    //                               //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                               //                                                 : second_char_level_amount_ach1 == '0'
+                    //                               //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                               //                                                     : SizedBox()),
+                    //                               //       ),
+                    //                               //     ]),
+                    //                               //     Stack(children: [
+                    //                               //       // isShowBookRead &&
+                    //                               //       third_char_level_amount_ach1 !=
+                    //                               //               ''
+                    //                               //           ? Padding(
+                    //                               //               padding:
+                    //                               //                   const EdgeInsets
+                    //                               //                           .only(
+                    //                               //                       left:
+                    //                               //                           0.0),
+                    //                               //               child: Container(
+                    //                               //                   height: 40,
+                    //                               //                   width: 30,
+                    //                               //                   child: Image
+                    //                               //                       .asset(
+                    //                               //                           'assets/images/home/numbers_purple_stars_R.png')),
+                    //                               //             )
+                    //                               //           : SizedBox(),
+                    //                               //       Padding(
+                    //                               //         padding:
+                    //                               //             const EdgeInsets
+                    //                               //                     .only(
+                    //                               //                 top: 30.0),
+                    //                               //         child: Container(
+                    //                               //             height: 30,
+                    //                               //             width: 30,
+                    //                               //             child: third_char_level_amount_ach1 ==
+                    //                               //                     '1'
+                    //                               //                 ? Image.asset(
+                    //                               //                     'assets/images/home/numbers/blue/1_blue.png')
+                    //                               //                 : third_char_level_amount_ach1 ==
+                    //                               //                         '2'
+                    //                               //                     ? Image.asset(
+                    //                               //                         'assets/images/home/numbers/blue/2_blue.png')
+                    //                               //                     : third_char_level_amount_ach1 ==
+                    //                               //                             '3'
+                    //                               //                         ? Image.asset(
+                    //                               //                             'assets/images/home/numbers/blue/3_blue.png')
+                    //                               //                         : third_char_level_amount_ach1 == '4'
+                    //                               //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                               //                             : third_char_level_amount_ach1 == '5'
+                    //                               //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                               //                                 : third_char_level_amount_ach1 == '6'
+                    //                               //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                               //                                     : third_char_level_amount_ach1 == '7'
+                    //                               //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                               //                                         : third_char_level_amount_ach1 == '8'
+                    //                               //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                               //                                             : third_char_level_amount_ach1 == '9'
+                    //                               //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                               //                                                 : third_char_level_amount_ach1 == '0'
+                    //                               //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                               //                                                     : SizedBox()),
+                    //                               //       ),
+                    //                               //     ]),
+                    //                               //   ],
+                    //                               // ),
+                    //                               Expanded(
+                    //                                 child: Padding(
+                    //                                   padding:
+                    //                                       const EdgeInsets.only(
+                    //                                           top: 5.0,
+                    //                                           right: 0.0,
+                    //                                           bottom: 45),
+                    //                                   child: Stack(children: [
+                    //                                     Padding(
+                    //                                       padding:
+                    //                                           const EdgeInsets
+                    //                                                   .only(
+                    //                                               left: 10.0),
+                    //                                       child: RotatedBox(
+                    //                                         quarterTurns: -1,
+                    //                                         child:
+                    //                                             LinearPercentIndicator(
+                    //                                           width: 240.0,
+                    //                                           lineHeight: 24.0,
+                    //                                           barRadius: Radius
+                    //                                               .circular(
+                    //                                                   10.0),
+                    //                                           percent:
+                    //                                           (total[0] * avgAmount[0]) / 100,
+                    //                                           // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                    //                                           // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                    //                                           backgroundColor: achievement_bgcolor[
+                    //                                                       0] !=
+                    //                                                   ''
+                    //                                               ? HexColor(
+                    //                                                       achievement_bgcolor[
+                    //                                                           0])
+                    //                                                   .withOpacity(
+                    //                                                       0.1)
+                    //                                               : Colors
+                    //                                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                    //                                           progressColor: achievement_bgcolor[
+                    //                                                       0] !=
+                    //                                                   ''
+                    //                                               ? HexColor(
+                    //                                                       achievement_bgcolor[
+                    //                                                           0])
+                    //                                                   .withOpacity(
+                    //                                                       1.0)
+                    //                                               : Colors
+                    //                                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                    //                                         ),
+                    //                                       ),
+                    //                                     ),
+                    //                                     Padding(
+                    //                                       padding:
+                    //                                           const EdgeInsets
+                    //                                                   .only(
+                    //                                               top: 10.0,
+                    //                                               left: 10.0),
+                    //                                       child: RotatedBox(
+                    //                                         quarterTurns: -1,
+                    //                                         child: Container(
+                    //                                             width: 220.0,
+                    //                                             height: 26,
+                    //                                             decoration:
+                    //                                                 BoxDecoration(
+                    //                                               border: Border.all(
+                    //                                                   width: 3,
+                    //                                                   color: Colors
+                    //                                                       .black),
+                    //                                               borderRadius:
+                    //                                                   BorderRadius
+                    //                                                       .circular(
+                    //                                                           10.0),
+                    //                                             )),
+                    //                                       ),
+                    //                                     ),
+                    //                                     Padding(
+                    //                                       padding: total[0]*avgAmount[0] >=
+                    //                                                   0 &&
+                    //                                               total[0]*avgAmount[0] <= 50
+                    //                                           ? EdgeInsets.only(
+                    //                                               left: 3.0,
+                    //                                               top: total[0]*avgAmount[0] >=
+                    //                                                           0 &&
+                    //                                                       total[0]*avgAmount[0] <=
+                    //                                                           20
+                    //                                                   ? 180
+                    //                                                   : total[0]*avgAmount[0] > 20 &&
+                    //                                                           total[0]*avgAmount[0] <= 30
+                    //                                                       ? 130
+                    //                                                       : total[0]*avgAmount[0] > 30 && total[0]*avgAmount[0] <= 40
+                    //                                                           ? 90
+                    //                                                           : total[0]*avgAmount[0] > 40 && total[0]*avgAmount[0] <= 50
+                    //                                                               ? 20
+                    //                                                               : 0,
+                    //                                             )
+                    //                                           : EdgeInsets.only(
+                    //                                               left: 3.0,
+                    //                                               bottom: total[0]*avgAmount[0] >
+                    //                                                           50 &&
+                    //                                                       total[0]*avgAmount[0] <=
+                    //                                                           60
+                    //                                                   ? 20
+                    //                                                   : total[0]*avgAmount[0] > 60 &&
+                    //                                                           total[0]*avgAmount[0] <= 70
+                    //                                                       ? 70
+                    //                                                       : total[0]*avgAmount[0] > 70 && total[0]*avgAmount[0] <= 80
+                    //                                                           ? 110
+                    //                                                           : total[0]*avgAmount[0] > 80 && total[0]*avgAmount[0] <= 90
+                    //                                                               ? 160
+                    //                                                               : 170,
+                    //                                             ),
+                    //                                       child:
+                    //                                           AnimatedContainer(
+                    //                                         //color: Colors.red,
+                    //                                         duration: Duration(
+                    //                                             seconds: 3),
+                    //                                         height:
+                    //                                             current_ach1_plan_height, //430
+                    //                                         width: 40,
+                    //                                         child: Image.asset(
+                    //                                             'assets/images/home/Kids_progressbar_blueicon.png'),
+                    //                                       ),
+                    //                                     ),
+                    //                                   ]),
+                    //                                 ),
+                    //                               ),
+                    //                             ],
+                    //                           ),
+                    //                           isShow1Achievement
+                    //                               ? Positioned(
+                    //                                   left: 0, //35,
+                    //                                   bottom: 5,
+                    //                                   child: Container(
+                    //                                     width:second_char_level_amount_ach1 == '' && third_char_level_amount_ach1 == ''?95:third_char_level_amount_ach1 == ''?115:145,
+                    //
+                    //                                     child: Column(
+                    //                                       crossAxisAlignment:
+                    //                                           CrossAxisAlignment
+                    //                                               .center,
+                    //                                       children: [
+                    //                                         Text(
+                    //                                             total[0]
+                    //                                                 .toString(),
+                    //                                             style: TextStyle(
+                    //                                               color: achievement_bgcolor[
+                    //                                                           0] !=
+                    //                                                       ''
+                    //                                                   ? HexColor(achievement_bgcolor[
+                    //                                                           0])
+                    //                                                       .withOpacity(
+                    //                                                           1.0)
+                    //                                                   : Colors
+                    //                                                       .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                    //                                               fontWeight:
+                    //                                                   FontWeight
+                    //                                                       .w600,
+                    //                                               fontSize: 28.0,
+                    //                                             )),
+                    //                                         Text(
+                    //                                             "${achievement_name[0]}"
+                    //                                                 .toUpperCase(),
+                    //                                             style: TextStyle(
+                    //                                               color: Colors
+                    //                                                   .black,
+                    //                                               fontWeight:
+                    //                                                   FontWeight
+                    //                                                       .w700,
+                    //                                               fontSize: 9.0,
+                    //                                             ))
+                    //                                       ],
+                    //                                     ),
+                    //                                   ),
+                    //                                 )
+                    //                               : SizedBox()
+                    //                         ]),
+                    //                       )
+                    //                     : Stack(children: [
+                    //               Column(
+                    //                 children: [
+                    //                   Container(
+                    //
+                    //                       child:Column(
+                    //                         children: [
+                    //
+                    //                           Row(
+                    //                             mainAxisAlignment: MainAxisAlignment.center,
+                    //                             children: [
+                    //                               Container(
+                    //                                   height: 40,
+                    //                                   width: 30,
+                    //                                   child: Image.asset(
+                    //                                       'assets/images/home/numbers_purple_stars_L.png')),
+                    //                               // Row(
+                    //                               //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //                               //     children:[
+                    //                               //       Container(
+                    //                               //           height: 40,
+                    //                               //           width: 30,
+                    //                               //           child: Image.asset(
+                    //                               //               'assets/images/home/numbers_purple_stars_L.png')),
+                    //                               //       Container(
+                    //                               //           height: 40,
+                    //                               //           width: 30,
+                    //                               //           child: Image
+                    //                               //               .asset(
+                    //                               //               'assets/images/home/numbers_purple_stars_R.png'))
+                    //                               //     ]
+                    //                               // ),
+                    //                               Padding(
+                    //                                 padding: const EdgeInsets.only(top:30.0),
+                    //                                 child: Container(
+                    //                                     height: 30,
+                    //                                     width: 30,
+                    //                                     child: first_char_level_amount_ach1 ==
+                    //                                         '1'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/blue/1_blue.png')
+                    //                                         : first_char_level_amount_ach1 ==
+                    //                                         '2'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/blue/2_blue.png')
+                    //                                         : first_char_level_amount_ach1 ==
+                    //                                         '3'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/blue/3_blue.png')
+                    //                                         : first_char_level_amount_ach1 == '4'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                                         : first_char_level_amount_ach1 == '5'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                                         : first_char_level_amount_ach1 == '6'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                                         : first_char_level_amount_ach1 == '7'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                                         : first_char_level_amount_ach1 == '8'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                                         : first_char_level_amount_ach1 == '9'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                                         : first_char_level_amount_ach1 == '0'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                                         : SizedBox()),
+                    //                               ),
+                    //                               second_char_level_amount_ach1 != '' ?
+                    //                               Padding(
+                    //                                 padding: const EdgeInsets.only(top:30.0),
+                    //                                 child: Container(
+                    //                                     height: 30,
+                    //                                     width: 30,
+                    //                                     child: second_char_level_amount_ach1 ==
+                    //                                         '1'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/blue/1_blue.png')
+                    //                                         : second_char_level_amount_ach1 ==
+                    //                                         '2'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/blue/2_blue.png')
+                    //                                         : second_char_level_amount_ach1 ==
+                    //                                         '3'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/blue/3_blue.png')
+                    //                                         : second_char_level_amount_ach1 == '4'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                                         : second_char_level_amount_ach1 == '5'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                                         : second_char_level_amount_ach1 == '6'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                                         : second_char_level_amount_ach1 == '7'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                                         : second_char_level_amount_ach1 == '8'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                                         : second_char_level_amount_ach1 == '9'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                                         : second_char_level_amount_ach1 == '0'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                                         : SizedBox(width: 0)),
+                    //                               ):
+                    //                               SizedBox(width: 0),
+                    //                               third_char_level_amount_ach1 != '' ?
+                    //                               Padding(
+                    //                                 padding: const EdgeInsets.only(top:30.0),
+                    //                                 child: Container(
+                    //                                     height: 30,
+                    //                                     width: 30,
+                    //                                     child: third_char_level_amount_ach1 ==
+                    //                                         '1'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/blue/1_blue.png')
+                    //                                         : third_char_level_amount_ach1 ==
+                    //                                         '2'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/blue/2_blue.png')
+                    //                                         : third_char_level_amount_ach1 ==
+                    //                                         '3'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/blue/3_blue.png')
+                    //                                         : third_char_level_amount_ach1 == '4'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                                         : third_char_level_amount_ach1 == '5'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                                         : third_char_level_amount_ach1 == '6'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                                         : third_char_level_amount_ach1 == '7'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                                         : third_char_level_amount_ach1 == '8'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                                         : third_char_level_amount_ach1 == '9'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                                         : third_char_level_amount_ach1 == '0'
+                    //                                         ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                                         : SizedBox(width: 0)),
+                    //                               ):
+                    //                               SizedBox(width: 0),
+                    //                               Container(
+                    //                                   height: 40,
+                    //                                   width: 30,
+                    //                                   child: Image
+                    //                                       .asset(
+                    //                                       'assets/images/home/numbers_purple_stars_R.png'))
+                    //                             ],
+                    //                           )
+                    //                         ],
+                    //                       )
+                    //                   ),
+                    //
+                    //
+                    //                   // Row(
+                    //                   //   children: [
+                    //                   //     Stack(children: [
+                    //                   //       //isShowBookRead?
+                    //                   //       Container(
+                    //                   //           height: 40,
+                    //                   //           width: 30,
+                    //                   //           child: Image.asset(
+                    //                   //               'assets/images/home/numbers_purple_stars_L.png')),
+                    //                   //       // :SizedBox(),
+                    //                   //       Padding(
+                    //                   //         padding:
+                    //                   //             const EdgeInsets
+                    //                   //                     .only(
+                    //                   //                 top: 30.0,
+                    //                   //                 left: 0.0),
+                    //                   //         child: Container(
+                    //                   //             height: 30,
+                    //                   //             width: 30,
+                    //                   //             child: first_char_level_amount_ach1 ==
+                    //                   //                     '1'
+                    //                   //                 ? Image.asset(
+                    //                   //                     'assets/images/home/numbers/blue/1_blue.png')
+                    //                   //                 : first_char_level_amount_ach1 ==
+                    //                   //                         '2'
+                    //                   //                     ? Image.asset(
+                    //                   //                         'assets/images/home/numbers/blue/2_blue.png')
+                    //                   //                     : first_char_level_amount_ach1 ==
+                    //                   //                             '3'
+                    //                   //                         ? Image.asset(
+                    //                   //                             'assets/images/home/numbers/blue/3_blue.png')
+                    //                   //                         : first_char_level_amount_ach1 == '4'
+                    //                   //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                   //                             : first_char_level_amount_ach1 == '5'
+                    //                   //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                   //                                 : first_char_level_amount_ach1 == '6'
+                    //                   //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                   //                                     : first_char_level_amount_ach1 == '7'
+                    //                   //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                   //                                         : first_char_level_amount_ach1 == '8'
+                    //                   //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                   //                                             : first_char_level_amount_ach1 == '9'
+                    //                   //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                   //                                                 : first_char_level_amount_ach1 == '0'
+                    //                   //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                   //                                                     : SizedBox()),
+                    //                   //       ),
+                    //                   //     ]),
+                    //                   //     Stack(children: [
+                    //                   //       //isShowBookRead &&
+                    //                   //       third_char_level_amount_ach1 ==
+                    //                   //               ''
+                    //                   //           ? Padding(
+                    //                   //               padding:
+                    //                   //                   const EdgeInsets
+                    //                   //                           .only(
+                    //                   //                       left:
+                    //                   //                           0.0),
+                    //                   //               child: Container(
+                    //                   //                   height: 40,
+                    //                   //                   width: 30,
+                    //                   //                   child: Image
+                    //                   //                       .asset(
+                    //                   //                           'assets/images/home/numbers_purple_stars_R.png')),
+                    //                   //             )
+                    //                   //           : SizedBox(),
+                    //                   //       Padding(
+                    //                   //         padding:
+                    //                   //             const EdgeInsets
+                    //                   //                     .only(
+                    //                   //                 top: 30.0),
+                    //                   //         child: Container(
+                    //                   //             height: 30,
+                    //                   //             width: 30,
+                    //                   //             child: second_char_level_amount_ach1 ==
+                    //                   //                     '1'
+                    //                   //                 ? Image.asset(
+                    //                   //                     'assets/images/home/numbers/blue/1_blue.png')
+                    //                   //                 : second_char_level_amount_ach1 ==
+                    //                   //                         '2'
+                    //                   //                     ? Image.asset(
+                    //                   //                         'assets/images/home/numbers/blue/2_blue.png')
+                    //                   //                     : second_char_level_amount_ach1 ==
+                    //                   //                             '3'
+                    //                   //                         ? Image.asset(
+                    //                   //                             'assets/images/home/numbers/blue/3_blue.png')
+                    //                   //                         : second_char_level_amount_ach1 == '4'
+                    //                   //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                   //                             : second_char_level_amount_ach1 == '5'
+                    //                   //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                   //                                 : second_char_level_amount_ach1 == '6'
+                    //                   //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                   //                                     : second_char_level_amount_ach1 == '7'
+                    //                   //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                   //                                         : second_char_level_amount_ach1 == '8'
+                    //                   //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                   //                                             : second_char_level_amount_ach1 == '9'
+                    //                   //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                   //                                                 : second_char_level_amount_ach1 == '0'
+                    //                   //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                   //                                                     : SizedBox()),
+                    //                   //       ),
+                    //                   //     ]),
+                    //                   //     Stack(children: [
+                    //                   //       // isShowBookRead &&
+                    //                   //       third_char_level_amount_ach1 !=
+                    //                   //               ''
+                    //                   //           ? Padding(
+                    //                   //               padding:
+                    //                   //                   const EdgeInsets
+                    //                   //                           .only(
+                    //                   //                       left:
+                    //                   //                           0.0),
+                    //                   //               child: Container(
+                    //                   //                   height: 40,
+                    //                   //                   width: 30,
+                    //                   //                   child: Image
+                    //                   //                       .asset(
+                    //                   //                           'assets/images/home/numbers_purple_stars_R.png')),
+                    //                   //             )
+                    //                   //           : SizedBox(),
+                    //                   //       Padding(
+                    //                   //         padding:
+                    //                   //             const EdgeInsets
+                    //                   //                     .only(
+                    //                   //                 top: 30.0),
+                    //                   //         child: Container(
+                    //                   //             height: 30,
+                    //                   //             width: 30,
+                    //                   //             child: third_char_level_amount_ach1 ==
+                    //                   //                     '1'
+                    //                   //                 ? Image.asset(
+                    //                   //                     'assets/images/home/numbers/blue/1_blue.png')
+                    //                   //                 : third_char_level_amount_ach1 ==
+                    //                   //                         '2'
+                    //                   //                     ? Image.asset(
+                    //                   //                         'assets/images/home/numbers/blue/2_blue.png')
+                    //                   //                     : third_char_level_amount_ach1 ==
+                    //                   //                             '3'
+                    //                   //                         ? Image.asset(
+                    //                   //                             'assets/images/home/numbers/blue/3_blue.png')
+                    //                   //                         : third_char_level_amount_ach1 == '4'
+                    //                   //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                    //                   //                             : third_char_level_amount_ach1 == '5'
+                    //                   //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                    //                   //                                 : third_char_level_amount_ach1 == '6'
+                    //                   //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                    //                   //                                     : third_char_level_amount_ach1 == '7'
+                    //                   //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                    //                   //                                         : third_char_level_amount_ach1 == '8'
+                    //                   //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                    //                   //                                             : third_char_level_amount_ach1 == '9'
+                    //                   //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                    //                   //                                                 : third_char_level_amount_ach1 == '0'
+                    //                   //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                    //                   //                                                     : SizedBox()),
+                    //                   //       ),
+                    //                   //     ]),
+                    //                   //   ],
+                    //                   // ),
+                    //                   Expanded(
+                    //                     child: Padding(
+                    //                       padding:
+                    //                       const EdgeInsets.only(
+                    //                           top: 5.0,
+                    //                           right: 0.0,
+                    //                           bottom: 45),
+                    //                       child: Stack(children: [
+                    //                         Padding(
+                    //                           padding:
+                    //                           const EdgeInsets
+                    //                               .only(
+                    //                               left: 10.0),
+                    //                           child: RotatedBox(
+                    //                             quarterTurns: -1,
+                    //                             child:
+                    //                             LinearPercentIndicator(
+                    //                               width: 240.0,
+                    //                               lineHeight: 24.0,
+                    //                               barRadius: Radius
+                    //                                   .circular(
+                    //                                   10.0),
+                    //                               percent:
+                    //                               0 / 100,
+                    //                               // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                    //                               // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                    //                               backgroundColor: achievement_bgcolor[
+                    //                               0] !=
+                    //                                   ''
+                    //                                   ? HexColor(
+                    //                                   achievement_bgcolor[
+                    //                                   0])
+                    //                                   .withOpacity(
+                    //                                   0.1)
+                    //                                   : Colors
+                    //                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                    //                               progressColor: achievement_bgcolor[
+                    //                               0] !=
+                    //                                   ''
+                    //                                   ? HexColor(
+                    //                                   achievement_bgcolor[
+                    //                                   0])
+                    //                                   .withOpacity(
+                    //                                   1.0)
+                    //                                   : Colors
+                    //                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                    //                             ),
+                    //                           ),
+                    //                         ),
+                    //                         Padding(
+                    //                           padding:
+                    //                           const EdgeInsets
+                    //                               .only(
+                    //                               top: 10.0,
+                    //                               left: 10.0),
+                    //                           child: RotatedBox(
+                    //                             quarterTurns: -1,
+                    //                             child: Container(
+                    //                                 width: 220.0,
+                    //                                 height: 26,
+                    //                                 decoration:
+                    //                                 BoxDecoration(
+                    //                                   border: Border.all(
+                    //                                       width: 3,
+                    //                                       color: Colors
+                    //                                           .black),
+                    //                                   borderRadius:
+                    //                                   BorderRadius
+                    //                                       .circular(
+                    //                                       10.0),
+                    //                                 )),
+                    //                           ),
+                    //                         ),
+                    //                         Padding(
+                    //                           padding: const EdgeInsets.only(top:170.0),
+                    //                           child: AnimatedContainer(
+                    //                             //color: Colors.red,
+                    //                             duration: Duration(
+                    //                                 seconds: 3),
+                    //                             height:
+                    //                             current_ach1_plan_height, //430
+                    //                             width: 40,
+                    //                             child: Image.asset(
+                    //                                 'assets/images/home/Kids_progressbar_blueicon.png'),
+                    //                           ),
+                    //                         ),
+                    //                       ]),
+                    //                     ),
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //               isShow1Achievement
+                    //                   ? Positioned(
+                    //                 left: 0, //35,
+                    //                 bottom: 5,
+                    //                 child: Container(
+                    //                   width:second_char_level_amount_ach1 == '' && third_char_level_amount_ach1 == ''?95:third_char_level_amount_ach1 == ''?115:145,
+                    //
+                    //                   child: Column(
+                    //                     crossAxisAlignment:
+                    //                     CrossAxisAlignment
+                    //                         .center,
+                    //                     children: [
+                    //                       Text(
+                    //                           total[0]
+                    //                               .toString(),
+                    //                           style: TextStyle(
+                    //                             color: achievement_bgcolor[
+                    //                             0] !=
+                    //                                 ''
+                    //                                 ? HexColor(achievement_bgcolor[
+                    //                             0])
+                    //                                 .withOpacity(
+                    //                                 1.0)
+                    //                                 : Colors
+                    //                                 .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                    //                             fontWeight:
+                    //                             FontWeight
+                    //                                 .w600,
+                    //                             fontSize: 28.0,
+                    //                           )),
+                    //                       Text(
+                    //                           "${achievement_name[0]}"
+                    //                               .toUpperCase(),
+                    //                           style: TextStyle(
+                    //                             color: Colors
+                    //                                 .black,
+                    //                             fontWeight:
+                    //                             FontWeight
+                    //                                 .w700,
+                    //                             fontSize: 9.0,
+                    //                           ))
+                    //                     ],
+                    //                   ),
+                    //                 ),
+                    //               )
+                    //                   : SizedBox()
+                    //             ])
+                    //                 : SizedBox(),
+                    //             inProgressAchievedLists.length >= 2
+                    //                 ? isShow2Achievement
+                    //                     ? Container(
+                    //                         height: 350,
+                    //                         child: Stack(children: [
+                    //                           Column(
+                    //                             children: [
+                    //                               Container(
+                    //
+                    //                                   child:Column(
+                    //                                     children: [
+                    //
+                    //                                       Row(
+                    //                                         mainAxisAlignment: MainAxisAlignment.center,
+                    //                                         children: [
+                    //                                           Container(
+                    //                                               height: 40,
+                    //                                               width: 30,
+                    //                                               child: Image.asset(
+                    //                                                   'assets/images/home/numbers_green_stars_L.png')),
+                    //                                           // Row(
+                    //                                           //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //                                           //     children:[
+                    //                                           //       Container(
+                    //                                           //           height: 40,
+                    //                                           //           width: 30,
+                    //                                           //           child: Image.asset(
+                    //                                           //               'assets/images/home/numbers_purple_stars_L.png')),
+                    //                                           //       Container(
+                    //                                           //           height: 40,
+                    //                                           //           width: 30,
+                    //                                           //           child: Image
+                    //                                           //               .asset(
+                    //                                           //               'assets/images/home/numbers_purple_stars_R.png'))
+                    //                                           //     ]
+                    //                                           // ),
+                    //                                           Padding(
+                    //                                             padding: const EdgeInsets.only(top:30.0),
+                    //                                             child: Container(
+                    //                                                 height: 30,
+                    //                                                 width: 30,
+                    //                                                 child: first_char_level_amount_ach2 ==
+                    //                                                     '1'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/green/1_green.png')
+                    //                                                     : first_char_level_amount_ach2 ==
+                    //                                                     '2'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/green/2_green.png')
+                    //                                                     : first_char_level_amount_ach2 ==
+                    //                                                     '3'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/green/3_green.png')
+                    //                                                     : first_char_level_amount_ach2 == '4'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                                                     : first_char_level_amount_ach2 == '5'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                                                     : first_char_level_amount_ach2 == '6'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                                                     : first_char_level_amount_ach2 == '7'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                                                     : first_char_level_amount_ach2 == '8'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                                                     : first_char_level_amount_ach2 == '9'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                                                     : first_char_level_amount_ach2 == '0'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                                                     : SizedBox()),
+                    //                                           ),
+                    //                                           second_char_level_amount_ach2 != '' ?
+                    //                                           Padding(
+                    //                                             padding: const EdgeInsets.only(top:30.0),
+                    //                                             child: Container(
+                    //                                                 height: 30,
+                    //                                                 width: 30,
+                    //                                                 child: second_char_level_amount_ach2 ==
+                    //                                                     '1'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/green/1_green.png')
+                    //                                                     : second_char_level_amount_ach2 ==
+                    //                                                     '2'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/green/2_green.png')
+                    //                                                     : second_char_level_amount_ach2 ==
+                    //                                                     '3'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/green/3_green.png')
+                    //                                                     : second_char_level_amount_ach2 == '4'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                                                     : second_char_level_amount_ach2 == '5'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                                                     : second_char_level_amount_ach2 == '6'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                                                     : second_char_level_amount_ach2 == '7'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                                                     : second_char_level_amount_ach2 == '8'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                                                     : second_char_level_amount_ach2 == '9'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                                                     : second_char_level_amount_ach2 == '0'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                                                     : SizedBox()),
+                    //                                           ):
+                    //                                           SizedBox(width: 0),
+                    //                                           third_char_level_amount_ach2 != '' ?
+                    //                                           Padding(
+                    //                                             padding: const EdgeInsets.only(top:30.0),
+                    //                                             child: Container(
+                    //                                                 height: 30,
+                    //                                                 width: 30,
+                    //                                                 child: third_char_level_amount_ach2 ==
+                    //                                                     '1'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/green/1_green.png')
+                    //                                                     : third_char_level_amount_ach2 ==
+                    //                                                     '2'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/green/2_green.png')
+                    //                                                     : third_char_level_amount_ach2 ==
+                    //                                                     '3'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/green/3_green.png')
+                    //                                                     : third_char_level_amount_ach2 == '4'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                                                     : third_char_level_amount_ach2 == '5'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                                                     : third_char_level_amount_ach2 == '6'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                                                     : third_char_level_amount_ach2 == '7'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                                                     : third_char_level_amount_ach2 == '8'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                                                     : third_char_level_amount_ach2 == '9'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                                                     : third_char_level_amount_ach2 == '0'
+                    //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                                                     : SizedBox()),
+                    //                                           ):
+                    //                                           SizedBox(width: 0),
+                    //                                           Container(
+                    //                                               height: 40,
+                    //                                               width: 30,
+                    //                                               child: Image
+                    //                                                   .asset(
+                    //                                                   'assets/images/home/numbers_green_stars_R.png'))
+                    //                                         ],
+                    //                                       )
+                    //                                     ],
+                    //                                   )
+                    //                               ),
+                    //
+                    //
+                    //
+                    //
+                    //                               // Row(
+                    //                               //   children: [
+                    //                               //     Stack(children: [
+                    //                               //       //isShowBookRead?
+                    //                               //       Container(
+                    //                               //           height: 40,
+                    //                               //           width: 30,
+                    //                               //           child: Image.asset(
+                    //                               //               'assets/images/home/numbers_green_stars_L.png')),
+                    //                               //       // :SizedBox(),
+                    //                               //       Padding(
+                    //                               //         padding:
+                    //                               //             const EdgeInsets
+                    //                               //                     .only(
+                    //                               //                 top: 30.0,
+                    //                               //                 left: 0.0),
+                    //                               //         child: Container(
+                    //                               //             height: 30,
+                    //                               //             width: 30,
+                    //                               //             child: first_char_level_amount_ach2 ==
+                    //                               //                     '1'
+                    //                               //                 ? Image.asset(
+                    //                               //                     'assets/images/home/numbers/green/1_green.png')
+                    //                               //                 : first_char_level_amount_ach2 ==
+                    //                               //                         '2'
+                    //                               //                     ? Image.asset(
+                    //                               //                         'assets/images/home/numbers/green/2_green.png')
+                    //                               //                     : first_char_level_amount_ach2 ==
+                    //                               //                             '3'
+                    //                               //                         ? Image.asset(
+                    //                               //                             'assets/images/home/numbers/green/3_green.png')
+                    //                               //                         : first_char_level_amount_ach2 == '4'
+                    //                               //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                               //                             : first_char_level_amount_ach2 == '5'
+                    //                               //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                               //                                 : first_char_level_amount_ach2 == '6'
+                    //                               //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                               //                                     : first_char_level_amount_ach2 == '7'
+                    //                               //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                               //                                         : first_char_level_amount_ach2 == '8'
+                    //                               //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                               //                                             : first_char_level_amount_ach2 == '9'
+                    //                               //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                               //                                                 : first_char_level_amount_ach2 == '0'
+                    //                               //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                               //                                                     : SizedBox()),
+                    //                               //       ),
+                    //                               //     ]),
+                    //                               //     Stack(children: [
+                    //                               //       //isShowBookRead &&
+                    //                               //       third_char_level_amount_ach2 ==
+                    //                               //               ''
+                    //                               //           ? Padding(
+                    //                               //               padding:
+                    //                               //                   const EdgeInsets
+                    //                               //                           .only(
+                    //                               //                       left:
+                    //                               //                           0.0),
+                    //                               //               child: Container(
+                    //                               //                   height: 40,
+                    //                               //                   width: 30,
+                    //                               //                   child: Image
+                    //                               //                       .asset(
+                    //                               //                           'assets/images/home/numbers_green_stars_R.png')),
+                    //                               //             )
+                    //                               //           : SizedBox(),
+                    //                               //       Padding(
+                    //                               //         padding:
+                    //                               //             const EdgeInsets
+                    //                               //                     .only(
+                    //                               //                 top: 30.0),
+                    //                               //         child: Container(
+                    //                               //             height: 30,
+                    //                               //             width: 30,
+                    //                               //             child: second_char_level_amount_ach2 ==
+                    //                               //                     '1'
+                    //                               //                 ? Image.asset(
+                    //                               //                     'assets/images/home/numbers/green/1_green.png')
+                    //                               //                 : second_char_level_amount_ach2 ==
+                    //                               //                         '2'
+                    //                               //                     ? Image.asset(
+                    //                               //                         'assets/images/home/numbers/green/2_green.png')
+                    //                               //                     : second_char_level_amount_ach2 ==
+                    //                               //                             '3'
+                    //                               //                         ? Image.asset(
+                    //                               //                             'assets/images/home/numbers/green/3_green.png')
+                    //                               //                         : second_char_level_amount_ach2 == '4'
+                    //                               //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                               //                             : second_char_level_amount_ach2 == '5'
+                    //                               //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                               //                                 : second_char_level_amount_ach2 == '6'
+                    //                               //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                               //                                     : second_char_level_amount_ach2 == '7'
+                    //                               //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                               //                                         : second_char_level_amount_ach2 == '8'
+                    //                               //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                               //                                             : second_char_level_amount_ach2 == '9'
+                    //                               //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                               //                                                 : second_char_level_amount_ach2 == '0'
+                    //                               //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                               //                                                     : SizedBox()),
+                    //                               //       ),
+                    //                               //     ]),
+                    //                               //     Stack(children: [
+                    //                               //       // isShowBookRead &&
+                    //                               //       third_char_level_amount_ach2 !=
+                    //                               //               ''
+                    //                               //           ? Padding(
+                    //                               //               padding:
+                    //                               //                   const EdgeInsets
+                    //                               //                           .only(
+                    //                               //                       left:
+                    //                               //                           0.0),
+                    //                               //               child: Container(
+                    //                               //                   height: 40,
+                    //                               //                   width: 30,
+                    //                               //                   child: Image
+                    //                               //                       .asset(
+                    //                               //                           'assets/images/home/numbers_green_stars_R.png')),
+                    //                               //             )
+                    //                               //           : SizedBox(),
+                    //                               //       Padding(
+                    //                               //         padding:
+                    //                               //             const EdgeInsets
+                    //                               //                     .only(
+                    //                               //                 top: 30.0),
+                    //                               //         child: Container(
+                    //                               //             height: 30,
+                    //                               //             width: 30,
+                    //                               //             child: third_char_level_amount_ach2 ==
+                    //                               //                     '1'
+                    //                               //                 ? Image.asset(
+                    //                               //                     'assets/images/home/numbers/green/1_green.png')
+                    //                               //                 : third_char_level_amount_ach2 ==
+                    //                               //                         '2'
+                    //                               //                     ? Image.asset(
+                    //                               //                         'assets/images/home/numbers/green/2_green.png')
+                    //                               //                     : third_char_level_amount_ach2 ==
+                    //                               //                             '3'
+                    //                               //                         ? Image.asset(
+                    //                               //                             'assets/images/home/numbers/green/3_green.png')
+                    //                               //                         : third_char_level_amount_ach2 == '4'
+                    //                               //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                               //                             : third_char_level_amount_ach2 == '5'
+                    //                               //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                               //                                 : third_char_level_amount_ach2 == '6'
+                    //                               //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                               //                                     : third_char_level_amount_ach2 == '7'
+                    //                               //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                               //                                         : third_char_level_amount_ach2 == '8'
+                    //                               //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                               //                                             : third_char_level_amount_ach2 == '9'
+                    //                               //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                               //                                                 : third_char_level_amount_ach2 == '0'
+                    //                               //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                               //                                                     : SizedBox()),
+                    //                               //       ),
+                    //                               //     ]),
+                    //                               //   ],
+                    //                               // ),
+                    //                               Expanded(
+                    //                                 child: Padding(
+                    //                                   padding:
+                    //                                       const EdgeInsets.only(
+                    //                                           top: 5.0,
+                    //                                           right: 0.0,
+                    //                                           bottom: 45),
+                    //                                   child: Stack(children: [
+                    //                                     Padding(
+                    //                                       padding:
+                    //                                           const EdgeInsets
+                    //                                                   .only(
+                    //                                               left: 10.0),
+                    //                                       child: RotatedBox(
+                    //                                         quarterTurns: -1,
+                    //                                         child:
+                    //                                             LinearPercentIndicator(
+                    //                                           width: 240.0,
+                    //                                           lineHeight: 24.0,
+                    //                                           barRadius: Radius
+                    //                                               .circular(
+                    //                                                   10.0),
+                    //                                           percent:
+                    //                                               total[1]*avgAmount[1] /
+                    //                                                   100,
+                    //                                           // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                    //                                           // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                    //                                           backgroundColor: achievement_bgcolor[
+                    //                                                       1] !=
+                    //                                                   ''
+                    //                                               ? HexColor(
+                    //                                                       achievement_bgcolor[
+                    //                                                           1])
+                    //                                                   .withOpacity(
+                    //                                                       0.1)
+                    //                                               : Colors
+                    //                                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                    //                                           progressColor: achievement_bgcolor[
+                    //                                                       1] !=
+                    //                                                   ''
+                    //                                               ? HexColor(
+                    //                                                       achievement_bgcolor[
+                    //                                                           1])
+                    //                                                   .withOpacity(
+                    //                                                       1.0)
+                    //                                               : Colors
+                    //                                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                    //                                         ),
+                    //                                       ),
+                    //                                     ),
+                    //                                     Padding(
+                    //                                       padding:
+                    //                                           const EdgeInsets
+                    //                                                   .only(
+                    //                                               top: 10.0,
+                    //                                               left: 10.0),
+                    //                                       child: RotatedBox(
+                    //                                         quarterTurns: -1,
+                    //                                         child: Container(
+                    //                                             width: 220.0,
+                    //                                             height: 26,
+                    //                                             decoration:
+                    //                                                 BoxDecoration(
+                    //                                               border: Border.all(
+                    //                                                   width: 3,
+                    //                                                   color: Colors
+                    //                                                       .black),
+                    //                                               borderRadius:
+                    //                                                   BorderRadius
+                    //                                                       .circular(
+                    //                                                           10.0),
+                    //                                             )),
+                    //                                       ),
+                    //                                     ),
+                    //                                     Padding(
+                    //                                       padding: total[1]*avgAmount[1] >=
+                    //                                                   0 &&
+                    //                                               total[1]*avgAmount[1] <= 50
+                    //                                           ? EdgeInsets.only(
+                    //                                               left: 3.0,
+                    //                                               top: total[1]*avgAmount[1] >=
+                    //                                                           0 &&
+                    //                                                       total[1]*avgAmount[1] <=
+                    //                                                           20
+                    //                                                   ? 190
+                    //                                                   : total[1]*avgAmount[1] > 20 &&
+                    //                                                           total[1]*avgAmount[1] <= 30
+                    //                                                       ? 120
+                    //                                                       : total[1]*avgAmount[1] > 30 && total[1]*avgAmount[1] <= 40
+                    //                                                           ? 80
+                    //                                                           : total[1]*avgAmount[1] > 40 && total[1]*avgAmount[1] <= 50
+                    //                                                               ? 10
+                    //                                                               : 0,
+                    //                                             )
+                    //                                           : EdgeInsets.only(
+                    //                                               left: 3.0,
+                    //                                               bottom: total[1]*avgAmount[1] >
+                    //                                                           50 &&
+                    //                                                       total[1]*avgAmount[1] <=
+                    //                                                           60
+                    //                                                   ? 10
+                    //                                                   : total[1]*avgAmount[1] > 60 &&
+                    //                                                           total[1]*avgAmount[1] <= 70
+                    //                                                       ? 60
+                    //                                                       : total[1]*avgAmount[1] > 70 && total[1]*avgAmount[1] <= 80
+                    //                                                           ? 100
+                    //                                                           : total[1]*avgAmount[1] > 80 && total[1]*avgAmount[1] <= 90
+                    //                                                               ? 150
+                    //                                                               : 170,
+                    //                                             ),
+                    //                                       child:
+                    //                                           AnimatedContainer(
+                    //                                         //color: Colors.red,
+                    //                                         duration: Duration(
+                    //                                             seconds: 3),
+                    //                                         height:
+                    //                                             current_ach2_plan_height, //430
+                    //                                         width: 40,
+                    //                                         child: Image.asset(
+                    //                                             'assets/images/home/Kids_progressbar_greenicon.png'),
+                    //                                       ),
+                    //                                     ),
+                    //                                   ]),
+                    //                                 ),
+                    //                               ),
+                    //                             ],
+                    //                           ),
+                    //                           isShow2Achievement
+                    //                               ? Positioned(
+                    //                                   left: 0,
+                    //                                   bottom: 5,
+                    //                                   child: Container(
+                    //                                   width:second_char_level_amount_ach2 == '' && third_char_level_amount_ach2 == ''?95:third_char_level_amount_ach2 == ''?115:145,
+                    //                                     child: Column(
+                    //                                         crossAxisAlignment: CrossAxisAlignment.center,
+                    //                                       children: [
+                    //                                         Text(
+                    //                                             total[1]
+                    //                                                 .toString(),
+                    //                                             style: TextStyle(
+                    //                                               color: achievement_bgcolor[
+                    //                                                           1] !=
+                    //                                                       ''
+                    //                                                   ? HexColor(achievement_bgcolor[
+                    //                                                           1])
+                    //                                                       .withOpacity(
+                    //                                                           1.0)
+                    //                                                   : Colors
+                    //                                                       .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                    //                                               fontWeight:
+                    //                                                   FontWeight
+                    //                                                       .w600,
+                    //                                               fontSize: 28.0,
+                    //                                             )),
+                    //                                         Text(
+                    //                                             "${achievement_name[1]}"
+                    //                                                 .toUpperCase(),
+                    //                                             style: TextStyle(
+                    //                                               color: Colors
+                    //                                                   .black,
+                    //                                               fontWeight:
+                    //                                                   FontWeight
+                    //                                                       .w700,
+                    //                                               fontSize: 9.0,
+                    //                                             ))
+                    //                                       ],
+                    //                                     ),
+                    //                                   ),
+                    //                                 )
+                    //                               : SizedBox()
+                    //                         ]),
+                    //                       )
+                    //                     : Stack(children: [
+                    //               Column(
+                    //                 children: [
+                    //                   Container(
+                    //
+                    //                       child:Column(
+                    //                         children: [
+                    //
+                    //                           Row(
+                    //                             mainAxisAlignment: MainAxisAlignment.center,
+                    //                             children: [
+                    //                               Container(
+                    //                                   height: 40,
+                    //                                   width: 30,
+                    //                                   child: Image.asset(
+                    //                                       'assets/images/home/numbers_green_stars_L.png')),
+                    //                               // Row(
+                    //                               //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //                               //     children:[
+                    //                               //       Container(
+                    //                               //           height: 40,
+                    //                               //           width: 30,
+                    //                               //           child: Image.asset(
+                    //                               //               'assets/images/home/numbers_purple_stars_L.png')),
+                    //                               //       Container(
+                    //                               //           height: 40,
+                    //                               //           width: 30,
+                    //                               //           child: Image
+                    //                               //               .asset(
+                    //                               //               'assets/images/home/numbers_purple_stars_R.png'))
+                    //                               //     ]
+                    //                               // ),
+                    //                               Padding(
+                    //                                 padding: const EdgeInsets.only(top:30.0),
+                    //                                 child: Container(
+                    //                                     height: 30,
+                    //                                     width: 30,
+                    //                                     child: first_char_level_amount_ach2 ==
+                    //                                         '1'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/green/1_green.png')
+                    //                                         : first_char_level_amount_ach2 ==
+                    //                                         '2'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/green/2_green.png')
+                    //                                         : first_char_level_amount_ach2 ==
+                    //                                         '3'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/green/3_green.png')
+                    //                                         : first_char_level_amount_ach2 == '4'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                                         : first_char_level_amount_ach2 == '5'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                                         : first_char_level_amount_ach2 == '6'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                                         : first_char_level_amount_ach2 == '7'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                                         : first_char_level_amount_ach2 == '8'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                                         : first_char_level_amount_ach2 == '9'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                                         : first_char_level_amount_ach2 == '0'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                                         : SizedBox()),
+                    //                               ),
+                    //                               second_char_level_amount_ach2 != '' ?
+                    //                               Padding(
+                    //                                 padding: const EdgeInsets.only(top:30.0),
+                    //                                 child: Container(
+                    //                                     height: 30,
+                    //                                     width: 30,
+                    //                                     child: second_char_level_amount_ach2 ==
+                    //                                         '1'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/green/1_green.png')
+                    //                                         : second_char_level_amount_ach2 ==
+                    //                                         '2'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/green/2_green.png')
+                    //                                         : second_char_level_amount_ach2 ==
+                    //                                         '3'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/green/3_green.png')
+                    //                                         : second_char_level_amount_ach2 == '4'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                                         : second_char_level_amount_ach2 == '5'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                                         : second_char_level_amount_ach2 == '6'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                                         : second_char_level_amount_ach2 == '7'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                                         : second_char_level_amount_ach2 == '8'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                                         : second_char_level_amount_ach2 == '9'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                                         : second_char_level_amount_ach2 == '0'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                                         : SizedBox()),
+                    //                               ):
+                    //                               SizedBox(width: 0),
+                    //                               third_char_level_amount_ach2 != '' ?
+                    //                               Padding(
+                    //                                 padding: const EdgeInsets.only(top:30.0),
+                    //                                 child: Container(
+                    //                                     height: 30,
+                    //                                     width: 30,
+                    //                                     child: third_char_level_amount_ach2 ==
+                    //                                         '1'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/green/1_green.png')
+                    //                                         : third_char_level_amount_ach2 ==
+                    //                                         '2'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/green/2_green.png')
+                    //                                         : third_char_level_amount_ach2 ==
+                    //                                         '3'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/green/3_green.png')
+                    //                                         : third_char_level_amount_ach2 == '4'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                                         : third_char_level_amount_ach2 == '5'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                                         : third_char_level_amount_ach2 == '6'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                                         : third_char_level_amount_ach2 == '7'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                                         : third_char_level_amount_ach2 == '8'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                                         : third_char_level_amount_ach2 == '9'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                                         : third_char_level_amount_ach2 == '0'
+                    //                                         ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                                         : SizedBox()),
+                    //                               ):
+                    //                               SizedBox(width: 0),
+                    //                               Container(
+                    //                                   height: 40,
+                    //                                   width: 30,
+                    //                                   child: Image
+                    //                                       .asset(
+                    //                                       'assets/images/home/numbers_green_stars_R.png'))
+                    //                             ],
+                    //                           )
+                    //                         ],
+                    //                       )
+                    //                   ),
+                    //
+                    //
+                    //
+                    //
+                    //                   // Row(
+                    //                   //   children: [
+                    //                   //     Stack(children: [
+                    //                   //       //isShowBookRead?
+                    //                   //       Container(
+                    //                   //           height: 40,
+                    //                   //           width: 30,
+                    //                   //           child: Image.asset(
+                    //                   //               'assets/images/home/numbers_green_stars_L.png')),
+                    //                   //       // :SizedBox(),
+                    //                   //       Padding(
+                    //                   //         padding:
+                    //                   //             const EdgeInsets
+                    //                   //                     .only(
+                    //                   //                 top: 30.0,
+                    //                   //                 left: 0.0),
+                    //                   //         child: Container(
+                    //                   //             height: 30,
+                    //                   //             width: 30,
+                    //                   //             child: first_char_level_amount_ach2 ==
+                    //                   //                     '1'
+                    //                   //                 ? Image.asset(
+                    //                   //                     'assets/images/home/numbers/green/1_green.png')
+                    //                   //                 : first_char_level_amount_ach2 ==
+                    //                   //                         '2'
+                    //                   //                     ? Image.asset(
+                    //                   //                         'assets/images/home/numbers/green/2_green.png')
+                    //                   //                     : first_char_level_amount_ach2 ==
+                    //                   //                             '3'
+                    //                   //                         ? Image.asset(
+                    //                   //                             'assets/images/home/numbers/green/3_green.png')
+                    //                   //                         : first_char_level_amount_ach2 == '4'
+                    //                   //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                   //                             : first_char_level_amount_ach2 == '5'
+                    //                   //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                   //                                 : first_char_level_amount_ach2 == '6'
+                    //                   //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                   //                                     : first_char_level_amount_ach2 == '7'
+                    //                   //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                   //                                         : first_char_level_amount_ach2 == '8'
+                    //                   //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                   //                                             : first_char_level_amount_ach2 == '9'
+                    //                   //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                   //                                                 : first_char_level_amount_ach2 == '0'
+                    //                   //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                   //                                                     : SizedBox()),
+                    //                   //       ),
+                    //                   //     ]),
+                    //                   //     Stack(children: [
+                    //                   //       //isShowBookRead &&
+                    //                   //       third_char_level_amount_ach2 ==
+                    //                   //               ''
+                    //                   //           ? Padding(
+                    //                   //               padding:
+                    //                   //                   const EdgeInsets
+                    //                   //                           .only(
+                    //                   //                       left:
+                    //                   //                           0.0),
+                    //                   //               child: Container(
+                    //                   //                   height: 40,
+                    //                   //                   width: 30,
+                    //                   //                   child: Image
+                    //                   //                       .asset(
+                    //                   //                           'assets/images/home/numbers_green_stars_R.png')),
+                    //                   //             )
+                    //                   //           : SizedBox(),
+                    //                   //       Padding(
+                    //                   //         padding:
+                    //                   //             const EdgeInsets
+                    //                   //                     .only(
+                    //                   //                 top: 30.0),
+                    //                   //         child: Container(
+                    //                   //             height: 30,
+                    //                   //             width: 30,
+                    //                   //             child: second_char_level_amount_ach2 ==
+                    //                   //                     '1'
+                    //                   //                 ? Image.asset(
+                    //                   //                     'assets/images/home/numbers/green/1_green.png')
+                    //                   //                 : second_char_level_amount_ach2 ==
+                    //                   //                         '2'
+                    //                   //                     ? Image.asset(
+                    //                   //                         'assets/images/home/numbers/green/2_green.png')
+                    //                   //                     : second_char_level_amount_ach2 ==
+                    //                   //                             '3'
+                    //                   //                         ? Image.asset(
+                    //                   //                             'assets/images/home/numbers/green/3_green.png')
+                    //                   //                         : second_char_level_amount_ach2 == '4'
+                    //                   //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                   //                             : second_char_level_amount_ach2 == '5'
+                    //                   //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                   //                                 : second_char_level_amount_ach2 == '6'
+                    //                   //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                   //                                     : second_char_level_amount_ach2 == '7'
+                    //                   //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                   //                                         : second_char_level_amount_ach2 == '8'
+                    //                   //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                   //                                             : second_char_level_amount_ach2 == '9'
+                    //                   //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                   //                                                 : second_char_level_amount_ach2 == '0'
+                    //                   //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                   //                                                     : SizedBox()),
+                    //                   //       ),
+                    //                   //     ]),
+                    //                   //     Stack(children: [
+                    //                   //       // isShowBookRead &&
+                    //                   //       third_char_level_amount_ach2 !=
+                    //                   //               ''
+                    //                   //           ? Padding(
+                    //                   //               padding:
+                    //                   //                   const EdgeInsets
+                    //                   //                           .only(
+                    //                   //                       left:
+                    //                   //                           0.0),
+                    //                   //               child: Container(
+                    //                   //                   height: 40,
+                    //                   //                   width: 30,
+                    //                   //                   child: Image
+                    //                   //                       .asset(
+                    //                   //                           'assets/images/home/numbers_green_stars_R.png')),
+                    //                   //             )
+                    //                   //           : SizedBox(),
+                    //                   //       Padding(
+                    //                   //         padding:
+                    //                   //             const EdgeInsets
+                    //                   //                     .only(
+                    //                   //                 top: 30.0),
+                    //                   //         child: Container(
+                    //                   //             height: 30,
+                    //                   //             width: 30,
+                    //                   //             child: third_char_level_amount_ach2 ==
+                    //                   //                     '1'
+                    //                   //                 ? Image.asset(
+                    //                   //                     'assets/images/home/numbers/green/1_green.png')
+                    //                   //                 : third_char_level_amount_ach2 ==
+                    //                   //                         '2'
+                    //                   //                     ? Image.asset(
+                    //                   //                         'assets/images/home/numbers/green/2_green.png')
+                    //                   //                     : third_char_level_amount_ach2 ==
+                    //                   //                             '3'
+                    //                   //                         ? Image.asset(
+                    //                   //                             'assets/images/home/numbers/green/3_green.png')
+                    //                   //                         : third_char_level_amount_ach2 == '4'
+                    //                   //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                    //                   //                             : third_char_level_amount_ach2 == '5'
+                    //                   //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                    //                   //                                 : third_char_level_amount_ach2 == '6'
+                    //                   //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                    //                   //                                     : third_char_level_amount_ach2 == '7'
+                    //                   //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                    //                   //                                         : third_char_level_amount_ach2 == '8'
+                    //                   //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                    //                   //                                             : third_char_level_amount_ach2 == '9'
+                    //                   //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                    //                   //                                                 : third_char_level_amount_ach2 == '0'
+                    //                   //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                    //                   //                                                     : SizedBox()),
+                    //                   //       ),
+                    //                   //     ]),
+                    //                   //   ],
+                    //                   // ),
+                    //                   Expanded(
+                    //                     child: Padding(
+                    //                       padding:
+                    //                       const EdgeInsets.only(
+                    //                           top: 5.0,
+                    //                           right: 0.0,
+                    //                           bottom: 45),
+                    //                       child: Stack(children: [
+                    //                         Padding(
+                    //                           padding:
+                    //                           const EdgeInsets
+                    //                               .only(
+                    //                               left: 10.0),
+                    //                           child: RotatedBox(
+                    //                             quarterTurns: -1,
+                    //                             child:
+                    //                             LinearPercentIndicator(
+                    //                               width: 240.0,
+                    //                               lineHeight: 24.0,
+                    //                               barRadius: Radius
+                    //                                   .circular(
+                    //                                   10.0),
+                    //                               percent:
+                    //                               0 /
+                    //                                   100,
+                    //                               // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                    //                               // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                    //                               backgroundColor: achievement_bgcolor[
+                    //                               1] !=
+                    //                                   ''
+                    //                                   ? HexColor(
+                    //                                   achievement_bgcolor[
+                    //                                   1])
+                    //                                   .withOpacity(
+                    //                                   0.1)
+                    //                                   : Colors
+                    //                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                    //                               progressColor: achievement_bgcolor[
+                    //                               1] !=
+                    //                                   ''
+                    //                                   ? HexColor(
+                    //                                   achievement_bgcolor[
+                    //                                   1])
+                    //                                   .withOpacity(
+                    //                                   1.0)
+                    //                                   : Colors
+                    //                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                    //                             ),
+                    //                           ),
+                    //                         ),
+                    //                         Padding(
+                    //                           padding:
+                    //                           const EdgeInsets
+                    //                               .only(
+                    //                               top: 10.0,
+                    //                               left: 10.0),
+                    //                           child: RotatedBox(
+                    //                             quarterTurns: -1,
+                    //                             child: Container(
+                    //                                 width: 220.0,
+                    //                                 height: 26,
+                    //                                 decoration:
+                    //                                 BoxDecoration(
+                    //                                   border: Border.all(
+                    //                                       width: 3,
+                    //                                       color: Colors
+                    //                                           .black),
+                    //                                   borderRadius:
+                    //                                   BorderRadius
+                    //                                       .circular(
+                    //                                       10.0),
+                    //                                 )),
+                    //                           ),
+                    //                         ),
+                    //                         Padding(
+                    //                           padding: EdgeInsets.only(
+                    //                             top: 190),
+                    //                           // total[1] >=
+                    //                           //     0 &&
+                    //                           //     total[1] <= 50
+                    //                           //     ? EdgeInsets.only(
+                    //                           //   left: 3.0,
+                    //                           //   top: total[1] >=
+                    //                           //       0 &&
+                    //                           //       total[1] <=
+                    //                           //           20
+                    //                           //       ? 190
+                    //                           //       : total[1] > 20 &&
+                    //                           //       total[1] <= 30
+                    //                           //       ? 120
+                    //                           //       : total[1] > 30 && total[1] <= 40
+                    //                           //       ? 80
+                    //                           //       : total[1] > 40 && total[1] <= 50
+                    //                           //       ? 10
+                    //                           //       : 0,
+                    //                           // )
+                    //                           //     : EdgeInsets.only(
+                    //                           //   left: 3.0,
+                    //                           //   bottom: total[1] >
+                    //                           //       50 &&
+                    //                           //       total[1] <=
+                    //                           //           60
+                    //                           //       ? 10
+                    //                           //       : total[1] > 60 &&
+                    //                           //       total[1] <= 70
+                    //                           //       ? 60
+                    //                           //       : total[1] > 70 && total[1] <= 80
+                    //                           //       ? 100
+                    //                           //       : total[1] > 80 && total[1] <= 90
+                    //                           //       ? 150
+                    //                           //       : 170,
+                    //                           // ),
+                    //                           child:
+                    //                           AnimatedContainer(
+                    //                             //color: Colors.red,
+                    //                             duration: Duration(
+                    //                                 seconds: 3),
+                    //                             height:
+                    //                             current_ach2_plan_height, //430
+                    //                             width: 40,
+                    //                             child: Image.asset(
+                    //                                 'assets/images/home/Kids_progressbar_greenicon.png'),
+                    //                           ),
+                    //                         ),
+                    //                       ]),
+                    //                     ),
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //               isShow2Achievement
+                    //                   ? Positioned(
+                    //                 left: 0,
+                    //                 bottom: 5,
+                    //                 child: Container(
+                    //                   width:second_char_level_amount_ach2 == '' && third_char_level_amount_ach2 == ''?95:third_char_level_amount_ach2 == ''?115:145,
+                    //                   child: Column(
+                    //                     crossAxisAlignment: CrossAxisAlignment.center,
+                    //                     children: [
+                    //                       Text(
+                    //                           total[1]
+                    //                               .toString(),
+                    //                           style: TextStyle(
+                    //                             color: achievement_bgcolor[
+                    //                             1] !=
+                    //                                 ''
+                    //                                 ? HexColor(achievement_bgcolor[
+                    //                             1])
+                    //                                 .withOpacity(
+                    //                                 1.0)
+                    //                                 : Colors
+                    //                                 .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                    //                             fontWeight:
+                    //                             FontWeight
+                    //                                 .w600,
+                    //                             fontSize: 28.0,
+                    //                           )),
+                    //                       Text(
+                    //                           "${achievement_name[1]}"
+                    //                               .toUpperCase(),
+                    //                           style: TextStyle(
+                    //                             color: Colors
+                    //                                 .black,
+                    //                             fontWeight:
+                    //                             FontWeight
+                    //                                 .w700,
+                    //                             fontSize: 9.0,
+                    //                           ))
+                    //                     ],
+                    //                   ),
+                    //                 ),
+                    //               )
+                    //                   : SizedBox()
+                    //             ])
+                    //                 : SizedBox(),
+                    //             inProgressAchievedLists.length == 3
+                    //                 ? isShow3Achievement
+                    //                     ? Container(
+                    //                         height: 350,
+                    //                         child: Stack(children: [
+                    //                           Column(
+                    //                             children: [
+                    //
+                    //                               Container(
+                    //
+                    //                                   child:Column(
+                    //                                     children: [
+                    //
+                    //                                       Row(
+                    //                                         mainAxisAlignment: MainAxisAlignment.center,
+                    //                                         children: [
+                    //                                           Container(
+                    //                                               height: 40,
+                    //                                               width: 30,
+                    //                                               child: Image.asset(
+                    //                                                   'assets/images/home/numbers_yellow_stars_L.png')),
+                    //                                           // Row(
+                    //                                           //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //                                           //     children:[
+                    //                                           //       Container(
+                    //                                           //           height: 40,
+                    //                                           //           width: 30,
+                    //                                           //           child: Image.asset(
+                    //                                           //               'assets/images/home/numbers_purple_stars_L.png')),
+                    //                                           //       Container(
+                    //                                           //           height: 40,
+                    //                                           //           width: 30,
+                    //                                           //           child: Image
+                    //                                           //               .asset(
+                    //                                           //               'assets/images/home/numbers_purple_stars_R.png'))
+                    //                                           //     ]
+                    //                                           // ),
+                    //                                           Padding(
+                    //                                             padding: const EdgeInsets.only(top:30.0),
+                    //                                             child: Container(
+                    //                                                 height: 30,
+                    //                                                 width: 30,
+                    //                                                 child: first_char_level_amount_ach3 ==
+                    //                                                     '1'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/red/1_red.png')
+                    //                                                     : first_char_level_amount_ach3 ==
+                    //                                                     '2'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/red/2_red.png')
+                    //                                                     : first_char_level_amount_ach3 ==
+                    //                                                     '3'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/red/3_red.png')
+                    //                                                     : first_char_level_amount_ach3 == '4'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                                                     : first_char_level_amount_ach3 == '5'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                                                     : first_char_level_amount_ach3 == '6'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                                                     : first_char_level_amount_ach3 == '7'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                                                     : first_char_level_amount_ach3 == '8'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                                                     : first_char_level_amount_ach3 == '9'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                                                     : first_char_level_amount_ach3 == '0'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                                                     : SizedBox()),
+                    //                                           ),
+                    //                                           second_char_level_amount_ach3 != '' ?
+                    //                                           Padding(
+                    //                                             padding: const EdgeInsets.only(top:30.0),
+                    //                                             child: Container(
+                    //                                                 height: 30,
+                    //                                                 width: 30,
+                    //                                                 child: second_char_level_amount_ach3 ==
+                    //                                                     '1'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/red/1_red.png')
+                    //                                                     : second_char_level_amount_ach3 ==
+                    //                                                     '2'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/red/2_red.png')
+                    //                                                     : second_char_level_amount_ach3 ==
+                    //                                                     '3'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/red/3_red.png')
+                    //                                                     : second_char_level_amount_ach3 == '4'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                                                     : second_char_level_amount_ach3 == '5'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                                                     : second_char_level_amount_ach3 == '6'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                                                     : second_char_level_amount_ach3 == '7'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                                                     : second_char_level_amount_ach3 == '8'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                                                     : second_char_level_amount_ach3 == '9'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                                                     : second_char_level_amount_ach3 == '0'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                                                     : SizedBox()),
+                    //                                           ):
+                    //                                           SizedBox(width: 0),
+                    //
+                    //                                           third_char_level_amount_ach3 != '' ?
+                    //                                           Padding(
+                    //                                             padding: const EdgeInsets.only(top:30.0),
+                    //                                             child: Container(
+                    //                                                 height: 30,
+                    //                                                 width: 30,
+                    //                                                 child: third_char_level_amount_ach3 ==
+                    //                                                     '1'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/red/1_red.png')
+                    //                                                     : third_char_level_amount_ach3 ==
+                    //                                                     '2'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/red/2_red.png')
+                    //                                                     : third_char_level_amount_ach3 ==
+                    //                                                     '3'
+                    //                                                     ? Image.asset(
+                    //                                                     'assets/images/home/numbers/red/3_red.png')
+                    //                                                     : third_char_level_amount_ach3 == '4'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                                                     : third_char_level_amount_ach3 == '5'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                                                     : third_char_level_amount_ach3 == '6'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                                                     : third_char_level_amount_ach3 == '7'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                                                     : third_char_level_amount_ach3 == '8'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                                                     : third_char_level_amount_ach3 == '9'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                                                     : third_char_level_amount_ach3 == '0'
+                    //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                                                     : SizedBox()),
+                    //                                           ):
+                    //                                           SizedBox(width: 0),
+                    //                                           Container(
+                    //                                               height: 40,
+                    //                                               width: 30,
+                    //                                               child: Image
+                    //                                                   .asset(
+                    //                                                   'assets/images/home/numbers_yellow_stars_R.png'))
+                    //                                         ],
+                    //                                       )
+                    //                                     ],
+                    //                                   )
+                    //                               ),
+                    //
+                    //
+                    //
+                    //                               // Row(
+                    //                               //   children: [
+                    //                               //     Stack(children: [
+                    //                               //       //isShowBookRead?
+                    //                               //       Container(
+                    //                               //           height: 40,
+                    //                               //           width: 30,
+                    //                               //           child: Image.asset(
+                    //                               //               'assets/images/home/numbers_yellow_stars_L.png')),
+                    //                               //       // :SizedBox(),
+                    //                               //       Padding(
+                    //                               //         padding:
+                    //                               //             const EdgeInsets
+                    //                               //                     .only(
+                    //                               //                 top: 30.0,
+                    //                               //                 left: 0.0),
+                    //                               //         child: Container(
+                    //                               //             height: 30,
+                    //                               //             width: 30,
+                    //                               //             child: first_char_level_amount_ach3 ==
+                    //                               //                     '1'
+                    //                               //                 ? Image.asset(
+                    //                               //                     'assets/images/home/numbers/red/1_red.png')
+                    //                               //                 : first_char_level_amount_ach3 ==
+                    //                               //                         '2'
+                    //                               //                     ? Image.asset(
+                    //                               //                         'assets/images/home/numbers/red/2_red.png')
+                    //                               //                     : first_char_level_amount_ach3 ==
+                    //                               //                             '3'
+                    //                               //                         ? Image.asset(
+                    //                               //                             'assets/images/home/numbers/red/3_red.png')
+                    //                               //                         : first_char_level_amount_ach3 == '4'
+                    //                               //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                               //                             : first_char_level_amount_ach3 == '5'
+                    //                               //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                               //                                 : first_char_level_amount_ach3 == '6'
+                    //                               //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                               //                                     : first_char_level_amount_ach3 == '7'
+                    //                               //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                               //                                         : first_char_level_amount_ach3 == '8'
+                    //                               //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                               //                                             : first_char_level_amount_ach3 == '9'
+                    //                               //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                               //                                                 : first_char_level_amount_ach3 == '0'
+                    //                               //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                               //                                                     : SizedBox()),
+                    //                               //       ),
+                    //                               //     ]),
+                    //                               //     Stack(children: [
+                    //                               //       //isShowBookRead &&
+                    //                               //       third_char_level_amount_ach3 ==
+                    //                               //               ''
+                    //                               //           ? Padding(
+                    //                               //               padding:
+                    //                               //                   const EdgeInsets
+                    //                               //                           .only(
+                    //                               //                       left:
+                    //                               //                           0.0),
+                    //                               //               child: Container(
+                    //                               //                   height: 40,
+                    //                               //                   width: 30,
+                    //                               //                   child: Image
+                    //                               //                       .asset(
+                    //                               //                           'assets/images/home/numbers_yellow_stars_R.png')),
+                    //                               //             )
+                    //                               //           : SizedBox(),
+                    //                               //       Padding(
+                    //                               //         padding:
+                    //                               //             const EdgeInsets
+                    //                               //                     .only(
+                    //                               //                 top: 30.0),
+                    //                               //         child: Container(
+                    //                               //             height: 30,
+                    //                               //             width: 30,
+                    //                               //             child: second_char_level_amount_ach3 ==
+                    //                               //                     '1'
+                    //                               //                 ? Image.asset(
+                    //                               //                     'assets/images/home/numbers/red/1_red.png')
+                    //                               //                 : second_char_level_amount_ach3 ==
+                    //                               //                         '2'
+                    //                               //                     ? Image.asset(
+                    //                               //                         'assets/images/home/numbers/red/2_red.png')
+                    //                               //                     : second_char_level_amount_ach3 ==
+                    //                               //                             '3'
+                    //                               //                         ? Image.asset(
+                    //                               //                             'assets/images/home/numbers/red/3_red.png')
+                    //                               //                         : second_char_level_amount_ach3 == '4'
+                    //                               //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                               //                             : second_char_level_amount_ach3 == '5'
+                    //                               //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                               //                                 : second_char_level_amount_ach3 == '6'
+                    //                               //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                               //                                     : second_char_level_amount_ach3 == '7'
+                    //                               //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                               //                                         : second_char_level_amount_ach3 == '8'
+                    //                               //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                               //                                             : second_char_level_amount_ach3 == '9'
+                    //                               //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                               //                                                 : second_char_level_amount_ach3 == '0'
+                    //                               //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                               //                                                     : SizedBox()),
+                    //                               //       ),
+                    //                               //     ]),
+                    //                               //     Stack(children: [
+                    //                               //       // isShowBookRead &&
+                    //                               //       third_char_level_amount_ach3 !=
+                    //                               //               ''
+                    //                               //           ? Padding(
+                    //                               //               padding:
+                    //                               //                   const EdgeInsets
+                    //                               //                           .only(
+                    //                               //                       left:
+                    //                               //                           0.0),
+                    //                               //               child: Container(
+                    //                               //                   height: 40,
+                    //                               //                   width: 30,
+                    //                               //                   child: Image
+                    //                               //                       .asset(
+                    //                               //                           'assets/images/home/numbers_yellow_stars_R.png')),
+                    //                               //             )
+                    //                               //           : SizedBox(),
+                    //                               //       Padding(
+                    //                               //         padding:
+                    //                               //             const EdgeInsets
+                    //                               //                     .only(
+                    //                               //                 top: 30.0),
+                    //                               //         child: Container(
+                    //                               //             height: 30,
+                    //                               //             width: 30,
+                    //                               //             child: third_char_level_amount_ach3 ==
+                    //                               //                     '1'
+                    //                               //                 ? Image.asset(
+                    //                               //                     'assets/images/home/numbers/red/1_red.png')
+                    //                               //                 : third_char_level_amount_ach3 ==
+                    //                               //                         '2'
+                    //                               //                     ? Image.asset(
+                    //                               //                         'assets/images/home/numbers/red/2_red.png')
+                    //                               //                     : third_char_level_amount_ach3 ==
+                    //                               //                             '3'
+                    //                               //                         ? Image.asset(
+                    //                               //                             'assets/images/home/numbers/red/3_red.png')
+                    //                               //                         : third_char_level_amount_ach3 == '4'
+                    //                               //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                               //                             : third_char_level_amount_ach3 == '5'
+                    //                               //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                               //                                 : third_char_level_amount_ach3 == '6'
+                    //                               //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                               //                                     : third_char_level_amount_ach3 == '7'
+                    //                               //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                               //                                         : third_char_level_amount_ach3 == '8'
+                    //                               //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                               //                                             : third_char_level_amount_ach3 == '9'
+                    //                               //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                               //                                                 : third_char_level_amount_ach3 == '0'
+                    //                               //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                               //                                                     : SizedBox()),
+                    //                               //       ),
+                    //                               //     ]),
+                    //                               //   ],
+                    //                               // ),
+                    //                               Expanded(
+                    //                                 child: Padding(
+                    //                                   padding:
+                    //                                       const EdgeInsets.only(
+                    //                                           top: 5.0,
+                    //                                           right: 0.0,
+                    //                                           bottom: 45),
+                    //                                   child: Stack(children: [
+                    //                                     Padding(
+                    //                                       padding:
+                    //                                           const EdgeInsets
+                    //                                                   .only(
+                    //                                               left: 0.0),
+                    //                                       child: RotatedBox(
+                    //                                         quarterTurns: -1,
+                    //                                         child:
+                    //                                             LinearPercentIndicator(
+                    //                                           width: 240.0,
+                    //                                           lineHeight: 24.0,
+                    //                                           barRadius: Radius
+                    //                                               .circular(
+                    //                                                   10.0),
+                    //                                           percent:
+                    //                                               total[2]*avgAmount[2] /
+                    //                                                   100,
+                    //                                           // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                    //                                           // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                    //                                           backgroundColor: achievement_bgcolor[
+                    //                                                       2] !=
+                    //                                                   ''
+                    //                                               ? HexColor(
+                    //                                                       achievement_bgcolor[
+                    //                                                           2])
+                    //                                                   .withOpacity(
+                    //                                                       0.1)
+                    //                                               : Colors
+                    //                                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                    //                                           progressColor: achievement_bgcolor[
+                    //                                                       2] !=
+                    //                                                   ''
+                    //                                               ? HexColor(
+                    //                                                       achievement_bgcolor[
+                    //                                                           2])
+                    //                                                   .withOpacity(
+                    //                                                       1.0)
+                    //                                               : Colors
+                    //                                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                    //                                         ),
+                    //                                       ),
+                    //                                     ),
+                    //                                     Padding(
+                    //                                       padding:
+                    //                                           const EdgeInsets
+                    //                                                   .only(
+                    //                                               top: 10.0,
+                    //                                               left: 0.0),
+                    //                                       child: RotatedBox(
+                    //                                         quarterTurns: -1,
+                    //                                         child: Container(
+                    //                                             width: 220.0,
+                    //                                             height: 26,
+                    //                                             decoration:
+                    //                                                 BoxDecoration(
+                    //                                               border: Border.all(
+                    //                                                   width: 3,
+                    //                                                   color: Colors
+                    //                                                       .black),
+                    //                                               borderRadius:
+                    //                                                   BorderRadius
+                    //                                                       .circular(
+                    //                                                           10.0),
+                    //                                             )),
+                    //                                       ),
+                    //                                     ),
+                    //                                     Padding(
+                    //                                       padding: total[2]*avgAmount[2] >=
+                    //                                                   0 &&
+                    //                                               total[2]*avgAmount[2] <= 50
+                    //                                           ? EdgeInsets.only(
+                    //                                               left: 0.0,
+                    //                                               top: total[2]*avgAmount[2] >=
+                    //                                                           0 &&
+                    //                                                       total[2]*avgAmount[2] <=
+                    //                                                           20
+                    //                                                   ? 170
+                    //                                                   : total[2]*avgAmount[2] > 20 &&
+                    //                                                           total[2]*avgAmount[2] <= 30
+                    //                                                       ? 120
+                    //                                                       : total[2]*avgAmount[2] > 30 && total[2]*avgAmount[2] <= 40
+                    //                                                           ? 80
+                    //                                                           : total[2]*avgAmount[2] > 40 && total[2]*avgAmount[2] <= 50
+                    //                                                               ? 10
+                    //                                                               : 0,
+                    //                                             )
+                    //                                           : EdgeInsets.only(
+                    //                                               left: 0.0,
+                    //                                               bottom: total[2]*avgAmount[2] >
+                    //                                                           50 &&
+                    //                                                       total[2]*avgAmount[2] <=
+                    //                                                           60
+                    //                                                   ? 10
+                    //                                                   : total[2]*avgAmount[2] > 60 &&
+                    //                                                           total[2]*avgAmount[2] <= 70
+                    //                                                       ? 60
+                    //                                                       : total[2]*avgAmount[2] > 70 && total[2]*avgAmount[2] <= 80
+                    //                                                           ? 100
+                    //                                                           : total[2]*avgAmount[2] > 80 && total[2]*avgAmount[2] <= 90
+                    //                                                               ? 150
+                    //                                                               : 170,
+                    //                                             ),
+                    //                                       child:
+                    //                                           AnimatedContainer(
+                    //                                         //color: Colors.red,
+                    //                                         duration: Duration(
+                    //                                             seconds: 3),
+                    //                                         height:
+                    //                                             current_ach3_plan_height, //430
+                    //                                         width: 30,
+                    //                                         child: Image.asset(
+                    //                                             'assets/images/home/Kids_progressbar_redicon.png'),
+                    //                                       ),
+                    //                                     ),
+                    //                                   ]),
+                    //                                 ),
+                    //                               ),
+                    //                             ],
+                    //                           ),
+                    //                           isShow3Achievement
+                    //                               ? Positioned(
+                    //                                   //left: 15,
+                    //                                   bottom: 5,
+                    //                                   right: 0,
+                    //
+                    //                                   child: Container(
+                    //                                     width:second_char_level_amount_ach3 == '' && third_char_level_amount_ach3 == ''?105:third_char_level_amount_ach3 == ''?125:155,
+                    //
+                    //                                     child: Column(
+                    //                                       crossAxisAlignment: CrossAxisAlignment.center,
+                    //
+                    //                                       children: [
+                    //                                         Text(
+                    //                                             total[2]
+                    //                                                 .toString(),
+                    //                                             style: TextStyle(
+                    //                                               color: achievement_bgcolor[
+                    //                                                           2] !=
+                    //                                                       ''
+                    //                                                   ? HexColor(achievement_bgcolor[
+                    //                                                           2])
+                    //                                                       .withOpacity(
+                    //                                                           1.0)
+                    //                                                   : Colors
+                    //                                                       .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                    //                                               fontWeight:
+                    //                                                   FontWeight
+                    //                                                       .w600,
+                    //                                               fontSize: 28.0,
+                    //                                             )),
+                    //                                         Text(
+                    //                                             "${achievement_name[2]}"
+                    //                                                 .toUpperCase(),
+                    //                                             style: TextStyle(
+                    //                                               color: Colors
+                    //                                                   .black,
+                    //                                               fontWeight:
+                    //                                                   FontWeight
+                    //                                                       .w700,
+                    //                                               fontSize: 9.0,
+                    //                                             ))
+                    //                                       ],
+                    //                                     ),
+                    //                                   ),
+                    //                                 )
+                    //                               : SizedBox()
+                    //                         ]),
+                    //                       )
+                    //                     : Stack(children: [
+                    //               Column(
+                    //                 children: [
+                    //
+                    //                   Container(
+                    //
+                    //                       child:Column(
+                    //                         children: [
+                    //
+                    //                           Row(
+                    //                             mainAxisAlignment: MainAxisAlignment.center,
+                    //                             children: [
+                    //                               Container(
+                    //                                   height: 40,
+                    //                                   width: 30,
+                    //                                   child: Image.asset(
+                    //                                       'assets/images/home/numbers_yellow_stars_L.png')),
+                    //                               // Row(
+                    //                               //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //                               //     children:[
+                    //                               //       Container(
+                    //                               //           height: 40,
+                    //                               //           width: 30,
+                    //                               //           child: Image.asset(
+                    //                               //               'assets/images/home/numbers_purple_stars_L.png')),
+                    //                               //       Container(
+                    //                               //           height: 40,
+                    //                               //           width: 30,
+                    //                               //           child: Image
+                    //                               //               .asset(
+                    //                               //               'assets/images/home/numbers_purple_stars_R.png'))
+                    //                               //     ]
+                    //                               // ),
+                    //                               Padding(
+                    //                                 padding: const EdgeInsets.only(top:30.0),
+                    //                                 child: Container(
+                    //                                     height: 30,
+                    //                                     width: 30,
+                    //                                     child: first_char_level_amount_ach3 ==
+                    //                                         '1'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/red/1_red.png')
+                    //                                         : first_char_level_amount_ach3 ==
+                    //                                         '2'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/red/2_red.png')
+                    //                                         : first_char_level_amount_ach3 ==
+                    //                                         '3'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/red/3_red.png')
+                    //                                         : first_char_level_amount_ach3 == '4'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                                         : first_char_level_amount_ach3 == '5'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                                         : first_char_level_amount_ach3 == '6'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                                         : first_char_level_amount_ach3 == '7'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                                         : first_char_level_amount_ach3 == '8'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                                         : first_char_level_amount_ach3 == '9'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                                         : first_char_level_amount_ach3 == '0'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                                         : SizedBox()),
+                    //                               ),
+                    //                               second_char_level_amount_ach3 != '' ?
+                    //                               Padding(
+                    //                                 padding: const EdgeInsets.only(top:30.0),
+                    //                                 child: Container(
+                    //                                     height: 30,
+                    //                                     width: 30,
+                    //                                     child: second_char_level_amount_ach3 ==
+                    //                                         '1'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/red/1_red.png')
+                    //                                         : second_char_level_amount_ach3 ==
+                    //                                         '2'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/red/2_red.png')
+                    //                                         : second_char_level_amount_ach3 ==
+                    //                                         '3'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/red/3_red.png')
+                    //                                         : second_char_level_amount_ach3 == '4'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                                         : second_char_level_amount_ach3 == '5'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                                         : second_char_level_amount_ach3 == '6'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                                         : second_char_level_amount_ach3 == '7'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                                         : second_char_level_amount_ach3 == '8'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                                         : second_char_level_amount_ach3 == '9'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                                         : second_char_level_amount_ach3 == '0'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                                         : SizedBox()),
+                    //                               ):
+                    //                               SizedBox(width: 0),
+                    //
+                    //                               third_char_level_amount_ach3 != '' ?
+                    //                               Padding(
+                    //                                 padding: const EdgeInsets.only(top:30.0),
+                    //                                 child: Container(
+                    //                                     height: 30,
+                    //                                     width: 30,
+                    //                                     child: third_char_level_amount_ach3 ==
+                    //                                         '1'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/red/1_red.png')
+                    //                                         : third_char_level_amount_ach3 ==
+                    //                                         '2'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/red/2_red.png')
+                    //                                         : third_char_level_amount_ach3 ==
+                    //                                         '3'
+                    //                                         ? Image.asset(
+                    //                                         'assets/images/home/numbers/red/3_red.png')
+                    //                                         : third_char_level_amount_ach3 == '4'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                                         : third_char_level_amount_ach3 == '5'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                                         : third_char_level_amount_ach3 == '6'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                                         : third_char_level_amount_ach3 == '7'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                                         : third_char_level_amount_ach3 == '8'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                                         : third_char_level_amount_ach3 == '9'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                                         : third_char_level_amount_ach3 == '0'
+                    //                                         ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                                         : SizedBox()),
+                    //                               ):
+                    //                               SizedBox(width: 0),
+                    //                               Container(
+                    //                                   height: 40,
+                    //                                   width: 30,
+                    //                                   child: Image
+                    //                                       .asset(
+                    //                                       'assets/images/home/numbers_yellow_stars_R.png'))
+                    //                             ],
+                    //                           )
+                    //                         ],
+                    //                       )
+                    //                   ),
+                    //
+                    //
+                    //
+                    //                   // Row(
+                    //                   //   children: [
+                    //                   //     Stack(children: [
+                    //                   //       //isShowBookRead?
+                    //                   //       Container(
+                    //                   //           height: 40,
+                    //                   //           width: 30,
+                    //                   //           child: Image.asset(
+                    //                   //               'assets/images/home/numbers_yellow_stars_L.png')),
+                    //                   //       // :SizedBox(),
+                    //                   //       Padding(
+                    //                   //         padding:
+                    //                   //             const EdgeInsets
+                    //                   //                     .only(
+                    //                   //                 top: 30.0,
+                    //                   //                 left: 0.0),
+                    //                   //         child: Container(
+                    //                   //             height: 30,
+                    //                   //             width: 30,
+                    //                   //             child: first_char_level_amount_ach3 ==
+                    //                   //                     '1'
+                    //                   //                 ? Image.asset(
+                    //                   //                     'assets/images/home/numbers/red/1_red.png')
+                    //                   //                 : first_char_level_amount_ach3 ==
+                    //                   //                         '2'
+                    //                   //                     ? Image.asset(
+                    //                   //                         'assets/images/home/numbers/red/2_red.png')
+                    //                   //                     : first_char_level_amount_ach3 ==
+                    //                   //                             '3'
+                    //                   //                         ? Image.asset(
+                    //                   //                             'assets/images/home/numbers/red/3_red.png')
+                    //                   //                         : first_char_level_amount_ach3 == '4'
+                    //                   //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                   //                             : first_char_level_amount_ach3 == '5'
+                    //                   //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                   //                                 : first_char_level_amount_ach3 == '6'
+                    //                   //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                   //                                     : first_char_level_amount_ach3 == '7'
+                    //                   //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                   //                                         : first_char_level_amount_ach3 == '8'
+                    //                   //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                   //                                             : first_char_level_amount_ach3 == '9'
+                    //                   //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                   //                                                 : first_char_level_amount_ach3 == '0'
+                    //                   //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                   //                                                     : SizedBox()),
+                    //                   //       ),
+                    //                   //     ]),
+                    //                   //     Stack(children: [
+                    //                   //       //isShowBookRead &&
+                    //                   //       third_char_level_amount_ach3 ==
+                    //                   //               ''
+                    //                   //           ? Padding(
+                    //                   //               padding:
+                    //                   //                   const EdgeInsets
+                    //                   //                           .only(
+                    //                   //                       left:
+                    //                   //                           0.0),
+                    //                   //               child: Container(
+                    //                   //                   height: 40,
+                    //                   //                   width: 30,
+                    //                   //                   child: Image
+                    //                   //                       .asset(
+                    //                   //                           'assets/images/home/numbers_yellow_stars_R.png')),
+                    //                   //             )
+                    //                   //           : SizedBox(),
+                    //                   //       Padding(
+                    //                   //         padding:
+                    //                   //             const EdgeInsets
+                    //                   //                     .only(
+                    //                   //                 top: 30.0),
+                    //                   //         child: Container(
+                    //                   //             height: 30,
+                    //                   //             width: 30,
+                    //                   //             child: second_char_level_amount_ach3 ==
+                    //                   //                     '1'
+                    //                   //                 ? Image.asset(
+                    //                   //                     'assets/images/home/numbers/red/1_red.png')
+                    //                   //                 : second_char_level_amount_ach3 ==
+                    //                   //                         '2'
+                    //                   //                     ? Image.asset(
+                    //                   //                         'assets/images/home/numbers/red/2_red.png')
+                    //                   //                     : second_char_level_amount_ach3 ==
+                    //                   //                             '3'
+                    //                   //                         ? Image.asset(
+                    //                   //                             'assets/images/home/numbers/red/3_red.png')
+                    //                   //                         : second_char_level_amount_ach3 == '4'
+                    //                   //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                   //                             : second_char_level_amount_ach3 == '5'
+                    //                   //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                   //                                 : second_char_level_amount_ach3 == '6'
+                    //                   //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                   //                                     : second_char_level_amount_ach3 == '7'
+                    //                   //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                   //                                         : second_char_level_amount_ach3 == '8'
+                    //                   //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                   //                                             : second_char_level_amount_ach3 == '9'
+                    //                   //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                   //                                                 : second_char_level_amount_ach3 == '0'
+                    //                   //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                   //                                                     : SizedBox()),
+                    //                   //       ),
+                    //                   //     ]),
+                    //                   //     Stack(children: [
+                    //                   //       // isShowBookRead &&
+                    //                   //       third_char_level_amount_ach3 !=
+                    //                   //               ''
+                    //                   //           ? Padding(
+                    //                   //               padding:
+                    //                   //                   const EdgeInsets
+                    //                   //                           .only(
+                    //                   //                       left:
+                    //                   //                           0.0),
+                    //                   //               child: Container(
+                    //                   //                   height: 40,
+                    //                   //                   width: 30,
+                    //                   //                   child: Image
+                    //                   //                       .asset(
+                    //                   //                           'assets/images/home/numbers_yellow_stars_R.png')),
+                    //                   //             )
+                    //                   //           : SizedBox(),
+                    //                   //       Padding(
+                    //                   //         padding:
+                    //                   //             const EdgeInsets
+                    //                   //                     .only(
+                    //                   //                 top: 30.0),
+                    //                   //         child: Container(
+                    //                   //             height: 30,
+                    //                   //             width: 30,
+                    //                   //             child: third_char_level_amount_ach3 ==
+                    //                   //                     '1'
+                    //                   //                 ? Image.asset(
+                    //                   //                     'assets/images/home/numbers/red/1_red.png')
+                    //                   //                 : third_char_level_amount_ach3 ==
+                    //                   //                         '2'
+                    //                   //                     ? Image.asset(
+                    //                   //                         'assets/images/home/numbers/red/2_red.png')
+                    //                   //                     : third_char_level_amount_ach3 ==
+                    //                   //                             '3'
+                    //                   //                         ? Image.asset(
+                    //                   //                             'assets/images/home/numbers/red/3_red.png')
+                    //                   //                         : third_char_level_amount_ach3 == '4'
+                    //                   //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                    //                   //                             : third_char_level_amount_ach3 == '5'
+                    //                   //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                    //                   //                                 : third_char_level_amount_ach3 == '6'
+                    //                   //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                    //                   //                                     : third_char_level_amount_ach3 == '7'
+                    //                   //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                    //                   //                                         : third_char_level_amount_ach3 == '8'
+                    //                   //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                    //                   //                                             : third_char_level_amount_ach3 == '9'
+                    //                   //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                    //                   //                                                 : third_char_level_amount_ach3 == '0'
+                    //                   //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                    //                   //                                                     : SizedBox()),
+                    //                   //       ),
+                    //                   //     ]),
+                    //                   //   ],
+                    //                   // ),
+                    //                   Expanded(
+                    //                     child: Padding(
+                    //                       padding:
+                    //                       const EdgeInsets.only(
+                    //                           top: 5.0,
+                    //                           right: 0.0,
+                    //                           bottom: 45),
+                    //                       child: Stack(children: [
+                    //                         Padding(
+                    //                           padding:
+                    //                           const EdgeInsets
+                    //                               .only(
+                    //                               left: 0.0),
+                    //                           child: RotatedBox(
+                    //                             quarterTurns: -1,
+                    //                             child:
+                    //                             LinearPercentIndicator(
+                    //                               width: 240.0,
+                    //                               lineHeight: 24.0,
+                    //                               barRadius: Radius
+                    //                                   .circular(
+                    //                                   10.0),
+                    //                               percent:
+                    //                               0 /
+                    //                                   100,
+                    //                               // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                    //                               // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                    //                               backgroundColor: achievement_bgcolor[
+                    //                               2] !=
+                    //                                   ''
+                    //                                   ? HexColor(
+                    //                                   achievement_bgcolor[
+                    //                                   2])
+                    //                                   .withOpacity(
+                    //                                   0.1)
+                    //                                   : Colors
+                    //                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                    //                               progressColor: achievement_bgcolor[
+                    //                               2] !=
+                    //                                   ''
+                    //                                   ? HexColor(
+                    //                                   achievement_bgcolor[
+                    //                                   2])
+                    //                                   .withOpacity(
+                    //                                   1.0)
+                    //                                   : Colors
+                    //                                   .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                    //                             ),
+                    //                           ),
+                    //                         ),
+                    //                         Padding(
+                    //                           padding:
+                    //                           const EdgeInsets
+                    //                               .only(
+                    //                               top: 10.0,
+                    //                               left: 0.0),
+                    //                           child: RotatedBox(
+                    //                             quarterTurns: -1,
+                    //                             child: Container(
+                    //                                 width: 220.0,
+                    //                                 height: 26,
+                    //                                 decoration:
+                    //                                 BoxDecoration(
+                    //                                   border: Border.all(
+                    //                                       width: 3,
+                    //                                       color: Colors
+                    //                                           .black),
+                    //                                   borderRadius:
+                    //                                   BorderRadius
+                    //                                       .circular(
+                    //                                       10.0),
+                    //                                 )),
+                    //                           ),
+                    //                         ),
+                    //                         Padding(
+                    //                           padding: EdgeInsets.only(
+                    //                             top: 170,
+                    //                           ),
+                    //                           // total[2] >=0 && total[2] <= 50
+                    //                           //     ? EdgeInsets.only(
+                    //                           //   left: 0.0,
+                    //                           //   top: total[2] >=
+                    //                           //       0 &&
+                    //                           //       total[2] <=
+                    //                           //           20
+                    //                           //       ? 170
+                    //                           //       : total[2] > 20 &&
+                    //                           //       total[2] <= 30
+                    //                           //       ? 120
+                    //                           //       : total[2] > 30 && total[2] <= 40
+                    //                           //       ? 80
+                    //                           //       : total[2] > 40 && total[2] <= 50
+                    //                           //       ? 10
+                    //                           //       : 0,
+                    //                           // )
+                    //                           //     : EdgeInsets.only(
+                    //                           //   left: 0.0,
+                    //                           //   bottom: total[2] >
+                    //                           //       50 &&
+                    //                           //       total[2] <=
+                    //                           //           60
+                    //                           //       ? 10
+                    //                           //       : total[2] > 60 &&
+                    //                           //       total[2] <= 70
+                    //                           //       ? 60
+                    //                           //       : total[2] > 70 && total[2] <= 80
+                    //                           //       ? 100
+                    //                           //       : total[2] > 80 && total[2] <= 90
+                    //                           //       ? 150
+                    //                           //       : 170,
+                    //                           // ),
+                    //                           child:
+                    //                           AnimatedContainer(
+                    //                             //color: Colors.red,
+                    //                             duration: Duration(
+                    //                                 seconds: 3),
+                    //                             height:
+                    //                             current_ach3_plan_height, //430
+                    //                             width: 30,
+                    //                             child: Image.asset(
+                    //                                 'assets/images/home/Kids_progressbar_redicon.png'),
+                    //                           ),
+                    //                         ),
+                    //                       ]),
+                    //                     ),
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //               isShow3Achievement
+                    //                   ? Positioned(
+                    //                 //left: 15,
+                    //                 bottom: 5,
+                    //                 right: 0,
+                    //
+                    //                 child: Container(
+                    //                   width:second_char_level_amount_ach3 == '' && third_char_level_amount_ach3 == ''?105:third_char_level_amount_ach3 == ''?125:155,
+                    //
+                    //                   child: Column(
+                    //                     crossAxisAlignment: CrossAxisAlignment.center,
+                    //
+                    //                     children: [
+                    //                       Text(
+                    //                           total[2]
+                    //                               .toString(),
+                    //                           style: TextStyle(
+                    //                             color: achievement_bgcolor[
+                    //                             2] !=
+                    //                                 ''
+                    //                                 ? HexColor(achievement_bgcolor[
+                    //                             2])
+                    //                                 .withOpacity(
+                    //                                 1.0)
+                    //                                 : Colors
+                    //                                 .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                    //                             fontWeight:
+                    //                             FontWeight
+                    //                                 .w600,
+                    //                             fontSize: 28.0,
+                    //                           )),
+                    //                       Text(
+                    //                           "${achievement_name[2]}"
+                    //                               .toUpperCase(),
+                    //                           style: TextStyle(
+                    //                             color: Colors
+                    //                                 .black,
+                    //                             fontWeight:
+                    //                             FontWeight
+                    //                                 .w700,
+                    //                             fontSize: 9.0,
+                    //                           ))
+                    //                     ],
+                    //                   ),
+                    //                 ),
+                    //               )
+                    //                   : SizedBox()
+                    //             ])
+                    //                 : SizedBox(),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+    child: Container(
+      height: 350,
+      child: ListView.builder(
+      shrinkWrap: true,
+      itemCount: 1,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (ctx,int) {
+            return Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    //width: MediaQuery.of(context).size.width,
+                    height: 350,
+                    child: Stack(
+                      //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(left: 10.0, right: 10.0),
+                          child: Row(
+                            mainAxisAlignment:
+                            inProgressAchievedLists.length == 1
+                                ? MainAxisAlignment.center
+                                : inProgressAchievedLists.length == 2
+                                ? MainAxisAlignment.spaceEvenly
+                                : MainAxisAlignment.spaceBetween,
+                            children: [
+                              inProgressAchievedLists.length >= 1
+                                  ? isShow1Achievement
+                                  ? Container(
+                                height: 350,
+                                child: Stack(children: [
                                   Column(
                                     children: [
                                       Container(
@@ -1519,7 +3952,7 @@ class _HomeState extends State<Home> {
                                                       .circular(
                                                       10.0),
                                                   percent:
-                                                  0 / 100,
+                                                  (total[0] * avgAmount[0]) / 100,
                                                   // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
                                                   // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
                                                   backgroundColor: achievement_bgcolor[
@@ -1570,8 +4003,43 @@ class _HomeState extends State<Home> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(top:170.0),
-                                              child: AnimatedContainer(
+                                              padding: total[0]*avgAmount[0] >=
+                                                  0 &&
+                                                  total[0]*avgAmount[0] <= 50
+                                                  ? EdgeInsets.only(
+                                                left: 3.0,
+                                                top: total[0]*avgAmount[0] >=
+                                                    0 &&
+                                                    total[0]*avgAmount[0] <=
+                                                        20
+                                                    ? 180
+                                                    : total[0]*avgAmount[0] > 20 &&
+                                                    total[0]*avgAmount[0] <= 30
+                                                    ? 130
+                                                    : total[0]*avgAmount[0] > 30 && total[0]*avgAmount[0] <= 40
+                                                    ? 90
+                                                    : total[0]*avgAmount[0] > 40 && total[0]*avgAmount[0] <= 50
+                                                    ? 20
+                                                    : 0,
+                                              )
+                                                  : EdgeInsets.only(
+                                                left: 3.0,
+                                                bottom: total[0]*avgAmount[0] >
+                                                    50 &&
+                                                    total[0]*avgAmount[0] <=
+                                                        60
+                                                    ? 20
+                                                    : total[0]*avgAmount[0] > 60 &&
+                                                    total[0]*avgAmount[0] <= 70
+                                                    ? 70
+                                                    : total[0]*avgAmount[0] > 70 && total[0]*avgAmount[0] <= 80
+                                                    ? 110
+                                                    : total[0]*avgAmount[0] > 80 && total[0]*avgAmount[0] <= 90
+                                                    ? 160
+                                                    : 170,
+                                              ),
+                                              child:
+                                              AnimatedContainer(
                                                 //color: Colors.red,
                                                 duration: Duration(
                                                     seconds: 3),
@@ -1633,495 +4101,460 @@ class _HomeState extends State<Home> {
                                     ),
                                   )
                                       : SizedBox()
-                                ])
-                                    : SizedBox(),
-                                inProgressAchievedLists.length >= 2
-                                    ? isShow2Achievement
-                                        ? Container(
-                                            height: 350,
-                                            child: Stack(children: [
-                                              Column(
-                                                children: [
-                                                  Container(
+                                ]),
+                              )
+                                  : Stack(children: [
+                                Column(
+                                  children: [
+                                    Container(
 
-                                                      child:Column(
-                                                        children: [
+                                        child:Column(
+                                          children: [
 
-                                                          Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              Container(
-                                                                  height: 40,
-                                                                  width: 30,
-                                                                  child: Image.asset(
-                                                                      'assets/images/home/numbers_green_stars_L.png')),
-                                                              // Row(
-                                                              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                              //     children:[
-                                                              //       Container(
-                                                              //           height: 40,
-                                                              //           width: 30,
-                                                              //           child: Image.asset(
-                                                              //               'assets/images/home/numbers_purple_stars_L.png')),
-                                                              //       Container(
-                                                              //           height: 40,
-                                                              //           width: 30,
-                                                              //           child: Image
-                                                              //               .asset(
-                                                              //               'assets/images/home/numbers_purple_stars_R.png'))
-                                                              //     ]
-                                                              // ),
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:30.0),
-                                                                child: Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    child: first_char_level_amount_ach2 ==
-                                                                        '1'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/green/1_green.png')
-                                                                        : first_char_level_amount_ach2 ==
-                                                                        '2'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/green/2_green.png')
-                                                                        : first_char_level_amount_ach2 ==
-                                                                        '3'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/green/3_green.png')
-                                                                        : first_char_level_amount_ach2 == '4'
-                                                                        ? Image.asset('assets/images/home/numbers/green/4_green.png')
-                                                                        : first_char_level_amount_ach2 == '5'
-                                                                        ? Image.asset('assets/images/home/numbers/green/5_green.png')
-                                                                        : first_char_level_amount_ach2 == '6'
-                                                                        ? Image.asset('assets/images/home/numbers/green/6_green.png')
-                                                                        : first_char_level_amount_ach2 == '7'
-                                                                        ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                                        : first_char_level_amount_ach2 == '8'
-                                                                        ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                                        : first_char_level_amount_ach2 == '9'
-                                                                        ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                                        : first_char_level_amount_ach2 == '0'
-                                                                        ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                                        : SizedBox()),
-                                                              ),
-                                                              second_char_level_amount_ach2 != '' ?
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:30.0),
-                                                                child: Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    child: second_char_level_amount_ach2 ==
-                                                                        '1'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/green/1_green.png')
-                                                                        : second_char_level_amount_ach2 ==
-                                                                        '2'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/green/2_green.png')
-                                                                        : second_char_level_amount_ach2 ==
-                                                                        '3'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/green/3_green.png')
-                                                                        : second_char_level_amount_ach2 == '4'
-                                                                        ? Image.asset('assets/images/home/numbers/green/4_green.png')
-                                                                        : second_char_level_amount_ach2 == '5'
-                                                                        ? Image.asset('assets/images/home/numbers/green/5_green.png')
-                                                                        : second_char_level_amount_ach2 == '6'
-                                                                        ? Image.asset('assets/images/home/numbers/green/6_green.png')
-                                                                        : second_char_level_amount_ach2 == '7'
-                                                                        ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                                        : second_char_level_amount_ach2 == '8'
-                                                                        ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                                        : second_char_level_amount_ach2 == '9'
-                                                                        ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                                        : second_char_level_amount_ach2 == '0'
-                                                                        ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                                        : SizedBox()),
-                                                              ):
-                                                              SizedBox(width: 0),
-                                                              third_char_level_amount_ach2 != '' ?
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:30.0),
-                                                                child: Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    child: third_char_level_amount_ach2 ==
-                                                                        '1'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/green/1_green.png')
-                                                                        : third_char_level_amount_ach2 ==
-                                                                        '2'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/green/2_green.png')
-                                                                        : third_char_level_amount_ach2 ==
-                                                                        '3'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/green/3_green.png')
-                                                                        : third_char_level_amount_ach2 == '4'
-                                                                        ? Image.asset('assets/images/home/numbers/green/4_green.png')
-                                                                        : third_char_level_amount_ach2 == '5'
-                                                                        ? Image.asset('assets/images/home/numbers/green/5_green.png')
-                                                                        : third_char_level_amount_ach2 == '6'
-                                                                        ? Image.asset('assets/images/home/numbers/green/6_green.png')
-                                                                        : third_char_level_amount_ach2 == '7'
-                                                                        ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                                        : third_char_level_amount_ach2 == '8'
-                                                                        ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                                        : third_char_level_amount_ach2 == '9'
-                                                                        ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                                        : third_char_level_amount_ach2 == '0'
-                                                                        ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                                        : SizedBox()),
-                                                              ):
-                                                              SizedBox(width: 0),
-                                                              Container(
-                                                                  height: 40,
-                                                                  width: 30,
-                                                                  child: Image
-                                                                      .asset(
-                                                                      'assets/images/home/numbers_green_stars_R.png'))
-                                                            ],
-                                                          )
-                                                        ],
-                                                      )
-                                                  ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                    height: 40,
+                                                    width: 30,
+                                                    child: Image.asset(
+                                                        'assets/images/home/numbers_purple_stars_L.png')),
+                                                // Row(
+                                                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                //     children:[
+                                                //       Container(
+                                                //           height: 40,
+                                                //           width: 30,
+                                                //           child: Image.asset(
+                                                //               'assets/images/home/numbers_purple_stars_L.png')),
+                                                //       Container(
+                                                //           height: 40,
+                                                //           width: 30,
+                                                //           child: Image
+                                                //               .asset(
+                                                //               'assets/images/home/numbers_purple_stars_R.png'))
+                                                //     ]
+                                                // ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top:30.0),
+                                                  child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: first_char_level_amount_ach1 ==
+                                                          '1'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/blue/1_blue.png')
+                                                          : first_char_level_amount_ach1 ==
+                                                          '2'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/blue/2_blue.png')
+                                                          : first_char_level_amount_ach1 ==
+                                                          '3'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/blue/3_blue.png')
+                                                          : first_char_level_amount_ach1 == '4'
+                                                          ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                                          : first_char_level_amount_ach1 == '5'
+                                                          ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                                          : first_char_level_amount_ach1 == '6'
+                                                          ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                                          : first_char_level_amount_ach1 == '7'
+                                                          ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                          : first_char_level_amount_ach1 == '8'
+                                                          ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                          : first_char_level_amount_ach1 == '9'
+                                                          ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                          : first_char_level_amount_ach1 == '0'
+                                                          ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                          : SizedBox()),
+                                                ),
+                                                second_char_level_amount_ach1 != '' ?
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top:30.0),
+                                                  child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: second_char_level_amount_ach1 ==
+                                                          '1'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/blue/1_blue.png')
+                                                          : second_char_level_amount_ach1 ==
+                                                          '2'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/blue/2_blue.png')
+                                                          : second_char_level_amount_ach1 ==
+                                                          '3'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/blue/3_blue.png')
+                                                          : second_char_level_amount_ach1 == '4'
+                                                          ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                                          : second_char_level_amount_ach1 == '5'
+                                                          ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                                          : second_char_level_amount_ach1 == '6'
+                                                          ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                                          : second_char_level_amount_ach1 == '7'
+                                                          ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                          : second_char_level_amount_ach1 == '8'
+                                                          ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                          : second_char_level_amount_ach1 == '9'
+                                                          ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                          : second_char_level_amount_ach1 == '0'
+                                                          ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                          : SizedBox(width: 0)),
+                                                ):
+                                                SizedBox(width: 0),
+                                                third_char_level_amount_ach1 != '' ?
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top:30.0),
+                                                  child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: third_char_level_amount_ach1 ==
+                                                          '1'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/blue/1_blue.png')
+                                                          : third_char_level_amount_ach1 ==
+                                                          '2'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/blue/2_blue.png')
+                                                          : third_char_level_amount_ach1 ==
+                                                          '3'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/blue/3_blue.png')
+                                                          : third_char_level_amount_ach1 == '4'
+                                                          ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                                          : third_char_level_amount_ach1 == '5'
+                                                          ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                                          : third_char_level_amount_ach1 == '6'
+                                                          ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                                          : third_char_level_amount_ach1 == '7'
+                                                          ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                                          : third_char_level_amount_ach1 == '8'
+                                                          ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                                          : third_char_level_amount_ach1 == '9'
+                                                          ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                                          : third_char_level_amount_ach1 == '0'
+                                                          ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                                          : SizedBox(width: 0)),
+                                                ):
+                                                SizedBox(width: 0),
+                                                Container(
+                                                    height: 40,
+                                                    width: 30,
+                                                    child: Image
+                                                        .asset(
+                                                        'assets/images/home/numbers_purple_stars_R.png'))
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                    ),
 
 
-
-
-                                                  // Row(
-                                                  //   children: [
-                                                  //     Stack(children: [
-                                                  //       //isShowBookRead?
-                                                  //       Container(
-                                                  //           height: 40,
-                                                  //           width: 30,
-                                                  //           child: Image.asset(
-                                                  //               'assets/images/home/numbers_green_stars_L.png')),
-                                                  //       // :SizedBox(),
-                                                  //       Padding(
-                                                  //         padding:
-                                                  //             const EdgeInsets
-                                                  //                     .only(
-                                                  //                 top: 30.0,
-                                                  //                 left: 0.0),
-                                                  //         child: Container(
-                                                  //             height: 30,
-                                                  //             width: 30,
-                                                  //             child: first_char_level_amount_ach2 ==
-                                                  //                     '1'
-                                                  //                 ? Image.asset(
-                                                  //                     'assets/images/home/numbers/green/1_green.png')
-                                                  //                 : first_char_level_amount_ach2 ==
-                                                  //                         '2'
-                                                  //                     ? Image.asset(
-                                                  //                         'assets/images/home/numbers/green/2_green.png')
-                                                  //                     : first_char_level_amount_ach2 ==
-                                                  //                             '3'
-                                                  //                         ? Image.asset(
-                                                  //                             'assets/images/home/numbers/green/3_green.png')
-                                                  //                         : first_char_level_amount_ach2 == '4'
-                                                  //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
-                                                  //                             : first_char_level_amount_ach2 == '5'
-                                                  //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
-                                                  //                                 : first_char_level_amount_ach2 == '6'
-                                                  //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
-                                                  //                                     : first_char_level_amount_ach2 == '7'
-                                                  //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                  //                                         : first_char_level_amount_ach2 == '8'
-                                                  //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                  //                                             : first_char_level_amount_ach2 == '9'
-                                                  //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                  //                                                 : first_char_level_amount_ach2 == '0'
-                                                  //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                  //                                                     : SizedBox()),
-                                                  //       ),
-                                                  //     ]),
-                                                  //     Stack(children: [
-                                                  //       //isShowBookRead &&
-                                                  //       third_char_level_amount_ach2 ==
-                                                  //               ''
-                                                  //           ? Padding(
-                                                  //               padding:
-                                                  //                   const EdgeInsets
-                                                  //                           .only(
-                                                  //                       left:
-                                                  //                           0.0),
-                                                  //               child: Container(
-                                                  //                   height: 40,
-                                                  //                   width: 30,
-                                                  //                   child: Image
-                                                  //                       .asset(
-                                                  //                           'assets/images/home/numbers_green_stars_R.png')),
-                                                  //             )
-                                                  //           : SizedBox(),
-                                                  //       Padding(
-                                                  //         padding:
-                                                  //             const EdgeInsets
-                                                  //                     .only(
-                                                  //                 top: 30.0),
-                                                  //         child: Container(
-                                                  //             height: 30,
-                                                  //             width: 30,
-                                                  //             child: second_char_level_amount_ach2 ==
-                                                  //                     '1'
-                                                  //                 ? Image.asset(
-                                                  //                     'assets/images/home/numbers/green/1_green.png')
-                                                  //                 : second_char_level_amount_ach2 ==
-                                                  //                         '2'
-                                                  //                     ? Image.asset(
-                                                  //                         'assets/images/home/numbers/green/2_green.png')
-                                                  //                     : second_char_level_amount_ach2 ==
-                                                  //                             '3'
-                                                  //                         ? Image.asset(
-                                                  //                             'assets/images/home/numbers/green/3_green.png')
-                                                  //                         : second_char_level_amount_ach2 == '4'
-                                                  //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
-                                                  //                             : second_char_level_amount_ach2 == '5'
-                                                  //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
-                                                  //                                 : second_char_level_amount_ach2 == '6'
-                                                  //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
-                                                  //                                     : second_char_level_amount_ach2 == '7'
-                                                  //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                  //                                         : second_char_level_amount_ach2 == '8'
-                                                  //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                  //                                             : second_char_level_amount_ach2 == '9'
-                                                  //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                  //                                                 : second_char_level_amount_ach2 == '0'
-                                                  //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                  //                                                     : SizedBox()),
-                                                  //       ),
-                                                  //     ]),
-                                                  //     Stack(children: [
-                                                  //       // isShowBookRead &&
-                                                  //       third_char_level_amount_ach2 !=
-                                                  //               ''
-                                                  //           ? Padding(
-                                                  //               padding:
-                                                  //                   const EdgeInsets
-                                                  //                           .only(
-                                                  //                       left:
-                                                  //                           0.0),
-                                                  //               child: Container(
-                                                  //                   height: 40,
-                                                  //                   width: 30,
-                                                  //                   child: Image
-                                                  //                       .asset(
-                                                  //                           'assets/images/home/numbers_green_stars_R.png')),
-                                                  //             )
-                                                  //           : SizedBox(),
-                                                  //       Padding(
-                                                  //         padding:
-                                                  //             const EdgeInsets
-                                                  //                     .only(
-                                                  //                 top: 30.0),
-                                                  //         child: Container(
-                                                  //             height: 30,
-                                                  //             width: 30,
-                                                  //             child: third_char_level_amount_ach2 ==
-                                                  //                     '1'
-                                                  //                 ? Image.asset(
-                                                  //                     'assets/images/home/numbers/green/1_green.png')
-                                                  //                 : third_char_level_amount_ach2 ==
-                                                  //                         '2'
-                                                  //                     ? Image.asset(
-                                                  //                         'assets/images/home/numbers/green/2_green.png')
-                                                  //                     : third_char_level_amount_ach2 ==
-                                                  //                             '3'
-                                                  //                         ? Image.asset(
-                                                  //                             'assets/images/home/numbers/green/3_green.png')
-                                                  //                         : third_char_level_amount_ach2 == '4'
-                                                  //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
-                                                  //                             : third_char_level_amount_ach2 == '5'
-                                                  //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
-                                                  //                                 : third_char_level_amount_ach2 == '6'
-                                                  //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
-                                                  //                                     : third_char_level_amount_ach2 == '7'
-                                                  //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
-                                                  //                                         : third_char_level_amount_ach2 == '8'
-                                                  //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
-                                                  //                                             : third_char_level_amount_ach2 == '9'
-                                                  //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
-                                                  //                                                 : third_char_level_amount_ach2 == '0'
-                                                  //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
-                                                  //                                                     : SizedBox()),
-                                                  //       ),
-                                                  //     ]),
-                                                  //   ],
-                                                  // ),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 5.0,
-                                                              right: 0.0,
-                                                              bottom: 45),
-                                                      child: Stack(children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 10.0),
-                                                          child: RotatedBox(
-                                                            quarterTurns: -1,
-                                                            child:
-                                                                LinearPercentIndicator(
-                                                              width: 240.0,
-                                                              lineHeight: 24.0,
-                                                              barRadius: Radius
-                                                                  .circular(
-                                                                      10.0),
-                                                              percent:
-                                                                  total[1]*avgAmount[1] /
-                                                                      100,
-                                                              // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
-                                                              // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
-                                                              backgroundColor: achievement_bgcolor[
-                                                                          1] !=
-                                                                      ''
-                                                                  ? HexColor(
-                                                                          achievement_bgcolor[
-                                                                              1])
-                                                                      .withOpacity(
-                                                                          0.1)
-                                                                  : Colors
-                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
-                                                              progressColor: achievement_bgcolor[
-                                                                          1] !=
-                                                                      ''
-                                                                  ? HexColor(
-                                                                          achievement_bgcolor[
-                                                                              1])
-                                                                      .withOpacity(
-                                                                          1.0)
-                                                                  : Colors
-                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  top: 10.0,
-                                                                  left: 10.0),
-                                                          child: RotatedBox(
-                                                            quarterTurns: -1,
-                                                            child: Container(
-                                                                width: 220.0,
-                                                                height: 26,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  border: Border.all(
-                                                                      width: 3,
-                                                                      color: Colors
-                                                                          .black),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10.0),
-                                                                )),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding: total[1]*avgAmount[1] >=
-                                                                      0 &&
-                                                                  total[1]*avgAmount[1] <= 50
-                                                              ? EdgeInsets.only(
-                                                                  left: 3.0,
-                                                                  top: total[1]*avgAmount[1] >=
-                                                                              0 &&
-                                                                          total[1]*avgAmount[1] <=
-                                                                              20
-                                                                      ? 190
-                                                                      : total[1]*avgAmount[1] > 20 &&
-                                                                              total[1]*avgAmount[1] <= 30
-                                                                          ? 120
-                                                                          : total[1]*avgAmount[1] > 30 && total[1]*avgAmount[1] <= 40
-                                                                              ? 80
-                                                                              : total[1]*avgAmount[1] > 40 && total[1]*avgAmount[1] <= 50
-                                                                                  ? 10
-                                                                                  : 0,
-                                                                )
-                                                              : EdgeInsets.only(
-                                                                  left: 3.0,
-                                                                  bottom: total[1]*avgAmount[1] >
-                                                                              50 &&
-                                                                          total[1]*avgAmount[1] <=
-                                                                              60
-                                                                      ? 10
-                                                                      : total[1]*avgAmount[1] > 60 &&
-                                                                              total[1]*avgAmount[1] <= 70
-                                                                          ? 60
-                                                                          : total[1]*avgAmount[1] > 70 && total[1]*avgAmount[1] <= 80
-                                                                              ? 100
-                                                                              : total[1]*avgAmount[1] > 80 && total[1]*avgAmount[1] <= 90
-                                                                                  ? 150
-                                                                                  : 170,
-                                                                ),
-                                                          child:
-                                                              AnimatedContainer(
-                                                            //color: Colors.red,
-                                                            duration: Duration(
-                                                                seconds: 3),
-                                                            height:
-                                                                current_ach2_plan_height, //430
-                                                            width: 40,
-                                                            child: Image.asset(
-                                                                'assets/images/home/Kids_progressbar_greenicon.png'),
-                                                          ),
-                                                        ),
-                                                      ]),
-                                                    ),
-                                                  ),
-                                                ],
+                                    // Row(
+                                    //   children: [
+                                    //     Stack(children: [
+                                    //       //isShowBookRead?
+                                    //       Container(
+                                    //           height: 40,
+                                    //           width: 30,
+                                    //           child: Image.asset(
+                                    //               'assets/images/home/numbers_purple_stars_L.png')),
+                                    //       // :SizedBox(),
+                                    //       Padding(
+                                    //         padding:
+                                    //             const EdgeInsets
+                                    //                     .only(
+                                    //                 top: 30.0,
+                                    //                 left: 0.0),
+                                    //         child: Container(
+                                    //             height: 30,
+                                    //             width: 30,
+                                    //             child: first_char_level_amount_ach1 ==
+                                    //                     '1'
+                                    //                 ? Image.asset(
+                                    //                     'assets/images/home/numbers/blue/1_blue.png')
+                                    //                 : first_char_level_amount_ach1 ==
+                                    //                         '2'
+                                    //                     ? Image.asset(
+                                    //                         'assets/images/home/numbers/blue/2_blue.png')
+                                    //                     : first_char_level_amount_ach1 ==
+                                    //                             '3'
+                                    //                         ? Image.asset(
+                                    //                             'assets/images/home/numbers/blue/3_blue.png')
+                                    //                         : first_char_level_amount_ach1 == '4'
+                                    //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                    //                             : first_char_level_amount_ach1 == '5'
+                                    //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                    //                                 : first_char_level_amount_ach1 == '6'
+                                    //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                    //                                     : first_char_level_amount_ach1 == '7'
+                                    //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                    //                                         : first_char_level_amount_ach1 == '8'
+                                    //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                    //                                             : first_char_level_amount_ach1 == '9'
+                                    //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                    //                                                 : first_char_level_amount_ach1 == '0'
+                                    //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                    //                                                     : SizedBox()),
+                                    //       ),
+                                    //     ]),
+                                    //     Stack(children: [
+                                    //       //isShowBookRead &&
+                                    //       third_char_level_amount_ach1 ==
+                                    //               ''
+                                    //           ? Padding(
+                                    //               padding:
+                                    //                   const EdgeInsets
+                                    //                           .only(
+                                    //                       left:
+                                    //                           0.0),
+                                    //               child: Container(
+                                    //                   height: 40,
+                                    //                   width: 30,
+                                    //                   child: Image
+                                    //                       .asset(
+                                    //                           'assets/images/home/numbers_purple_stars_R.png')),
+                                    //             )
+                                    //           : SizedBox(),
+                                    //       Padding(
+                                    //         padding:
+                                    //             const EdgeInsets
+                                    //                     .only(
+                                    //                 top: 30.0),
+                                    //         child: Container(
+                                    //             height: 30,
+                                    //             width: 30,
+                                    //             child: second_char_level_amount_ach1 ==
+                                    //                     '1'
+                                    //                 ? Image.asset(
+                                    //                     'assets/images/home/numbers/blue/1_blue.png')
+                                    //                 : second_char_level_amount_ach1 ==
+                                    //                         '2'
+                                    //                     ? Image.asset(
+                                    //                         'assets/images/home/numbers/blue/2_blue.png')
+                                    //                     : second_char_level_amount_ach1 ==
+                                    //                             '3'
+                                    //                         ? Image.asset(
+                                    //                             'assets/images/home/numbers/blue/3_blue.png')
+                                    //                         : second_char_level_amount_ach1 == '4'
+                                    //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                    //                             : second_char_level_amount_ach1 == '5'
+                                    //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                    //                                 : second_char_level_amount_ach1 == '6'
+                                    //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                    //                                     : second_char_level_amount_ach1 == '7'
+                                    //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                    //                                         : second_char_level_amount_ach1 == '8'
+                                    //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                    //                                             : second_char_level_amount_ach1 == '9'
+                                    //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                    //                                                 : second_char_level_amount_ach1 == '0'
+                                    //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                    //                                                     : SizedBox()),
+                                    //       ),
+                                    //     ]),
+                                    //     Stack(children: [
+                                    //       // isShowBookRead &&
+                                    //       third_char_level_amount_ach1 !=
+                                    //               ''
+                                    //           ? Padding(
+                                    //               padding:
+                                    //                   const EdgeInsets
+                                    //                           .only(
+                                    //                       left:
+                                    //                           0.0),
+                                    //               child: Container(
+                                    //                   height: 40,
+                                    //                   width: 30,
+                                    //                   child: Image
+                                    //                       .asset(
+                                    //                           'assets/images/home/numbers_purple_stars_R.png')),
+                                    //             )
+                                    //           : SizedBox(),
+                                    //       Padding(
+                                    //         padding:
+                                    //             const EdgeInsets
+                                    //                     .only(
+                                    //                 top: 30.0),
+                                    //         child: Container(
+                                    //             height: 30,
+                                    //             width: 30,
+                                    //             child: third_char_level_amount_ach1 ==
+                                    //                     '1'
+                                    //                 ? Image.asset(
+                                    //                     'assets/images/home/numbers/blue/1_blue.png')
+                                    //                 : third_char_level_amount_ach1 ==
+                                    //                         '2'
+                                    //                     ? Image.asset(
+                                    //                         'assets/images/home/numbers/blue/2_blue.png')
+                                    //                     : third_char_level_amount_ach1 ==
+                                    //                             '3'
+                                    //                         ? Image.asset(
+                                    //                             'assets/images/home/numbers/blue/3_blue.png')
+                                    //                         : third_char_level_amount_ach1 == '4'
+                                    //                             ? Image.asset('assets/images/home/numbers/blue/4_blue.png')
+                                    //                             : third_char_level_amount_ach1 == '5'
+                                    //                                 ? Image.asset('assets/images/home/numbers/blue/5_blue.png')
+                                    //                                 : third_char_level_amount_ach1 == '6'
+                                    //                                     ? Image.asset('assets/images/home/numbers/blue/6_blue.png')
+                                    //                                     : third_char_level_amount_ach1 == '7'
+                                    //                                         ? Image.asset('assets/images/home/numbers/blue/7_blue.png')
+                                    //                                         : third_char_level_amount_ach1 == '8'
+                                    //                                             ? Image.asset('assets/images/home/numbers/blue/8_blue.png')
+                                    //                                             : third_char_level_amount_ach1 == '9'
+                                    //                                                 ? Image.asset('assets/images/home/numbers/blue/9_blue.png')
+                                    //                                                 : third_char_level_amount_ach1 == '0'
+                                    //                                                     ? Image.asset('assets/images/home/numbers/blue/0_blue.png')
+                                    //                                                     : SizedBox()),
+                                    //       ),
+                                    //     ]),
+                                    //   ],
+                                    // ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.only(
+                                            top: 5.0,
+                                            right: 0.0,
+                                            bottom: 45),
+                                        child: Stack(children: [
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets
+                                                .only(
+                                                left: 10.0),
+                                            child: RotatedBox(
+                                              quarterTurns: -1,
+                                              child:
+                                              LinearPercentIndicator(
+                                                width: 240.0,
+                                                lineHeight: 24.0,
+                                                barRadius: Radius
+                                                    .circular(
+                                                    10.0),
+                                                percent:
+                                                0 / 100,
+                                                // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                                                // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                                                backgroundColor: achievement_bgcolor[
+                                                0] !=
+                                                    ''
+                                                    ? HexColor(
+                                                    achievement_bgcolor[
+                                                    0])
+                                                    .withOpacity(
+                                                    0.1)
+                                                    : Colors
+                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                                                progressColor: achievement_bgcolor[
+                                                0] !=
+                                                    ''
+                                                    ? HexColor(
+                                                    achievement_bgcolor[
+                                                    0])
+                                                    .withOpacity(
+                                                    1.0)
+                                                    : Colors
+                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
                                               ),
-                                              isShow2Achievement
-                                                  ? Positioned(
-                                                      left: 0,
-                                                      bottom: 5,
-                                                      child: Container(
-                                                      width:second_char_level_amount_ach2 == '' && third_char_level_amount_ach2 == ''?95:third_char_level_amount_ach2 == ''?115:145,
-                                                        child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                          children: [
-                                                            Text(
-                                                                total[1]
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                  color: achievement_bgcolor[
-                                                                              1] !=
-                                                                          ''
-                                                                      ? HexColor(achievement_bgcolor[
-                                                                              1])
-                                                                          .withOpacity(
-                                                                              1.0)
-                                                                      : Colors
-                                                                          .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 28.0,
-                                                                )),
-                                                            Text(
-                                                                "${achievement_name[1]}"
-                                                                    .toUpperCase(),
-                                                                style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                  fontSize: 9.0,
-                                                                ))
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : SizedBox()
-                                            ]),
-                                          )
-                                        : Stack(children: [
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets
+                                                .only(
+                                                top: 10.0,
+                                                left: 10.0),
+                                            child: RotatedBox(
+                                              quarterTurns: -1,
+                                              child: Container(
+                                                  width: 220.0,
+                                                  height: 26,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        width: 3,
+                                                        color: Colors
+                                                            .black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        10.0),
+                                                  )),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top:170.0),
+                                            child: AnimatedContainer(
+                                              //color: Colors.red,
+                                              duration: Duration(
+                                                  seconds: 3),
+                                              height:
+                                              current_ach1_plan_height, //430
+                                              width: 40,
+                                              child: Image.asset(
+                                                  'assets/images/home/Kids_progressbar_blueicon.png'),
+                                            ),
+                                          ),
+                                        ]),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                isShow1Achievement
+                                    ? Positioned(
+                                  left: 0, //35,
+                                  bottom: 5,
+                                  child: Container(
+                                    width:second_char_level_amount_ach1 == '' && third_char_level_amount_ach1 == ''?95:third_char_level_amount_ach1 == ''?115:145,
+
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment
+                                          .center,
+                                      children: [
+                                        Text(
+                                            total[0]
+                                                .toString(),
+                                            style: TextStyle(
+                                              color: achievement_bgcolor[
+                                              0] !=
+                                                  ''
+                                                  ? HexColor(achievement_bgcolor[
+                                              0])
+                                                  .withOpacity(
+                                                  1.0)
+                                                  : Colors
+                                                  .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                              fontWeight:
+                                              FontWeight
+                                                  .w600,
+                                              fontSize: 28.0,
+                                            )),
+                                        Text(
+                                            "${achievement_name[0]}"
+                                                .toUpperCase(),
+                                            style: TextStyle(
+                                              color: Colors
+                                                  .black,
+                                              fontWeight:
+                                              FontWeight
+                                                  .w700,
+                                              fontSize: 9.0,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                    : SizedBox()
+                              ])
+                                  : SizedBox(),
+                              inProgressAchievedLists.length >= 2
+                                  ? isShow2Achievement
+                                  ? Container(
+                                height: 350,
+                                child: Stack(children: [
                                   Column(
                                     children: [
                                       Container(
@@ -2454,7 +4887,7 @@ class _HomeState extends State<Home> {
                                                       .circular(
                                                       10.0),
                                                   percent:
-                                                  0 /
+                                                  total[1]*avgAmount[1] /
                                                       100,
                                                   // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
                                                   // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
@@ -2506,43 +4939,41 @@ class _HomeState extends State<Home> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.only(
-                                                top: 190),
-                                              // total[1] >=
-                                              //     0 &&
-                                              //     total[1] <= 50
-                                              //     ? EdgeInsets.only(
-                                              //   left: 3.0,
-                                              //   top: total[1] >=
-                                              //       0 &&
-                                              //       total[1] <=
-                                              //           20
-                                              //       ? 190
-                                              //       : total[1] > 20 &&
-                                              //       total[1] <= 30
-                                              //       ? 120
-                                              //       : total[1] > 30 && total[1] <= 40
-                                              //       ? 80
-                                              //       : total[1] > 40 && total[1] <= 50
-                                              //       ? 10
-                                              //       : 0,
-                                              // )
-                                              //     : EdgeInsets.only(
-                                              //   left: 3.0,
-                                              //   bottom: total[1] >
-                                              //       50 &&
-                                              //       total[1] <=
-                                              //           60
-                                              //       ? 10
-                                              //       : total[1] > 60 &&
-                                              //       total[1] <= 70
-                                              //       ? 60
-                                              //       : total[1] > 70 && total[1] <= 80
-                                              //       ? 100
-                                              //       : total[1] > 80 && total[1] <= 90
-                                              //       ? 150
-                                              //       : 170,
-                                              // ),
+                                              padding: total[1]*avgAmount[1] >=
+                                                  0 &&
+                                                  total[1]*avgAmount[1] <= 50
+                                                  ? EdgeInsets.only(
+                                                left: 3.0,
+                                                top: total[1]*avgAmount[1] >=
+                                                    0 &&
+                                                    total[1]*avgAmount[1] <=
+                                                        20
+                                                    ? 190
+                                                    : total[1]*avgAmount[1] > 20 &&
+                                                    total[1]*avgAmount[1] <= 30
+                                                    ? 120
+                                                    : total[1]*avgAmount[1] > 30 && total[1]*avgAmount[1] <= 40
+                                                    ? 80
+                                                    : total[1]*avgAmount[1] > 40 && total[1]*avgAmount[1] <= 50
+                                                    ? 10
+                                                    : 0,
+                                              )
+                                                  : EdgeInsets.only(
+                                                left: 3.0,
+                                                bottom: total[1]*avgAmount[1] >
+                                                    50 &&
+                                                    total[1]*avgAmount[1] <=
+                                                        60
+                                                    ? 10
+                                                    : total[1]*avgAmount[1] > 60 &&
+                                                    total[1]*avgAmount[1] <= 70
+                                                    ? 60
+                                                    : total[1]*avgAmount[1] > 70 && total[1]*avgAmount[1] <= 80
+                                                    ? 100
+                                                    : total[1]*avgAmount[1] > 80 && total[1]*avgAmount[1] <= 90
+                                                    ? 150
+                                                    : 170,
+                                              ),
                                               child:
                                               AnimatedContainer(
                                                 //color: Colors.red,
@@ -2603,500 +5034,497 @@ class _HomeState extends State<Home> {
                                     ),
                                   )
                                       : SizedBox()
-                                ])
-                                    : SizedBox(),
-                                inProgressAchievedLists.length == 3
-                                    ? isShow3Achievement
-                                        ? Container(
-                                            height: 350,
-                                            child: Stack(children: [
-                                              Column(
-                                                children: [
+                                ]),
+                              )
+                                  : Stack(children: [
+                                Column(
+                                  children: [
+                                    Container(
 
-                                                  Container(
+                                        child:Column(
+                                          children: [
 
-                                                      child:Column(
-                                                        children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                    height: 40,
+                                                    width: 30,
+                                                    child: Image.asset(
+                                                        'assets/images/home/numbers_green_stars_L.png')),
+                                                // Row(
+                                                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                //     children:[
+                                                //       Container(
+                                                //           height: 40,
+                                                //           width: 30,
+                                                //           child: Image.asset(
+                                                //               'assets/images/home/numbers_purple_stars_L.png')),
+                                                //       Container(
+                                                //           height: 40,
+                                                //           width: 30,
+                                                //           child: Image
+                                                //               .asset(
+                                                //               'assets/images/home/numbers_purple_stars_R.png'))
+                                                //     ]
+                                                // ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top:30.0),
+                                                  child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: first_char_level_amount_ach2 ==
+                                                          '1'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/green/1_green.png')
+                                                          : first_char_level_amount_ach2 ==
+                                                          '2'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/green/2_green.png')
+                                                          : first_char_level_amount_ach2 ==
+                                                          '3'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/green/3_green.png')
+                                                          : first_char_level_amount_ach2 == '4'
+                                                          ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                                          : first_char_level_amount_ach2 == '5'
+                                                          ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                                          : first_char_level_amount_ach2 == '6'
+                                                          ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                                          : first_char_level_amount_ach2 == '7'
+                                                          ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                          : first_char_level_amount_ach2 == '8'
+                                                          ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                          : first_char_level_amount_ach2 == '9'
+                                                          ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                          : first_char_level_amount_ach2 == '0'
+                                                          ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                          : SizedBox()),
+                                                ),
+                                                second_char_level_amount_ach2 != '' ?
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top:30.0),
+                                                  child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: second_char_level_amount_ach2 ==
+                                                          '1'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/green/1_green.png')
+                                                          : second_char_level_amount_ach2 ==
+                                                          '2'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/green/2_green.png')
+                                                          : second_char_level_amount_ach2 ==
+                                                          '3'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/green/3_green.png')
+                                                          : second_char_level_amount_ach2 == '4'
+                                                          ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                                          : second_char_level_amount_ach2 == '5'
+                                                          ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                                          : second_char_level_amount_ach2 == '6'
+                                                          ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                                          : second_char_level_amount_ach2 == '7'
+                                                          ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                          : second_char_level_amount_ach2 == '8'
+                                                          ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                          : second_char_level_amount_ach2 == '9'
+                                                          ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                          : second_char_level_amount_ach2 == '0'
+                                                          ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                          : SizedBox()),
+                                                ):
+                                                SizedBox(width: 0),
+                                                third_char_level_amount_ach2 != '' ?
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top:30.0),
+                                                  child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: third_char_level_amount_ach2 ==
+                                                          '1'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/green/1_green.png')
+                                                          : third_char_level_amount_ach2 ==
+                                                          '2'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/green/2_green.png')
+                                                          : third_char_level_amount_ach2 ==
+                                                          '3'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/green/3_green.png')
+                                                          : third_char_level_amount_ach2 == '4'
+                                                          ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                                          : third_char_level_amount_ach2 == '5'
+                                                          ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                                          : third_char_level_amount_ach2 == '6'
+                                                          ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                                          : third_char_level_amount_ach2 == '7'
+                                                          ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                                          : third_char_level_amount_ach2 == '8'
+                                                          ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                                          : third_char_level_amount_ach2 == '9'
+                                                          ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                                          : third_char_level_amount_ach2 == '0'
+                                                          ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                                          : SizedBox()),
+                                                ):
+                                                SizedBox(width: 0),
+                                                Container(
+                                                    height: 40,
+                                                    width: 30,
+                                                    child: Image
+                                                        .asset(
+                                                        'assets/images/home/numbers_green_stars_R.png'))
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                    ),
 
-                                                          Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              Container(
-                                                                  height: 40,
-                                                                  width: 30,
-                                                                  child: Image.asset(
-                                                                      'assets/images/home/numbers_yellow_stars_L.png')),
-                                                              // Row(
-                                                              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                              //     children:[
-                                                              //       Container(
-                                                              //           height: 40,
-                                                              //           width: 30,
-                                                              //           child: Image.asset(
-                                                              //               'assets/images/home/numbers_purple_stars_L.png')),
-                                                              //       Container(
-                                                              //           height: 40,
-                                                              //           width: 30,
-                                                              //           child: Image
-                                                              //               .asset(
-                                                              //               'assets/images/home/numbers_purple_stars_R.png'))
-                                                              //     ]
-                                                              // ),
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:30.0),
-                                                                child: Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    child: first_char_level_amount_ach3 ==
-                                                                        '1'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/red/1_red.png')
-                                                                        : first_char_level_amount_ach3 ==
-                                                                        '2'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/red/2_red.png')
-                                                                        : first_char_level_amount_ach3 ==
-                                                                        '3'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/red/3_red.png')
-                                                                        : first_char_level_amount_ach3 == '4'
-                                                                        ? Image.asset('assets/images/home/numbers/red/4_red.png')
-                                                                        : first_char_level_amount_ach3 == '5'
-                                                                        ? Image.asset('assets/images/home/numbers/red/5_red.png')
-                                                                        : first_char_level_amount_ach3 == '6'
-                                                                        ? Image.asset('assets/images/home/numbers/red/6_red.png')
-                                                                        : first_char_level_amount_ach3 == '7'
-                                                                        ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                                        : first_char_level_amount_ach3 == '8'
-                                                                        ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                                        : first_char_level_amount_ach3 == '9'
-                                                                        ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                                        : first_char_level_amount_ach3 == '0'
-                                                                        ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                                        : SizedBox()),
-                                                              ),
-                                                              second_char_level_amount_ach3 != '' ?
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:30.0),
-                                                                child: Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    child: second_char_level_amount_ach3 ==
-                                                                        '1'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/red/1_red.png')
-                                                                        : second_char_level_amount_ach3 ==
-                                                                        '2'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/red/2_red.png')
-                                                                        : second_char_level_amount_ach3 ==
-                                                                        '3'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/red/3_red.png')
-                                                                        : second_char_level_amount_ach3 == '4'
-                                                                        ? Image.asset('assets/images/home/numbers/red/4_red.png')
-                                                                        : second_char_level_amount_ach3 == '5'
-                                                                        ? Image.asset('assets/images/home/numbers/red/5_red.png')
-                                                                        : second_char_level_amount_ach3 == '6'
-                                                                        ? Image.asset('assets/images/home/numbers/red/6_red.png')
-                                                                        : second_char_level_amount_ach3 == '7'
-                                                                        ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                                        : second_char_level_amount_ach3 == '8'
-                                                                        ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                                        : second_char_level_amount_ach3 == '9'
-                                                                        ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                                        : second_char_level_amount_ach3 == '0'
-                                                                        ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                                        : SizedBox()),
-                                                              ):
-                                                              SizedBox(width: 0),
-                                                              
-                                                              third_char_level_amount_ach3 != '' ?
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:30.0),
-                                                                child: Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    child: third_char_level_amount_ach3 ==
-                                                                        '1'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/red/1_red.png')
-                                                                        : third_char_level_amount_ach3 ==
-                                                                        '2'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/red/2_red.png')
-                                                                        : third_char_level_amount_ach3 ==
-                                                                        '3'
-                                                                        ? Image.asset(
-                                                                        'assets/images/home/numbers/red/3_red.png')
-                                                                        : third_char_level_amount_ach3 == '4'
-                                                                        ? Image.asset('assets/images/home/numbers/red/4_red.png')
-                                                                        : third_char_level_amount_ach3 == '5'
-                                                                        ? Image.asset('assets/images/home/numbers/red/5_red.png')
-                                                                        : third_char_level_amount_ach3 == '6'
-                                                                        ? Image.asset('assets/images/home/numbers/red/6_red.png')
-                                                                        : third_char_level_amount_ach3 == '7'
-                                                                        ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                                        : third_char_level_amount_ach3 == '8'
-                                                                        ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                                        : third_char_level_amount_ach3 == '9'
-                                                                        ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                                        : third_char_level_amount_ach3 == '0'
-                                                                        ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                                        : SizedBox()),
-                                                              ):
-                                                              SizedBox(width: 0),
-                                                              Container(
-                                                                  height: 40,
-                                                                  width: 30,
-                                                                  child: Image
-                                                                      .asset(
-                                                                      'assets/images/home/numbers_yellow_stars_R.png'))
-                                                            ],
-                                                          )
-                                                        ],
-                                                      )
-                                                  ),
-                                                  
-                                                  
-                                                  
-                                                  // Row(
-                                                  //   children: [
-                                                  //     Stack(children: [
-                                                  //       //isShowBookRead?
-                                                  //       Container(
-                                                  //           height: 40,
-                                                  //           width: 30,
-                                                  //           child: Image.asset(
-                                                  //               'assets/images/home/numbers_yellow_stars_L.png')),
-                                                  //       // :SizedBox(),
-                                                  //       Padding(
-                                                  //         padding:
-                                                  //             const EdgeInsets
-                                                  //                     .only(
-                                                  //                 top: 30.0,
-                                                  //                 left: 0.0),
-                                                  //         child: Container(
-                                                  //             height: 30,
-                                                  //             width: 30,
-                                                  //             child: first_char_level_amount_ach3 ==
-                                                  //                     '1'
-                                                  //                 ? Image.asset(
-                                                  //                     'assets/images/home/numbers/red/1_red.png')
-                                                  //                 : first_char_level_amount_ach3 ==
-                                                  //                         '2'
-                                                  //                     ? Image.asset(
-                                                  //                         'assets/images/home/numbers/red/2_red.png')
-                                                  //                     : first_char_level_amount_ach3 ==
-                                                  //                             '3'
-                                                  //                         ? Image.asset(
-                                                  //                             'assets/images/home/numbers/red/3_red.png')
-                                                  //                         : first_char_level_amount_ach3 == '4'
-                                                  //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
-                                                  //                             : first_char_level_amount_ach3 == '5'
-                                                  //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
-                                                  //                                 : first_char_level_amount_ach3 == '6'
-                                                  //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
-                                                  //                                     : first_char_level_amount_ach3 == '7'
-                                                  //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                  //                                         : first_char_level_amount_ach3 == '8'
-                                                  //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                  //                                             : first_char_level_amount_ach3 == '9'
-                                                  //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                  //                                                 : first_char_level_amount_ach3 == '0'
-                                                  //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                  //                                                     : SizedBox()),
-                                                  //       ),
-                                                  //     ]),
-                                                  //     Stack(children: [
-                                                  //       //isShowBookRead &&
-                                                  //       third_char_level_amount_ach3 ==
-                                                  //               ''
-                                                  //           ? Padding(
-                                                  //               padding:
-                                                  //                   const EdgeInsets
-                                                  //                           .only(
-                                                  //                       left:
-                                                  //                           0.0),
-                                                  //               child: Container(
-                                                  //                   height: 40,
-                                                  //                   width: 30,
-                                                  //                   child: Image
-                                                  //                       .asset(
-                                                  //                           'assets/images/home/numbers_yellow_stars_R.png')),
-                                                  //             )
-                                                  //           : SizedBox(),
-                                                  //       Padding(
-                                                  //         padding:
-                                                  //             const EdgeInsets
-                                                  //                     .only(
-                                                  //                 top: 30.0),
-                                                  //         child: Container(
-                                                  //             height: 30,
-                                                  //             width: 30,
-                                                  //             child: second_char_level_amount_ach3 ==
-                                                  //                     '1'
-                                                  //                 ? Image.asset(
-                                                  //                     'assets/images/home/numbers/red/1_red.png')
-                                                  //                 : second_char_level_amount_ach3 ==
-                                                  //                         '2'
-                                                  //                     ? Image.asset(
-                                                  //                         'assets/images/home/numbers/red/2_red.png')
-                                                  //                     : second_char_level_amount_ach3 ==
-                                                  //                             '3'
-                                                  //                         ? Image.asset(
-                                                  //                             'assets/images/home/numbers/red/3_red.png')
-                                                  //                         : second_char_level_amount_ach3 == '4'
-                                                  //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
-                                                  //                             : second_char_level_amount_ach3 == '5'
-                                                  //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
-                                                  //                                 : second_char_level_amount_ach3 == '6'
-                                                  //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
-                                                  //                                     : second_char_level_amount_ach3 == '7'
-                                                  //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                  //                                         : second_char_level_amount_ach3 == '8'
-                                                  //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                  //                                             : second_char_level_amount_ach3 == '9'
-                                                  //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                  //                                                 : second_char_level_amount_ach3 == '0'
-                                                  //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                  //                                                     : SizedBox()),
-                                                  //       ),
-                                                  //     ]),
-                                                  //     Stack(children: [
-                                                  //       // isShowBookRead &&
-                                                  //       third_char_level_amount_ach3 !=
-                                                  //               ''
-                                                  //           ? Padding(
-                                                  //               padding:
-                                                  //                   const EdgeInsets
-                                                  //                           .only(
-                                                  //                       left:
-                                                  //                           0.0),
-                                                  //               child: Container(
-                                                  //                   height: 40,
-                                                  //                   width: 30,
-                                                  //                   child: Image
-                                                  //                       .asset(
-                                                  //                           'assets/images/home/numbers_yellow_stars_R.png')),
-                                                  //             )
-                                                  //           : SizedBox(),
-                                                  //       Padding(
-                                                  //         padding:
-                                                  //             const EdgeInsets
-                                                  //                     .only(
-                                                  //                 top: 30.0),
-                                                  //         child: Container(
-                                                  //             height: 30,
-                                                  //             width: 30,
-                                                  //             child: third_char_level_amount_ach3 ==
-                                                  //                     '1'
-                                                  //                 ? Image.asset(
-                                                  //                     'assets/images/home/numbers/red/1_red.png')
-                                                  //                 : third_char_level_amount_ach3 ==
-                                                  //                         '2'
-                                                  //                     ? Image.asset(
-                                                  //                         'assets/images/home/numbers/red/2_red.png')
-                                                  //                     : third_char_level_amount_ach3 ==
-                                                  //                             '3'
-                                                  //                         ? Image.asset(
-                                                  //                             'assets/images/home/numbers/red/3_red.png')
-                                                  //                         : third_char_level_amount_ach3 == '4'
-                                                  //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
-                                                  //                             : third_char_level_amount_ach3 == '5'
-                                                  //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
-                                                  //                                 : third_char_level_amount_ach3 == '6'
-                                                  //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
-                                                  //                                     : third_char_level_amount_ach3 == '7'
-                                                  //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
-                                                  //                                         : third_char_level_amount_ach3 == '8'
-                                                  //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
-                                                  //                                             : third_char_level_amount_ach3 == '9'
-                                                  //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
-                                                  //                                                 : third_char_level_amount_ach3 == '0'
-                                                  //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
-                                                  //                                                     : SizedBox()),
-                                                  //       ),
-                                                  //     ]),
-                                                  //   ],
-                                                  // ),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 5.0,
-                                                              right: 0.0,
-                                                              bottom: 45),
-                                                      child: Stack(children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 0.0),
-                                                          child: RotatedBox(
-                                                            quarterTurns: -1,
-                                                            child:
-                                                                LinearPercentIndicator(
-                                                              width: 240.0,
-                                                              lineHeight: 24.0,
-                                                              barRadius: Radius
-                                                                  .circular(
-                                                                      10.0),
-                                                              percent:
-                                                                  total[2]*avgAmount[2] /
-                                                                      100,
-                                                              // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
-                                                              // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
-                                                              backgroundColor: achievement_bgcolor[
-                                                                          2] !=
-                                                                      ''
-                                                                  ? HexColor(
-                                                                          achievement_bgcolor[
-                                                                              2])
-                                                                      .withOpacity(
-                                                                          0.1)
-                                                                  : Colors
-                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
-                                                              progressColor: achievement_bgcolor[
-                                                                          2] !=
-                                                                      ''
-                                                                  ? HexColor(
-                                                                          achievement_bgcolor[
-                                                                              2])
-                                                                      .withOpacity(
-                                                                          1.0)
-                                                                  : Colors
-                                                                      .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  top: 10.0,
-                                                                  left: 0.0),
-                                                          child: RotatedBox(
-                                                            quarterTurns: -1,
-                                                            child: Container(
-                                                                width: 220.0,
-                                                                height: 26,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  border: Border.all(
-                                                                      width: 3,
-                                                                      color: Colors
-                                                                          .black),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10.0),
-                                                                )),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding: total[2]*avgAmount[2] >=
-                                                                      0 &&
-                                                                  total[2]*avgAmount[2] <= 50
-                                                              ? EdgeInsets.only(
-                                                                  left: 0.0,
-                                                                  top: total[2]*avgAmount[2] >=
-                                                                              0 &&
-                                                                          total[2]*avgAmount[2] <=
-                                                                              20
-                                                                      ? 170
-                                                                      : total[2]*avgAmount[2] > 20 &&
-                                                                              total[2]*avgAmount[2] <= 30
-                                                                          ? 120
-                                                                          : total[2]*avgAmount[2] > 30 && total[2]*avgAmount[2] <= 40
-                                                                              ? 80
-                                                                              : total[2]*avgAmount[2] > 40 && total[2]*avgAmount[2] <= 50
-                                                                                  ? 10
-                                                                                  : 0,
-                                                                )
-                                                              : EdgeInsets.only(
-                                                                  left: 0.0,
-                                                                  bottom: total[2]*avgAmount[2] >
-                                                                              50 &&
-                                                                          total[2]*avgAmount[2] <=
-                                                                              60
-                                                                      ? 10
-                                                                      : total[2]*avgAmount[2] > 60 &&
-                                                                              total[2]*avgAmount[2] <= 70
-                                                                          ? 60
-                                                                          : total[2]*avgAmount[2] > 70 && total[2]*avgAmount[2] <= 80
-                                                                              ? 100
-                                                                              : total[2]*avgAmount[2] > 80 && total[2]*avgAmount[2] <= 90
-                                                                                  ? 150
-                                                                                  : 170,
-                                                                ),
-                                                          child:
-                                                              AnimatedContainer(
-                                                            //color: Colors.red,
-                                                            duration: Duration(
-                                                                seconds: 3),
-                                                            height:
-                                                                current_ach3_plan_height, //430
-                                                            width: 30,
-                                                            child: Image.asset(
-                                                                'assets/images/home/Kids_progressbar_redicon.png'),
-                                                          ),
-                                                        ),
-                                                      ]),
-                                                    ),
-                                                  ),
-                                                ],
+
+
+
+                                    // Row(
+                                    //   children: [
+                                    //     Stack(children: [
+                                    //       //isShowBookRead?
+                                    //       Container(
+                                    //           height: 40,
+                                    //           width: 30,
+                                    //           child: Image.asset(
+                                    //               'assets/images/home/numbers_green_stars_L.png')),
+                                    //       // :SizedBox(),
+                                    //       Padding(
+                                    //         padding:
+                                    //             const EdgeInsets
+                                    //                     .only(
+                                    //                 top: 30.0,
+                                    //                 left: 0.0),
+                                    //         child: Container(
+                                    //             height: 30,
+                                    //             width: 30,
+                                    //             child: first_char_level_amount_ach2 ==
+                                    //                     '1'
+                                    //                 ? Image.asset(
+                                    //                     'assets/images/home/numbers/green/1_green.png')
+                                    //                 : first_char_level_amount_ach2 ==
+                                    //                         '2'
+                                    //                     ? Image.asset(
+                                    //                         'assets/images/home/numbers/green/2_green.png')
+                                    //                     : first_char_level_amount_ach2 ==
+                                    //                             '3'
+                                    //                         ? Image.asset(
+                                    //                             'assets/images/home/numbers/green/3_green.png')
+                                    //                         : first_char_level_amount_ach2 == '4'
+                                    //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                    //                             : first_char_level_amount_ach2 == '5'
+                                    //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                    //                                 : first_char_level_amount_ach2 == '6'
+                                    //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                    //                                     : first_char_level_amount_ach2 == '7'
+                                    //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                    //                                         : first_char_level_amount_ach2 == '8'
+                                    //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                    //                                             : first_char_level_amount_ach2 == '9'
+                                    //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                    //                                                 : first_char_level_amount_ach2 == '0'
+                                    //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                    //                                                     : SizedBox()),
+                                    //       ),
+                                    //     ]),
+                                    //     Stack(children: [
+                                    //       //isShowBookRead &&
+                                    //       third_char_level_amount_ach2 ==
+                                    //               ''
+                                    //           ? Padding(
+                                    //               padding:
+                                    //                   const EdgeInsets
+                                    //                           .only(
+                                    //                       left:
+                                    //                           0.0),
+                                    //               child: Container(
+                                    //                   height: 40,
+                                    //                   width: 30,
+                                    //                   child: Image
+                                    //                       .asset(
+                                    //                           'assets/images/home/numbers_green_stars_R.png')),
+                                    //             )
+                                    //           : SizedBox(),
+                                    //       Padding(
+                                    //         padding:
+                                    //             const EdgeInsets
+                                    //                     .only(
+                                    //                 top: 30.0),
+                                    //         child: Container(
+                                    //             height: 30,
+                                    //             width: 30,
+                                    //             child: second_char_level_amount_ach2 ==
+                                    //                     '1'
+                                    //                 ? Image.asset(
+                                    //                     'assets/images/home/numbers/green/1_green.png')
+                                    //                 : second_char_level_amount_ach2 ==
+                                    //                         '2'
+                                    //                     ? Image.asset(
+                                    //                         'assets/images/home/numbers/green/2_green.png')
+                                    //                     : second_char_level_amount_ach2 ==
+                                    //                             '3'
+                                    //                         ? Image.asset(
+                                    //                             'assets/images/home/numbers/green/3_green.png')
+                                    //                         : second_char_level_amount_ach2 == '4'
+                                    //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                    //                             : second_char_level_amount_ach2 == '5'
+                                    //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                    //                                 : second_char_level_amount_ach2 == '6'
+                                    //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                    //                                     : second_char_level_amount_ach2 == '7'
+                                    //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                    //                                         : second_char_level_amount_ach2 == '8'
+                                    //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                    //                                             : second_char_level_amount_ach2 == '9'
+                                    //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                    //                                                 : second_char_level_amount_ach2 == '0'
+                                    //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                    //                                                     : SizedBox()),
+                                    //       ),
+                                    //     ]),
+                                    //     Stack(children: [
+                                    //       // isShowBookRead &&
+                                    //       third_char_level_amount_ach2 !=
+                                    //               ''
+                                    //           ? Padding(
+                                    //               padding:
+                                    //                   const EdgeInsets
+                                    //                           .only(
+                                    //                       left:
+                                    //                           0.0),
+                                    //               child: Container(
+                                    //                   height: 40,
+                                    //                   width: 30,
+                                    //                   child: Image
+                                    //                       .asset(
+                                    //                           'assets/images/home/numbers_green_stars_R.png')),
+                                    //             )
+                                    //           : SizedBox(),
+                                    //       Padding(
+                                    //         padding:
+                                    //             const EdgeInsets
+                                    //                     .only(
+                                    //                 top: 30.0),
+                                    //         child: Container(
+                                    //             height: 30,
+                                    //             width: 30,
+                                    //             child: third_char_level_amount_ach2 ==
+                                    //                     '1'
+                                    //                 ? Image.asset(
+                                    //                     'assets/images/home/numbers/green/1_green.png')
+                                    //                 : third_char_level_amount_ach2 ==
+                                    //                         '2'
+                                    //                     ? Image.asset(
+                                    //                         'assets/images/home/numbers/green/2_green.png')
+                                    //                     : third_char_level_amount_ach2 ==
+                                    //                             '3'
+                                    //                         ? Image.asset(
+                                    //                             'assets/images/home/numbers/green/3_green.png')
+                                    //                         : third_char_level_amount_ach2 == '4'
+                                    //                             ? Image.asset('assets/images/home/numbers/green/4_green.png')
+                                    //                             : third_char_level_amount_ach2 == '5'
+                                    //                                 ? Image.asset('assets/images/home/numbers/green/5_green.png')
+                                    //                                 : third_char_level_amount_ach2 == '6'
+                                    //                                     ? Image.asset('assets/images/home/numbers/green/6_green.png')
+                                    //                                     : third_char_level_amount_ach2 == '7'
+                                    //                                         ? Image.asset('assets/images/home/numbers/green/7_green.png')
+                                    //                                         : third_char_level_amount_ach2 == '8'
+                                    //                                             ? Image.asset('assets/images/home/numbers/green/8_green.png')
+                                    //                                             : third_char_level_amount_ach2 == '9'
+                                    //                                                 ? Image.asset('assets/images/home/numbers/green/9_green.png')
+                                    //                                                 : third_char_level_amount_ach2 == '0'
+                                    //                                                     ? Image.asset('assets/images/home/numbers/green/0_green.png')
+                                    //                                                     : SizedBox()),
+                                    //       ),
+                                    //     ]),
+                                    //   ],
+                                    // ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.only(
+                                            top: 5.0,
+                                            right: 0.0,
+                                            bottom: 45),
+                                        child: Stack(children: [
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets
+                                                .only(
+                                                left: 10.0),
+                                            child: RotatedBox(
+                                              quarterTurns: -1,
+                                              child:
+                                              LinearPercentIndicator(
+                                                width: 240.0,
+                                                lineHeight: 24.0,
+                                                barRadius: Radius
+                                                    .circular(
+                                                    10.0),
+                                                percent:
+                                                0 /
+                                                    100,
+                                                // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                                                // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                                                backgroundColor: achievement_bgcolor[
+                                                1] !=
+                                                    ''
+                                                    ? HexColor(
+                                                    achievement_bgcolor[
+                                                    1])
+                                                    .withOpacity(
+                                                    0.1)
+                                                    : Colors
+                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                                                progressColor: achievement_bgcolor[
+                                                1] !=
+                                                    ''
+                                                    ? HexColor(
+                                                    achievement_bgcolor[
+                                                    1])
+                                                    .withOpacity(
+                                                    1.0)
+                                                    : Colors
+                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
                                               ),
-                                              isShow3Achievement
-                                                  ? Positioned(
-                                                      //left: 15,
-                                                      bottom: 5,
-                                                      right: 0,
-
-                                                      child: Container(
-                                                        width:second_char_level_amount_ach3 == '' && third_char_level_amount_ach3 == ''?105:third_char_level_amount_ach3 == ''?125:155,
-
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-
-                                                          children: [
-                                                            Text(
-                                                                total[2]
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                  color: achievement_bgcolor[
-                                                                              2] !=
-                                                                          ''
-                                                                      ? HexColor(achievement_bgcolor[
-                                                                              2])
-                                                                          .withOpacity(
-                                                                              1.0)
-                                                                      : Colors
-                                                                          .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 28.0,
-                                                                )),
-                                                            Text(
-                                                                "${achievement_name[2]}"
-                                                                    .toUpperCase(),
-                                                                style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                  fontSize: 9.0,
-                                                                ))
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : SizedBox()
-                                            ]),
-                                          )
-                                        : Stack(children: [
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets
+                                                .only(
+                                                top: 10.0,
+                                                left: 10.0),
+                                            child: RotatedBox(
+                                              quarterTurns: -1,
+                                              child: Container(
+                                                  width: 220.0,
+                                                  height: 26,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        width: 3,
+                                                        color: Colors
+                                                            .black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        10.0),
+                                                  )),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 190),
+                                            // total[1] >=
+                                            //     0 &&
+                                            //     total[1] <= 50
+                                            //     ? EdgeInsets.only(
+                                            //   left: 3.0,
+                                            //   top: total[1] >=
+                                            //       0 &&
+                                            //       total[1] <=
+                                            //           20
+                                            //       ? 190
+                                            //       : total[1] > 20 &&
+                                            //       total[1] <= 30
+                                            //       ? 120
+                                            //       : total[1] > 30 && total[1] <= 40
+                                            //       ? 80
+                                            //       : total[1] > 40 && total[1] <= 50
+                                            //       ? 10
+                                            //       : 0,
+                                            // )
+                                            //     : EdgeInsets.only(
+                                            //   left: 3.0,
+                                            //   bottom: total[1] >
+                                            //       50 &&
+                                            //       total[1] <=
+                                            //           60
+                                            //       ? 10
+                                            //       : total[1] > 60 &&
+                                            //       total[1] <= 70
+                                            //       ? 60
+                                            //       : total[1] > 70 && total[1] <= 80
+                                            //       ? 100
+                                            //       : total[1] > 80 && total[1] <= 90
+                                            //       ? 150
+                                            //       : 170,
+                                            // ),
+                                            child:
+                                            AnimatedContainer(
+                                              //color: Colors.red,
+                                              duration: Duration(
+                                                  seconds: 3),
+                                              height:
+                                              current_ach2_plan_height, //430
+                                              width: 40,
+                                              child: Image.asset(
+                                                  'assets/images/home/Kids_progressbar_greenicon.png'),
+                                            ),
+                                          ),
+                                        ]),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                isShow2Achievement
+                                    ? Positioned(
+                                  left: 0,
+                                  bottom: 5,
+                                  child: Container(
+                                    width:second_char_level_amount_ach2 == '' && third_char_level_amount_ach2 == ''?95:third_char_level_amount_ach2 == ''?115:145,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                            total[1]
+                                                .toString(),
+                                            style: TextStyle(
+                                              color: achievement_bgcolor[
+                                              1] !=
+                                                  ''
+                                                  ? HexColor(achievement_bgcolor[
+                                              1])
+                                                  .withOpacity(
+                                                  1.0)
+                                                  : Colors
+                                                  .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                              fontWeight:
+                                              FontWeight
+                                                  .w600,
+                                              fontSize: 28.0,
+                                            )),
+                                        Text(
+                                            "${achievement_name[1]}"
+                                                .toUpperCase(),
+                                            style: TextStyle(
+                                              color: Colors
+                                                  .black,
+                                              fontWeight:
+                                              FontWeight
+                                                  .w700,
+                                              fontSize: 9.0,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                    : SizedBox()
+                              ])
+                                  : SizedBox(),
+                              inProgressAchievedLists.length == 3
+                                  ? isShow3Achievement
+                                  ? Container(
+                                height: 350,
+                                child: Stack(children: [
                                   Column(
                                     children: [
 
@@ -3430,7 +5858,7 @@ class _HomeState extends State<Home> {
                                                       .circular(
                                                       10.0),
                                                   percent:
-                                                  0 /
+                                                  total[2]*avgAmount[2] /
                                                       100,
                                                   // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
                                                   // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
@@ -3482,42 +5910,41 @@ class _HomeState extends State<Home> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.only(
-                                                top: 170,
+                                              padding: total[2]*avgAmount[2] >=
+                                                  0 &&
+                                                  total[2]*avgAmount[2] <= 50
+                                                  ? EdgeInsets.only(
+                                                left: 0.0,
+                                                top: total[2]*avgAmount[2] >=
+                                                    0 &&
+                                                    total[2]*avgAmount[2] <=
+                                                        20
+                                                    ? 170
+                                                    : total[2]*avgAmount[2] > 20 &&
+                                                    total[2]*avgAmount[2] <= 30
+                                                    ? 120
+                                                    : total[2]*avgAmount[2] > 30 && total[2]*avgAmount[2] <= 40
+                                                    ? 80
+                                                    : total[2]*avgAmount[2] > 40 && total[2]*avgAmount[2] <= 50
+                                                    ? 10
+                                                    : 0,
+                                              )
+                                                  : EdgeInsets.only(
+                                                left: 0.0,
+                                                bottom: total[2]*avgAmount[2] >
+                                                    50 &&
+                                                    total[2]*avgAmount[2] <=
+                                                        60
+                                                    ? 10
+                                                    : total[2]*avgAmount[2] > 60 &&
+                                                    total[2]*avgAmount[2] <= 70
+                                                    ? 60
+                                                    : total[2]*avgAmount[2] > 70 && total[2]*avgAmount[2] <= 80
+                                                    ? 100
+                                                    : total[2]*avgAmount[2] > 80 && total[2]*avgAmount[2] <= 90
+                                                    ? 150
+                                                    : 170,
                                               ),
-                                              // total[2] >=0 && total[2] <= 50
-                                              //     ? EdgeInsets.only(
-                                              //   left: 0.0,
-                                              //   top: total[2] >=
-                                              //       0 &&
-                                              //       total[2] <=
-                                              //           20
-                                              //       ? 170
-                                              //       : total[2] > 20 &&
-                                              //       total[2] <= 30
-                                              //       ? 120
-                                              //       : total[2] > 30 && total[2] <= 40
-                                              //       ? 80
-                                              //       : total[2] > 40 && total[2] <= 50
-                                              //       ? 10
-                                              //       : 0,
-                                              // )
-                                              //     : EdgeInsets.only(
-                                              //   left: 0.0,
-                                              //   bottom: total[2] >
-                                              //       50 &&
-                                              //       total[2] <=
-                                              //           60
-                                              //       ? 10
-                                              //       : total[2] > 60 &&
-                                              //       total[2] <= 70
-                                              //       ? 60
-                                              //       : total[2] > 70 && total[2] <= 80
-                                              //       ? 100
-                                              //       : total[2] > 80 && total[2] <= 90
-                                              //       ? 150
-                                              //       : 170,
-                                              // ),
                                               child:
                                               AnimatedContainer(
                                                 //color: Colors.red,
@@ -3582,15 +6009,507 @@ class _HomeState extends State<Home> {
                                     ),
                                   )
                                       : SizedBox()
-                                ])
-                                    : SizedBox(),
-                              ],
-                            ),
+                                ]),
+                              )
+                                  : Stack(children: [
+                                Column(
+                                  children: [
+
+                                    Container(
+
+                                        child:Column(
+                                          children: [
+
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                    height: 40,
+                                                    width: 30,
+                                                    child: Image.asset(
+                                                        'assets/images/home/numbers_yellow_stars_L.png')),
+                                                // Row(
+                                                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                //     children:[
+                                                //       Container(
+                                                //           height: 40,
+                                                //           width: 30,
+                                                //           child: Image.asset(
+                                                //               'assets/images/home/numbers_purple_stars_L.png')),
+                                                //       Container(
+                                                //           height: 40,
+                                                //           width: 30,
+                                                //           child: Image
+                                                //               .asset(
+                                                //               'assets/images/home/numbers_purple_stars_R.png'))
+                                                //     ]
+                                                // ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top:30.0),
+                                                  child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: first_char_level_amount_ach3 ==
+                                                          '1'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/red/1_red.png')
+                                                          : first_char_level_amount_ach3 ==
+                                                          '2'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/red/2_red.png')
+                                                          : first_char_level_amount_ach3 ==
+                                                          '3'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/red/3_red.png')
+                                                          : first_char_level_amount_ach3 == '4'
+                                                          ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                                          : first_char_level_amount_ach3 == '5'
+                                                          ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                                          : first_char_level_amount_ach3 == '6'
+                                                          ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                                          : first_char_level_amount_ach3 == '7'
+                                                          ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                          : first_char_level_amount_ach3 == '8'
+                                                          ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                          : first_char_level_amount_ach3 == '9'
+                                                          ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                          : first_char_level_amount_ach3 == '0'
+                                                          ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                          : SizedBox()),
+                                                ),
+                                                second_char_level_amount_ach3 != '' ?
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top:30.0),
+                                                  child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: second_char_level_amount_ach3 ==
+                                                          '1'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/red/1_red.png')
+                                                          : second_char_level_amount_ach3 ==
+                                                          '2'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/red/2_red.png')
+                                                          : second_char_level_amount_ach3 ==
+                                                          '3'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/red/3_red.png')
+                                                          : second_char_level_amount_ach3 == '4'
+                                                          ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                                          : second_char_level_amount_ach3 == '5'
+                                                          ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                                          : second_char_level_amount_ach3 == '6'
+                                                          ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                                          : second_char_level_amount_ach3 == '7'
+                                                          ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                          : second_char_level_amount_ach3 == '8'
+                                                          ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                          : second_char_level_amount_ach3 == '9'
+                                                          ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                          : second_char_level_amount_ach3 == '0'
+                                                          ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                          : SizedBox()),
+                                                ):
+                                                SizedBox(width: 0),
+
+                                                third_char_level_amount_ach3 != '' ?
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top:30.0),
+                                                  child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: third_char_level_amount_ach3 ==
+                                                          '1'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/red/1_red.png')
+                                                          : third_char_level_amount_ach3 ==
+                                                          '2'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/red/2_red.png')
+                                                          : third_char_level_amount_ach3 ==
+                                                          '3'
+                                                          ? Image.asset(
+                                                          'assets/images/home/numbers/red/3_red.png')
+                                                          : third_char_level_amount_ach3 == '4'
+                                                          ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                                          : third_char_level_amount_ach3 == '5'
+                                                          ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                                          : third_char_level_amount_ach3 == '6'
+                                                          ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                                          : third_char_level_amount_ach3 == '7'
+                                                          ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                                          : third_char_level_amount_ach3 == '8'
+                                                          ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                                          : third_char_level_amount_ach3 == '9'
+                                                          ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                                          : third_char_level_amount_ach3 == '0'
+                                                          ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                                          : SizedBox()),
+                                                ):
+                                                SizedBox(width: 0),
+                                                Container(
+                                                    height: 40,
+                                                    width: 30,
+                                                    child: Image
+                                                        .asset(
+                                                        'assets/images/home/numbers_yellow_stars_R.png'))
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                    ),
+
+
+
+                                    // Row(
+                                    //   children: [
+                                    //     Stack(children: [
+                                    //       //isShowBookRead?
+                                    //       Container(
+                                    //           height: 40,
+                                    //           width: 30,
+                                    //           child: Image.asset(
+                                    //               'assets/images/home/numbers_yellow_stars_L.png')),
+                                    //       // :SizedBox(),
+                                    //       Padding(
+                                    //         padding:
+                                    //             const EdgeInsets
+                                    //                     .only(
+                                    //                 top: 30.0,
+                                    //                 left: 0.0),
+                                    //         child: Container(
+                                    //             height: 30,
+                                    //             width: 30,
+                                    //             child: first_char_level_amount_ach3 ==
+                                    //                     '1'
+                                    //                 ? Image.asset(
+                                    //                     'assets/images/home/numbers/red/1_red.png')
+                                    //                 : first_char_level_amount_ach3 ==
+                                    //                         '2'
+                                    //                     ? Image.asset(
+                                    //                         'assets/images/home/numbers/red/2_red.png')
+                                    //                     : first_char_level_amount_ach3 ==
+                                    //                             '3'
+                                    //                         ? Image.asset(
+                                    //                             'assets/images/home/numbers/red/3_red.png')
+                                    //                         : first_char_level_amount_ach3 == '4'
+                                    //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                    //                             : first_char_level_amount_ach3 == '5'
+                                    //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                    //                                 : first_char_level_amount_ach3 == '6'
+                                    //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                    //                                     : first_char_level_amount_ach3 == '7'
+                                    //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                    //                                         : first_char_level_amount_ach3 == '8'
+                                    //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                    //                                             : first_char_level_amount_ach3 == '9'
+                                    //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                    //                                                 : first_char_level_amount_ach3 == '0'
+                                    //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                    //                                                     : SizedBox()),
+                                    //       ),
+                                    //     ]),
+                                    //     Stack(children: [
+                                    //       //isShowBookRead &&
+                                    //       third_char_level_amount_ach3 ==
+                                    //               ''
+                                    //           ? Padding(
+                                    //               padding:
+                                    //                   const EdgeInsets
+                                    //                           .only(
+                                    //                       left:
+                                    //                           0.0),
+                                    //               child: Container(
+                                    //                   height: 40,
+                                    //                   width: 30,
+                                    //                   child: Image
+                                    //                       .asset(
+                                    //                           'assets/images/home/numbers_yellow_stars_R.png')),
+                                    //             )
+                                    //           : SizedBox(),
+                                    //       Padding(
+                                    //         padding:
+                                    //             const EdgeInsets
+                                    //                     .only(
+                                    //                 top: 30.0),
+                                    //         child: Container(
+                                    //             height: 30,
+                                    //             width: 30,
+                                    //             child: second_char_level_amount_ach3 ==
+                                    //                     '1'
+                                    //                 ? Image.asset(
+                                    //                     'assets/images/home/numbers/red/1_red.png')
+                                    //                 : second_char_level_amount_ach3 ==
+                                    //                         '2'
+                                    //                     ? Image.asset(
+                                    //                         'assets/images/home/numbers/red/2_red.png')
+                                    //                     : second_char_level_amount_ach3 ==
+                                    //                             '3'
+                                    //                         ? Image.asset(
+                                    //                             'assets/images/home/numbers/red/3_red.png')
+                                    //                         : second_char_level_amount_ach3 == '4'
+                                    //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                    //                             : second_char_level_amount_ach3 == '5'
+                                    //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                    //                                 : second_char_level_amount_ach3 == '6'
+                                    //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                    //                                     : second_char_level_amount_ach3 == '7'
+                                    //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                    //                                         : second_char_level_amount_ach3 == '8'
+                                    //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                    //                                             : second_char_level_amount_ach3 == '9'
+                                    //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                    //                                                 : second_char_level_amount_ach3 == '0'
+                                    //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                    //                                                     : SizedBox()),
+                                    //       ),
+                                    //     ]),
+                                    //     Stack(children: [
+                                    //       // isShowBookRead &&
+                                    //       third_char_level_amount_ach3 !=
+                                    //               ''
+                                    //           ? Padding(
+                                    //               padding:
+                                    //                   const EdgeInsets
+                                    //                           .only(
+                                    //                       left:
+                                    //                           0.0),
+                                    //               child: Container(
+                                    //                   height: 40,
+                                    //                   width: 30,
+                                    //                   child: Image
+                                    //                       .asset(
+                                    //                           'assets/images/home/numbers_yellow_stars_R.png')),
+                                    //             )
+                                    //           : SizedBox(),
+                                    //       Padding(
+                                    //         padding:
+                                    //             const EdgeInsets
+                                    //                     .only(
+                                    //                 top: 30.0),
+                                    //         child: Container(
+                                    //             height: 30,
+                                    //             width: 30,
+                                    //             child: third_char_level_amount_ach3 ==
+                                    //                     '1'
+                                    //                 ? Image.asset(
+                                    //                     'assets/images/home/numbers/red/1_red.png')
+                                    //                 : third_char_level_amount_ach3 ==
+                                    //                         '2'
+                                    //                     ? Image.asset(
+                                    //                         'assets/images/home/numbers/red/2_red.png')
+                                    //                     : third_char_level_amount_ach3 ==
+                                    //                             '3'
+                                    //                         ? Image.asset(
+                                    //                             'assets/images/home/numbers/red/3_red.png')
+                                    //                         : third_char_level_amount_ach3 == '4'
+                                    //                             ? Image.asset('assets/images/home/numbers/red/4_red.png')
+                                    //                             : third_char_level_amount_ach3 == '5'
+                                    //                                 ? Image.asset('assets/images/home/numbers/red/5_red.png')
+                                    //                                 : third_char_level_amount_ach3 == '6'
+                                    //                                     ? Image.asset('assets/images/home/numbers/red/6_red.png')
+                                    //                                     : third_char_level_amount_ach3 == '7'
+                                    //                                         ? Image.asset('assets/images/home/numbers/red/7_red.png')
+                                    //                                         : third_char_level_amount_ach3 == '8'
+                                    //                                             ? Image.asset('assets/images/home/numbers/red/8_red.png')
+                                    //                                             : third_char_level_amount_ach3 == '9'
+                                    //                                                 ? Image.asset('assets/images/home/numbers/red/9_red.png')
+                                    //                                                 : third_char_level_amount_ach3 == '0'
+                                    //                                                     ? Image.asset('assets/images/home/numbers/red/0_red.png')
+                                    //                                                     : SizedBox()),
+                                    //       ),
+                                    //     ]),
+                                    //   ],
+                                    // ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.only(
+                                            top: 5.0,
+                                            right: 0.0,
+                                            bottom: 45),
+                                        child: Stack(children: [
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets
+                                                .only(
+                                                left: 0.0),
+                                            child: RotatedBox(
+                                              quarterTurns: -1,
+                                              child:
+                                              LinearPercentIndicator(
+                                                width: 240.0,
+                                                lineHeight: 24.0,
+                                                barRadius: Radius
+                                                    .circular(
+                                                    10.0),
+                                                percent:
+                                                0 /
+                                                    100,
+                                                // backgroundColor: Color.fromRGBO(71, 169, 229, 0.1),
+                                                // progressColor: Color.fromRGBO(71, 169, 229, 1.0),
+                                                backgroundColor: achievement_bgcolor[
+                                                2] !=
+                                                    ''
+                                                    ? HexColor(
+                                                    achievement_bgcolor[
+                                                    2])
+                                                    .withOpacity(
+                                                    0.1)
+                                                    : Colors
+                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(0.1) : Colors.white,//HexColor("b74093"),
+                                                progressColor: achievement_bgcolor[
+                                                2] !=
+                                                    ''
+                                                    ? HexColor(
+                                                    achievement_bgcolor[
+                                                    2])
+                                                    .withOpacity(
+                                                    1.0)
+                                                    : Colors
+                                                    .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets
+                                                .only(
+                                                top: 10.0,
+                                                left: 0.0),
+                                            child: RotatedBox(
+                                              quarterTurns: -1,
+                                              child: Container(
+                                                  width: 220.0,
+                                                  height: 26,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        width: 3,
+                                                        color: Colors
+                                                            .black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        10.0),
+                                                  )),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              top: 170,
+                                            ),
+                                            // total[2] >=0 && total[2] <= 50
+                                            //     ? EdgeInsets.only(
+                                            //   left: 0.0,
+                                            //   top: total[2] >=
+                                            //       0 &&
+                                            //       total[2] <=
+                                            //           20
+                                            //       ? 170
+                                            //       : total[2] > 20 &&
+                                            //       total[2] <= 30
+                                            //       ? 120
+                                            //       : total[2] > 30 && total[2] <= 40
+                                            //       ? 80
+                                            //       : total[2] > 40 && total[2] <= 50
+                                            //       ? 10
+                                            //       : 0,
+                                            // )
+                                            //     : EdgeInsets.only(
+                                            //   left: 0.0,
+                                            //   bottom: total[2] >
+                                            //       50 &&
+                                            //       total[2] <=
+                                            //           60
+                                            //       ? 10
+                                            //       : total[2] > 60 &&
+                                            //       total[2] <= 70
+                                            //       ? 60
+                                            //       : total[2] > 70 && total[2] <= 80
+                                            //       ? 100
+                                            //       : total[2] > 80 && total[2] <= 90
+                                            //       ? 150
+                                            //       : 170,
+                                            // ),
+                                            child:
+                                            AnimatedContainer(
+                                              //color: Colors.red,
+                                              duration: Duration(
+                                                  seconds: 3),
+                                              height:
+                                              current_ach3_plan_height, //430
+                                              width: 30,
+                                              child: Image.asset(
+                                                  'assets/images/home/Kids_progressbar_redicon.png'),
+                                            ),
+                                          ),
+                                        ]),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                isShow3Achievement
+                                    ? Positioned(
+                                  //left: 15,
+                                  bottom: 5,
+                                  right: 0,
+
+                                  child: Container(
+                                    width:second_char_level_amount_ach3 == '' && third_char_level_amount_ach3 == ''?105:third_char_level_amount_ach3 == ''?125:155,
+
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+
+                                      children: [
+                                        Text(
+                                            total[2]
+                                                .toString(),
+                                            style: TextStyle(
+                                              color: achievement_bgcolor[
+                                              2] !=
+                                                  ''
+                                                  ? HexColor(achievement_bgcolor[
+                                              2])
+                                                  .withOpacity(
+                                                  1.0)
+                                                  : Colors
+                                                  .white, //achievmentLists.isNotEmpty ? HexColor(achievmentLists[0]['color']!).withOpacity(1.0) : Colors.white,//Color.fromRGBO(71, 169, 229, 1.0),
+                                              fontWeight:
+                                              FontWeight
+                                                  .w600,
+                                              fontSize: 28.0,
+                                            )),
+                                        Text(
+                                            "${achievement_name[2]}"
+                                                .toUpperCase(),
+                                            style: TextStyle(
+                                              color: Colors
+                                                  .black,
+                                              fontWeight:
+                                              FontWeight
+                                                  .w700,
+                                              fontSize: 9.0,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                    : SizedBox()
+                              ])
+                                  : SizedBox(),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
+                ),
+              ],
+            );
+      }),
+    )),
                   SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -3648,13 +6567,13 @@ class _HomeState extends State<Home> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          right: 100.0, top: 10.0, left: 10.0),
+                          right: 150.0, top: 10.0, left: 10.0),
                       child: GridView.builder(
                         itemCount: earnAchievedLists.length,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4),
+                            crossAxisCount: 3),
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: const EdgeInsets.only(
