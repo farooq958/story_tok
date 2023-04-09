@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/home_video_display_screen.dart';
 import 'package:storily/components/my_storily_author_page.dart';
+import 'package:storily/cubit/LibraryCubits/library_books_this_month_cubit.dart';
+import 'package:storily/cubit/LibraryCubits/library_featured_authors_cubit.dart';
+import 'package:storily/cubit/LibraryCubits/library_not_owned_books_cubit.dart';
 import 'package:storily/screens/main_home_screen.dart';
 
+import '../../cubit/LibraryCubits/library_books_cubit.dart';
 import '../../global/methods/methods.dart';
+import '../../repo/repo.dart';
 import '../dashboard/feed_dashboard.dart';
 import '../dashboard/profile/author_profile.dart';
 
@@ -292,6 +297,11 @@ class AuthUI extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     goPage(context, FeedDashboard());
+                    context.read<LibraryBooksCubit>().getLibraryBooksData();
+                    context.read<LibraryBooksThisMonthCubit>().getLibraryThisMonthBooksData();
+                    context.read<LibraryFeaturedAuthorsCubit>().getLibraryFeaturedAuthors();
+                    context.read<LibraryNotOwnedBooksCubit>().getLibraryNotOwnedBooks();
+                    Repository().getCategories();
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0),

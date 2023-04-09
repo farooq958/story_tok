@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stacked/stacked.dart';
+import 'package:storily/cubit/LibraryCubits/library_books_cubit.dart';
 import 'package:storily/cubit/load_main_data_cubit.dart';
 import 'package:storily/cubit/load_recommended_events_cubit.dart';
 import 'package:storily/global/methods/methods.dart';
+import 'package:storily/screens/dashboard/bootm_menu_screens/library_screens/libraryPageView.dart';
 import 'package:storily/screens/dashboard/widgets/home_screen.dart';
 import 'package:storily/screens/dashboard/bootm_menu_screens/event.dart';
 import 'package:storily/screens/kids_flow/bottomtab/home.dart';
@@ -48,9 +50,14 @@ class _FeedScreenState extends State<FeedDashboard> {
       HomeScreen();
     }
     if (_selectedIndex == 2) {
+
       //goPage(context, MyBookshelfPage());
       log("Library");
       showToast("Library", context);
+
+      //goPage(context, LibraryPageView());
+      LibraryPageView();
+
       // if (feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.value.isPlaying) {
       //   feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.pause();
       // }else{
@@ -78,7 +85,8 @@ class _FeedScreenState extends State<FeedDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _selectedIndex == 0 ? Home() : _selectedIndex == 1 ?HomeScreen() : SizedBox(),
+      extendBody: true,
+      body: _selectedIndex == 0 ? Home() : _selectedIndex == 1 ?HomeScreen() :  _selectedIndex == 2 ?LibraryPageView():SizedBox(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber.shade800,
