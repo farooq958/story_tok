@@ -525,7 +525,7 @@ class _VideoUploaderState extends State<VideoUploader> {
       );
     }
     return Column(
-      children: <Widget>[
+      children: [
 
         ElevatedButton(
           onPressed: _pickVideo,

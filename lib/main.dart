@@ -8,9 +8,11 @@ import 'package:get/route_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:storily/provider/storage_provider.dart';
+//import 'package:storily/provider/storage_provider.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:storily/controllers/main_content_controller.dart';
 import 'package:storily/screens/splash/splash_screen.dart';
-
 import 'routes/routes.dart';
 import 'AppProvider/app_main_provider.dart';
 import 'screens/service_locator.dart';
@@ -22,20 +24,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   getStorage = GetStorage();
   await Firebase.initializeApp();
+  initializations();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  setup();
+  Get.put(MainContentController());
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => StorageProvider(prefs)),
-      ],
-      child: DevicePreview(
-        enabled: false,
-        builder: (BuildContext context) {
-          return MyApp();
-        },
-      ),
-    ),
+   MyApp(),
+
   );
 }
 

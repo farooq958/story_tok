@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:storily/screens/dashboard/data/model/audiobook_model.dart';
+import 'package:storily/controllers/repositories/models/audiobook_model.dart';
 
 class AudioBookAPI {
   List<AudioBookModel> audiobookList = <AudioBookModel>[];
@@ -20,7 +20,6 @@ class AudioBookAPI {
       }
 
       modelList.docs.forEach((element) {
-        log(element.data().toString());
         audiobookList.add(AudioBookModel.fromMap(element.data()));
       });
     } catch (e, s) {

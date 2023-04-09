@@ -5,14 +5,18 @@ import 'package:get_it/get_it.dart';
 import 'package:stacked/stacked.dart';
 import 'package:storily/cubit/load_main_data_cubit.dart';
 import 'package:storily/cubit/load_recommended_events_cubit.dart';
+import 'package:get/get.dart';
 import 'package:storily/global/methods/methods.dart';
 import 'package:storily/screens/dashboard/widgets/home_screen.dart';
 import 'package:storily/screens/dashboard/bootm_menu_screens/event.dart';
 import 'package:storily/screens/dashboard/bootm_menu_screens/home.dart';
 //import 'data/video_model.dart';
 import '../../cubit/load_upcoming_data_cubit.dart';
-import 'feed_model/feed_view_model.dart';
+//import 'feed_model/feed_view_model.dart';
+import '../../controllers/main_content_controller.dart';
+import '../../controllers/repositories/videos_repository.dart';
 import 'bootm_menu_screens/bookshelf.dart';
+import 'data/model/video_model.dart';
 
 class FeedDashboard extends StatefulWidget {
   static String id = "/feedDashboard";
@@ -23,16 +27,18 @@ class FeedDashboard extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedDashboard> {
-  final feedViewModel = GetIt.instance<FeedViewModel>();
-
-  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+  // final feedViewModel = GetIt.instance<FeedViewModel>();
+  //
+  // final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   int _selectedIndex = 0;
+  late VideosAPI videoSource;
+  List<CommonDataModel> currentItems = [];
 
   @override
   void initState() {
     super.initState();
-    feedViewModel.initializer();
+    Get.find<MainContentController>().initializer();
   }
 
   void _onItemTapped(int index) {
@@ -48,16 +54,15 @@ class _FeedScreenState extends State<FeedDashboard> {
       HomeScreen();
     }
     if (_selectedIndex == 2) {
-      //goPage(context, MyBookshelfPage());
-      log("Library");
-      showToast("Library", context);
-      // if (feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.value.isPlaying) {
-      //   feedViewModel.videoSource!.listVideos[feedViewModel.index].controller!.pause();
+      var contentController = Get.find<MainContentController>().initializer();
+      //
+      // if (contentController!.videoSource.listVideos[contentController!.index].controller!.value.isPlaying) {
+      //   contentController!.videoSource.listVideos[contentController!.index].controller!.pause();
       // }else{
-      //   goPage(context, MyBookshelfPage());
+      //
       //   log("Library");
       // }
-      // showToast("Library", context);
+      Get.to(()=>MyBookshelfPage());
     }
     if (_selectedIndex == 3) {
       goPage(context, MyEventPage());
@@ -108,7 +113,6 @@ class _FeedScreenState extends State<FeedDashboard> {
             ),
             label: "Library",
           ),
-
           BottomNavigationBarItem(
             icon: Image.asset("assets/icons/events.png", height: 25),
             label: "Event",
@@ -118,9 +122,9 @@ class _FeedScreenState extends State<FeedDashboard> {
     );
   }
 
-  @override
-  void dispose() {
-    feedViewModel.controller?.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   feedViewModel.controller?.dispose();
+  //   super.dispose();
+  // }
 }

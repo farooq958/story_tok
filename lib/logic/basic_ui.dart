@@ -10,7 +10,7 @@ class ShowCustomAlertDialog extends ChangeNotifier{
       builder: (context){
         return AlertDialog(
           title: Text(message),
-          actions: <Widget>[
+          actions: [
             Center(
               child: ElevatedButton(
                 //color: Colors.green,

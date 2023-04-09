@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import '../data/model/audiobook_model.dart';
-import '../data/model/game_model.dart';
-import '../data/model/video_model.dart';
-import '../feed_model/feed_view_model.dart';
+import 'package:get/get.dart';
+import '../../../controllers/repositories/models/audiobook_model.dart';
+import '../../../controllers/repositories/models/game_model.dart';
+import '../../../controllers/repositories/models/video_model.dart';
+import '../../../controllers/main_content_controller.dart';
 import 'book_screen.dart';
 import 'game_screen.dart';
 import 'video_screen.dart';
@@ -17,20 +17,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final feedViewModel = GetIt.instance<FeedViewModel>();
+  late MainContentController contentController;
+
+  @override
+  void initState() {
+    super.initState();
+    contentController = Get.find<MainContentController>();
+  }
+
+  testingControllerFunctionality() {}
 
   @override
   Widget build(BuildContext context) {
     return PageView.custom(
       childrenDelegate: SliverChildBuilderDelegate(
         (context, index) {
-          final data = feedViewModel.getItemByIndex(index);
+          final data = contentController.getItemByIndex(index);
           if (data is GameModel) {
             log('#GameScreen');
             return GameScreenWidget(gameModel: data);
           } else if (data is VideoModel) {
             log('#VideoScreen');
-            return VideoScreenWidget(video: data);
+            return VideoScreenWidget(videoController: data);
           } else if (data is AudioBookModel) {
             log('#BookScreen');
             return BookScreenWidget(bookData: data);
@@ -39,12 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
             return SizedBox();
           }
         },
-        childCount: feedViewModel.totalLength,
+        childCount: contentController.totalLength,
       ),
-      controller: PageController(
-        initialPage: 0,
-        viewportFraction: 1,
-      ),
+      controller: contentController.contentPageController,
       scrollDirection: Axis.vertical,
     );
   }

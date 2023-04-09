@@ -14,7 +14,7 @@ class SpotifyAdmin extends StatelessWidget {
       ),
       body: Container(
         child: Column(
-          children: <Widget>[
+          children: [
             Expanded(
               child: InkWell(
                 onTap: (){
@@ -94,11 +94,11 @@ class AddArtist extends StatelessWidget {
         title: Text("Add Artist"),
       ),
       body: ListView(
-        children: <Widget>[
+        children: [
           Container(
             margin: EdgeInsets.all(20.0),
             child: Column(
-              children: <Widget>[
+              children: [
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Artist Name'
@@ -145,11 +145,11 @@ class AddCategory extends StatelessWidget {
         title: Text("Add Category"),
       ),
       body: ListView(
-        children: <Widget>[
+        children: [
           Container(
             margin: EdgeInsets.all(20.0),
             child: Column(
-              children: <Widget>[
+              children: [
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Category Name'
@@ -199,11 +199,11 @@ class AddSong extends StatelessWidget {
         title: Text("Add Song"),
       ),
       body: ListView(
-        children: <Widget>[
+        children: [
           Container(
             margin: EdgeInsets.all(20.0),
             child: Column(
-              children: <Widget>[
+              children: [
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Song Name'
@@ -324,11 +324,11 @@ class AddAlbum extends StatelessWidget {
         title: Text("Add Album"),
       ),
       body: ListView(
-        children: <Widget>[
+        children: [
           Container(
             margin: EdgeInsets.all(20.0),
             child: Column(
-              children: <Widget>[
+              children: [
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Album Title'
@@ -410,7 +410,7 @@ class SelectArtist extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.all(20.0),
                             child: Column(
-                              children: <Widget>[
+                              children: [
                                 Container(
                                   child: TextFormField(
                                     decoration: InputDecoration(
@@ -479,7 +479,7 @@ class SelectCategories extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.all(20.0),
                             child: Column(
-                              children: <Widget>[
+                              children: [
                                 Container(
                                   child: TextFormField(
                                     decoration: InputDecoration(

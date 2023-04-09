@@ -17,7 +17,7 @@ class SpotifyHome extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
+              children: [
                 Icon(Icons.home),
                 Text("Home"),
               ],

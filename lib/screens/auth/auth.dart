@@ -570,8 +570,7 @@ class CreateAccount extends StatelessWidget {
                   child: ElevatedButton(
                     //padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
                     style: style,
-                    onPressed: () {
-                      /*
+                    onPressed: () {/* 
                       FocusScope.of(context).unfocus();
                       sessionObj.emailNextEnabled
                           ? sessionObj.pctrl.nextPage(
@@ -804,7 +803,7 @@ class LoginPage extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
               onChanged: (String text) {
-                /*   loginLogic.email = text;
+              /*   loginLogic.email = text;
                 loginLogic.loginButtonListener(
                     loginLogic.email!, loginLogic.password!); */
               },
@@ -822,7 +821,7 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               height: 5.0,
             ),
-            /*  TextFormField(
+           /*  TextFormField(
               // obscureText: !loginLogic.showPassword,
               autofocus: false,
               decoration: InputDecoration(
@@ -886,7 +885,7 @@ class LoginPage extends StatelessWidget {
             Center(
               child: InkWell(
                 onTap: () {
-                  /*  Navigator.push(
+                 /*  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => Material(
