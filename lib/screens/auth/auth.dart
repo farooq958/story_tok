@@ -1,18 +1,13 @@
 import 'package:animated_styled_widget/animated_styled_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
-import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:storily/components/home_video_display_screen.dart';
 import 'package:storily/components/my_storily_author_page.dart';
-import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
-import 'package:storily/screens/auth/screens/signup_screen.dart';
 import 'package:storily/screens/main_home_screen.dart';
 
 import '../../global/methods/methods.dart';
 import '../dashboard/feed_dashboard.dart';
 import '../dashboard/profile/author_profile.dart';
-
 
 //authentication page, currently has a short cut to the author center, we need to make the screen automatically enters the home scree(displayscreen) after sign in.
 class FirebaseSession extends StatelessWidget {
@@ -125,7 +120,7 @@ class AuthUI extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SignUpScreen()));
+                            builder: (context) => SignupOrLogin()));
                   },
                   builder: (context, state) {
                     Widget child;
@@ -410,24 +405,22 @@ class SignupOrLogin extends StatelessWidget {
               ),
               MaterialButton(
                 onPressed: () {
-                  Get.to(() => SignUpScreen());
-                  // Get.to(() => ChildAuthorSelectionScreen());
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => Material(
-                  //               child: MultiProvider(
-                  //                 providers: [
-                  //                   /* ChangeNotifierProvider(
-                  //                     create: (_) => CreateUserAccount(),
-                  //                   ),
-                  //                   ChangeNotifierProvider(
-                  //                     create: (_) => ShowCustomAlertDialog(),
-                  //                   ), */
-                  //                 ],
-                  //                 child: CreateAccount(),
-                  //               ),
-                  //             )));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Material(
+                                child: MultiProvider(
+                                  providers: [
+                                    /* ChangeNotifierProvider(
+                                      create: (_) => CreateUserAccount(),
+                                    ),
+                                    ChangeNotifierProvider(
+                                      create: (_) => ShowCustomAlertDialog(),
+                                    ), */
+                                  ],
+                                  child: CreateAccount(),
+                                ),
+                              )));
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -476,23 +469,21 @@ class SignupOrLogin extends StatelessWidget {
               MaterialButton(
                 onPressed: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Material(
-                        child: Provider(
-                          /* ChangeNotifierProvider(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Material(
+                                child: MultiProvider(
+                                  providers: [
+                                    /* ChangeNotifierProvider(
                                       create: (_) => LoginLogic(),
                                     ),
                                     ChangeNotifierProvider(
                                       create: (_) => ShowCustomAlertDialog(),
                                     ), */
-
-                          create: (BuildContext context) {},
-                          child: LoginPage(),
-                        ),
-                      ),
-                    ),
-                  );
+                                  ],
+                                  child: LoginPage(),
+                                ),
+                              )));
                 },
                 child: Container(
                   width: 300.0,
