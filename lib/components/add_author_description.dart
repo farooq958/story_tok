@@ -1555,7 +1555,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       bgAudio = FirebaseStorage.instance
           .ref()
           .child('bg_music')
-          .child(bgAudioPath[bqgAudioPath.length - 1]);
+          .child(bgAudioPath[bgAudioPath.length - 1]);
 
       await bgAudio.then((res) {
         storageReference.getDownloadURL().then((value) async {
