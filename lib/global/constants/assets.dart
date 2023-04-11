@@ -295,4 +295,16 @@ class Assets {
   static const readingLevel2Badge =
       "assets/images/readinglevel2_blue_icon.png";
 
+  static const languageTextRed =
+      "assets/images/language_text_red.png";
+
+  static const backgroundSquare =
+      "assets/images/background_square.png";
+
+  static const backgroundSquiggle =
+      "assets/images/background_squiggle.png";
+
+  static const backgroundTriangle =
+      "assets/images/background_triangle.png";
+
 }

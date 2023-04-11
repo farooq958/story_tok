@@ -7,6 +7,7 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 import 'package:record/record.dart';
 import 'package:storily/screens/auth/auth.dart';
+import 'package:storily/screens/main_home_screen.dart';
 import '../../global/constants/assets.dart';
 
 const theSource = AudioSource.microphone;
@@ -106,7 +107,7 @@ class CongratulationsScreenState extends State<CongratulationsScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => FirebaseSession()
+                      builder: (context) => MainHomeScreen()
                     /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
                   ),
                 );

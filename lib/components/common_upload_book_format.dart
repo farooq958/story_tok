@@ -1,29 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+import 'package:storily/global/constants/assets.dart';
 
 Widget uploadBookFormatHeader(String date, String name, String label) {
   return Column(
     children: [
       Container(
         child: ListTile(
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          title: Row(
             children: [
-              Text(
-                date,
-                style: TextStyle(color: Colors.black, fontSize: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    date,
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  ),
+                  Text(
+                    name,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    label,
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  ),
+                ],
               ),
-              Text(
-                name,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                label,
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              ),
+              SizedBox(width: 20,),
+              Column(
+                children: [
+                  Image.asset(Assets.backgroundTriangle, height: 30, width: 30,),
+                  Image.asset(Assets.backgroundSquiggle, height: 60, width: 60,)
+                ],
+              )
             ],
           ),
           trailing: ProfilePicture(
@@ -156,5 +168,25 @@ BoxDecoration boxDecoration() {
         Colors.transparent,
       ],
     ),
+  );
+}
+
+Widget backgroundSquare(context) {
+  return Stack(
+    children: [
+      Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        alignment: Alignment.bottomRight,
+        child: Container(
+          margin: EdgeInsets.only(right: 10, bottom: 10),
+          child: Image.asset(
+            Assets.backgroundSquare,
+            height: 100,
+            width: 100,
+          ),
+        ),
+      )
+    ],
   );
 }

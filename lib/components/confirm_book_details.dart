@@ -68,416 +68,419 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
   @override
   Widget build(BuildContext context) {
     Widget makeBody() {
-      return SingleChildScrollView(
-        child: Stack(
-          children: [
-            Container(
-              padding: EdgeInsets.only(top: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Image.asset(
-                    Assets.backgroundCircleDots,
-                    height: MediaQuery.of(context).size.height / 8,
-                    width: MediaQuery.of(context).size.height / 8,
-                  )
-                ],
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      return Stack(
+        children: [
+          backgroundSquare(context),  
+          SingleChildScrollView(
+            child: Stack(
               children: [
-                SizedBox(
-                  height: 20,
+                Container(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Image.asset(
+                        Assets.backgroundCircleDots,
+                        height: MediaQuery.of(context).size.height / 8,
+                        width: MediaQuery.of(context).size.height / 8,
+                      )
+                    ],
+                  ),
                 ),
-                uploadBookFormatHeader(
-                  '12/03/2023',
-                  'Hi, Team',
-                  'Welcome to your board',
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Stack(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    commonAddBookWidget(context, Assets.subMenuRedBox,
-                        MediaQuery.of(context).size.width * 0.90),
-                    commonAddBookWidget(context, Assets.subMenuRedText,
-                        MediaQuery.of(context).size.width * 0.90),
-                    commonAddBookWidget(context, Assets.subMenuExit,
-                        MediaQuery.of(context).size.width * 0.90),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Stack(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width / 6,
-                          child: Image.asset(Assets.backgroundRectangleDots),
-                        ),
-                      ],
+                    SizedBox(
+                      height: 20,
+                    ),
+                    uploadBookFormatHeader(
+                      '12/03/2023',
+                      'Hi, Team',
+                      'Welcome to your board',
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     Stack(
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width / 6,
-                              child:
-                                  Image.asset(Assets.backgroundRectangleDots),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            uploadText(
-                              context: context,
-                              label: title.toString(),
-                              fontSize: 30.0,
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(width: 2.5),
-                                    borderRadius: BorderRadius.circular(
-                                      8.0,
-                                    ), //<-- SEE HERE
-                                  ),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(7.0),
-                                      child: Image.file(
-                                        widget.coverImage,
-                                        fit: BoxFit.cover,
-                                      )),
-                                  height:
-                                      MediaQuery.of(context).size.height / 2,
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.5,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(width: 2.5),
-                                    borderRadius: BorderRadius.circular(
-                                      8.0,
-                                    ), //<-- SEE HERE
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.all(5.0),
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            7,
-                                                    child: Text(
-                                                      'Genres',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    )),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      5,
-                                                  child: Text(widget.bookGenre),
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      5,
-                                                  child:
-                                                      Text(widget.subBookGenre),
-                                                ),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 70,
-                                            margin: EdgeInsets.all(5.0),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      7,
-                                                  child: Text(
-                                                    'Topics',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                                SingleChildScrollView(
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            2,
-                                                    margin: EdgeInsets.only(
-                                                        right: 5.0),
-                                                    child: Container(
-                                                      height: 55,
-                                                      child: Wrap(
-                                                        children: [
-                                                          for (int i = 0;
-                                                              i <
-                                                                  widget.topic
-                                                                      .length;
-                                                              i++)
-                                                            Container(
-                                                              margin: EdgeInsets
-                                                                  .only(
-                                                                      right: 3),
-                                                              child: Text(
-                                                                widget.topic[i]
-                                                                    .toString(),
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                maxLines: 2,
-                                                              ),
-                                                            )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Image.asset(Assets.readingLevel2Badge,
-                                          height: 50, width: 50)
-                                    ],
-                                  ),
-                                  height:
-                                      MediaQuery.of(context).size.height / 6,
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.2,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(width: 2.5),
-                                    borderRadius: BorderRadius.circular(
-                                      8.0,
-                                    ), //<-- SEE HERE
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.only(left: 5),
-                                            child: Text(
-                                              widget.title,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(right: 5),
-                                            child: Text(
-                                              "C\$" + widget.price,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.only(left: 5),
-                                            child: Text(
-                                              widget.authorName,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ]
-                                      ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                left: 5.0, right: 5.0),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                1.5,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                12,
-                                            child: SingleChildScrollView(
-                                              child: Text(
-                                                widget.bookDescription,
-                                                maxLines: 999999,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  height:
-                                      MediaQuery.of(context).size.height / 4,
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.2,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        InkWell(
-                          child: Stack(
-                            children: [
-                              commonAddBookWidget(
-                                  context,
-                                  Assets.directionalRedDropDownBox,
-                                  MediaQuery.of(context).size.width * 0.30),
-                              commonAddBookWidget(
-                                  context,
-                                  Assets.directionalRedBox,
-                                  MediaQuery.of(context).size.width * 0.30),
-                              commonAddBookWidget(
-                                  context,
-                                  Assets.directionalTextBack,
-                                  MediaQuery.of(context).size.width * 0.30),
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        InkWell(
-                          child: Stack(
-                            children: [
-                              commonAddBookWidget(
-                                context,
-                                Assets.directionalRedDropDownBox,
-                                MediaQuery.of(context).size.width * 0.30,
-                              ),
-                              commonAddBookWidget(
-                                context,
-                                Assets.directionalRedBox,
-                                MediaQuery.of(context).size.width * 0.30,
-                              ),
-                              commonAddBookWidget(
-                                context,
-                                Assets.directionalTextContinue,
-                                MediaQuery.of(context).size.width * 0.30,
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            setState(() {});
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CongratulationsScreen()
-                                  /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
-                                  ),
-                            );
-                          },
-                        ),
+                        commonAddBookWidget(context, Assets.subMenuRedBox,
+                            MediaQuery.of(context).size.width * 0.90),
+                        commonAddBookWidget(context, Assets.subMenuRedText,
+                            MediaQuery.of(context).size.width * 0.90),
+                        commonAddBookWidget(context, Assets.subMenuExit,
+                            MediaQuery.of(context).size.width * 0.90),
                       ],
                     ),
                     SizedBox(
-                      height: 30,
-                    )
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Stack(
+                      children: [
+                        Stack(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 6,
+                                  child:
+                                      Image.asset(Assets.backgroundRectangleDots),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                uploadText(
+                                  context: context,
+                                  label: title.toString(),
+                                  fontSize: 26.0,
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(width: 2.5),
+                                        borderRadius: BorderRadius.circular(
+                                          8.0,
+                                        ), //<-- SEE HERE
+                                      ),
+                                      child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(7.0),
+                                          child: Image.file(
+                                            widget.coverImage,
+                                            fit: BoxFit.cover,
+                                          )),
+                                      height:
+                                          MediaQuery.of(context).size.height / 2,
+                                      width:
+                                          MediaQuery.of(context).size.width / 1.5,
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20.0,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(width: 2.5),
+                                        borderRadius: BorderRadius.circular(
+                                          8.0,
+                                        ), //<-- SEE HERE
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.all(5.0),
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(
+                                                        width:
+                                                            MediaQuery.of(context)
+                                                                    .size
+                                                                    .width /
+                                                                7,
+                                                        child: Text(
+                                                          'Genres',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.bold),
+                                                        )),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    SizedBox(
+                                                      width: MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          5,
+                                                      child: Text(widget.bookGenre),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    SizedBox(
+                                                      width: MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          5,
+                                                      child:
+                                                          Text(widget.subBookGenre),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                  margin: EdgeInsets.all(5.0),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            7,
+                                                        child: Text(
+                                                          'Topics',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.bold),
+                                                        ),
+                                                      ),
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.vertical,
+                                                        child: Container(
+                                                          width:
+                                                              MediaQuery.of(context)
+                                                                      .size
+                                                                      .width /
+                                                                  2,
+                                                          margin: EdgeInsets.only(
+                                                              right: 5.0, bottom: 5.0),
+                                                          child: Container(
+                                                            height: 55,
+                                                            child: Wrap(
+                                                              children: [
+                                                                for (int i = 0;
+                                                                    i <
+                                                                        widget.topic
+                                                                            .length;
+                                                                    i++)
+                                                                  Container(
+                                                                    margin: EdgeInsets
+                                                                        .only(
+                                                                            right: 3),
+                                                                    child: Text(
+                                                                      widget.topic[i]
+                                                                          .toString(),
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      maxLines: 2,
+                                                                    ),
+                                                                  )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                          Image.asset(Assets.readingLevel2Badge,
+                                              height: 50, width: 50)
+                                        ],
+                                      ),
+                                      height:
+                                          MediaQuery.of(context).size.height / 6,
+                                      width:
+                                          MediaQuery.of(context).size.width / 1.2,
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20.0,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(width: 2.5),
+                                        borderRadius: BorderRadius.circular(
+                                          8.0,
+                                        ), //<-- SEE HERE
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(left: 5),
+                                                    child: Text(
+                                                      widget.title,
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          fontSize: 20.0,
+                                                          fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: MediaQuery.of(context).size.width / 2,
+                                                    margin: EdgeInsets.only(left: 5),
+                                                    child: SingleChildScrollView(
+                                                      scrollDirection: Axis.horizontal,
+                                                      child: Text(
+                                                        widget.authorName,
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                            fontSize: 20.0,
+                                                            fontWeight: FontWeight.bold),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(right: 5),
+                                                child: Text(
+                                                  "C\$" + widget.price,
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    left: 5.0, right: 5.0),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    1.5,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    12,
+                                                child: SingleChildScrollView(
+                                                  child: Text(
+                                                    widget.bookDescription,
+                                                    maxLines: 999999,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      height:
+                                          MediaQuery.of(context).size.height / 4,
+                                      width:
+                                          MediaQuery.of(context).size.width / 1.2,
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20.0,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              child: Stack(
+                                children: [
+                                  commonAddBookWidget(
+                                      context,
+                                      Assets.directionalRedDropDownBox,
+                                      MediaQuery.of(context).size.width * 0.30),
+                                  commonAddBookWidget(
+                                      context,
+                                      Assets.directionalRedBox,
+                                      MediaQuery.of(context).size.width * 0.30),
+                                  commonAddBookWidget(
+                                      context,
+                                      Assets.directionalTextBack,
+                                      MediaQuery.of(context).size.width * 0.30),
+                                ],
+                              ),
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            InkWell(
+                              child: Stack(
+                                children: [
+                                  commonAddBookWidget(
+                                    context,
+                                    Assets.directionalRedDropDownBox,
+                                    MediaQuery.of(context).size.width * 0.30,
+                                  ),
+                                  commonAddBookWidget(
+                                    context,
+                                    Assets.directionalRedBox,
+                                    MediaQuery.of(context).size.width * 0.30,
+                                  ),
+                                  commonAddBookWidget(
+                                    context,
+                                    Assets.directionalTextContinue,
+                                    MediaQuery.of(context).size.width * 0.30,
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                setState(() {});
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CongratulationsScreen()
+                                      /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
+                                      ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30,
+                        )
+                      ],
+                    ),
                   ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       );
     }
 

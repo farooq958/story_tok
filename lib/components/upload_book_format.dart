@@ -89,110 +89,115 @@ class UploadBookFormatState extends State<UploadBookFormat>
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            Stack(
+            backgroundSquare(context),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  padding: EdgeInsets.only(top: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Image.asset(
-                        Assets.backgroundCircleDots,
-                        height: MediaQuery.of(context).size.height / 8,
-                        width: MediaQuery.of(context).size.height / 8,
-                      )
-                    ],
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Stack(
                   children: [
-                    SizedBox(
-                      height: 20,
+                    Container(
+                      padding: EdgeInsets.only(top: 40),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Image.asset(
+                            Assets.backgroundCircleDots,
+                            height: MediaQuery.of(context).size.height / 8,
+                            width: MediaQuery.of(context).size.height / 8,
+                          )
+                        ],
+                      ),
                     ),
-                    uploadBookFormatHeader(
-                      '12/03/2023',
-                      'Hi, Team',
-                      'Welcome to your board',
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Stack(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        commonAddBookWidget(context, Assets.subMenuRedBox,
-                            MediaQuery.of(context).size.width * 0.90),
-                        commonAddBookWidget(context, Assets.subMenuRedText,
-                            MediaQuery.of(context).size.width * 0.90),
-                        commonAddBookWidget(context, Assets.subMenuExit,
-                            MediaQuery.of(context).size.width * 0.90),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        uploadBookFormatHeader(
+                          '12/03/2023',
+                          'Hi, Team',
+                          'Welcome to your board',
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Stack(
+                          children: [
+                            commonAddBookWidget(context, Assets.subMenuRedBox,
+                                MediaQuery.of(context).size.width * 0.90),
+                            commonAddBookWidget(context, Assets.subMenuRedText,
+                                MediaQuery.of(context).size.width * 0.90),
+                            commonAddBookWidget(context, Assets.subMenuExit,
+                                MediaQuery.of(context).size.width * 0.90),
+                          ],
+                        ),
                       ],
                     ),
                   ],
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Stack(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width / 6,
-                      child: Image.asset(Assets.backgroundRectangleDots),
-                    ),
-                  ],
+                SizedBox(
+                  height: 30,
                 ),
-                Column(
+                Stack(
                   children: [
-                    uploadText(
-                        context: context,
-                        label: "Please Select Upload Format",
-                        fontSize: 30.0),
-                    SizedBox(
-                      height: 30,
-                    ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        InkWell(
-                          onTapDown: _tapDown,
-                          onTapUp: _tapUp,
-                          child: _animatedButton(
-                            boolVal: addFilesForPDF,
-                            imageUrl: Assets.redDropShadow,
-                            context: context,
-                            textImageUrl: Assets.pdfTextImage,
-                            boxImageUrl: Assets.uploadRedBox,
-                            addFilesImageUrl: Assets.redAddFiles,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              addFilesForPDF = true;
-                            });
-                          },
+                        Container(
+                          width: MediaQuery.of(context).size.width / 6,
+                          child: Image.asset(Assets.backgroundRectangleDots),
                         ),
-                        GestureDetector(
-                          onTapDown: _tapDown,
-                          onTapUp: _tapUp,
-                          child: _animatedButton(
-                            boolVal: addFiles,
-                            imageUrl: Assets.redDropShadow,
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        uploadText(
                             context: context,
-                            textImageUrl: Assets.imageTextImage,
-                            boxImageUrl: Assets.uploadRedBox,
-                            addFilesImageUrl: Assets.redAddFiles,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              addFiles = true;
-                            });
-                          },
+                            label: "Please Select Upload Format",
+                            fontSize: 30.0),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            InkWell(
+                              onTapDown: _tapDown,
+                              onTapUp: _tapUp,
+                              child: _animatedButton(
+                                boolVal: addFilesForPDF,
+                                imageUrl: Assets.redDropShadow,
+                                context: context,
+                                textImageUrl: Assets.pdfTextImage,
+                                boxImageUrl: Assets.uploadRedBox,
+                                addFilesImageUrl: Assets.redAddFiles,
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  addFilesForPDF = true;
+                                });
+                              },
+                            ),
+                            GestureDetector(
+                              onTapDown: _tapDown,
+                              onTapUp: _tapUp,
+                              child: _animatedButton(
+                                boolVal: addFiles,
+                                imageUrl: Assets.redDropShadow,
+                                context: context,
+                                textImageUrl: Assets.imageTextImage,
+                                boxImageUrl: Assets.uploadRedBox,
+                                addFilesImageUrl: Assets.redAddFiles,
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  addFiles = true;
+                                });
+                              },
+                            ),
+                          ],
                         ),
                       ],
                     ),

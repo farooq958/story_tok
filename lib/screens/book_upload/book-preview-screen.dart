@@ -65,7 +65,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
   int _currentIndex = 0;
   int length = 0;
   late AnimationController _animationController;
-
+  var manageFlagList = [];
   var title = 'Audio Recording';
 
   Map<int, int> _pageTime = Map();
@@ -75,6 +75,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
 
   @override
   void initState() {
+    manageFlagList.add(widget.flag);
     _animationController =
         new AnimationController(vsync: this, duration: Duration(seconds: 1));
     _animationController.repeat(reverse: true);
@@ -253,64 +254,56 @@ class VoiceRecorderState extends State<VoiceRecorder>
   @override
   build(BuildContext context) {
     makeBody() {
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
+      return Stack(
+        children: [
+          backgroundSquare(context),
+          SingleChildScrollView(
+            child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.only(top: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Image.asset(
-                        Assets.backgroundCircleDots,
-                        height: MediaQuery.of(context).size.height / 8,
-                        width: MediaQuery.of(context).size.height / 8,
-                      )
-                    ],
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Stack(
                   children: [
-                    SizedBox(
-                      height: 20,
+                    Container(
+                      padding: EdgeInsets.only(top: 40),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Image.asset(
+                            Assets.backgroundCircleDots,
+                            height: MediaQuery.of(context).size.height / 8,
+                            width: MediaQuery.of(context).size.height / 8,
+                          )
+                        ],
+                      ),
                     ),
-                    uploadBookFormatHeader(
-                      '12/03/2023',
-                      'Hi, Team',
-                      'Welcome to your board',
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Stack(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        commonAddBookWidget(context, Assets.subMenuRedBox,
-                            MediaQuery.of(context).size.width * 0.90),
-                        commonAddBookWidget(context, Assets.subMenuRedText,
-                            MediaQuery.of(context).size.width * 0.90),
-                        commonAddBookWidget(context, Assets.subMenuExit,
-                            MediaQuery.of(context).size.width * 0.90),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Stack(
-                      children: [
-                        Row(
+                        SizedBox(
+                          height: 20,
+                        ),
+                        uploadBookFormatHeader(
+                          '12/03/2023',
+                          'Hi, Team',
+                          'Welcome to your board',
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Stack(
                           children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width / 6,
-                              child:
-                                  Image.asset(Assets.backgroundRectangleDots),
-                            ),
+                            commonAddBookWidget(context, Assets.subMenuRedBox,
+                                MediaQuery.of(context).size.width * 0.90),
+                            commonAddBookWidget(context, Assets.subMenuRedText,
+                                MediaQuery.of(context).size.width * 0.90),
+                            commonAddBookWidget(context, Assets.subMenuExit,
+                                MediaQuery.of(context).size.width * 0.90),
                           ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Stack(
                           children: [
@@ -318,327 +311,354 @@ class VoiceRecorderState extends State<VoiceRecorder>
                               children: [
                                 Container(
                                   width: MediaQuery.of(context).size.width / 6,
-                                  child: Image.asset(
-                                      Assets.backgroundRectangleDots),
+                                  child:
+                                      Image.asset(Assets.backgroundRectangleDots),
                                 ),
                               ],
                             ),
-                            Column(
+                            Stack(
                               children: [
-                                uploadText(
-                                  context: context,
-                                  label: widget.flag == 'press continue'
-                                      ? 'Book Preview'
-                                      : title.toString(),
-                                  fontSize: 20.0,
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(width: 2.5),
-                                        borderRadius: BorderRadius.circular(
-                                          8.0,
-                                        ), //<-- SEE HERE
-                                      ),
-                                      child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(7.0),
-                                          child: Image.file(
-                                            widget.images![_currentIndex],
-                                            fit: BoxFit.cover,
-                                          )),
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              2,
-                                      width: MediaQuery.of(context).size.width /
-                                          1.5,
+                                      width: MediaQuery.of(context).size.width / 6,
+                                      child: Image.asset(
+                                          Assets.backgroundRectangleDots),
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 20.0,
-                                )
+                                Column(
+                                  children: [
+                                    uploadText(
+                                      context: context,
+                                      label: widget.flag == 'press continue'
+                                          ? 'Book Preview'
+                                          : title.toString(),
+                                      fontSize: 20.0,
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(width: 2.5),
+                                            borderRadius: BorderRadius.circular(
+                                              8.0,
+                                            ), //<-- SEE HERE
+                                          ),
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(7.0),
+                                              child: Image.file(
+                                                widget.images![_currentIndex],
+                                                fit: BoxFit.cover,
+                                              )),
+                                          height:
+                                              MediaQuery.of(context).size.height /
+                                                  2,
+                                          width: MediaQuery.of(context).size.width /
+                                              1.5,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20.0,
+                                    )
+                                  ],
+                                ),
                               ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Column(
                           children: [
-                            // if (widget.flag == 'audio' ||
-                            //     widget.flag == 'recordnow')
-                            if (_currentIndex != 0)
-                              InkWell(
-                                child: Image.asset(
-                                  Assets.audioUploadRedPreviousPage,
-                                  height: 100,
-                                  width: 100,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // if (widget.flag == 'audio' ||
+                                //     widget.flag == 'recordnow')
+                                if (_currentIndex != 0)
+                                  InkWell(
+                                    child: Image.asset(
+                                      Assets.audioUploadRedPreviousPage,
+                                      height: 100,
+                                      width: 100,
+                                    ),
+                                    onTap: () {
+                                      if (_currentIndex > 0) {
+                                        stopPlayer();
+                                        setState(() {
+                                          _currentIndex--;
+                                        });
+                                        if (widget.flag == 'continue') {
+                                          playAutoAudio();
+                                        }
+                                      }
+                                    },
+                                  ),
+                                SizedBox(
+                                  width: 10,
                                 ),
-                                onTap: () {
-                                  if (_currentIndex > 0) {
-                                    stopPlayer();
-                                    setState(() {
-                                      _currentIndex--;
-                                    });
-                                    if(widget.flag == 'continue'){
-                                      playAutoAudio();
-                                    }
-                                  }
-                                },
-                              ),
-                            SizedBox(
-                              width: 10,
+                                if (widget.flag == 'audio')
+                                  InkWell(
+                                    child: Stack(
+                                      children: [
+                                        commonAddBookWidget(
+                                            context,
+                                            Assets.directionalRedBox,
+                                            MediaQuery.of(context).size.width *
+                                                0.30),
+                                        commonAddBookWidget(
+                                            context,
+                                            Assets.standAloneRedAdd,
+                                            MediaQuery.of(context).size.width *
+                                                0.30),
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        uploadAudio();
+                                      });
+                                    },
+                                  ),
+                                if (widget.flag == 'recordnow')
+                                  startPlaying
+                                      ? InkWell(
+                                          child: Image.asset(
+                                            Assets.audioUploadRedAudioIcon,
+                                            height: 100,
+                                            width: 100,
+                                            opacity: _animationController,
+                                          ),
+                                          onTap: () {},
+                                        )
+                                      : InkWell(
+                                          child: Image.asset(
+                                            Assets.audioUploadRedAudioIcon,
+                                            height: 100,
+                                            width: 100,
+                                          ),
+                                          onTap: () {},
+                                        ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                // if (widget.flag == 'audio' ||
+                                //     widget.flag == 'recordnow')
+                                if (length - 1 > _currentIndex)
+                                  InkWell(
+                                    child: Image.asset(
+                                      Assets.audioUploadRedNextPage,
+                                      height: 100,
+                                      width: 100,
+                                    ),
+                                    onTap: () {
+                                      stopPlayer();
+                                      if (length - 1 > _currentIndex) {
+                                        setState(() {
+                                          _currentIndex++;
+                                        });
+                                        print(widget.flag);
+                                        if (widget.flag == 'continue') {
+                                          playAutoAudio();
+                                        }
+                                      }
+                                    },
+                                  )
+                              ],
                             ),
                             if (widget.flag == 'audio')
-                              InkWell(
-                                child: Stack(
-                                  children: [
-                                    commonAddBookWidget(
+                              Column(
+                                children: [
+                                  uploadText(
+                                    context: context,
+                                    label: "ADD VOICE OVER FOR THIS PAGE.",
+                                    fontSize: 12.0,
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  )
+                                ],
+                              ),
+                            if (widget.flag == 'recordnow' ||
+                                widget.flag == 'audio')
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (widget.flag == 'recordnow')
+                                    InkWell(
+                                      onTap: () {
+                                        if (!recordingStart) {
+                                          record();
+                                        } else {
+                                          recordStop();
+                                        }
+                                      },
+                                      child: Image.asset(
+                                        !recordingStart
+                                            ? Assets.audioUploadRedUploadIcon
+                                            : Assets.audioUploadRedPauseIcon,
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                  /*InkWell(
+                                    onTap: () {
+                                      recordStop();
+                                    },
+                                    child: Image.asset(
+                                      Assets.audioUploadRedPauseIcon,
+                                      height: 20,
+                                      width: 20,
+                                    ),
+                                  ),*/
+                                  if (widget.flag == 'recordnow')
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                  // if (widget.flag == 'recordnow')
+                                    InkWell(
+                                        onTap: () {
+                                          uploadAudioFile
+                                              ? playUploadedFile()
+                                              : play();
+                                        },
+                                        child: Container(
+                                            height: 40,
+                                            width: 180,
+                                            child: Stack(
+                                              children: [
+                                                Image.asset(
+                                                  Assets.directionalRedDropDownBox,
+                                                  height: 40,
+                                                ),
+                                                Center(
+                                                  child: Text(
+                                                    "Play Recording",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                )
+                                              ],
+                                            )) /*Image.asset(
+                                      Assets.audioUploadRedPlayIcon,
+                                      height: 20,
+                                      width: 20,
+                                    ),*/
+                                        ),
+                                  if (widget.flag == 'recordnow')
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                InkWell(
+                                  child: Stack(
+                                    children: [
+                                      commonAddBookWidget(
+                                          context,
+                                          Assets.directionalRedDropDownBox,
+                                          MediaQuery.of(context).size.width * 0.30),
+                                      commonAddBookWidget(
+                                          context,
+                                          Assets.directionalRedBox,
+                                          MediaQuery.of(context).size.width * 0.30),
+                                      commonAddBookWidget(
+                                          context,
+                                          Assets.directionalTextBack,
+                                          MediaQuery.of(context).size.width * 0.30),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    if (manageFlagList.last == 'continue') {
+                                      manageFlagList.removeLast();
+                                      setState(() {
+                                        widget.flag = manageFlagList.last;
+                                      });
+                                    } else {
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                ),
+                                InkWell(
+                                  child: Stack(
+                                    children: [
+                                      commonAddBookWidget(
+                                        context,
+                                        Assets.directionalRedDropDownBox,
+                                        MediaQuery.of(context).size.width * 0.30,
+                                      ),
+                                      commonAddBookWidget(
                                         context,
                                         Assets.directionalRedBox,
-                                        MediaQuery.of(context).size.width *
-                                            0.30),
-                                    commonAddBookWidget(
+                                        MediaQuery.of(context).size.width * 0.30,
+                                      ),
+                                      commonAddBookWidget(
                                         context,
-                                        Assets.standAloneRedAdd,
-                                        MediaQuery.of(context).size.width *
-                                            0.30),
-                                  ],
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    uploadAudio();
-                                  });
-                                },
-                              ),
-                            if (widget.flag == 'recordnow')
-                              startPlaying
-                                  ? InkWell(
-                                      child: Image.asset(
-                                        Assets.audioUploadRedAudioIcon,
-                                        height: 100,
-                                        width: 100,
-                                        opacity: _animationController,
+                                        Assets.directionalTextContinue,
+                                        MediaQuery.of(context).size.width * 0.30,
                                       ),
-                                      onTap: () {},
-                                    )
-                                  : InkWell(
-                                      child: Image.asset(
-                                        Assets.audioUploadRedAudioIcon,
-                                        height: 100,
-                                        width: 100,
-                                      ),
-                                      onTap: () {},
-                                    ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            // if (widget.flag == 'audio' ||
-                            //     widget.flag == 'recordnow')
-                            if (length - 1 > _currentIndex)
-                              InkWell(
-                                child: Image.asset(
-                                  Assets.audioUploadRedNextPage,
-                                  height: 100,
-                                  width: 100,
-                                ),
-                                onTap: () {
-                                  stopPlayer();
-                                  if (length - 1 > _currentIndex) {
-                                    setState(() {
-                                      _currentIndex++;
-                                    });
-                                    print(widget.flag);
-                                    if(widget.flag == 'continue'){
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    print("on continue button : ${widget.flag}");
+                                    if (widget.flag != 'press continue') {
+                                      setState(() {
+                                        _currentIndex = 0;
+                                        widget.flag = widget.flag == 'continue'
+                                            ? 'press continue'
+                                            : 'continue';
+                                        title = 'Book Preview';
+                                        manageFlagList.add(widget.flag);
+                                      });
                                       playAutoAudio();
                                     }
-                                  }
-                                },
-                              )
-                          ],
-                        ),
-                        if (widget.flag == 'audio')
-                          Column(
-                            children: [
-                              uploadText(
-                                context: context,
-                                label: "ADD VOICE OVER FOR THIS PAGE.",
-                                fontSize: 12.0,
-                              ),
-                              SizedBox(
-                                height: 20,
-                              )
-                            ],
-                          ),
-                        if (widget.flag == 'recordnow' ||
-                            widget.flag == 'audio')
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  if (!recordingStart) {
-                                    record();
-                                  } else {
-                                    recordStop();
-                                  }
-                                },
-                                child: Image.asset(
-                                  !recordingStart
-                                      ? Assets.audioUploadRedUploadIcon
-                                      : Assets.audioUploadRedPauseIcon,
-                                  height: 20,
-                                  width: 20,
-                                ),
-                              ),
-                              /*InkWell(
-                                onTap: () {
-                                  recordStop();
-                                },
-                                child: Image.asset(
-                                  Assets.audioUploadRedPauseIcon,
-                                  height: 20,
-                                  width: 20,
-                                ),
-                              ),*/
-                              SizedBox(
-                                height: 10,
-                              ),
-                              InkWell(
-                                  onTap: () {
-                                    uploadAudioFile
-                                        ? playUploadedFile()
-                                        : play();
-                                  },
-                                  child: Container(
-                                      height: 40,
-                                      width: 180,
-                                      child: Stack(
-                                        children: [
-                                          Image.asset(
-                                            Assets.directionalRedDropDownBox,
-                                            height: 40,
-                                          ),
-                                          Center(
-                                            child: Text(
-                                              "Play Recording",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          )
-                                        ],
-                                      )) /*Image.asset(
-                                  Assets.audioUploadRedPlayIcon,
-                                  height: 20,
-                                  width: 20,
-                                ),*/
-                                  ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                            ],
-                          ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            InkWell(
-                              child: Stack(
-                                children: [
-                                  commonAddBookWidget(
-                                      context,
-                                      Assets.directionalRedDropDownBox,
-                                      MediaQuery.of(context).size.width * 0.30),
-                                  commonAddBookWidget(
-                                      context,
-                                      Assets.directionalRedBox,
-                                      MediaQuery.of(context).size.width * 0.30),
-                                  commonAddBookWidget(
-                                      context,
-                                      Assets.directionalTextBack,
-                                      MediaQuery.of(context).size.width * 0.30),
-                                ],
-                              ),
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                            InkWell(
-                              child: Stack(
-                                children: [
-                                  commonAddBookWidget(
-                                    context,
-                                    Assets.directionalRedDropDownBox,
-                                    MediaQuery.of(context).size.width * 0.30,
-                                  ),
-                                  commonAddBookWidget(
-                                    context,
-                                    Assets.directionalRedBox,
-                                    MediaQuery.of(context).size.width * 0.30,
-                                  ),
-                                  commonAddBookWidget(
-                                    context,
-                                    Assets.directionalTextContinue,
-                                    MediaQuery.of(context).size.width * 0.30,
-                                  ),
-                                ],
-                              ),
-                              onTap: () {
-                                if (widget.flag != 'press continue') {
-                                  setState(() {
-                                    _currentIndex = 0;
-                                    widget.flag = widget.flag == 'continue'
-                                        ? 'press continue'
-                                        : 'continue';
-                                    title = 'Book Preview';
-                                  });
-                                  playAutoAudio();
-                                }
 
-                                if (widget.flag == 'press continue') {
-                                  stopPlayer();
-                                  // saveFile();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            AddAuthorDescription(
-                                              images: widget.images,
-                                              imagesPath: widget.imagesPath,
-                                              audioPaths: _audioPaths,
-                                              withAudio: withAudio,
-                                            )
-                                        /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
-                                        ),
-                                  );
-                                }
-                              },
+                                    if (widget.flag == 'press continue') {
+                                      stopPlayer();
+                                      // saveFile();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddAuthorDescription(
+                                                  images: widget.images,
+                                                  imagesPath: widget.imagesPath,
+                                                  audioPaths: _audioPaths,
+                                                  withAudio: withAudio,
+                                                )
+                                            /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
+                                            ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
                             ),
+                            SizedBox(
+                              height: 30,
+                            )
                           ],
-                        ),
-                        SizedBox(
-                          height: 30,
                         )
                       ],
-                    )
+                    ),
                   ],
-                ),
+                )
               ],
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       );
     }
 

@@ -49,152 +49,157 @@ class RecordAudioState extends State<RecordAudio>
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            Stack(
+            backgroundSquare(context),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  padding: EdgeInsets.only(top: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Image.asset(
-                        Assets.backgroundCircleDots,
-                        height: MediaQuery.of(context).size.height / 8,
-                        width: MediaQuery.of(context).size.height / 8,
-                      )
-                    ],
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    uploadBookFormatHeader(
-                      '12/03/2023',
-                      'Hi, Team',
-                      'Welcome to your board',
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Stack(
-                      children: [
-                        commonAddBookWidget(context, Assets.subMenuRedBox,
-                            MediaQuery.of(context).size.width * 0.90),
-                        commonAddBookWidget(context, Assets.subMenuRedText,
-                            MediaQuery.of(context).size.width * 0.90),
-                        commonAddBookWidget(context, Assets.subMenuExit,
-                            MediaQuery.of(context).size.width * 0.90),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Stack(
-              children: [
-                Row(
+                Stack(
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width / 6,
-                      child: Image.asset(Assets.backgroundRectangleDots),
+                      padding: EdgeInsets.only(top: 40),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Image.asset(
+                            Assets.backgroundCircleDots,
+                            height: MediaQuery.of(context).size.height / 8,
+                            width: MediaQuery.of(context).size.height / 8,
+                          )
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    uploadText(
-                        context: context,
-                        label: "Add a Voice Over?",
-                        fontSize: 30.0),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        GestureDetector(
-                          onTapDown: _tapDown,
-                          onTapUp: _tapUp,
-                          child: Transform.scale(
-                            scale: _scale,
-                            child: _animatedButton(
-                              boolVal: addFilesForPDF,
-                              imageUrl: Assets.redDropShadow,
-                              context: context,
-                              textImageUrl: Assets.uploadRedTextRecordNow,
-                              boxImageUrl: Assets.uploadRedBox,
-                              addFilesImageUrl: Assets.redAddFiles,
-                            ),
-                          ),
-                          onTap: () {
-                            setState(() {
-                              addFilesForPDF = true;
-                            });
-                          },
+                        SizedBox(
+                          height: 20,
                         ),
-                        GestureDetector(
-                          onTapDown: _tapDown,
-                          onTapUp: _tapUp,
-                          child: Transform.scale(
-                            scale: _scale,
-                            child: _animatedButton(
-                              boolVal: addFiles,
-                              imageUrl: Assets.redDropShadow,
-                              context: context,
-                              textImageUrl: Assets.uploadRedTextAudio,
-                              boxImageUrl: Assets.uploadRedBox,
-                              addFilesImageUrl: Assets.redAddFiles,
-                            ),
-                          ),
-                          onTap: () {
-                            setState(() {
-                              addFiles = true;
-                            });
-                          },
+                        uploadBookFormatHeader(
+                          '12/03/2023',
+                          'Hi, Team',
+                          'Welcome to your board',
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Stack(
+                          children: [
+                            commonAddBookWidget(context, Assets.subMenuRedBox,
+                                MediaQuery.of(context).size.width * 0.90),
+                            commonAddBookWidget(context, Assets.subMenuRedText,
+                                MediaQuery.of(context).size.width * 0.90),
+                            commonAddBookWidget(context, Assets.subMenuExit,
+                                MediaQuery.of(context).size.width * 0.90),
+                          ],
                         ),
                       ],
                     ),
                   ],
                 ),
-              ],
-            ),
-            SizedBox(height: 30),
-            GestureDetector(
-              onTapDown: _tapDown,
-              onTapUp: _tapUp,
-              child: Transform.scale(
-                scale: _scale,
-                child: Stack(
+                SizedBox(
+                  height: 30,
+                ),
+                Stack(
                   children: [
-                    if (!continueWithoutAudio)
-                      Container(
-                        child: commonAddBookWidget(
-                            context,
-                            Assets.directionalRedBoxDropdownLong,
-                            MediaQuery.of(context).size.width * 0.90),
-                      ),
-                    commonAddBookWidget(context, Assets.directionalRedBoxLong,
-                        MediaQuery.of(context).size.width * 0.90),
-                    commonAddBookWidget(
-                        context,
-                        Assets.directionalTextWithoutAudio,
-                        MediaQuery.of(context).size.width * 0.90),
+                    Row(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width / 6,
+                          child: Image.asset(Assets.backgroundRectangleDots),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        uploadText(
+                            context: context,
+                            label: "Add a Voice Over?",
+                            fontSize: 30.0),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              onTapDown: _tapDown,
+                              onTapUp: _tapUp,
+                              child: Transform.scale(
+                                scale: _scale,
+                                child: _animatedButton(
+                                  boolVal: addFilesForPDF,
+                                  imageUrl: Assets.redDropShadow,
+                                  context: context,
+                                  textImageUrl: Assets.uploadRedTextRecordNow,
+                                  boxImageUrl: Assets.uploadRedBox,
+                                  addFilesImageUrl: Assets.redAddFiles,
+                                ),
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  addFilesForPDF = true;
+                                });
+                              },
+                            ),
+                            GestureDetector(
+                              onTapDown: _tapDown,
+                              onTapUp: _tapUp,
+                              child: Transform.scale(
+                                scale: _scale,
+                                child: _animatedButton(
+                                  boolVal: addFiles,
+                                  imageUrl: Assets.redDropShadow,
+                                  context: context,
+                                  textImageUrl: Assets.uploadRedTextAudio,
+                                  boxImageUrl: Assets.uploadRedBox,
+                                  addFilesImageUrl: Assets.redAddFiles,
+                                ),
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  addFiles = true;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-              ),
-              onTap: () {
-                setState(() {
-                  continueWithoutAudio = true;
-                });
-              },
+                SizedBox(height: 30),
+                GestureDetector(
+                  onTapDown: _tapDown,
+                  onTapUp: _tapUp,
+                  child: Transform.scale(
+                    scale: _scale,
+                    child: Stack(
+                      children: [
+                        if (!continueWithoutAudio)
+                          Container(
+                            child: commonAddBookWidget(
+                                context,
+                                Assets.directionalRedBoxDropdownLong,
+                                MediaQuery.of(context).size.width * 0.90),
+                          ),
+                        commonAddBookWidget(context, Assets.directionalRedBoxLong,
+                            MediaQuery.of(context).size.width * 0.90),
+                        commonAddBookWidget(
+                            context,
+                            Assets.directionalTextWithoutAudio,
+                            MediaQuery.of(context).size.width * 0.90),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      continueWithoutAudio = true;
+                    });
+                  },
+                ),
+              ],
             ),
           ],
         ),

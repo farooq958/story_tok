@@ -30,7 +30,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       body: Container(
         color: Color(0xffEEF0F2),
         //color: Color(0xfff0f3f6),
-
         height: 1.sh,
         width: 1.sw,
         //  padding: EdgeInsets.symmetric(horizontal: 20.sp),
