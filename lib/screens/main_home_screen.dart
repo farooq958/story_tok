@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:storily/components/upload_book_format.dart';
 import 'package:storily/screens/auth/helpers/authentication_helper.dart';
-import 'package:storily/screens/book_upload/book-confirm-details-screen.dart';
-import 'package:storily/screens/book_upload/book-input-details-screen.dart';
+/*import 'package:storily/screens/book_upload/book-confirm-details-screen.dart';
+import 'package:storily/screens/book_upload/book-input-details-screen.dart';*/
 import 'package:storily/screens/book_upload/book-preview-screen.dart';
 import 'package:storily/screens/schedule_event_flow_screens/main_event_screen.dart';
 import 'package:storily/screens/video_upload/upload-video-screen.dart';

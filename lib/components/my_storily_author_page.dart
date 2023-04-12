@@ -7,6 +7,7 @@ import 'package:storily/components/video_uploader_page.dart';
 import 'package:storily/cubit/selected_date_event_cubit.dart';
 import 'package:storily/screens/schedule_event_flow_screens/main_event_screen.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
+import '../cubit/load_main_data_cubit.dart';
 import '../cubit/load_upcoming_data_cubit.dart';
 import '../cubit/load_main_data_cubit.dart';
 import '../model/event_flow_model.dart';
@@ -298,6 +299,9 @@ class AuthorCenterPageUI extends StatelessWidget {
         //         }, child: Center(child: Text("Add  Event ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700),),)),
         //   ),
         // ))
+
+
+
       ],
     );
   }

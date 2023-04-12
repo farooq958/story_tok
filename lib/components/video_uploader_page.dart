@@ -78,8 +78,7 @@ class _VideoUploaderState extends State<VideoUploader> {
   }
 
   @override
-  Widget build(BuildContext context) {
-
+   build(BuildContext context) {
     if (_videoFile == null) {
       return Scaffold(
           backgroundColor: Colors.grey[300],
@@ -91,7 +90,7 @@ class _VideoUploaderState extends State<VideoUploader> {
                 SizedBox(height: 20),
                 uploadBookFormatHeader('12/03/2023', 'Hi, Team', 'Welcome to your board'),
                 SizedBox(height: 10),
-                addNewBookWidget(context, Assets.uploadVideoHeader, MediaQuery
+                commonAddBookWidget(context, Assets.uploadVideoHeader, MediaQuery
                     .of(context)
                     .size
                     .width * 0.90),
@@ -154,7 +153,7 @@ class _VideoUploaderState extends State<VideoUploader> {
                 SizedBox(height: 20),
                 uploadBookFormatHeader('12/03/2023', 'Hi, Team', 'Welcome to your board'),
                 SizedBox(height: 10),
-                addNewBookWidget(context, Assets.uploadVideoHeader, MediaQuery
+                commonAddBookWidget(context, Assets.uploadVideoHeader, MediaQuery
                     .of(context)
                     .size
                     .width * 0.90),

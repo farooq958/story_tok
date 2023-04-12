@@ -1,22 +1,26 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:storily/components/record_audio.dart';
 import '../global/constants/assets.dart';
-import '../screens/book_upload/book-preview-screen.dart';
 import 'common_upload_book_format.dart';
 
-class RecordAudio extends StatefulWidget {
+class AddBackgroundMusic extends StatefulWidget {
   final images;
   final imagesPath;
 
-  const RecordAudio({Key? key, required this.images, this.imagesPath})
+  const AddBackgroundMusic({Key? key, required this.images, this.imagesPath})
       : super(key: key);
 
   @override
-  RecordAudioState createState() => RecordAudioState();
+  AddBackgroundMusicState createState() => AddBackgroundMusicState();
 }
 
-class RecordAudioState extends State<RecordAudio>
+class AddBackgroundMusicState extends State<AddBackgroundMusic>
     with SingleTickerProviderStateMixin {
   List imagesPath = [];
   var total = 0;
@@ -26,6 +30,21 @@ class RecordAudioState extends State<RecordAudio>
   bool continueWithoutAudio = false;
   late double _scale;
   late AnimationController _controller;
+  bool uploadAudioFile = false;
+  bool recordingStart = false;
+  bool withAudio = false;
+
+  //recorder
+  Stopwatch _timer = Stopwatch();
+  File audioFile = File('');
+  List<Map<File, String>> _audioPaths =
+      []; //page as key and path for audio as value
+  int _currentIndex = 0;
+  int length = 0;
+  var title = 'Audio Recording';
+
+  Map<int, int> _pageTime = Map();
+  List<File>? cachedimages = <File>[];
 
   @override
   void initState() {
@@ -115,7 +134,7 @@ class RecordAudioState extends State<RecordAudio>
                       children: [
                         uploadText(
                             context: context,
-                            label: "Add a Voice Over?",
+                            label: "Add Background Music?",
                             fontSize: 30.0),
                         SizedBox(
                           height: 30,
@@ -132,15 +151,16 @@ class RecordAudioState extends State<RecordAudio>
                                   boolVal: addFilesForPDF,
                                   imageUrl: Assets.redDropShadow,
                                   context: context,
-                                  textImageUrl: Assets.uploadRedTextRecordNow,
+                                  textImageUrl: Assets.audioUploadRedMusic,
                                   boxImageUrl: Assets.uploadRedBox,
-                                  addFilesImageUrl: Assets.redAddFiles,
+                                  addFilesImageUrl: '',
                                 ),
                               ),
                               onTap: () {
                                 setState(() {
                                   addFilesForPDF = true;
                                 });
+                                uploadAudio();
                               },
                             ),
                             GestureDetector(
@@ -152,9 +172,9 @@ class RecordAudioState extends State<RecordAudio>
                                   boolVal: addFiles,
                                   imageUrl: Assets.redDropShadow,
                                   context: context,
-                                  textImageUrl: Assets.uploadRedTextAudio,
+                                  textImageUrl: Assets.audioUploadRedNoMusic,
                                   boxImageUrl: Assets.uploadRedBox,
-                                  addFilesImageUrl: Assets.redAddFiles,
+                                  addFilesImageUrl: '',
                                 ),
                               ),
                               onTap: () {
@@ -168,36 +188,6 @@ class RecordAudioState extends State<RecordAudio>
                       ],
                     ),
                   ],
-                ),
-                SizedBox(height: 30),
-                GestureDetector(
-                  onTapDown: _tapDown,
-                  onTapUp: _tapUp,
-                  child: Transform.scale(
-                    scale: _scale,
-                    child: Stack(
-                      children: [
-                        if (!continueWithoutAudio)
-                          Container(
-                            child: commonAddBookWidget(
-                                context,
-                                Assets.directionalRedBoxDropdownLong,
-                                MediaQuery.of(context).size.width * 0.90),
-                          ),
-                        commonAddBookWidget(context, Assets.directionalRedBoxLong,
-                            MediaQuery.of(context).size.width * 0.90),
-                        commonAddBookWidget(
-                            context,
-                            Assets.directionalTextWithoutAudio,
-                            MediaQuery.of(context).size.width * 0.90),
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      continueWithoutAudio = true;
-                    });
-                  },
                 ),
               ],
             ),
@@ -217,57 +207,36 @@ class RecordAudioState extends State<RecordAudio>
   }
 
   getEventList() {
-    if (addFilesForPDF) {
-      setState(() {
-        addFilesForPDF = false;
-      });
-      Future.delayed(Duration(milliseconds: 500), () {
-        Navigator.push(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (_, __, ___) =>
-                VoiceRecorder(widget.images, widget.imagesPath, 'recordnow'),
-            transitionDuration: Duration(milliseconds: 700),
-            transitionsBuilder: (_, a, __, c) =>
-                FadeTransition(opacity: a, child: c),
-          ),
-        );
-      });
-    }
     if (addFiles) {
       setState(() {
         addFiles = false;
       });
-      Future.delayed(Duration(milliseconds: 500), () {
-        Navigator.push(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (_, __, ___) =>
-                VoiceRecorder(widget.images, widget.imagesPath, 'audio'),
-            transitionDuration: Duration(milliseconds: 700),
-            transitionsBuilder: (_, a, __, c) =>
-                FadeTransition(opacity: a, child: c),
-          ),
-        );
+    }
+    if (addFilesForPDF) {
+      setState(() {
+        addFilesForPDF = false;
       });
     }
     if (continueWithoutAudio) {
       setState(() {
         continueWithoutAudio = false;
-        Future.delayed(Duration(milliseconds: 500), () {
-          Navigator.push(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (_, __, ___) =>
-                  VoiceRecorder(widget.images, widget.imagesPath, 'press continue'),
-              transitionDuration: Duration(milliseconds: 700),
-              transitionsBuilder: (_, a, __, c) =>
-                  FadeTransition(opacity: a, child: c),
-            ),
-          );
-        });
       });
     }
+
+    Future.delayed(Duration(milliseconds: 500), () {
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => RecordAudio(
+            imagesPath: widget.imagesPath,
+            images: widget.images,
+          ),
+          transitionDuration: Duration(milliseconds: 700),
+          transitionsBuilder: (_, a, __, c) =>
+              FadeTransition(opacity: a, child: c),
+        ),
+      );
+    });
   }
 
   _animatedButton(
@@ -296,5 +265,28 @@ class RecordAudioState extends State<RecordAudio>
         ],
       ),
     );
+  }
+
+  var bgAudioPath;
+  uploadAudio() async {
+    FlutterSecureStorage storage = FlutterSecureStorage();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['mp3', 'mp4', '.wav', '.m4a'],
+      allowMultiple: false,
+    );
+
+    PlatformFile file = result!.files.first;
+    Directory tempDir = await getTemporaryDirectory();
+    String dirPath = tempDir.path;
+    // await loadPdf(file.path.toString(), dirPath + '/' + 'file_picker');
+    setState(() {
+      uploadAudioFile = true;
+      withAudio = true;
+      recordingStart = false;
+      bgAudioPath = file!.path.toString();
+    });
+
+    await storage.write(key: 'bg_music', value: bgAudioPath);
   }
 }
