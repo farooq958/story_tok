@@ -965,6 +965,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                       ], // Make rounded corner of border
                                     ),
                                     child: TextFormField(
+                                      maxLength: 500,
                                       keyboardType: TextInputType.multiline,
                                       maxLines: 999,
                                       cursorColor: Colors.black,
@@ -1162,7 +1163,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                       keyBoardTextSplit = _keyWordsController
                                           .text
                                           .toString()
-                                          .split(', ');
+                                          .split(',');
                                       topicSplit = _tagController.text
                                           .toString()
                                           .split(',');

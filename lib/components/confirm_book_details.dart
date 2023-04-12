@@ -70,7 +70,7 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
     Widget makeBody() {
       return Stack(
         children: [
-          backgroundSquare(context),  
+          backgroundSquare(context),
           SingleChildScrollView(
             child: Stack(
               children: [
@@ -125,8 +125,8 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                               children: [
                                 Container(
                                   width: MediaQuery.of(context).size.width / 6,
-                                  child:
-                                      Image.asset(Assets.backgroundRectangleDots),
+                                  child: Image.asset(
+                                      Assets.backgroundRectangleDots),
                                 ),
                               ],
                             ),
@@ -141,7 +141,8 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                   height: 30,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
@@ -151,15 +152,17 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                         ), //<-- SEE HERE
                                       ),
                                       child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(7.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7.0),
                                           child: Image.file(
                                             widget.coverImage,
                                             fit: BoxFit.cover,
                                           )),
                                       height:
-                                          MediaQuery.of(context).size.height / 2,
-                                      width:
-                                          MediaQuery.of(context).size.width / 1.5,
+                                          MediaQuery.of(context).size.height /
+                                              2,
+                                      width: MediaQuery.of(context).size.width /
+                                          1.5,
                                     )
                                   ],
                                 ),
@@ -167,7 +170,8 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                   height: 20.0,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
@@ -177,7 +181,8 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                         ), //<-- SEE HERE
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Column(
                                             crossAxisAlignment:
@@ -190,116 +195,132 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                                 child: Row(
                                                   children: [
                                                     SizedBox(
-                                                        width:
-                                                            MediaQuery.of(context)
-                                                                    .size
-                                                                    .width /
-                                                                7,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            8,
                                                         child: Text(
                                                           'Genres',
                                                           style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight.bold),
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
                                                         )),
                                                     SizedBox(
                                                       width: 5,
                                                     ),
                                                     SizedBox(
-                                                      width: MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          5,
-                                                      child: Text(widget.bookGenre),
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              5,
+                                                      child: Text(
+                                                          widget.bookGenre),
                                                     ),
                                                     SizedBox(
                                                       width: 5,
                                                     ),
                                                     SizedBox(
-                                                      width: MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          5,
-                                                      child:
-                                                          Text(widget.subBookGenre),
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              5,
+                                                      child: Text(
+                                                        widget.subBookGenre,
+                                                      ),
                                                     ),
                                                     SizedBox(
-                                                      width: 15,
+                                                      width: 5,
                                                     ),
                                                   ],
                                                 ),
                                               ),
                                               Container(
                                                 height: 40,
-                                                  margin: EdgeInsets.all(5.0),
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: MediaQuery.of(context)
+                                                margin: EdgeInsets.all(5.0),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              8,
+                                                      child: Text(
+                                                        'Topics',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                    SingleChildScrollView(
+                                                      scrollDirection:
+                                                          Axis.vertical,
+                                                      child: Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .width /
-                                                            7,
-                                                        child: Text(
-                                                          'Topics',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight.bold),
-                                                        ),
-                                                      ),
-                                                      SingleChildScrollView(
-                                                        scrollDirection:
-                                                            Axis.vertical,
+                                                            2,
+                                                        margin: EdgeInsets.only(
+                                                            right: 5.0,
+                                                            bottom: 5.0),
                                                         child: Container(
-                                                          width:
-                                                              MediaQuery.of(context)
-                                                                      .size
-                                                                      .width /
-                                                                  2,
-                                                          margin: EdgeInsets.only(
-                                                              right: 5.0, bottom: 5.0),
-                                                          child: Container(
-                                                            height: 55,
-                                                            child: Wrap(
-                                                              children: [
-                                                                for (int i = 0;
-                                                                    i <
-                                                                        widget.topic
-                                                                            .length;
-                                                                    i++)
-                                                                  Container(
-                                                                    margin: EdgeInsets
-                                                                        .only(
-                                                                            right: 3),
-                                                                    child: Text(
-                                                                      widget.topic[i]
-                                                                          .toString(),
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      maxLines: 2,
-                                                                    ),
-                                                                  )
-                                                              ],
-                                                            ),
+                                                          height: 55,
+                                                          child: Wrap(
+                                                            children: [
+                                                              for (int i = 0;
+                                                                  i <
+                                                                      widget
+                                                                          .topic
+                                                                          .length;
+                                                                  i++)
+                                                                Container(
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          right:
+                                                                              3),
+                                                                  child: Text(
+                                                                    widget
+                                                                        .topic[
+                                                                            i]
+                                                                        .toString(),
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    maxLines: 2,
+                                                                  ),
+                                                                )
+                                                            ],
                                                           ),
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
+                                              ),
                                             ],
                                           ),
-                                          Image.asset(Assets.readingLevel2Badge,
-                                              height: 50, width: 50)
+                                          Image.asset(
+                                            Assets.readingLevel2Badge,
+                                            height: 50,
+                                            width: 50,
+                                          )
                                         ],
                                       ),
                                       height:
-                                          MediaQuery.of(context).size.height / 6,
-                                      width:
-                                          MediaQuery.of(context).size.width / 1.2,
+                                          MediaQuery.of(context).size.height /
+                                              6,
+                                      width: MediaQuery.of(context).size.width /
+                                          1.2,
                                     )
                                   ],
                                 ),
@@ -307,7 +328,8 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                   height: 20.0,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
@@ -323,49 +345,68 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
-                                                    margin: EdgeInsets.only(left: 5),
+                                                    margin: EdgeInsets.only(
+                                                        left: 5),
                                                     child: Text(
                                                       widget.title,
                                                       maxLines: 1,
-                                                      overflow: TextOverflow.ellipsis,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                       style: TextStyle(
                                                           fontSize: 20.0,
-                                                          fontWeight: FontWeight.bold),
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
                                                   ),
                                                   Container(
-                                                    width: MediaQuery.of(context).size.width / 2,
-                                                    margin: EdgeInsets.only(left: 5),
-                                                    child: SingleChildScrollView(
-                                                      scrollDirection: Axis.horizontal,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2,
+                                                    margin: EdgeInsets.only(
+                                                        left: 5),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
                                                       child: Text(
                                                         widget.authorName,
                                                         maxLines: 1,
-                                                        overflow: TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: TextStyle(
-                                                            fontSize: 20.0,
-                                                            fontWeight: FontWeight.bold),
+                                                            fontSize: 15.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
                                                     ),
                                                   ),
                                                 ],
                                               ),
                                               Container(
-                                                margin: EdgeInsets.only(right: 5),
+                                                margin:
+                                                    EdgeInsets.only(right: 5),
                                                 child: Text(
                                                   "C\$" + widget.price,
                                                   maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: TextStyle(
                                                       fontSize: 20.0,
-                                                      fontWeight: FontWeight.bold),
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                               ),
                                             ],
@@ -387,7 +428,8 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                                   child: Text(
                                                     widget.bookDescription,
                                                     maxLines: 999999,
-                                                    overflow: TextOverflow.ellipsis,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ),
@@ -396,9 +438,10 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                         ],
                                       ),
                                       height:
-                                          MediaQuery.of(context).size.height / 4,
-                                      width:
-                                          MediaQuery.of(context).size.width / 1.2,
+                                          MediaQuery.of(context).size.height /
+                                              4,
+                                      width: MediaQuery.of(context).size.width /
+                                          1.2,
                                     )
                                   ],
                                 ),
@@ -462,7 +505,8 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CongratulationsScreen()
+                                      builder: (context) =>
+                                          CongratulationsScreen()
                                       /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
                                       ),
                                 );

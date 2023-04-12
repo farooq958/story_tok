@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 import 'package:path_provider/path_provider.dart';
@@ -53,6 +54,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
   Codec _codec = Codec.aacMP4;
   var _mPath;
   FlutterSoundPlayer _mPlayer = FlutterSoundPlayer();
+  FlutterSoundPlayer _bgPlayer = FlutterSoundPlayer();
   final _audioRecorder = Record();
   FlutterSoundRecorder _mRecorder = FlutterSoundRecorder();
   bool _mPlayerIsInited = false;
@@ -87,6 +89,8 @@ class VoiceRecorderState extends State<VoiceRecorder>
       });
     });
 
+    _bgPlayer.openPlayer();
+
     openTheRecorder().then((value) {
       setState(() {
         _mRecorderIsInited = true;
@@ -99,6 +103,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
   @override
   void dispose() {
     _mPlayer.closePlayer();
+    _bgPlayer.closePlayer();
     _mPlayer;
 
     _mRecorder.closeRecorder();
@@ -221,7 +226,16 @@ class VoiceRecorderState extends State<VoiceRecorder>
     }
   }
 
-  playAutoAudio() {
+  playAutoAudio() async {
+    FlutterSecureStorage storage = FlutterSecureStorage();
+    var bgMusic = await storage.read(key: 'bg_music');
+
+    if(bgMusic != null){
+      _bgPlayer.startPlayer(fromURI: bgMusic.toString(), whenFinished: () {
+        setState(() {});
+      });
+    }
+
     _mPlayer
         .startPlayer(
             fromURI: _audioPaths[_currentIndex].values.first.toString(),
