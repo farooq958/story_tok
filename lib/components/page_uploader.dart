@@ -332,7 +332,7 @@ class PageUploaderState extends State<PageUploader> {
                             ),
                             InkWell(
                               onTap: () {
-                                if (_images.length < 1) {
+                                if (_images.length < 4) {
                                   Utils().showToastMessage(
                                       "Book has at least 4 pages.", context);
                                 } else {
