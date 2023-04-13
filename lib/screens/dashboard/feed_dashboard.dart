@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stacked/stacked.dart';
+import 'package:storily/cubit/LibraryCubits/library_books_cubit.dart';
 import 'package:storily/cubit/load_main_data_cubit.dart';
 import 'package:storily/cubit/load_recommended_events_cubit.dart';
 import 'package:get/get.dart';
 import 'package:storily/global/methods/methods.dart';
+import 'package:storily/screens/dashboard/bootm_menu_screens/library_screens/libraryPageView.dart';
 import 'package:storily/screens/dashboard/widgets/home_screen.dart';
 import 'package:storily/screens/dashboard/bootm_menu_screens/event.dart';
 import 'package:storily/screens/dashboard/bootm_menu_screens/home.dart';
@@ -54,15 +56,20 @@ class _FeedScreenState extends State<FeedDashboard> {
       HomeScreen();
     }
     if (_selectedIndex == 2) {
-      var contentController = Get.find<MainContentController>().initializer();
+     // var contentController = Get.find<MainContentController>().initializer();
       //
       // if (contentController!.videoSource.listVideos[contentController!.index].controller!.value.isPlaying) {
       //   contentController!.videoSource.listVideos[contentController!.index].controller!.pause();
-      // }else{
-      //
-      //   log("Library");
-      // }
-      Get.to(()=>MyBookshelfPage());
+
+      //goPage(context, MyBookshelfPage());
+      log("Library");
+      showToast("Library", context);
+
+      //goPage(context, LibraryPageView());
+      LibraryPageView();
+
+
+      //Get.to(()=>MyBookshelfPage());
     }
     if (_selectedIndex == 3) {
       goPage(context, MyEventPage());
@@ -83,7 +90,8 @@ class _FeedScreenState extends State<FeedDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _selectedIndex == 0 ? Home() : _selectedIndex == 1 ?HomeScreen() : SizedBox(),
+      extendBody: true,
+      body: _selectedIndex == 0 ? Home() : _selectedIndex == 1 ?HomeScreen() :  _selectedIndex == 2 ?LibraryPageView():SizedBox(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber.shade800,
@@ -113,6 +121,7 @@ class _FeedScreenState extends State<FeedDashboard> {
             ),
             label: "Library",
           ),
+
           BottomNavigationBarItem(
             icon: Image.asset("assets/icons/events.png", height: 25),
             label: "Event",

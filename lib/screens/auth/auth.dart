@@ -5,12 +5,19 @@ import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:storily/components/home_video_display_screen.dart';
 import 'package:storily/components/my_storily_author_page.dart';
+import 'package:storily/cubit/LibraryCubits/library_books_this_month_cubit.dart';
+import 'package:storily/cubit/LibraryCubits/library_featured_authors_cubit.dart';
+import 'package:storily/cubit/LibraryCubits/library_not_owned_books_cubit.dart';
 import 'package:storily/screens/main_home_screen.dart';
 import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
 import 'package:storily/screens/auth/screens/signup_screen.dart';
+
+import '../../cubit/LibraryCubits/library_books_cubit.dart';
 import '../../global/methods/methods.dart';
+import '../../repo/repo.dart';
 import '../dashboard/feed_dashboard.dart';
 import '../dashboard/profile/author_profile.dart';
+
 
 //authentication page, currently has a short cut to the author center, we need to make the screen automatically enters the home scree(displayscreen) after sign in.
 class FirebaseSession extends StatelessWidget {
@@ -294,6 +301,11 @@ class AuthUI extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     goPage(context, FeedDashboard());
+                    context.read<LibraryBooksCubit>().getLibraryBooksData();
+                    context.read<LibraryBooksThisMonthCubit>().getLibraryThisMonthBooksData();
+                    context.read<LibraryFeaturedAuthorsCubit>().getLibraryFeaturedAuthors();
+                    context.read<LibraryNotOwnedBooksCubit>().getLibraryNotOwnedBooks();
+                    Repository().getCategories();
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0),
@@ -574,7 +586,8 @@ class CreateAccount extends StatelessWidget {
                   child: ElevatedButton(
                     //padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
                     style: style,
-                    onPressed: () {/* 
+                    onPressed: () {
+                      /*
                       FocusScope.of(context).unfocus();
                       sessionObj.emailNextEnabled
                           ? sessionObj.pctrl.nextPage(
@@ -807,7 +820,7 @@ class LoginPage extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
               onChanged: (String text) {
-              /*   loginLogic.email = text;
+                /*   loginLogic.email = text;
                 loginLogic.loginButtonListener(
                     loginLogic.email!, loginLogic.password!); */
               },
@@ -825,7 +838,7 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               height: 5.0,
             ),
-           /*  TextFormField(
+            /*  TextFormField(
               // obscureText: !loginLogic.showPassword,
               autofocus: false,
               decoration: InputDecoration(
@@ -889,7 +902,7 @@ class LoginPage extends StatelessWidget {
             Center(
               child: InkWell(
                 onTap: () {
-                 /*  Navigator.push(
+                  /*  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => Material(
