@@ -8,6 +8,8 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:storily/components/confirm_book_details.dart';
+import 'package:storily/components/record_audio.dart';
+import 'package:storily/screens/book_upload/book-preview-screen.dart';
 import 'package:storily/utils.dart';
 import '../global/constants/assets.dart';
 import 'common_upload_book_format.dart';
@@ -17,6 +19,7 @@ class AddAuthorDescription extends StatefulWidget {
   final imagesPath;
   final audioPaths;
   final withAudio;
+  final manageFlagList;
 
   const AddAuthorDescription({
     Key? key,
@@ -24,6 +27,7 @@ class AddAuthorDescription extends StatefulWidget {
     this.imagesPath,
     this.audioPaths,
     this.withAudio,
+    this.manageFlagList,
   }) : super(key: key);
 
   @override
@@ -1138,7 +1142,12 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     ],
                                   ),
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    // code here for update flag
+                                    var route = new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                      new VoiceRecorder(widget.manageFlagList, widget.images, widget.imagesPath, 'continue'),
+                                    );
+                                    Navigator.pop(context, true);
                                   },
                                 ),
                                 InkWell(

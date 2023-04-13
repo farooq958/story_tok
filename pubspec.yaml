@@ -48,9 +48,6 @@ dependencies:
   uuid: ^3.0.7
   selectable_container: ^1.0.7
   animated_styled_widget: ^0.4.6
-  country_picker: ^2.0.20
-  pinput: ^2.2.31
-  lottie: ^2.3.1
 
   shared_preferences: ^2.0.18
   cached_network_image: ^3.2.3
@@ -77,6 +74,10 @@ dependencies:
   just_audio: ^0.9.32
   get: ^4.6.5
   flutter_secure_storage: ^8.0.0
+  pinput: ^2.2.21
+  country_picker: ^2.0.19
+  lottie: ^2.3.2
+  syncfusion_flutter_sliders: ^21.1.39
 
 
 dev_dependencies:

@@ -60,6 +60,12 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
       });
     super.initState();
     imagePicker = new ImagePicker();
+    initBgMusic();
+  }
+
+  initBgMusic() async {
+    FlutterSecureStorage storage = FlutterSecureStorage();
+    await storage.delete(key: 'bg_music');
   }
 
   @override

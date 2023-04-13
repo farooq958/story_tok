@@ -6,11 +6,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:audio_session/audio_session.dart';
 import 'package:record/record.dart';
 import 'package:storily/components/add_author_description.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import '../../components/common_upload_book_format.dart';
 import '../../global/constants/assets.dart';
 
@@ -19,6 +21,7 @@ typedef _Fn = void Function();
 const theSource = AudioSource.microphone;
 
 class VoiceRecorder extends StatefulWidget {
+  final manageFlagList;
   List<File>? images = <File>[];
   var imagesPath;
   var flag;
@@ -30,6 +33,7 @@ class VoiceRecorder extends StatefulWidget {
   var topic;
 
   VoiceRecorder(
+      this.manageFlagList,
       [this.images,
       this.imagesPath,
       this.flag,
@@ -46,6 +50,8 @@ class VoiceRecorder extends StatefulWidget {
 
 class VoiceRecorderState extends State<VoiceRecorder>
     with SingleTickerProviderStateMixin {
+  double _value = 20;
+
   List imagesPath = [];
   bool recordingStart = false;
   bool withAudio = false;
@@ -77,7 +83,12 @@ class VoiceRecorderState extends State<VoiceRecorder>
 
   @override
   void initState() {
-    manageFlagList.add(widget.flag);
+    if(widget.manageFlagList.length > 0) {
+      manageFlagList = widget.manageFlagList;
+    }else{
+      manageFlagList.add(widget.flag);
+    }
+
     _animationController =
         new AnimationController(vsync: this, duration: Duration(seconds: 1));
     _animationController.repeat(reverse: true);
@@ -88,24 +99,40 @@ class VoiceRecorderState extends State<VoiceRecorder>
         _mPlayerIsInited = true;
       });
     });
-
-    _bgPlayer.openPlayer();
-
     openTheRecorder().then((value) {
       setState(() {
         _mRecorderIsInited = true;
       });
     });
-
     super.initState();
+  }
+
+  var bgMusic;
+
+  playAutoBgAudio() async {
+    print("heloooo : ${widget.flag}");
+    FlutterSecureStorage storage = FlutterSecureStorage();
+    bgMusic = await storage.read(key: 'bg_music');
+
+    if (bgMusic != null) {
+      _bgPlayer.openPlayer();
+      _bgPlayer.setVolume(_value);
+      _bgPlayer.startPlayer(
+          fromURI: bgMusic.toString(),
+          whenFinished: () {
+            setState(() {
+              playAutoBgAudio();
+            });
+          });
+    }
   }
 
   @override
   void dispose() {
+    _mPlayer.stopPlayer();
+    _bgPlayer.stopPlayer();
     _mPlayer.closePlayer();
     _bgPlayer.closePlayer();
-    _mPlayer;
-
     _mRecorder.closeRecorder();
     _mRecorder;
     super.dispose();
@@ -227,15 +254,6 @@ class VoiceRecorderState extends State<VoiceRecorder>
   }
 
   playAutoAudio() async {
-    FlutterSecureStorage storage = FlutterSecureStorage();
-    var bgMusic = await storage.read(key: 'bg_music');
-
-    if(bgMusic != null){
-      _bgPlayer.startPlayer(fromURI: bgMusic.toString(), whenFinished: () {
-        setState(() {});
-      });
-    }
-
     _mPlayer
         .startPlayer(
             fromURI: _audioPaths[_currentIndex].values.first.toString(),
@@ -248,6 +266,30 @@ class VoiceRecorderState extends State<VoiceRecorder>
         startPlaying = true;
       });
     });
+  }
+
+  stopBgMusic() {
+    try {
+      _bgPlayer.closePlayer().then((value) {
+        _mPlayer.closePlayer();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AddAuthorDescription(
+                    images: widget.images,
+                    imagesPath: widget.imagesPath,
+                    audioPaths: _audioPaths,
+                    withAudio: withAudio,
+                manageFlagList: manageFlagList,
+                  )
+              /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
+              ),
+        );
+      });
+      stopPlayer();
+    } catch (e, stacktrace) {
+      print("Exception: $stacktrace");
+    }
   }
 
   void stopPlayer() {
@@ -325,8 +367,8 @@ class VoiceRecorderState extends State<VoiceRecorder>
                               children: [
                                 Container(
                                   width: MediaQuery.of(context).size.width / 6,
-                                  child:
-                                      Image.asset(Assets.backgroundRectangleDots),
+                                  child: Image.asset(
+                                      Assets.backgroundRectangleDots),
                                 ),
                               ],
                             ),
@@ -335,7 +377,8 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                 Row(
                                   children: [
                                     Container(
-                                      width: MediaQuery.of(context).size.width / 6,
+                                      width:
+                                          MediaQuery.of(context).size.width / 6,
                                       child: Image.asset(
                                           Assets.backgroundRectangleDots),
                                     ),
@@ -354,7 +397,8 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                       height: 30,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
@@ -370,12 +414,16 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                                 widget.images![_currentIndex],
                                                 fit: BoxFit.cover,
                                               )),
-                                          height:
-                                              MediaQuery.of(context).size.height /
-                                                  2,
-                                          width: MediaQuery.of(context).size.width /
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              2,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
                                               1.5,
                                         ),
+                                        // add volume here
                                       ],
                                     ),
                                     SizedBox(
@@ -389,6 +437,30 @@ class VoiceRecorderState extends State<VoiceRecorder>
                         ),
                         Column(
                           children: [
+                            if (bgMusic != null)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('BG Volume'),
+                                  SfSlider(
+                                    activeColor: Color(0xffEF706C),
+                                    min: 0.0,
+                                    max: 100.0,
+                                    value: _value,
+                                    interval: 20,
+                                    showTicks: true,
+                                    showLabels: true,
+                                    enableTooltip: true,
+                                    minorTicksPerInterval: 1,
+                                    onChanged: (dynamic value) {
+                                      setState(() {
+                                        _value = value;
+                                        _bgPlayer.setVolume(_value / 100);
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -413,6 +485,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                       }
                                     },
                                   ),
+
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -534,37 +607,38 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                       height: 10,
                                     ),
                                   // if (widget.flag == 'recordnow')
-                                    InkWell(
-                                        onTap: () {
-                                          uploadAudioFile
-                                              ? playUploadedFile()
-                                              : play();
-                                        },
-                                        child: Container(
-                                            height: 40,
-                                            width: 180,
-                                            child: Stack(
-                                              children: [
-                                                Image.asset(
-                                                  Assets.directionalRedDropDownBox,
-                                                  height: 40,
+                                  InkWell(
+                                      onTap: () {
+                                        uploadAudioFile
+                                            ? playUploadedFile()
+                                            : play();
+                                      },
+                                      child: Container(
+                                          height: 40,
+                                          width: 180,
+                                          child: Stack(
+                                            children: [
+                                              Image.asset(
+                                                Assets
+                                                    .directionalRedDropDownBox,
+                                                height: 40,
+                                              ),
+                                              Center(
+                                                child: Text(
+                                                  "Play Recording",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
-                                                Center(
-                                                  child: Text(
-                                                    "Play Recording",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                )
-                                              ],
-                                            )) /*Image.asset(
+                                              )
+                                            ],
+                                          )) /*Image.asset(
                                       Assets.audioUploadRedPlayIcon,
                                       height: 20,
                                       width: 20,
                                     ),*/
-                                        ),
+                                      ),
                                   if (widget.flag == 'recordnow')
                                     SizedBox(
                                       width: 10,
@@ -583,20 +657,25 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                       commonAddBookWidget(
                                           context,
                                           Assets.directionalRedDropDownBox,
-                                          MediaQuery.of(context).size.width * 0.30),
+                                          MediaQuery.of(context).size.width *
+                                              0.30),
                                       commonAddBookWidget(
                                           context,
                                           Assets.directionalRedBox,
-                                          MediaQuery.of(context).size.width * 0.30),
+                                          MediaQuery.of(context).size.width *
+                                              0.30),
                                       commonAddBookWidget(
                                           context,
                                           Assets.directionalTextBack,
-                                          MediaQuery.of(context).size.width * 0.30),
+                                          MediaQuery.of(context).size.width *
+                                              0.30),
                                     ],
                                   ),
                                   onTap: () {
+                                    print(manageFlagList);
                                     if (manageFlagList.last == 'continue') {
                                       manageFlagList.removeLast();
+                                      _bgPlayer.closePlayer();
                                       setState(() {
                                         widget.flag = manageFlagList.last;
                                       });
@@ -611,22 +690,26 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                       commonAddBookWidget(
                                         context,
                                         Assets.directionalRedDropDownBox,
-                                        MediaQuery.of(context).size.width * 0.30,
+                                        MediaQuery.of(context).size.width *
+                                            0.30,
                                       ),
                                       commonAddBookWidget(
                                         context,
                                         Assets.directionalRedBox,
-                                        MediaQuery.of(context).size.width * 0.30,
+                                        MediaQuery.of(context).size.width *
+                                            0.30,
                                       ),
                                       commonAddBookWidget(
                                         context,
                                         Assets.directionalTextContinue,
-                                        MediaQuery.of(context).size.width * 0.30,
+                                        MediaQuery.of(context).size.width *
+                                            0.30,
                                       ),
                                     ],
                                   ),
                                   onTap: () {
-                                    print("on continue button : ${widget.flag}");
+                                    print(
+                                        "on continue button : ${widget.flag}");
                                     if (widget.flag != 'press continue') {
                                       setState(() {
                                         _currentIndex = 0;
@@ -637,24 +720,12 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                         manageFlagList.add(widget.flag);
                                       });
                                       playAutoAudio();
+                                      playAutoBgAudio();
                                     }
 
                                     if (widget.flag == 'press continue') {
-                                      stopPlayer();
-                                      // saveFile();
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AddAuthorDescription(
-                                                  images: widget.images,
-                                                  imagesPath: widget.imagesPath,
-                                                  audioPaths: _audioPaths,
-                                                  withAudio: withAudio,
-                                                )
-                                            /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
-                                            ),
-                                      );
+                                      manageFlagList.removeLast();
+                                      stopBgMusic();
                                     }
                                   },
                                 ),
@@ -662,7 +733,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
                             ),
                             SizedBox(
                               height: 30,
-                            )
+                            ),
                           ],
                         )
                       ],
