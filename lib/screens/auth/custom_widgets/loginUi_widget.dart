@@ -150,8 +150,8 @@ class _LoginUiWidgetState extends State<LoginUiWidget> {
                           authController.loginPasswordController.text,
                     )
                         .whenComplete(() {
-                      authController.loginEmailController.clear();
-                      authController.loginPasswordController.clear();
+                      // authController.loginEmailController.clear();
+                      // authController.loginPasswordController.clear();
                     });
                   }
                 }

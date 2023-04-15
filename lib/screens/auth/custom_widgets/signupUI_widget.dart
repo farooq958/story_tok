@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:storily/components/input_text_field_widget.dart';
@@ -189,7 +190,24 @@ class _SignUpUIWidgetState extends State<SignUpUIWidget> {
                 // log(getStorage!.read("signup_NameFirstLetter"));
                 // log(getStorage!.read("signup_Name"));
                 if (signupKey.currentState!.validate()) {
-                  await authController.storeSignUpData();
+                  var query = FirebaseFirestore.instance
+                      .collection('users')
+                      .where('email',
+                          isEqualTo: authController.signupEmailController.text)
+                      .limit(1)
+                      .get();
+                  // var snapshot = await query.snapshots();
+                  query.then((value) async {
+
+                    print("##### SIZE OF RECORD ${value.size}");
+                    if (value.size > 0) {
+                      Get.snackbar("Registration", "User already exists!",
+                          backgroundColor: Colors.red.withOpacity(0.5));
+                    } else {
+                      await authController.storeSignUpData();
+                    }
+                  });
+
                 }
               },
               child: Image.asset(

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -58,7 +59,7 @@ class _CorporationWidgetState extends State<CorporationWidget> {
                             DateTime? pickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
+                                firstDate: DateTime(1900),
                                 lastDate: DateTime.now());
                             if (pickedDate != null) {
                               String formattedDate =
@@ -331,8 +332,8 @@ class _CorporationWidgetState extends State<CorporationWidget> {
                       "Required", "Image is required, Please select first.",
                       backgroundColor: Colors.red.withOpacity(0.5));
                 } else {
-                  AuthenticationHelper()
-                      .uploadAuthorsProfile(widget.authorImageFile, context);
+                  // AuthenticationHelper()
+                  //     .uploadAuthorsProfile(widget.authorImageFile, context);
                   authController.setCorporationData();
                   // AuthenticationHelper().uploadUserDataInFireStore("corpo");
                   // AuthenticationHelper().uploadAutherUserDataInFireStore();
@@ -349,7 +350,6 @@ class _CorporationWidgetState extends State<CorporationWidget> {
                     authController.clearAllController();
                     getStorage!.erase();
                   });
-                  ;
                 }
               }
             },

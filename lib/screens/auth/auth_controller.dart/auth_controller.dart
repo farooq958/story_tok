@@ -112,7 +112,7 @@ class AuthController extends GetxController {
     getStorage!.write("state", individualsFielsList[5]["textController"].text);
     getStorage!.write("postalCode", postalCodeController.text);
     getStorage!.write("country", selectedCountryName.value);
-    getStorage!.write("phone", mobileController.text);
+    // getStorage!.write("phone", mobileController.text);
   }
 
   setCorporationData() {
@@ -125,7 +125,7 @@ class AuthController extends GetxController {
     getStorage!.write("state", corporateFielsList[5]["textController"].text);
     getStorage!.write("postalCode", postalCodeController.text);
     getStorage!.write("country", selectedCountryName.value);
-    getStorage!.write("phone", mobileController.text);
+    // getStorage!.write("phone", mobileController.text);
   }
 
   storeSignUpData() async {

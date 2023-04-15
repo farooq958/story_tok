@@ -14,16 +14,31 @@ import 'package:storily/screens/video_upload/video-preview-screen.dart';
 import '../components/common_buttons.dart';
 import '../global/constants/assets.dart';
 import '../global/methods/methods.dart';
+import '../main.dart';
 import 'dashboard/profile/author_profile.dart';
 
 class MainHomeScreen extends StatefulWidget {
-  const MainHomeScreen({Key? key}) : super(key: key);
+  late String? name;
+   MainHomeScreen({Key? key, this.name}) : super(key: key);
 
   @override
   State<MainHomeScreen> createState() => _MainHomeScreenState();
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.name == null){
+      widget.name = getStorage!.read("authorname");
+      setState(() {
+        widget.name;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
@@ -111,7 +126,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
 
                                 ///Profile Name
                                 Text(
-                                  "Hi, Name",
+                                  "Hi, ${widget.name}",
                                   style: GoogleFonts.lexend(
                                       fontSize: 25.sp,
                                       fontWeight: FontWeight.w600),

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,7 +61,7 @@ class _IndividualsUiWidgetsState extends State<IndividualsUiWidgets> {
                             DateTime? pickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
+                                firstDate: DateTime(1900),
                                 lastDate: DateTime.now());
                             if (pickedDate != null) {
                               String formattedDate =
@@ -337,8 +338,8 @@ class _IndividualsUiWidgetsState extends State<IndividualsUiWidgets> {
                       backgroundColor: Colors.red.withOpacity(0.5));
                 } else {
                   authController.setIndividulesData();
-                  AuthenticationHelper()
-                      .uploadAuthorsProfile(widget.authorImageFile, context);
+                  // AuthenticationHelper()
+                  //     .uploadAuthorsProfile(widget.authorImageFile, context);
                   // AuthenticationHelper().uploadUserDataInFireStore("author");
                   // AuthenticationHelper().uploadAutherUserDataInFireStore();
                   await AuthenticationHelper()

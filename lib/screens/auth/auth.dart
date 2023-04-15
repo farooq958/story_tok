@@ -5,6 +5,7 @@ import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:storily/components/home_video_display_screen.dart';
 import 'package:storily/components/my_storily_author_page.dart';
+import 'package:storily/screens/auth/screens/onboard.dart';
 import 'package:storily/screens/main_home_screen.dart';
 import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
 import 'package:storily/screens/auth/screens/signup_screen.dart';
@@ -120,10 +121,14 @@ class AuthUI extends StatelessWidget {
                     ],
                   ),
                   onPressed: () {
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => SignUpScreen()));
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SignUpScreen()));
+                            builder: (context) => OnboardScreen()));
                   },
                   builder: (context, state) {
                     Widget child;
@@ -408,7 +413,7 @@ class SignupOrLogin extends StatelessWidget {
               ),
               MaterialButton(
                 onPressed: () {
-                  Get.to(() => SignUpScreen());
+                  Get.to(() => SignUpScreen(isSignupSelected: false));
                   // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(

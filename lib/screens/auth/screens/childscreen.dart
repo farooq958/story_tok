@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:storily/components/image_widget.dart';
@@ -14,7 +15,8 @@ class ChildScreen extends StatefulWidget {
   State<ChildScreen> createState() => _ChildScreenState();
 }
 
-class _ChildScreenState extends State<ChildScreen> {
+class _ChildScreenState extends State<ChildScreen>
+    with SingleTickerProviderStateMixin {
   final AuthController authController = Get.find<AuthController>();
 
   @override
@@ -24,6 +26,7 @@ class _ChildScreenState extends State<ChildScreen> {
     log("auth data ==> ${authController.profileImageFromFireStore} ");
     authController.selectedCheerCartoon.value =
         authController.profileImageFromFireStore.first;
+    authController.slectedLevel.value = 0;
   }
 
   @override
@@ -288,30 +291,46 @@ class _ChildScreenState extends State<ChildScreen> {
                           TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
                     ),
                   ),
-                  ...List.generate(
-                      authController.whichAreYouDataList.length,
-                      (index) => InkWell(
-                            onTap: () {
-                              Get.snackbar("Selected",
-                                  "Level ${index + 1} has been selected successfully.",
-                                  backgroundColor:
-                                      Colors.green.withOpacity(0.5));
-                              authController.slectedLevel.value = index + 1;
-                              log("selectde level ${authController.slectedLevel.value}");
-                              getStorage!.write("selectedLevel",
-                                  authController.slectedLevel.value);
-                            },
-                            child: WhichAreYouWidget(
-                              countImagePath: authController
-                                  .whichAreYouDataList[index]["CountImage"],
-                              headerColor: authController
-                                  .whichAreYouDataList[index][Color],
-                              headerText: authController
-                                  .whichAreYouDataList[index]["Type"],
-                              des: authController.whichAreYouDataList[index]
-                                  ["Dis"],
-                            ),
-                          )),
+
+                  ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: authController.whichAreYouDataList.length,
+                      itemBuilder: (context, index) {
+                        return WhichAreYouWidget(
+                            authController.whichAreYouDataList[index]
+                                ["CountImage"],
+                            authController.whichAreYouDataList[index][Color],
+                            authController.whichAreYouDataList[index]["Type"],
+                            authController.whichAreYouDataList[index]["Dis"],
+                            index);
+                      }),
+
+                  // ...List.generate(
+                  //     authController.whichAreYouDataList.length,
+                  //     (index) => InkWell(
+                  //           onTap: () {
+                  //             Get.snackbar("Selected",
+                  //                 "Level ${index + 1} has been selected successfully.",
+                  //                 backgroundColor:
+                  //                     Colors.green.withOpacity(0.5));
+                  //             authController.slectedLevel.value = index + 1;
+                  //             log("selectde level ${authController.slectedLevel.value}");
+                  //             getStorage!.write("selectedLevel",
+                  //                 authController.slectedLevel.value);
+                  //           },
+                  //           // child: WhichAreYouWidget(
+                  //           //   countImagePath: authController
+                  //           //       .whichAreYouDataList[index]["CountImage"],
+                  //           //   headerColor: authController
+                  //           //       .whichAreYouDataList[index][Color],
+                  //           //   headerText: authController
+                  //           //       .whichAreYouDataList[index]["Type"],
+                  //           //   des: authController.whichAreYouDataList[index]
+                  //           //       ["Dis"],
+                  //           // ),
+                  //
+                  //         )),
                   GestureDetector(
                     onTap: () async {
                       log(getStorage!.read("signup_Email"));
@@ -327,7 +346,6 @@ class _ChildScreenState extends State<ChildScreen> {
                         authController.clearAllController();
                         getStorage!.erase();
                       });
-                      ;
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -344,64 +362,195 @@ class _ChildScreenState extends State<ChildScreen> {
       ),
     );
   }
-}
 
-class WhichAreYouWidget extends StatelessWidget {
-  WhichAreYouWidget(
-      {Key? key,
-      this.des,
-      this.countImagePath,
-      this.headerColor,
-      this.headerText})
-      : super(key: key);
-
-  String? countImagePath;
-  String? des;
-  String? headerText;
-  Color? headerColor;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      height: 110,
-      alignment: Alignment.center,
-      width: Get.width,
-      child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10),
-          child: Image.asset(
-            countImagePath!,
-            height: 80,
+  Widget WhichAreYouWidget(String? countImagePath, Color? headerColor,
+      String? headerText, String? des, int index) {
+    return InkWell(
+      onTap: () {
+        Get.snackbar(
+            "Selected", "Level ${index + 1} has been selected successfully.",
+            backgroundColor: Colors.green.withOpacity(0.5));
+        authController.slectedLevel.value = index + 1;
+        log("selectde level ${authController.slectedLevel.value}");
+        getStorage!.write("selectedLevel", authController.slectedLevel.value);
+        setState(() {
+          authController.slectedLevel.value;
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 10),
+        height: 110,
+        // alignment: Alignment.center,
+        width:
+            200, //authController.slectedLevel.value-1 == index?Get.width +100:Get.width - 200,
+        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Image.asset(
+              countImagePath!,
+              height: 80,
+            ),
           ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  headerText!,
+                  style: TextStyle(
+                      fontSize: 28,
+                      color: headerColor!,
+                      fontWeight: FontWeight.w900),
+                ),
+                Text(
+                  des!,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w900),
+                )
+              ],
+            ),
+          ),
+        ]),
+        decoration: BoxDecoration(
+          color: authController.slectedLevel.value - 1 == index
+              ? Color(0xff8b9298)
+              : Color(0xffD3D3D3),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.black, width: 4),
         ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                headerText!,
-                style: TextStyle(
-                    fontSize: 28,
-                    color: headerColor!,
-                    fontWeight: FontWeight.w900),
-              ),
-              Text(
-                des!,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w900),
-              )
-            ],
-          ),
-        )
-      ]),
-      decoration: BoxDecoration(
-        color: Color(0xffD3D3D3),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.black, width: 4),
       ),
     );
   }
 }
+
+// class WhichAreYouWidget extends StatelessWidget {
+//   WhichAreYouWidget(
+//       {Key? key,
+//       this.des,
+//       this.countImagePath,
+//       this.headerColor,
+//       this.headerText,
+//       this.index})
+//       : super(key: key);
+//
+//   String? countImagePath;
+//   String? des;
+//   String? headerText;
+//   Color? headerColor;
+//   int? index;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       margin: EdgeInsets.only(bottom: 10),
+//       height: 110,
+//       alignment: Alignment.center,
+//       width: Get.width,
+//       child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+//         Padding(
+//           padding: const EdgeInsets.only(left: 10, right: 10),
+//           child: Image.asset(
+//             countImagePath!,
+//             height: 80,
+//           ),
+//         ),
+//         Expanded(
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Text(
+//                 headerText!,
+//                 style: TextStyle(
+//                     fontSize: 28,
+//                     color: headerColor!,
+//                     fontWeight: FontWeight.w900),
+//               ),
+//               Text(
+//                 des!,
+//                 style: TextStyle(
+//                     fontSize: 16,
+//                     color: Colors.black,
+//                     fontWeight: FontWeight.w900),
+//               )
+//             ],
+//           ),
+//         )
+//       ]),
+//       decoration: BoxDecoration(
+//         color: Color(0xffD3D3D3),
+//         borderRadius: BorderRadius.circular(10),
+//         border: Border.all(color: Colors.black, width: 4),
+//       ),
+//     );
+//   }
+// }
+
+// class WhichAreYouWidget extends StatefulWidget {
+//   String? countImagePath;
+//   String? des;
+//   String? headerText;
+//   Color? headerColor;
+//   int? index;
+//   WhichAreYouWidget(
+//       {Key? key,
+//       this.des,
+//       this.countImagePath,
+//       this.headerColor,
+//       this.headerText,
+//       this.index})
+//       : super(key: key);
+//
+//   @override
+//   State<WhichAreYouWidget> createState() => _WhichAreYouWidgetState();
+// }
+//
+// class _WhichAreYouWidgetState extends State<WhichAreYouWidget> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       margin: EdgeInsets.only(bottom: 10),
+//       height: 110,
+//       alignment: Alignment.center,
+//       width: Get.width,
+//       child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+//         Padding(
+//           padding: const EdgeInsets.only(left: 10, right: 10),
+//           child: Image.asset(
+//             widget.countImagePath!,
+//             height: 80,
+//           ),
+//         ),
+//         Expanded(
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Text(
+//                 widget.headerText!,
+//                 style: TextStyle(
+//                     fontSize: 28,
+//                     color: widget.headerColor!,
+//                     fontWeight: FontWeight.w900),
+//               ),
+//               Text(
+//                 widget.des!,
+//                 style: TextStyle(
+//                     fontSize: 16,
+//                     color: Colors.black,
+//                     fontWeight: FontWeight.w900),
+//               )
+//             ],
+//           ),
+//         )
+//       ]),
+//       decoration: BoxDecoration(
+//         color: Color(0xffD3D3D3),
+//         borderRadius: BorderRadius.circular(10),
+//         border: Border.all(color: Colors.black, width: 4),
+//       ),
+//     );
+//   }
+// }

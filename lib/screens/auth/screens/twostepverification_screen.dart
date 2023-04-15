@@ -389,7 +389,9 @@ class _TwoStepVerificationState extends State<TwoStepVerification> {
                               //     authController.mobileController.text);
 
                               getStorage!.write("phone",
-                                  authController.mobileController.text);
+                                  "+${authController.selectedCountryPhoneCode.value + "" + authController.mobileController.text}"
+                                 // authController.mobileController.text
+                              );
                               AuthenticationHelper().sendOTP(
                                   "+${authController.selectedCountryPhoneCode.value + " " + authController.mobileController.text}",
                                   context,

@@ -115,6 +115,7 @@ flutter:
     - assets/images/auth_images/
     - assets/images/choose_friend/
     - assets/images/video_upload/
+    - assets/images/how_we_operate/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

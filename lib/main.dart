@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storily/controllers/main_content_controller.dart';
+import 'package:storily/firebase_options.dart';
 import 'package:storily/screens/splash/splash_screen.dart';
 import 'routes/routes.dart';
 import 'AppProvider/app_main_provider.dart';
