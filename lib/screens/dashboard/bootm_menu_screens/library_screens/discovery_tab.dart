@@ -50,14 +50,20 @@ class DiscoveryTab extends StatelessWidget {
     shrinkWrap: true,
               itemBuilder: (context,index){
 
-              return Container(
-                height: 100.sp,
-                width: 100.sp,
+              return TouchableOpacity(
+                onTap: (){
 
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black,width: 2.0.sp)
+                  showCustomBottomSheet(context,state[index]);
+                },
+                child: Container(
+                  height: 100.sp,
+                  width: 100.sp,
+
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black,width: 2.0.sp)
+                  ),
+                  child: Center(child: Image.network(state[index]['cover_url']),),
                 ),
-                child: Center(child: Image.network(state[index]['cover_url']),),
               );
             },itemCount: state.length,scrollDirection: Axis.horizontal, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: 10.sp,); },),
           );
@@ -97,8 +103,8 @@ class DiscoveryTab extends StatelessWidget {
 
                   return TouchableOpacity(
                     onTap: (){
-
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthorLibraryScreen()));
+print(featureAuthors[index]['user_id']);
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthorLibraryScreen(auhtorId: featureAuthors[index]['user_id'],)));
                     },
                     child: Stack(
                       children: [
