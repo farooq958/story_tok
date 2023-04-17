@@ -12,6 +12,8 @@ import 'package:storily/screens/auth/auth_controller.dart/auth_controller.dart';
 import 'package:storily/screens/auth/custom_widgets/corporation_widget.dart';
 import 'package:storily/screens/auth/custom_widgets/individuals_widget.dart';
 
+import '../../../main.dart';
+
 class AuthorScreen extends StatefulWidget {
   const AuthorScreen({Key? key}) : super(key: key);
 
@@ -34,6 +36,13 @@ class _AuthorScreenState extends State<AuthorScreen> {
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authController.mobileController.text = getStorage!.read("phone");
   }
 
   @override
@@ -448,7 +457,9 @@ class _AuthorScreenState extends State<AuthorScreen> {
                               ? IndividualsUiWidgets(
                                   authorImageFile: image,
                                 )
-                              : CorporationWidget(),
+                              : CorporationWidget(
+                                  authorImageFile: image,
+                                ),
                     ),
                   ],
                 ),

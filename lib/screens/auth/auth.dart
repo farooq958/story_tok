@@ -8,6 +8,7 @@ import 'package:storily/components/my_storily_author_page.dart';
 import 'package:storily/cubit/LibraryCubits/library_books_this_month_cubit.dart';
 import 'package:storily/cubit/LibraryCubits/library_featured_authors_cubit.dart';
 import 'package:storily/cubit/LibraryCubits/library_not_owned_books_cubit.dart';
+import 'package:storily/screens/auth/screens/onboard.dart';
 import 'package:storily/screens/main_home_screen.dart';
 import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
 import 'package:storily/screens/auth/screens/signup_screen.dart';
@@ -17,7 +18,6 @@ import '../../global/methods/methods.dart';
 import '../../repo/repo.dart';
 import '../dashboard/feed_dashboard.dart';
 import '../dashboard/profile/author_profile.dart';
-
 
 //authentication page, currently has a short cut to the author center, we need to make the screen automatically enters the home scree(displayscreen) after sign in.
 class FirebaseSession extends StatelessWidget {
@@ -127,10 +127,14 @@ class AuthUI extends StatelessWidget {
                     ],
                   ),
                   onPressed: () {
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => SignUpScreen()));
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SignUpScreen()));
+                            builder: (context) => OnboardScreen()));
                   },
                   builder: (context, state) {
                     Widget child;
@@ -420,7 +424,7 @@ class SignupOrLogin extends StatelessWidget {
               ),
               MaterialButton(
                 onPressed: () {
-                  Get.to(() => SignUpScreen());
+                  Get.to(() => SignUpScreen(isSignupSelected: false));
                   // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(

@@ -41,7 +41,7 @@ class AuthController extends GetxController {
     profileAvatarImagesFromFireStore.value = await Future.wait(
         avatarResult.items.map((Reference ref) => ref.getDownloadURL()));
     log("STore ref ${profileImageFromFireStore.toString()}");
-    log("STore ref ${profileAvatarImagesFromFireStore.toString()}");
+    log("STore ref av ${profileAvatarImagesFromFireStore.toString()}");
   }
 
   RxString selectedAuthType = "login".obs;
@@ -55,6 +55,7 @@ class AuthController extends GetxController {
   TextEditingController signupNameController = TextEditingController();
   TextEditingController signupEmailController = TextEditingController();
   TextEditingController signuppasswordController = TextEditingController();
+  TextEditingController signupConfirmPasswordController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController postalCodeController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -112,7 +113,7 @@ class AuthController extends GetxController {
     getStorage!.write("state", individualsFielsList[5]["textController"].text);
     getStorage!.write("postalCode", postalCodeController.text);
     getStorage!.write("country", selectedCountryName.value);
-    getStorage!.write("phone", mobileController.text);
+    // getStorage!.write("phone", mobileController.text);
   }
 
   setCorporationData() {
@@ -125,7 +126,7 @@ class AuthController extends GetxController {
     getStorage!.write("state", corporateFielsList[5]["textController"].text);
     getStorage!.write("postalCode", postalCodeController.text);
     getStorage!.write("country", selectedCountryName.value);
-    getStorage!.write("phone", mobileController.text);
+    // getStorage!.write("phone", mobileController.text);
   }
 
   storeSignUpData() async {
@@ -172,12 +173,12 @@ class AuthController extends GetxController {
     {
       "headerName": "Address Line 2",
       "textController": TextEditingController(),
-      "Validatior": (String? v) {
-        return Validators.validateRequired(
-          v!,
-          "Address Line 1",
-        );
-      }
+      // "Validatior": (String? v) {
+      //   return Validators.validateRequired(
+      //     v!,
+      //     "Address Line 1",
+      //   );
+      // }
     },
     {
       "headerName": "City",
@@ -232,12 +233,12 @@ class AuthController extends GetxController {
     {
       "headerName": "Address Line 2",
       "textController": TextEditingController(),
-      "Validatior": (String? v) {
-        return Validators.validateRequired(
-          v!,
-          "Address Line 1",
-        );
-      }
+      // "Validatior": (String? v) {
+      //   return Validators.validateRequired(
+      //     v!,
+      //     "Address Line 1",
+      //   );
+      // }
     },
     {
       "headerName": "City",

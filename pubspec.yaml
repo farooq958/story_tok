@@ -77,6 +77,7 @@ dependencies:
   just_audio: ^0.9.32
   get: ^4.6.5
   flutter_secure_storage: ^8.0.0
+  scale_button: ^2.1.2
 
 
 dev_dependencies:
@@ -115,6 +116,7 @@ flutter:
     - assets/images/auth_images/
     - assets/images/choose_friend/
     - assets/images/video_upload/
+    - assets/images/how_we_operate/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

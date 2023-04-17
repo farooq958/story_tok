@@ -2,12 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storily/deprecated_tobedelete/old_home_Deprecated.dart';
 //import 'package:storily/components/old_home_Deprecated.dart';
 import 'package:storily/logic/auth_logic.dart';
 import 'package:storily/screens/auth/auth.dart';
 import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
 import 'package:storily/screens/main_home_screen.dart';
+
+import '../dashboard/feed_dashboard.dart';
 
 class SplashScreen extends StatefulWidget {
   static String id = "/splashScreen";
@@ -19,6 +22,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   Future onloadDecider() async {
     User? user = FirebaseAuth.instance.currentUser;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     if (user == null) {
       print("No User");
       // Navigator.pushReplacement(
@@ -46,7 +50,12 @@ class _SplashScreenState extends State<SplashScreen> {
       //                 // child: SpotifyHome(),
       //               ),
       //             )));
-      Get.offAll(() => MainHomeScreen());
+      if(prefs.getString('userType') == 'Author') {
+        Get.offAll(() =>
+            MainHomeScreen(name: prefs.getString('userName') ?? ''));
+      }else{
+        Get.offAll(() => FeedDashboard());
+      }
     }
   }
 

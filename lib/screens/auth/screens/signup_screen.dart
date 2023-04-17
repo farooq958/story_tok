@@ -5,7 +5,8 @@ import 'package:storily/screens/auth/custom_widgets/loginUi_widget.dart';
 import 'package:storily/screens/auth/custom_widgets/signupUI_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  bool? isSignupSelected;
+   SignUpScreen({Key? key,required this.isSignupSelected}) : super(key: key);
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -13,6 +14,17 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   AuthController authController = Get.put(AuthController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.isSignupSelected!){
+      authController.selectedAuthType.value = "signup";
+    }else{
+      authController.selectedAuthType.value = "login";
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

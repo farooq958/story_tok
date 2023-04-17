@@ -141,7 +141,7 @@ class Validators {
   }
 
   static String? validateFname(String? value, String type, String type2) {
-    String pattern = r'^[a-zA-Z]{2,50}$';
+    String pattern = r'^[a-zA-Z ]{2,50}$';
     RegExp regExp = RegExp(pattern);
     if (value == null || value.length <= 1) {
       return type;
@@ -177,7 +177,7 @@ class Validators {
     if (value!.isEmpty) {
       return "Password is required".tr;
     } else if (!regExp.hasMatch(value)) {
-      return "The password must be at least 8 characters long and contain a mixture of both uppercase and lowercase letters, at least one number and one special character (e.g.,! @ # ?)."
+      return "The password must be at least 8 characters long \n and contain a mixture of both uppercase and \n lowercase letters, at least one number and \n one special character (e.g.,! @ # ?)."
           .tr
           .tr;
     } else {

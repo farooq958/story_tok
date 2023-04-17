@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:scale_button/scale_button.dart';
 import 'package:storily/components/validator.dart';
 import 'package:storily/main.dart';
 import 'package:storily/screens/auth/auth_controller.dart/auth_controller.dart';
@@ -23,6 +25,7 @@ class _IndividualsUiWidgetsState extends State<IndividualsUiWidgets> {
   AuthController authController = Get.find<AuthController>();
 
   GlobalKey<FormState> individualsKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +63,7 @@ class _IndividualsUiWidgetsState extends State<IndividualsUiWidgets> {
                             DateTime? pickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
+                                firstDate: DateTime(1900),
                                 lastDate: DateTime.now());
                             if (pickedDate != null) {
                               String formattedDate =
@@ -162,7 +165,7 @@ class _IndividualsUiWidgetsState extends State<IndividualsUiWidgets> {
                         TextFormField(
                           autofocus: false,
                           controller: authController.postalCodeController,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.text,
                           validator: (value) => Validators.validateDigits(
                             value!,
                             "PostCode",
@@ -318,47 +321,49 @@ class _IndividualsUiWidgetsState extends State<IndividualsUiWidgets> {
           SizedBox(
             height: 25,
           ),
-          GestureDetector(
-            onTap: () async {
-              if (individualsKey.currentState!.validate()) {
-                log("in");
-                if (authController.selectedCountryName.value == null &&
-                    widget.authorImageFile == null) {
-                  Get.snackbar("Required",
-                      "Image and country is required, Please select first.",
-                      backgroundColor: Colors.red.withOpacity(0.5));
-                } else if (authController.selectedCountryName.value == null) {
-                  Get.snackbar(
-                      "Required", "country is required, Please select first.",
-                      backgroundColor: Colors.red.withOpacity(0.5));
-                } else if (widget.authorImageFile == null) {
-                  Get.snackbar(
-                      "Required", "Image is required, Please select first.",
-                      backgroundColor: Colors.red.withOpacity(0.5));
-                } else {
-                  authController.setIndividulesData();
-                  AuthenticationHelper()
-                      .uploadAuthorsProfile(widget.authorImageFile, context);
-                  // AuthenticationHelper().uploadUserDataInFireStore("author");
-                  // AuthenticationHelper().uploadAutherUserDataInFireStore();
-                  await AuthenticationHelper()
-                      .signupUser(
-                    imagePath: widget.authorImageFile,
-                    context: context,
-                    signupEmail: getStorage!.read("signup_Email"),
-                    signupPassword: getStorage!.read("signup_Password"),
-                    signUpType: 'author',
-                  )
-                      .whenComplete(() {
-                    log("WHEN COMPLETED");
-                    authController.clearAllController();
-                    getStorage!.erase();
-                  });
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 70),
+            child: ScaleButton(
+              onTap: () async {
+                if (individualsKey.currentState!.validate()) {
+                  log("in");
+                  if (authController.selectedCountryName.value == null &&
+                      widget.authorImageFile == null) {
+                    Get.snackbar("Required",
+                        "Image and country is required, Please select first.",
+                        backgroundColor: Colors.red.withOpacity(0.5));
+                  } else if (authController.selectedCountryName.value == null) {
+                    Get.snackbar(
+                        "Required", "country is required, Please select first.",
+                        backgroundColor: Colors.red.withOpacity(0.5));
+                  } else if (widget.authorImageFile == null) {
+                    Get.snackbar(
+                        "Required", "Image is required, Please select first.",
+                        backgroundColor: Colors.red.withOpacity(0.5));
+                  } else {
+                    authController.setIndividulesData();
+
+                    // AuthenticationHelper()
+                    //     .uploadAuthorsProfile(widget.authorImageFile, context);
+                    // AuthenticationHelper().uploadUserDataInFireStore("author");
+                    // AuthenticationHelper().uploadAutherUserDataInFireStore();
+                    await AuthenticationHelper()
+                        .signupUser(
+                      imagePath: widget.authorImageFile,
+                      context: context,
+                      signupEmail: getStorage!.read("signup_Email"),
+                      signupPassword: getStorage!.read("signup_Password"),
+                      signUpType: 'author',
+                    )
+                        .whenComplete(() {
+                      log("WHEN COMPLETED");
+
+                      authController.clearAllController();
+                      getStorage!.erase();
+                    });
+                  }
                 }
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 70),
+              },
               child: Image.asset(
                   "assets/images/auth_images/standalone_green_continue.png"),
             ),

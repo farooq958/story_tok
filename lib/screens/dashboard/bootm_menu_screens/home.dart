@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
+import '../../auth/helpers/authentication_helper.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -2722,7 +2724,12 @@ class _HomeState extends State<Home> {
               ),
             ]),
           ),
-        ));
+        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          AuthenticationHelper().signOut();
+        },
+      ),);
   }
 }
 

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scale_button/scale_button.dart';
 import 'package:storily/components/validator.dart';
 import 'package:storily/main.dart';
 import 'package:storily/screens/auth/auth_controller.dart/auth_controller.dart';
@@ -378,26 +379,28 @@ class _TwoStepVerificationState extends State<TwoStepVerification> {
                         SizedBox(
                           height: 25,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            if (twoStepKey.currentState!.validate()) {
-                              log("inininn");
-                              // if (authController.mobileController)
-                              log("${getStorage!.read("signup_FullName")}");
-                              // log("+" +
-                              //     authController.selectedCountryPhoneCode.value +
-                              //     authController.mobileController.text);
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: ScaleButton(
+                            onTap: () {
+                              if (twoStepKey.currentState!.validate()) {
+                                log("inininn");
+                                // if (authController.mobileController)
+                                log("${getStorage!.read("signup_FullName")}");
+                                // log("+" +
+                                //     authController.selectedCountryPhoneCode.value +
+                                //     authController.mobileController.text);
 
-                              getStorage!.write("phone",
-                                  authController.mobileController.text);
-                              AuthenticationHelper().sendOTP(
-                                  "+${authController.selectedCountryPhoneCode.value + " " + authController.mobileController.text}",
-                                  context,
-                                  false);
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                                getStorage!.write("phone",
+                                    "+${authController.selectedCountryPhoneCode.value + "" + authController.mobileController.text}"
+                                  // authController.mobileController.text
+                                );
+                                AuthenticationHelper().sendOTP(
+                                    "+${authController.selectedCountryPhoneCode.value + " " + authController.mobileController.text}",
+                                    context,
+                                    false);
+                              }
+                            },
                             child: Image.asset(
                                 "assets/images/auth_images/standalone_green_OTP.png"),
                           ),

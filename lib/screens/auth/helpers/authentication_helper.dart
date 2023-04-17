@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storily/Utils/process_indicator.dart';
 import 'package:storily/components/common_upload_book_format.dart';
 import 'package:storily/main.dart';
@@ -15,11 +16,16 @@ import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
 import 'package:storily/screens/auth/screens/otpverification_screen.dart';
 import 'package:storily/screens/dashboard/widgets/home_screen.dart';
 import 'package:storily/screens/main_home_screen.dart';
+import 'package:storily/utils.dart';
+
+import '../../dashboard/feed_dashboard.dart';
 
 class AuthenticationHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   AuthController authController = Get.put(AuthController());
   User get user => _auth.currentUser!;
+  String userName = '';
+  var currentUser = [];
 
   Future signupUser(
       {required String signupEmail,
@@ -29,34 +35,57 @@ class AuthenticationHelper {
       required String signUpType}) async {
     Circle().show(context);
     try {
-      // UserCredential credential = await _auth.createUserWithEmailAndPassword(
-      //   email: signupEmail,
-      //   password: signupPassword,
-      // );
-      final credential = EmailAuthProvider.credential(
-          email: signupEmail, password: signupPassword);
-      if (user != null) {
-        await FirebaseAuth.instance.currentUser
-            ?.linkWithCredential(credential)
-            .then((user_) {
-          log("email ==> ${user_.user!.email} ==> ${user_.user!.phoneNumber}");
-        }).catchError((error) {
-          print("bhumit---" + error.toString());
-        });
+      userName = getStorage!.read("signup_Name");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('userName', userName);
+      if(signUpType == "author" || signUpType == "corpo"){
+        prefs.setString('userType', 'Author');
+      }else{
+        prefs.setString('userType', 'child');
+      }
 
-        if (imagePath != null) await uploadAuthorsProfile(imagePath, context);
-        if (signUpType == "author" || signUpType == "corpo") {
-          uploadUserDataInFireStore(signUpType);
-          uploadAutherUserDataInFireStore();
-        } else {
-          uploadUserDataInFireStore(signUpType);
-        }
-        Circle().hide(context);
-        getStorage!.erase();
-        authController.clearAllController();
-        await Get.offAll(() => MainHomeScreen());
+      if (signUpType == "author" || signUpType == "corpo") {
+        uploadUserDataInFireStore(signUpType, imagePath, context);
+        //uploadAutherUserDataInFireStore();
+      } else {
+        uploadUserDataInFireStore(signUpType, imagePath, context);
       }
       Circle().hide(context);
+      authController.clearAllController();
+      if (signUpType == "child") {
+        await Get.offAll(() => FeedDashboard());
+      } else {
+        await Get.offAll(() => MainHomeScreen(name: userName));
+      }
+
+      // final credential = EmailAuthProvider.credential(
+      //     email: signupEmail, password: signupPassword);
+      // if (user != null) {
+      //   await FirebaseAuth.instance.currentUser
+      //       ?.linkWithCredential(credential)
+      //       .then((user_) {
+      //     log("email ==> ${user_.user!.email} ==> ${user_.user!.phoneNumber}");
+      //   }).catchError((error) {
+      //     print("bhumit---" + error.toString());
+      //   });
+      //
+      //   if (imagePath != null) await uploadAuthorsProfile(imagePath, context);
+      //   if (signUpType == "author" || signUpType == "corpo") {
+      //     uploadUserDataInFireStore(signUpType);
+      //     //uploadAutherUserDataInFireStore();
+      //   } else {
+      //     uploadUserDataInFireStore(signUpType);
+      //   }
+      //   Circle().hide(context);
+      //   getStorage!.erase();
+      //   authController.clearAllController();
+      //   if (signUpType == "child") {
+      //     await Get.offAll(() => FeedDashboard());
+      //   } else {
+      //     await Get.offAll(() => MainHomeScreen());
+      //   }
+      // }
+      // Circle().hide(context);
       return null;
     } on FirebaseAuthException catch (e) {
       Circle().hide(context);
@@ -82,10 +111,13 @@ class AuthenticationHelper {
 
   String? downloadUrl;
 
-  uploadAuthorsProfile(_imagePath, context) async {
+  uploadAuthorsProfile(_imagePath, context, refID) async {
     Circle().show(context);
+    // final Reference storageRef = FirebaseStorage.instance.ref().child(
+    //     'author_profile_image/${FirebaseAuth.instance.currentUser!.uid}${_imagePath.path.split('.').last}');
+
     final Reference storageRef = FirebaseStorage.instance.ref().child(
-        'author_profile_image/${FirebaseAuth.instance.currentUser!.uid}${_imagePath.path.split('.').last}');
+        'author_profile_image/${refID}${_imagePath.path.split('.').last}');
 
     final TaskSnapshot task = await storageRef.putFile(_imagePath);
 
@@ -97,14 +129,19 @@ class AuthenticationHelper {
 
 //! SET DATA ON FIRESTORE
 
-  uploadUserDataInFireStore(String signupType) async {
+  uploadUserDataInFireStore(
+      String signupType, File? imagePath, BuildContext context) async {
+    // final DocumentReference docRef =
+    //     FirebaseFirestore.instance.collection('users').doc(user.uid);
     final DocumentReference docRef =
-        FirebaseFirestore.instance.collection('users').doc(user.uid);
+        FirebaseFirestore.instance.collection('users').doc();
 
     final Map<String, dynamic> data = {
-      'author_id':
-          signupType == "corpo" || signupType == "author" ? user.uid : null,
-      'type': signupType == "author" ? 'Author' : 'child',
+      // 'author_id':
+      //     signupType == "corpo" || signupType == "author" ? user.uid : null,
+      'author_id': '',
+      'type':
+          signupType == "corpo" || signupType == "author" ? 'Author' : 'child',
       if (signupType == "author") 'Dob': getStorage!.read("DOB"),
       if (signupType == "corpo")
         'company_name': getStorage!.read("companyName"),
@@ -115,18 +152,25 @@ class AuthenticationHelper {
       if (signupType == "author") 'state': getStorage!.read("state"),
       if (signupType == "author") 'postCode': getStorage!.read("postalCode"),
       if (signupType == "author") 'country': getStorage!.read("country"),
-      if (signupType == "author") 'phonenumber': getStorage!.read("phone"),
-      'email': user.email,
+      'phonenumber': getStorage!.read("phone"),
+      'email': getStorage!.read("signup_Email"),
       'name': getStorage!.read("signup_Name"),
       'nameIndex': getStorage!.read("signup_NameFirstLetter"),
       'premiumMember': false,
-      'profile_url': signupType == "corpo" || signupType == "author"
-          ? downloadUrl
-          : getStorage!.read("selected_avtar_Pheer_Profile"),
+      // 'profile_url': signupType == "corpo" || signupType == "author"
+      //     ? downloadUrl
+      //     : getStorage!.read("selected_avtar_Pheer_Profile"),
+
       'reading_level': getStorage!.read("selectedLevel") ?? 1,
-      'uid': user.uid,
+      'uid': ''
+      //'uid': user.uid,
     };
     docRef.set(data).then((value) {
+      final DocumentReference docRef1 =
+          FirebaseFirestore.instance.collection('users').doc(docRef.id);
+      docRef1.update({'uid': docRef.id, 'author_id': signupType == "corpo" || signupType == "author" ? docRef.id : null});
+      uploadAutherUserDataInFireStore(
+          docRef.id, imagePath, context, signupType);
       Get.snackbar("Sign Up", "Sign up successfully.",
           backgroundColor: Colors.green.withOpacity(0.5));
     }).catchError((error) {
@@ -137,24 +181,42 @@ class AuthenticationHelper {
   }
 
   List booksDocIdList = [];
-  uploadAutherUserDataInFireStore() async {
+  uploadAutherUserDataInFireStore(String refID, File? imagePath,
+      BuildContext context, String signupType) async {
+    // final DocumentReference docRef =
+    //     FirebaseFirestore.instance.collection('book_authors').doc(user.uid);
+
     final DocumentReference docRef =
-        FirebaseFirestore.instance.collection('book_authors').doc(user.uid);
+        FirebaseFirestore.instance.collection('book_authors').doc(refID);
+    if (imagePath != null)
+      await uploadAuthorsProfile(imagePath, context, refID);
 
     final Map<String, dynamic> data = {
       'avatar_url': downloadUrl,
       'boigraphy': "",
       'name': getStorage!.read("signup_Name"),
       'books_doc_id': booksDocIdList,
-      'user_id': user.uid,
+      'user_id': refID,
     };
-    docRef.set(data).then((value) {
-      Get.snackbar("Sign Up", "Sign up successfully.",
-          backgroundColor: Colors.green.withOpacity(0.5));
-    }).catchError((error) {
-      Get.snackbar("ERROR", error.toString(),
-          backgroundColor: Colors.red.withOpacity(0.5));
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      docRef.set(data).then((value) async {
+        final DocumentReference docRef1 =
+            FirebaseFirestore.instance.collection('users').doc(refID);
+        docRef1.update({
+          'profile_url': signupType == "corpo" || signupType == "author"
+              ? downloadUrl
+              : getStorage!.read("selected_avtar_Pheer_Profile"),
+        });
+        getStorage!.erase();
+
+        // Get.snackbar("Sign Up", "Sign up successfully.",
+        //     backgroundColor: Colors.green.withOpacity(0.5));
+      }).catchError((error) {
+        Get.snackbar("ERROR", error.toString(),
+            backgroundColor: Colors.red.withOpacity(0.5));
+      });
     });
+
     log("FIRESTORE DATA ==> ${data}");
   }
 
@@ -166,15 +228,41 @@ class AuthenticationHelper {
     log("signup data ==> $signupEmail ==> $signupPassword");
     try {
       Circle().show(context);
-      await _auth.signInWithEmailAndPassword(
-          email: signupEmail, password: signupPassword);
-      if (user != null) {
-        sendOTP(user.phoneNumber!, context, true);
-        authController.clearAllController();
-        log("user mobile ==> ${user.phoneNumber}");
-        // sendOTP(user.phoneNumber!, context);
-      }
-      log(user.toString());
+
+      var query = FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: authController.loginEmailController.text)
+          .limit(1)
+          .get();
+      // var snapshot = await query.snapshots();
+      query.then((value) async {
+        if (value.size > 0) {
+          currentUser = value.docs.map((doc) => doc.data()).toList();
+          sendOTP(currentUser[0]['phonenumber'], context, true);
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          if(currentUser[0]['type'] == "Author" ){
+            prefs.setString('userType', 'Author');
+          }else{
+            prefs.setString('userType', 'child');
+          }
+
+
+          // authController.clearAllController();
+        } else {
+          Get.snackbar("Signin", "User doesn't exists!",
+              backgroundColor: Colors.red.withOpacity(0.5));
+        }
+      });
+
+      // await _auth.signInWithEmailAndPassword(
+      //     email: signupEmail, password: signupPassword);
+      // if (user != null) {
+      //   sendOTP(user.phoneNumber!, context, true);
+      //   authController.clearAllController();
+      //   log("user mobile ==> ${user.phoneNumber}");
+      //   // sendOTP(user.phoneNumber!, context);
+      // }
+      // log(user.toString());
 
       Circle().hide(context);
       return null;
@@ -189,12 +277,16 @@ class AuthenticationHelper {
 
   Future signOut() async {
     await _auth.signOut();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('userName');
     Get.offAll(() => FirebaseSession());
     authController.clearAllController();
     getStorage!.erase();
     authController.selectedAuthType.value = "login";
     Get.snackbar("Log Out", "Log Out successfully.",
         backgroundColor: Colors.green.withOpacity(0.5));
+    // FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    _auth.currentUser?.delete();
     print('signout');
   }
 
@@ -205,6 +297,9 @@ class AuthenticationHelper {
 
     Circle().show(context);
     log("number ==> $phoneNumber");
+    // if(!fromLogin){
+    //   getStorage!.write("phone", phoneNumber);
+    // }
 
     await _auth.verifyPhoneNumber(
       timeout: Duration(seconds: 60),
@@ -276,10 +371,36 @@ class AuthenticationHelper {
       // Get.off(() => ChildAuthorSelectionScreen());
       if (userCredential.user != null) {
         phoneCredentials = userCredential.credential;
-
-        fromLogin == true
-            ? Get.offAll(() => MainHomeScreen())
-            : Get.off(() => ChildAuthorSelectionScreen());
+        if (fromLogin) {
+          var query = FirebaseFirestore.instance
+              .collection('users')
+              .where('email',
+                  isEqualTo: authController.loginEmailController.text)
+              .limit(1)
+              .get();
+          query.then((value) async {
+            if (value.size > 0) {
+              value.docs.forEach((doc) async {
+                if (doc["type"] == 'Author') {
+                  getStorage!.write("authorname", doc["name"]);
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setString('userName', userName);
+                  authController.otpController.clear();
+                  Get.offAll(() => MainHomeScreen(name: doc["name"]));
+                } else {
+                  authController.otpController.clear();
+                  Get.offAll(() => FeedDashboard());
+                }
+              });
+            }
+          });
+        } else {
+          Get.off(() => ChildAuthorSelectionScreen());
+        }
+        // fromLogin == true
+        //     ? Get.offAll(() => MainHomeScreen())
+        //     : Get.off(() => ChildAuthorSelectionScreen());
         // The user has been successfully authenticated
       } else {
         Circle().hide(context);
