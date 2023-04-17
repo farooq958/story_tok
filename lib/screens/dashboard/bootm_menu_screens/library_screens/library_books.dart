@@ -12,6 +12,8 @@ import 'package:storily/repo/repo.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 
 import '../../../../Utils/Events/library_utils.dart';
+import '../../../../global/methods/methods.dart';
+import '../bookshelf.dart';
 
 class BooksLibrary extends StatelessWidget {
   const BooksLibrary({Key? key}) : super(key: key);
@@ -154,7 +156,9 @@ class BooksLibrary extends StatelessWidget {
                         print(index);
                         return TouchableOpacity(
                           onTap: (){
-                          showCustomBottomSheet(context,listState[index]);
+                            goPage(context,MyBookshelfPage());
+
+
                             print("will show bottom sheet");
                           },
                           child: Container(

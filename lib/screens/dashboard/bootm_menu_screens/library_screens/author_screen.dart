@@ -1,16 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:touchable_opacity/touchable_opacity.dart';
 
+import '../../../../Utils/Events/library_utils.dart';
 import '../../../../global/constants/color_resources.dart';
 import '../../widgets/circle_profile.dart';
 import '../../widgets/textfield_clear.dart';
 import '../../widgets/textfiled_desc.dart';
 ///to be modified
 class AuthorLibraryScreen extends StatefulWidget {
-  const AuthorLibraryScreen({Key? key}) : super(key: key);
+ final String auhtorId;
+  const AuthorLibraryScreen({Key? key,required this.auhtorId}) : super(key: key);
 
   @override
   State<AuthorLibraryScreen> createState() => _AuthorLibraryScreenState();
@@ -66,7 +69,7 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
   }
 
   Future<List> getAuthorProfileData() async {
-    collectionRefAuthor = FirebaseFirestore.instance.collection('book_authors');
+    collectionRefAuthor = FirebaseFirestore.instance.collection('book_authors').where('user_id',isEqualTo: widget.auhtorId.trim());
 
     // Get docs from collection reference
     querySnapshotAuthor = await collectionRefAuthor.get();
@@ -94,29 +97,12 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
   }
 
   Future<List> getBookData() async {
-    if (isPublishedSelected) {
-      if(selectedSort != 'Sort By...') {
+
         collectionRefBook = FirebaseFirestore.instance
             .collection('booksentity')
-            .where('status', isEqualTo: 'published').where(
-            'category_main', isEqualTo: selectedSort);
-      }else{
-        collectionRefBook = FirebaseFirestore.instance
-            .collection('booksentity')
-            .where('status', isEqualTo: 'published');
-      }
-    } else {
-      if(selectedSort != 'Sort By...') {
-        collectionRefBook = FirebaseFirestore.instance
-            .collection('booksentity')
-            .where('status', isEqualTo: 'under review').where(
-            'category_main', isEqualTo: selectedSort);
-      }else{
-        collectionRefBook = FirebaseFirestore.instance
-            .collection('booksentity')
-            .where('status', isEqualTo: 'under review');
-      }
-    }
+            .where('author_doc_id', isEqualTo: widget.auhtorId.trim());
+
+
 
     // Get docs from collection reference
     querySnapshotBook = await collectionRefBook.get();
@@ -129,7 +115,7 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
   }
 
   Future<List> getVideoData() async {
-    collectionRefVideo = FirebaseFirestore.instance.collection('videos');
+    collectionRefVideo = FirebaseFirestore.instance.collection('videos').where('user',isEqualTo: widget.auhtorId.trim());
 
     // Get docs from collection reference
     querySnapshotVideo = await collectionRefVideo.get();
@@ -204,448 +190,504 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
 
       },
       child: Scaffold(
+
+
         backgroundColor: ColorResources.autherProfileBG,
-        body: SingleChildScrollView(
-          child: FutureBuilder(
-              future: getAuthorProfileData(),
-              builder: (BuildContext context, snapshot) {
-                if (snapshot.hasData) {
-                  // if (snapshot.connectionState == ConnectionState.waiting) {
-                  //   return Container(
-                  //       height: MediaQuery.of(context).size.height,
-                  //       width: MediaQuery.of(context).size.width,
-                  //       child: Center(child: CircularProgressIndicator()));
-                  // } else {
-                  print('####### SNAP ${snapshot.data}');
-                  //var list = snapshot.data!;
-                  return Column(
-                    children: [
-                      CircleProfile(
-                          profileurl: authorProfile.isNotEmpty
-                              ? authorProfile[0]['avatar_url'] ?? ''
-                              : ''),
-                      TextFiledClear(
-                        controllerProfile: controllerProfile,
-                        name: authorProfile.isNotEmpty
-                            ? authorProfile[0]['name'] ?? ''
-                            : '',
-                      ),
-                      TextFiledBio(
-                          controllerBio: controllerBio,
-                          bio: authorProfile.isNotEmpty
-                              ? authorProfile[0]['boigraphy'] ?? ''
-                              : ''),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10.0, left: 10.0, right: 10.0),
-                        child: Stack(children: [
-                          Image.asset('assets/images/menubox.png'),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 3.6),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(width: 5),
-                                Expanded(
-                                  child: isBooksSelected
-                                      ? InkWell(
-                                    onTap: () {
-                                      isBooksSelected = true;
-                                      isVideoSelected = false;
-                                      isEventsSelected = false;
-                                      setState(() {
-                                        isBooksSelected;
-                                        isVideoSelected;
-                                        isEventsSelected;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/selectedmenu.png'),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "BOOKS",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
+        body: SafeArea(
+          child: Container(
+            width: 1.sw,
+            height: 1.sh,
+            decoration: BoxDecoration(image: DecorationImage(fit: BoxFit.fill,image: AssetImage("assets/images/authorprofile_background.png"))),
+            child: Stack(
+              children: [
+
+                Positioned(
+                    top: 100,
+                    right: 1.sw/7,
+
+                    child: Image.asset("assets/images/background_circledots.png",width: 80.sp,height: 80.sp,)),
+                Positioned(
+                    top: 1.sh/5.2,
+                    left: 20.sp,
+                    child: Image.asset("assets/images/background_kids_cross2.png",height: 20.sp,width: 40.sp,)),
+                Positioned(
+                    top: 70.sp,
+                    left: 1.sw/7,
+
+                    child: Image.asset("assets/images/background_squiggle.png",width: 50.sp,height: 30.sp,)),
+                Positioned(
+                    top: 90.sp,
+                    right: 1.sw/18,
+
+                    child: Image.asset("assets/images/background_kids_squiggle1.png",width: 50.sp,height: 15.sp,)),
+                Positioned(
+                    top: 30.sp,
+                    left: 1.sw/5,
+
+                    child: Image.asset("assets/images/background_triangle.png",width: 30.sp,height: 25.sp,)),
+                Positioned(
+                    top: 30.sp,
+                    right: 1.sw/5,
+
+                    child: Image.asset("assets/images/background_kids_cross1.png",width: 30.sp,height: 25.sp,)),
+                SingleChildScrollView(
+                  child: FutureBuilder(
+                      future: getAuthorProfileData(),
+                      builder: (BuildContext context, snapshot) {
+                        if (snapshot.hasData) {
+                          // if (snapshot.connectionState == ConnectionState.waiting) {
+                          //   return Container(
+                          //       height: MediaQuery.of(context).size.height,
+                          //       width: MediaQuery.of(context).size.width,
+                          //       child: Center(child: CircularProgressIndicator()));
+                          // } else {
+                          print('####### SNAP ${snapshot.data}');
+                          //var list = snapshot.data!;
+                          return Column(
+                            children: [
+                              CircleProfile(
+                                  profileurl: authorProfile.isNotEmpty
+                                      ? authorProfile[0]['avatar_url'] ?? ''
+                                      : ''),
+                              // TextFiledClear(
+                              //   controllerProfile: controllerProfile,
+                              //   name: authorProfile.isNotEmpty
+                              //       ? authorProfile[0]['name'] ?? ''
+                              //       : '',
+                              // ),
+                              TextFiledBio2(
+                                  controllerBio: controllerBio,
+                                  bio: authorProfile.isNotEmpty
+                                      ? authorProfile[0]['boigraphy'] ?? ''
+                                      : ''),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0, left: 10.0, right: 10.0),
+                                child: Stack(children: [
+                                  Image.asset('assets/images/menubox.png'),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 3.6),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(width: 5),
+                                        Expanded(
+                                          child: isBooksSelected
+                                              ? InkWell(
+                                            onTap: () {
+                                              isBooksSelected = true;
+                                              isVideoSelected = false;
+                                              isEventsSelected = false;
+                                              setState(() {
+                                                isBooksSelected;
+                                                isVideoSelected;
+                                                isEventsSelected;
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 45,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/images/authorprofile_yellowselector.png'),
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  "BOOKS",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                              : InkWell(
+                                            onTap: () {
+                                              isBooksSelected = true;
+                                              isVideoSelected = false;
+                                              isEventsSelected = false;
+                                              setState(() {
+                                                isBooksSelected;
+                                                isVideoSelected;
+                                                isEventsSelected;
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 45,
+                                              child: Center(
+                                                child: Text(
+                                                  "BOOKS",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                        SizedBox(width: 5),
+                                        Expanded(
+                                          child: isVideoSelected
+                                              ? InkWell(
+                                            onTap: () {
+                                              isBooksSelected = false;
+                                              isVideoSelected = true;
+                                              isEventsSelected = false;
+                                              setState(() {
+                                                isBooksSelected;
+                                                isVideoSelected;
+                                                isEventsSelected;
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 45,
+                                              //width: 150,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/images/authorprofile_yellowselector.png'),
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  "VIDEOS",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                              : InkWell(
+                                            onTap: () {
+                                              isBooksSelected = false;
+                                              isVideoSelected = true;
+                                              isEventsSelected = false;
+                                              setState(() {
+                                                isBooksSelected;
+                                                isVideoSelected;
+                                                isEventsSelected;
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 45,
+                                              child: Center(
+                                                child: Text(
+                                                  "VIDEOS",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Expanded(
+                                          child: isEventsSelected
+                                              ? InkWell(
+                                            onTap: () {
+                                              isBooksSelected = false;
+                                              isVideoSelected = false;
+                                              isEventsSelected = true;
+                                              setState(() {
+                                                isBooksSelected;
+                                                isVideoSelected;
+                                                isEventsSelected;
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 45,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/images/authorprofile_yellowselector.png'),
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  "EVENTS",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                              : InkWell(
+                                            onTap: () {
+                                              isBooksSelected = false;
+                                              isVideoSelected = false;
+                                              isEventsSelected = true;
+                                              setState(() {
+                                                isBooksSelected;
+                                                isVideoSelected;
+                                                isEventsSelected;
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 45,
+                                              //width: 150,
+                                              child: Center(
+                                                child: Text(
+                                                  "EVENTS",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                      ],
                                     ),
                                   )
-                                      : InkWell(
-                                    onTap: () {
-                                      isBooksSelected = true;
-                                      isVideoSelected = false;
-                                      isEventsSelected = false;
-                                      setState(() {
-                                        isBooksSelected;
-                                        isVideoSelected;
-                                        isEventsSelected;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      child: Center(
-                                        child: Text(
-                                          "BOOKS",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
+                                ]),
+                              ),
+                              // isBooksSelected
+                              //     ? Padding(
+                              //   padding: const EdgeInsets.only(
+                              //       top: 10.0, left: 10.0, right: 10.0),
+                              //   child: Stack(children: [
+                              //     Image.asset(
+                              //       'assets/images/menubox.png',
+                              //     ),
+                              //     Padding(
+                              //       padding: const EdgeInsets.only(top: 3.6),
+                              //       child: Row(
+                              //         mainAxisAlignment:
+                              //         MainAxisAlignment.spaceBetween,
+                              //         children: [
+                              //           Expanded(
+                              //             child: isPublishedSelected
+                              //                 ? InkWell(
+                              //               onTap: () {
+                              //                 isPublishedSelected = true;
+                              //                 isUnderReviewSelected = false;
+                              //                 setState(() {
+                              //                   isPublishedSelected;
+                              //                   isUnderReviewSelected;
+                              //                 });
+                              //               },
+                              //               child: Container(
+                              //                 height: 45,
+                              //                 decoration: BoxDecoration(
+                              //                   image: DecorationImage(
+                              //                     image: AssetImage(
+                              //                         'assets/images/selectedmenu.png'),
+                              //                   ),
+                              //                 ),
+                              //                 child: Center(
+                              //                   child: Text(
+                              //                     "PUBLISHED",
+                              //                     style: TextStyle(
+                              //                       color: Colors.black,
+                              //                       fontWeight:
+                              //                       FontWeight.bold,
+                              //                       fontSize: 16.0,
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             )
+                              //                 : InkWell(
+                              //               onTap: () {
+                              //                 isPublishedSelected = true;
+                              //                 isUnderReviewSelected = false;
+                              //                 setState(() {
+                              //                   isPublishedSelected;
+                              //                   isUnderReviewSelected;
+                              //                 });
+                              //               },
+                              //               child: Container(
+                              //                 height: 45,
+                              //                 child: Center(
+                              //                   child: Text(
+                              //                     "PUBLISHED",
+                              //                     style: TextStyle(
+                              //                       color: Colors.black,
+                              //                       fontWeight:
+                              //                       FontWeight.bold,
+                              //                       fontSize: 16.0,
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           ),
+                              //           SizedBox(width: 5),
+                              //           Expanded(
+                              //             child: isUnderReviewSelected
+                              //                 ? InkWell(
+                              //               onTap: () {
+                              //                 isPublishedSelected = false;
+                              //                 isUnderReviewSelected = true;
+                              //                 setState(() {
+                              //                   isPublishedSelected;
+                              //                   isUnderReviewSelected;
+                              //                 });
+                              //               },
+                              //               child: Container(
+                              //                 height: 45,
+                              //                 //width: 150,
+                              //                 decoration: BoxDecoration(
+                              //                   image: DecorationImage(
+                              //                     image: AssetImage(
+                              //                         'assets/images/selectedmenu.png'),
+                              //                   ),
+                              //                 ),
+                              //                 child: Center(
+                              //                   child: Text(
+                              //                     "UNDER REVIEW",
+                              //                     style: TextStyle(
+                              //                       color: Colors.black,
+                              //                       fontWeight:
+                              //                       FontWeight.bold,
+                              //                       fontSize: 16.0,
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             )
+                              //                 : InkWell(
+                              //               onTap: () {
+                              //                 isPublishedSelected = false;
+                              //                 isUnderReviewSelected = true;
+                              //                 setState(() {
+                              //                   isPublishedSelected;
+                              //                   isUnderReviewSelected;
+                              //                 });
+                              //               },
+                              //               child: Container(
+                              //                 height: 45,
+                              //                 child: Center(
+                              //                   child: Text(
+                              //                     "UNDER REVIEW",
+                              //                     style: TextStyle(
+                              //                       color: Colors.black,
+                              //                       fontWeight:
+                              //                       FontWeight.bold,
+                              //                       fontSize: 16.0,
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     )
+                              //   ]),
+                              // )
+                              //     : SizedBox(),
+                              isBooksSelected
+                                  ? Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 10.0, left: 10.0, right: 10.0),
+                                  child: Stack(children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 0.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width/2,
+                                            height: 50,
+                                            child: Image.asset(
+                                              'assets/images/profile/profile_purple_sortby_box.png',
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                                SizedBox(width: 5),
-                                Expanded(
-                                  child: isVideoSelected
-                                      ? InkWell(
-                                    onTap: () {
-                                      isBooksSelected = false;
-                                      isVideoSelected = true;
-                                      isEventsSelected = false;
-                                      setState(() {
-                                        isBooksSelected;
-                                        isVideoSelected;
-                                        isEventsSelected;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      //width: 150,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/selectedmenu.png'),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "VIDEOS",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:0.0,right: 5.0),
+                                          child: DropdownButton<String>(
+                                            iconSize: 30,
+                                            hint: Padding(
+                                              padding:
+                                              const EdgeInsets.only(right: 5.0),
+                                              child: Container(
+                                                width: MediaQuery.of(context).size.width/2 - 40,
+                                                child: Text(selectedSort,
+                                                    textAlign: TextAlign.right,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16.0,
+                                                    )),
+                                              ),
+                                            ),
+                                            underline: SizedBox(),
+                                            items: categoryLists.map((String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                              );
+                                            }).toList(),
+                                            onChanged: (val) {
+                                              selectedSort = val!;
+                                              getBookData();
+                                              setState(() {
+                                                selectedSort;
+                                              });
+                                            },
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  )
-                                      : InkWell(
-                                    onTap: () {
-                                      isBooksSelected = false;
-                                      isVideoSelected = true;
-                                      isEventsSelected = false;
-                                      setState(() {
-                                        isBooksSelected;
-                                        isVideoSelected;
-                                        isEventsSelected;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      child: Center(
-                                        child: Text(
-                                          "VIDEOS",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 5),
-                                Expanded(
-                                  child: isEventsSelected
-                                      ? InkWell(
-                                    onTap: () {
-                                      isBooksSelected = false;
-                                      isVideoSelected = false;
-                                      isEventsSelected = true;
-                                      setState(() {
-                                        isBooksSelected;
-                                        isVideoSelected;
-                                        isEventsSelected;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/selectedmenu.png'),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "EVENTS",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                      : InkWell(
-                                    onTap: () {
-                                      isBooksSelected = false;
-                                      isVideoSelected = false;
-                                      isEventsSelected = true;
-                                      setState(() {
-                                        isBooksSelected;
-                                        isVideoSelected;
-                                        isEventsSelected;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      //width: 150,
-                                      child: Center(
-                                        child: Text(
-                                          "EVENTS",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 5),
-                              ],
-                            ),
-                          )
-                        ]),
-                      ),
-                      isBooksSelected
-                          ? Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10.0, left: 10.0, right: 10.0),
-                        child: Stack(children: [
-                          Image.asset(
-                            'assets/images/menubox.png',
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 3.6),
-                            child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: isPublishedSelected
-                                      ? InkWell(
-                                    onTap: () {
-                                      isPublishedSelected = true;
-                                      isUnderReviewSelected = false;
-                                      setState(() {
-                                        isPublishedSelected;
-                                        isUnderReviewSelected;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/selectedmenu.png'),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "PUBLISHED",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight:
-                                            FontWeight.bold,
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                      : InkWell(
-                                    onTap: () {
-                                      isPublishedSelected = true;
-                                      isUnderReviewSelected = false;
-                                      setState(() {
-                                        isPublishedSelected;
-                                        isUnderReviewSelected;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      child: Center(
-                                        child: Text(
-                                          "PUBLISHED",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight:
-                                            FontWeight.bold,
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 5),
-                                Expanded(
-                                  child: isUnderReviewSelected
-                                      ? InkWell(
-                                    onTap: () {
-                                      isPublishedSelected = false;
-                                      isUnderReviewSelected = true;
-                                      setState(() {
-                                        isPublishedSelected;
-                                        isUnderReviewSelected;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      //width: 150,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/selectedmenu.png'),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "UNDER REVIEW",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight:
-                                            FontWeight.bold,
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                      : InkWell(
-                                    onTap: () {
-                                      isPublishedSelected = false;
-                                      isUnderReviewSelected = true;
-                                      setState(() {
-                                        isPublishedSelected;
-                                        isUnderReviewSelected;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      child: Center(
-                                        child: Text(
-                                          "UNDER REVIEW",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight:
-                                            FontWeight.bold,
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ]),
-                      )
-                          : SizedBox(),
-                      isBooksSelected
-                          ? Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10.0, left: 10.0, right: 10.0),
-                          child: Stack(children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 0.0),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width/2,
-                                    height: 50,
-                                    child: Image.asset(
-                                      'assets/images/profile/profile_purple_sortby_box.png',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top:0.0,right: 5.0),
-                                  child: DropdownButton<String>(
-                                    iconSize: 30,
-                                    hint: Padding(
-                                      padding:
-                                      const EdgeInsets.only(right: 5.0),
-                                      child: Container(
-                                        width: MediaQuery.of(context).size.width/2 - 40,
-                                        child: Text(selectedSort,
-                                            textAlign: TextAlign.right,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16.0,
-                                            )),
-                                      ),
-                                    ),
-                                    underline: SizedBox(),
-                                    items: categoryLists.map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (val) {
-                                      selectedSort = val!;
-                                      getBookData();
-                                      setState(() {
-                                        selectedSort;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )
-                          ]))
-                          : SizedBox(),
-                      isEventsSelected ? eventList(context) : SizedBox(),
-                      isBooksSelected ? bookList(context) : SizedBox(),
-                      isVideoSelected ? videoList(context) : SizedBox()
-                    ],
-                  );
-                  //}
-                } else {
-                  return Text('no data');
-                }
-                // return Container(
-                //     height: MediaQuery.of(context).size.height,
-                //     width: MediaQuery.of(context).size.width,
-                //     child: Center(child: CircularProgressIndicator()));
-              }),
+                                      ],
+                                    )
+                                  ]))
+                                  : SizedBox(),
+                              isEventsSelected ? eventList(context) : SizedBox(),
+                              isBooksSelected ? bookList(context) : SizedBox(),
+                              isVideoSelected ? videoList(context) : SizedBox()
+                            ],
+                          );
+                          //}
+                        } else {
+                          return Text('no data');
+                        }
+                        // return Container(
+                        //     height: MediaQuery.of(context).size.height,
+                        //     width: MediaQuery.of(context).size.width,
+                        //     child: Center(child: CircularProgressIndicator()));
+                      }),
+                ),
+
+                Positioned(
+                    top: 10.sp,
+                    left: 10.sp,
+                    child: TouchableOpacity(
+
+                        onTap: ()
+                        {
+                          print("test");
+
+                          Navigator.pop(context);
+                        },
+                        child: Image.asset("assets/images/authorprofile_backbutton.png",height: 29.sp,width: 40.sp,))),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -835,113 +877,121 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
               return Padding(
                 padding:
                 const EdgeInsets.only(bottom: 5.0, left: 10.0, right: 10.0),
-                child: Stack(children: [
-                  Column(
-                    children: [
-                      Container(
-                        height: 100,
-                        width: 100,
-                        child: CachedNetworkImage(
-                            imageUrl: bookLists[index]['cover_url'],
-                            fit: BoxFit.fill,
-                            placeholder: (context, url) => Transform.scale(
-                              scale: 0.5,
-                              child: CircularProgressIndicator(
-                                color: Color.fromRGBO(216, 209, 231, 1.0),
-                              ),
-                            )
-                          //  Image.asset('assets/images/profile.png'),
-                          // child: Image.network(
-                          //     mainCategoryData[index]
-                          //         ['catimage1url']),
+                child: TouchableOpacity(
+                  onTap: (){
+                    print("object");
+                    showCustomBottomSheet(context,bookLists[index]);
+                  },
+                  child: Stack(children: [
+                    ListView(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      children: [
+                        Container(
+                          height: 80.sp,
+                          width: 100.sp,
+                          child: CachedNetworkImage(
+                              imageUrl: bookLists[index]['cover_url'],
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => Transform.scale(
+                                scale: 0.5,
+                                child: CircularProgressIndicator(
+                                  color: Color.fromRGBO(216, 209, 231, 1.0),
+                                ),
+                              )
+                            //  Image.asset('assets/images/profile.png'),
+                            // child: Image.network(
+                            //     mainCategoryData[index]
+                            //         ['catimage1url']),
+                          ),
                         ),
-                      ),
-                      Container(
-                        width: 100,
-                        height: 20,
-                        child: Row(
-                          children: [
-                            Icon(Icons.thumb_up, size: 12),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 3.0),
-                              child: Text(
-                                bookLists[index]['likes'].toString(),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.0,
+                        Container(
+                          width: 100,
+                          height: 30,
+                          child: Row(
+                            children: [
+                              Icon(Icons.thumb_up, size: 12),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 3.0),
+                                child: Text(
+                                  bookLists[index]['likes'].toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.0,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(width: 6),
-                            Icon(Icons.remove_red_eye, size: 12),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 3.0),
-                              child: Text(
-                                bookLists[index]['views'].toString(),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.0,
+                              SizedBox(width: 6),
+                              Icon(Icons.remove_red_eye, size: 12),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 3.0),
+                                child: Text(
+                                  bookLists[index]['views'].toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.0,
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
 
-                  Column(
-                    children: [
-                      Container(
-                        width: 100,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              bookLists[index]['title'],
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 3.0),
-                        child: Container(
+                    Column(
+                      children: [
+                        Container(
                           width: 100,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                bookLists[index]['topic'],
+                                bookLists[index]['title'],
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 14.0,
+                                  fontSize: 17.0,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      )
-                    ],
-                  )
+                        Padding(
+                          padding: const EdgeInsets.only(top: 3.0),
+                          child: Container(
+                            width: 100,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  bookLists[index]['topic'][0],
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    )
 
-                  // Container(
-                  //   // height: 150,
-                  //   decoration: BoxDecoration(
-                  //     image: DecorationImage(
-                  //       image: AssetImage(
-                  //           'assets/images/books/pagepreview_red_page.png'),
-                  //     ),
-                  //   ),
-                  // ),
-                ]),
+                    // Container(
+                    //   // height: 150,
+                    //   decoration: BoxDecoration(
+                    //     image: DecorationImage(
+                    //       image: AssetImage(
+                    //           'assets/images/books/pagepreview_red_page.png'),
+                    //     ),
+                    //   ),
+                    // ),
+                  ]),
+                ),
               );
             },
           );
@@ -964,13 +1014,14 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
                 padding:
                 const EdgeInsets.only(bottom: 5.0, left: 10.0, right: 10.0),
                 child: Stack(children: [
-                  Column(
+                  ListView(
+                    shrinkWrap: true,
                     children: [
                       Container(
                         height: 100,
                         width: 100,
                         child: CachedNetworkImage(
-                            imageUrl: videoLists[index]['user_pic'],
+                            imageUrl:videoLists[index]['user_pic']==null? "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg-1024x683.jpg": videoLists[index]['user_pic'],
                             fit: BoxFit.fill,
                             placeholder: (context, url) => Transform.scale(
                                 scale: 0.5,
@@ -1023,16 +1074,18 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
                   Column(
                     children: [
                       Container(
-                        width: 100,
+                        width: 100.sp,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              videoLists[index]['video_title'],
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17.0,
+                            Expanded(
+                              child: Text(
+                                videoLists[index]['video_title'],
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.0.sp,
+                                ),
                               ),
                             ),
                           ],
@@ -1046,7 +1099,7 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                videoLists[index]['song_name'],
+                                videoLists[index]['song_name']==null?"Song Name": videoLists[index]['song_name'],
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -1111,6 +1164,74 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
           ),
         ),
       ]),
+    );
+  }
+}
+class TextFiledBio2 extends StatefulWidget {
+  final controllerBio;
+  final String bio;
+  TextFiledBio2({Key? key, required this.controllerBio,required this.bio}) : super(key: key);
+
+  @override
+  State<TextFiledBio2> createState() => TextFiledBioState();
+}
+
+class TextFiledBioState extends State<TextFiledBio2> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('####### ${widget.bio}');
+    widget.controllerBio.text = widget.bio;
+    setState(() {
+      widget.controllerBio;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 20),
+      child: Container(
+        decoration: BoxDecoration(image: DecorationImage(
+
+            fit: BoxFit.fill,
+            image: AssetImage("assets/images/authorprofile_biobox.png"))),
+        height: 150.sp,
+        child: Center(
+          child: TextField(
+            controller: widget.controllerBio,
+            maxLines: 1,
+            style: TextStyle(
+                color: ColorResources.colorBlack, fontWeight: FontWeight.w800),
+            decoration: InputDecoration(
+              // hintText: 'Enter a message',
+              hintStyle: TextStyle(
+                  color: ColorResources.colorBlack, fontWeight: FontWeight.w900),
+              hintText: "   Bio",
+             // filled: true,
+              //fillColor: ColorResources.textfieldProfileBG,
+              border: InputBorder.none,
+              // border: OutlineInputBorder(
+              //   borderRadius: BorderRadius.circular(10.0),
+              // ),
+              // enabledBorder: OutlineInputBorder(
+              //   borderSide:
+              //   BorderSide(color: ColorResources.colorBlack, width: 3.0),
+              // ),
+              // focusedBorder: OutlineInputBorder(
+              //   borderSide:
+              //   BorderSide(color: ColorResources.colorBlack, width: 3.0),
+              // ),
+              // suffixIcon: IconButton(
+              //   onPressed: widget.controllerProfile.clear,
+              //   icon: Icon(Icons.clear, size: 30, color: ColorResources.colorBlack),
+              // ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
