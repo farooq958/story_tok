@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scale_button/scale_button.dart';
 import 'package:storily/components/image_widget.dart';
 import 'package:storily/main.dart';
 import 'package:storily/screens/auth/auth_controller.dart/auth_controller.dart';
@@ -18,6 +19,7 @@ class ChildScreen extends StatefulWidget {
 class _ChildScreenState extends State<ChildScreen>
     with SingleTickerProviderStateMixin {
   final AuthController authController = Get.find<AuthController>();
+
 
   @override
   void initState() {
@@ -250,7 +252,7 @@ class _ChildScreenState extends State<ChildScreen>
                             onTap: () {
                               authController.selectedCheerCartoon.value =
                                   authController
-                                      .profileImageFromFireStore[index];
+                                      .profileAvatarImagesFromFireStore[index];
                               getStorage!.write(
                                   "selected_avtar_Profile",
                                   authController
@@ -331,25 +333,27 @@ class _ChildScreenState extends State<ChildScreen>
                   //           // ),
                   //
                   //         )),
-                  GestureDetector(
-                    onTap: () async {
-                      log(getStorage!.read("signup_Email"));
-                      await AuthenticationHelper()
-                          .signupUser(
-                        signUpType: "child",
-                        context: context,
-                        signupEmail: getStorage!.read("signup_Email"),
-                        signupPassword: getStorage!.read("signup_Password"),
-                      )
-                          .whenComplete(() {
-                        log("WHEN COMPLETED");
-                        authController.clearAllController();
-                        getStorage!.erase();
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 20),
+                    child: ScaleButton(
+                      onTap: () async {
+                        log(getStorage!.read("signup_Email"));
+
+                        await AuthenticationHelper()
+                            .signupUser(
+                          signUpType: "child",
+                          context: context,
+                          signupEmail: getStorage!.read("signup_Email"),
+                          signupPassword: getStorage!.read("signup_Password"),
+                        )
+                            .whenComplete(() {
+                          log("WHEN COMPLETED");
+
+                          authController.clearAllController();
+                          getStorage!.erase();
+                        });
+                      },
                       child: Image.asset(
                           "assets/images/auth_images/standalone_green_continue.png"),
                     ),

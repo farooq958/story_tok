@@ -168,7 +168,7 @@ class AuthenticationHelper {
     docRef.set(data).then((value) {
       final DocumentReference docRef1 =
           FirebaseFirestore.instance.collection('users').doc(docRef.id);
-      docRef1.update({'uid': docRef.id, 'author_id': docRef.id});
+      docRef1.update({'uid': docRef.id, 'author_id': signupType == "corpo" || signupType == "author" ? docRef.id : null});
       uploadAutherUserDataInFireStore(
           docRef.id, imagePath, context, signupType);
       Get.snackbar("Sign Up", "Sign up successfully.",

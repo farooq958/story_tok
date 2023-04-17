@@ -6,6 +6,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:scale_button/scale_button.dart';
 import 'package:storily/components/validator.dart';
 import 'package:storily/main.dart';
 import 'package:storily/screens/auth/helpers/authentication_helper.dart';
@@ -24,6 +25,8 @@ class CorporationWidget extends StatefulWidget {
 class _CorporationWidgetState extends State<CorporationWidget> {
   AuthController authController = Get.find<AuthController>();
   GlobalKey<FormState> corporationKey = GlobalKey<FormState>();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +164,7 @@ class _CorporationWidgetState extends State<CorporationWidget> {
                         TextFormField(
                           autofocus: false,
                           controller: authController.postalCodeController,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.text,
                           validator: (value) => Validators.validateDigits(
                               value!, "PostalCode", 6),
                           maxLength: 6,
@@ -335,6 +338,7 @@ class _CorporationWidgetState extends State<CorporationWidget> {
                   // AuthenticationHelper()
                   //     .uploadAuthorsProfile(widget.authorImageFile, context);
                   authController.setCorporationData();
+
                   // AuthenticationHelper().uploadUserDataInFireStore("corpo");
                   // AuthenticationHelper().uploadAutherUserDataInFireStore();
                   await AuthenticationHelper()
@@ -347,6 +351,7 @@ class _CorporationWidgetState extends State<CorporationWidget> {
                   )
                       .whenComplete(() {
                     log("WHEN COMPLETED");
+
                     authController.clearAllController();
                     getStorage!.erase();
                   });
@@ -355,8 +360,49 @@ class _CorporationWidgetState extends State<CorporationWidget> {
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 70),
-              child: Image.asset(
-                  "assets/images/auth_images/standalone_green_continue.png"),
+              child: ScaleButton(
+                onTap: () async {
+                  if (corporationKey.currentState!.validate()) {
+                    if (authController.selectedCountryName.value == null &&
+                        widget.authorImageFile == null) {
+                      Get.snackbar("Required",
+                          "Image and country is required, Please select first.",
+                          backgroundColor: Colors.red.withOpacity(0.5));
+                    } else if (authController.selectedCountryName.value == null) {
+                      Get.snackbar(
+                          "Required", "country is required, Please select first.",
+                          backgroundColor: Colors.red.withOpacity(0.5));
+                    } else if (widget.authorImageFile == null) {
+                      Get.snackbar(
+                          "Required", "Image is required, Please select first.",
+                          backgroundColor: Colors.red.withOpacity(0.5));
+                    } else {
+                      // AuthenticationHelper()
+                      //     .uploadAuthorsProfile(widget.authorImageFile, context);
+                      authController.setCorporationData();
+
+                      // AuthenticationHelper().uploadUserDataInFireStore("corpo");
+                      // AuthenticationHelper().uploadAutherUserDataInFireStore();
+                      await AuthenticationHelper()
+                          .signupUser(
+                        imagePath: widget.authorImageFile,
+                        signUpType: "corpo",
+                        context: context,
+                        signupEmail: getStorage!.read("signup_Email"),
+                        signupPassword: getStorage!.read("signup_Password"),
+                      )
+                          .whenComplete(() {
+                        log("WHEN COMPLETED");
+
+                        authController.clearAllController();
+                        getStorage!.erase();
+                      });
+                    }
+                  }
+                },
+                child: Image.asset(
+                    "assets/images/auth_images/standalone_green_continue.png"),
+              ),
             ),
           ),
           SizedBox(

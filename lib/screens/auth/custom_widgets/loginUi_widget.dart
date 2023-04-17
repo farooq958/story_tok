@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:pinput/pinput.dart';
+import 'package:scale_button/scale_button.dart';
 import 'package:storily/components/validator.dart';
 import 'package:storily/screens/auth/auth_controller.dart/auth_controller.dart';
 import 'package:storily/screens/auth/helpers/authentication_helper.dart';
@@ -96,6 +97,7 @@ class _LoginUiWidgetState extends State<LoginUiWidget> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) => Validators.validatePassword(value),
               controller: authController.loginPasswordController,
+              obscureText: true,
               decoration: InputDecoration(
                 fillColor: Colors.grey.withOpacity(.1),
                 filled: true,
@@ -112,7 +114,7 @@ class _LoginUiWidgetState extends State<LoginUiWidget> {
                     borderSide: BorderSide(color: Colors.red, width: 2)),
                 focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.red, width: 2)),
-                hintText: "Enter Your Email",
+                hintText: "Enter Your Password",
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 7, horizontal: 10),
               ),
@@ -133,7 +135,7 @@ class _LoginUiWidgetState extends State<LoginUiWidget> {
             SizedBox(
               height: 10,
             ),
-            GestureDetector(
+            ScaleButton(
               onTap: () async {
                 if (loginKey.currentState!.validate()) {
                   if (authController.loginEmailController.length == 0 ||
@@ -142,14 +144,16 @@ class _LoginUiWidgetState extends State<LoginUiWidget> {
                         "Error", "Please enter valide Email or Password",
                         backgroundColor: Colors.red.withOpacity(0.5));
                   } else {
+
                     await AuthenticationHelper()
                         .signInUser(
                       context: context,
                       signupEmail: authController.loginEmailController.text,
                       signupPassword:
-                          authController.loginPasswordController.text,
+                      authController.loginPasswordController.text,
                     )
                         .whenComplete(() {
+
                       // authController.loginEmailController.clear();
                       // authController.loginPasswordController.clear();
                     });

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scale_button/scale_button.dart';
 import 'package:storily/components/input_text_field_widget.dart';
 import 'package:storily/components/validator.dart';
 import 'package:storily/main.dart';
@@ -24,6 +25,8 @@ AuthController authController = Get.find<AuthController>();
 GlobalKey<FormState> signupKey = GlobalKey<FormState>();
 
 class _SignUpUIWidgetState extends State<SignUpUIWidget> {
+
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -172,42 +175,90 @@ class _SignUpUIWidgetState extends State<SignUpUIWidget> {
                     borderSide: BorderSide(color: Colors.red, width: 2)),
                 focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.red, width: 2)),
-                hintText: "Enter Your Email",
+                hintText: "Enter Your Password",
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 7, horizontal: 10),
               ),
               cursorColor: Colors.black,
               maxLines: 1,
+              obscureText: true,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              "Confirm Password",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(
+              height: 05,
+            ),
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) => Validators.validatePassword(value),
+              controller: authController.signupConfirmPasswordController,
+              decoration: InputDecoration(
+                fillColor: Colors.grey.withOpacity(.1),
+                filled: true,
+                errorStyle: const TextStyle(fontSize: 10),
+                isCollapsed: true,
+                // constraints: BoxConstraints(maxHeight: 30, minHeight: 30),
+                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(7),
+                    borderSide: BorderSide(color: Colors.black, width: 2)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 2)),
+                errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red, width: 2)),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red, width: 2)),
+                hintText: "Enter Your Confirm Password",
+                contentPadding:
+                EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+              ),
+              cursorColor: Colors.black,
+              maxLines: 1,
+              obscureText: true,
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900),
             ),
             SizedBox(
               height: 10,
             ),
-            GestureDetector(
+            ScaleButton(
               onTap: () async {
                 // log(getStorage!.read("signup_Password"));
                 // log(getStorage!.read("signup_Email"));
                 // log(getStorage!.read("signup_NameFirstLetter"));
                 // log(getStorage!.read("signup_Name"));
                 if (signupKey.currentState!.validate()) {
-                  var query = FirebaseFirestore.instance
-                      .collection('users')
-                      .where('email',
-                          isEqualTo: authController.signupEmailController.text)
-                      .limit(1)
-                      .get();
-                  // var snapshot = await query.snapshots();
-                  query.then((value) async {
+                  if(authController.signuppasswordController.text == authController.signupConfirmPasswordController.text) {
 
-                    print("##### SIZE OF RECORD ${value.size}");
-                    if (value.size > 0) {
-                      Get.snackbar("Registration", "User already exists!",
-                          backgroundColor: Colors.red.withOpacity(0.5));
-                    } else {
-                      await authController.storeSignUpData();
-                    }
-                  });
+                    var query = FirebaseFirestore.instance
+                        .collection('users')
+                        .where('email',
+                        isEqualTo: authController.signupEmailController.text)
+                        .limit(1)
+                        .get();
+                    // var snapshot = await query.snapshots();
+                    query.then((value) async {
+                      print("##### SIZE OF RECORD ${value.size}");
+                      if (value.size > 0) {
+                        Get.snackbar("Registration", "User already exists!",
+                            backgroundColor: Colors.red.withOpacity(0.5));
+                      } else {
 
+                        await authController.storeSignUpData();
+                      }
+                    });
+                  }else{
+                    Get.snackbar("Registration", "Password doesn't match with confirm password!",
+                        backgroundColor: Colors.red.withOpacity(0.5));
+                  }
                 }
               },
               child: Image.asset(

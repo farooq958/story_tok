@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scale_button/scale_button.dart';
 import 'package:storily/screens/auth/screens/signup_screen.dart';
 
 class OnboardScreen extends StatefulWidget {
@@ -307,7 +308,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  GestureDetector(
+                  ScaleButton(
                     onTap: () async {
                       Get.to(() => SignUpScreen(isSignupSelected: true));
                     },
@@ -319,7 +320,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  GestureDetector(
+                  ScaleButton(
                     onTap: () async {
                       Get.to(() => SignUpScreen(isSignupSelected: false));
                     },

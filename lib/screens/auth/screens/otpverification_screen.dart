@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
+import 'package:scale_button/scale_button.dart';
 import 'package:storily/screens/auth/custom_widgets/signupUI_widget.dart';
 import 'package:storily/screens/auth/helpers/authentication_helper.dart';
 import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
@@ -268,15 +269,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     SizedBox(
                       height: 5,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        AuthenticationHelper().verifyOTP(
-                            authController.otpController.text,
-                            context,
-                            widget.fromLogin!);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: ScaleButton(
+                        onTap: () {
+                          AuthenticationHelper().verifyOTP(
+                              authController.otpController.text,
+                              context,
+                              widget.fromLogin!);
+                        },
                         child: Image.asset(
                             "assets/images/auth_images/standalone_green_continue.png"),
                       ),
