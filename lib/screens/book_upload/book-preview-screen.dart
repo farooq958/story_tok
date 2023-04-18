@@ -475,7 +475,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                   // ],
                                 ),
                               ),
-                            // if (widget.flag == 'continue' || widget.flag == 'press continue')
+                            if (widget.flag == 'continue' || widget.flag == 'press continue')
                               InkWell(
                                 child: Stack(
                                   children: [
