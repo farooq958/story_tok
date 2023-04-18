@@ -451,7 +451,8 @@ class VoiceRecorderState extends State<VoiceRecorder>
                           children: [
                             if (bgMusic != null)
                               Text('Background Music Volume'),
-                            if (bgMusic != null && widget.flag == 'press continue')
+                            if (bgMusic != null &&
+                                widget.flag == 'press continue')
                               Container(
                                 width: MediaQuery.of(context).size.width / 1.5,
                                 child: SfSlider(
@@ -473,6 +474,51 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                   //   ),
                                   // ],
                                 ),
+                              ),
+                            // if (widget.flag == 'continue' || widget.flag == 'press continue')
+                              InkWell(
+                                child: Stack(
+                                  children: [
+                                    commonAddBookWidget(
+                                        context,
+                                        Assets.directionalRedBox,
+                                        MediaQuery.of(context).size.width *
+                                            0.40),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 5),
+                                      width: MediaQuery.of(context)
+                                          .size
+                                          .width *
+                                          0.40,
+                                      child: Center(
+                                        child: Text(
+                                          "Add BG Music",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    )
+                                    // commonAddBookWidget(
+                                    //     context,
+                                    //     Assets.standAloneRedAdd,
+                                    //     MediaQuery.of(context).size.width *
+                                    //         0.30),
+                                  ],
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          AddBackgroundMusic(
+                                            manageFlags: manageFlagList,
+                                            audioPath: _audioPaths,
+                                            imagesPath: widget.imagesPath,
+                                            images: widget.images,
+                                          ),
+                                    ),
+                                  );
+                                },
                               ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -501,38 +547,6 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                 SizedBox(
                                   width: 10,
                                 ),
-                                if (widget.flag == 'continue')
-                                  InkWell(
-                                    child: Stack(
-                                      children: [
-                                        commonAddBookWidget(
-                                            context,
-                                            Assets.directionalRedBox,
-                                            MediaQuery.of(context).size.width *
-                                                0.30),
-                                        commonAddBookWidget(
-                                            context,
-                                            Assets.standAloneRedAdd,
-                                            MediaQuery.of(context).size.width *
-                                                0.30),
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              AddBackgroundMusic(
-                                                manageFlags: manageFlagList,
-                                            audioPath: _audioPaths,
-                                            imagesPath: widget.imagesPath,
-                                            images: widget.images,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-
                                 if (widget.flag == 'audio')
                                   InkWell(
                                     child: Stack(
@@ -630,8 +644,8 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                       },
                                       child: Image.asset(
                                         !recordingStart
-                                            ? Assets.audioUploadRedUploadIcon
-                                            : Assets.audioUploadRedPauseIcon,
+                                            ? Assets.audiouploadRedRecordicon
+                                            : Assets.audiouploadRedStopicon,
                                         height: 20,
                                         width: 20,
                                       ),
@@ -804,7 +818,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
   uploadAudio() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['mp3', 'mp4', '.wav', '.m4a'],
+      allowedExtensions: ['mp3', '.wav', '.m4a'],
       allowMultiple: false,
     );
 

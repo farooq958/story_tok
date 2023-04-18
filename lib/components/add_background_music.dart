@@ -283,7 +283,7 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
     FlutterSecureStorage storage = FlutterSecureStorage();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['mp3', 'mp4', '.wav', '.m4a'],
+      allowedExtensions: ['mp3', '.wav', '.m4a'],
       allowMultiple: false,
     );
 
