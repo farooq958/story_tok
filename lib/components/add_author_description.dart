@@ -141,7 +141,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       ),
       body: Stack(
         children: [
-          backgroundSquare(context),
+          backgrondSquareMethod(context),
           SingleChildScrollView(
             child: Stack(
               children: [
@@ -1145,7 +1145,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     // code here for update flag
                                     var route = new MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                      new VoiceRecorder(widget.manageFlagList, widget.images, widget.imagesPath, 'continue'),
+                                      new VoiceRecorder(widget.audioPaths, widget.manageFlagList, widget.images, widget.imagesPath, 'continue'),
                                     );
                                     Navigator.pop(context, true);
                                   },

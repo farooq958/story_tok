@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:audio_session/audio_session.dart';
 import 'package:record/record.dart';
 import 'package:storily/components/add_author_description.dart';
+import 'package:storily/components/add_background_music.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import '../../components/common_upload_book_format.dart';
 import '../../global/constants/assets.dart';
@@ -21,6 +22,7 @@ typedef _Fn = void Function();
 const theSource = AudioSource.microphone;
 
 class VoiceRecorder extends StatefulWidget {
+  final audioPaths;
   final manageFlagList;
   List<File>? images = <File>[];
   var imagesPath;
@@ -33,16 +35,18 @@ class VoiceRecorder extends StatefulWidget {
   var topic;
 
   VoiceRecorder(
-      this.manageFlagList,
-      [this.images,
-      this.imagesPath,
-      this.flag,
-      this.ref,
-      this.imageURL,
-      this.category,
-      this.subCategory,
-      this.title,
-      this.topic]);
+    this.audioPaths,
+    this.manageFlagList, [
+    this.images,
+    this.imagesPath,
+    this.flag,
+    this.ref,
+    this.imageURL,
+    this.category,
+    this.subCategory,
+    this.title,
+    this.topic,
+  ]);
 
   @override
   VoiceRecorderState createState() => VoiceRecorderState(cachedimages: images);
@@ -83,9 +87,9 @@ class VoiceRecorderState extends State<VoiceRecorder>
 
   @override
   void initState() {
-    if(widget.manageFlagList.length > 0) {
+    if (widget.manageFlagList.length > 0) {
       manageFlagList = widget.manageFlagList;
-    }else{
+    } else {
       manageFlagList.add(widget.flag);
     }
 
@@ -104,13 +108,20 @@ class VoiceRecorderState extends State<VoiceRecorder>
         _mRecorderIsInited = true;
       });
     });
+
+    print("press continue :: ${widget.flag}");
+
+    if (widget.flag == 'press continue') {
+      _audioPaths = widget.audioPaths;
+      playAutoAudio();
+      playAutoBgAudio();
+    }
     super.initState();
   }
 
   var bgMusic;
 
   playAutoBgAudio() async {
-    print("heloooo : ${widget.flag}");
     FlutterSecureStorage storage = FlutterSecureStorage();
     bgMusic = await storage.read(key: 'bg_music');
 
@@ -254,6 +265,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
   }
 
   playAutoAudio() async {
+    await _mPlayer.stopPlayer();
     _mPlayer
         .startPlayer(
             fromURI: _audioPaths[_currentIndex].values.first.toString(),
@@ -280,7 +292,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
                     imagesPath: widget.imagesPath,
                     audioPaths: _audioPaths,
                     withAudio: withAudio,
-                manageFlagList: manageFlagList,
+                    manageFlagList: manageFlagList,
                   )
               /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
               ),
@@ -312,7 +324,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
     makeBody() {
       return Stack(
         children: [
-          backgroundSquare(context),
+          backgrondSquareMethod(context),
           SingleChildScrollView(
             child: Column(
               children: [
@@ -438,28 +450,29 @@ class VoiceRecorderState extends State<VoiceRecorder>
                         Column(
                           children: [
                             if (bgMusic != null)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('BG Volume'),
-                                  SfSlider(
-                                    activeColor: Color(0xffEF706C),
-                                    min: 0.0,
-                                    max: 100.0,
-                                    value: _value,
-                                    interval: 20,
-                                    showTicks: true,
-                                    showLabels: true,
-                                    enableTooltip: true,
-                                    minorTicksPerInterval: 1,
-                                    onChanged: (dynamic value) {
-                                      setState(() {
-                                        _value = value;
-                                        _bgPlayer.setVolume(_value / 100);
-                                      });
-                                    },
-                                  ),
-                                ],
+                              Text('Background Music Volume'),
+                            if (bgMusic != null && widget.flag == 'press continue')
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.5,
+                                child: SfSlider(
+                                  activeColor: Color(0xffEF706C),
+                                  min: 0.0,
+                                  max: 100.0,
+                                  value: _value,
+                                  interval: 5,
+                                  showTicks: true,
+                                  // showLabels: true,
+                                  enableTooltip: true,
+                                  minorTicksPerInterval: 1,
+                                  onChanged: (dynamic value) {
+                                    setState(() {
+                                      _value = value;
+                                      _bgPlayer.setVolume(_value / 100);
+                                    });
+                                  },
+                                  //   ),
+                                  // ],
+                                ),
                               ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -479,16 +492,47 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                         setState(() {
                                           _currentIndex--;
                                         });
-                                        if (widget.flag == 'continue') {
+                                        if (widget.flag == 'press continue') {
                                           playAutoAudio();
                                         }
                                       }
                                     },
                                   ),
-
                                 SizedBox(
                                   width: 10,
                                 ),
+                                if (widget.flag == 'continue')
+                                  InkWell(
+                                    child: Stack(
+                                      children: [
+                                        commonAddBookWidget(
+                                            context,
+                                            Assets.directionalRedBox,
+                                            MediaQuery.of(context).size.width *
+                                                0.30),
+                                        commonAddBookWidget(
+                                            context,
+                                            Assets.standAloneRedAdd,
+                                            MediaQuery.of(context).size.width *
+                                                0.30),
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              AddBackgroundMusic(
+                                                manageFlags: manageFlagList,
+                                            audioPath: _audioPaths,
+                                            imagesPath: widget.imagesPath,
+                                            images: widget.images,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+
                                 if (widget.flag == 'audio')
                                   InkWell(
                                     child: Stack(
@@ -549,7 +593,7 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                           _currentIndex++;
                                         });
                                         print(widget.flag);
-                                        if (widget.flag == 'continue') {
+                                        if (widget.flag == 'press continue') {
                                           playAutoAudio();
                                         }
                                       }
@@ -648,6 +692,9 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                   ),
                                 ],
                               ),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -672,7 +719,6 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                     ],
                                   ),
                                   onTap: () {
-                                    print(manageFlagList);
                                     if (manageFlagList.last == 'continue') {
                                       manageFlagList.removeLast();
                                       _bgPlayer.closePlayer();
@@ -708,8 +754,6 @@ class VoiceRecorderState extends State<VoiceRecorder>
                                     ],
                                   ),
                                   onTap: () {
-                                    print(
-                                        "on continue button : ${widget.flag}");
                                     if (widget.flag != 'press continue') {
                                       setState(() {
                                         _currentIndex = 0;

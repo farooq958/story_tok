@@ -70,7 +70,7 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
     Widget makeBody() {
       return Stack(
         children: [
-          backgroundSquare(context),
+          backgrondSquareMethod(context),
           SingleChildScrollView(
             child: Stack(
               children: [

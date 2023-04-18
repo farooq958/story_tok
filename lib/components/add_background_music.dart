@@ -5,15 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:storily/components/record_audio.dart';
+import 'package:storily/screens/book_upload/book-preview-screen.dart';
 import '../global/constants/assets.dart';
 import 'common_upload_book_format.dart';
 
 class AddBackgroundMusic extends StatefulWidget {
+  final manageFlags;
+  final audioPath;
   final images;
   final imagesPath;
 
-  const AddBackgroundMusic({Key? key, required this.images, this.imagesPath})
+  const AddBackgroundMusic({Key? key, required this.audioPath, required this.images, this.imagesPath, this.manageFlags})
       : super(key: key);
 
   @override
@@ -76,7 +78,7 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
       body: SafeArea(
         child: Stack(
           children: [
-            backgroundSquare(context),
+            backgrondSquareMethod(context),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -187,6 +189,8 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
                                 setState(() {
                                   addFiles = true;
                                 });
+
+                                Navigator.pop(context);
                               },
                             ),
                           ],
@@ -230,18 +234,19 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
     }
 
     Future.delayed(Duration(milliseconds: 500), () {
-      Navigator.push(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => RecordAudio(
-            imagesPath: widget.imagesPath,
-            images: widget.images,
-          ),
-          transitionDuration: Duration(milliseconds: 700),
-          transitionsBuilder: (_, a, __, c) =>
-              FadeTransition(opacity: a, child: c),
-        ),
-      );
+      //
+      // Navigator.push(
+      //   context,
+      //   PageRouteBuilder(
+      //     pageBuilder: (_, __, child) => RecordAudio(
+      //       imagesPath: widget.imagesPath,
+      //       images: widget.images,
+      //     ),
+      //     transitionDuration: Duration(milliseconds: 700),
+      //     transitionsBuilder: (_, a, __, c) =>
+      //         FadeTransition(opacity: a, child: c),
+      //   ),
+      // );
     });
   }
 
@@ -294,5 +299,18 @@ class AddBackgroundMusicState extends State<AddBackgroundMusic>
     });
 
     await storage.write(key: 'bg_music', value: bgAudioPath);
+
+    Future.delayed(Duration(milliseconds: 500), () {
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) =>
+              VoiceRecorder(widget.audioPath, widget.manageFlags, widget.images, widget.imagesPath, 'press continue'),
+          transitionDuration: Duration(milliseconds: 700),
+          transitionsBuilder: (_, a, __, c) =>
+              FadeTransition(opacity: a, child: c),
+        ),
+      );
+    });
   }
 }

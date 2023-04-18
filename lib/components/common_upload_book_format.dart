@@ -171,7 +171,7 @@ BoxDecoration boxDecoration() {
   );
 }
 
-Widget backgroundSquare(context) {
+Widget backgrondSquareMethod(context) {
   return Stack(
     children: [
       Container(

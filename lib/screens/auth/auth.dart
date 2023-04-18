@@ -314,7 +314,7 @@ class AuthUI extends StatelessWidget {
                           width: 5.0,
                         ),
                         Text(
-                          "Dashboard",
+                          "Dashboard 11 1 11 ",
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,

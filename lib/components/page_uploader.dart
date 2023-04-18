@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:selectable_container/selectable_container.dart';
-import 'package:storily/components/add_background_music.dart';
+import 'package:storily/components/record_audio.dart';
 import 'package:storily/global/constants/assets.dart';
 import '../utils.dart';
 import 'common_upload_book_format.dart';
@@ -85,6 +86,12 @@ class PageUploaderState extends State<PageUploader> {
         _selected.addAll(List.filled(total, false));
       });
     }
+    initBgMusic();
+  }
+
+  initBgMusic() async {
+    FlutterSecureStorage storage = FlutterSecureStorage();
+    await storage.delete(key: 'bg_music');
   }
 
   @override
@@ -93,7 +100,7 @@ class PageUploaderState extends State<PageUploader> {
       body: SafeArea(
         child: Stack(
           children: [
-            backgroundSquare(context),
+            backgrondSquareMethod(context),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -165,25 +172,32 @@ class PageUploaderState extends State<PageUploader> {
                                 fontSize: 20.0),
                             InkWell(
                               onTap: () {
-                                for (int i = 0; i < selectedImages.length; i++) {
+                                for (int i = 0;
+                                    i < selectedImages.length;
+                                    i++) {
                                   setState(() {
                                     _images.removeAt(selectedImages[i]);
                                     total--;
                                   });
                                 }
 
-                                _selected.removeWhere((element) => element == true);
+                                _selected
+                                    .removeWhere((element) => element == true);
                                 selectedImages.clear();
                               },
                               child: Stack(
                                 children: [
-                                  commonAddBookWidget(context, Assets.editPagesRedBox,
+                                  commonAddBookWidget(
+                                      context,
+                                      Assets.editPagesRedBox,
                                       MediaQuery.of(context).size.width * 0.30),
                                   commonAddBookWidget(
                                       context,
                                       Assets.editPagesRedDeleteText,
                                       MediaQuery.of(context).size.width * 0.30),
-                                  commonAddBookWidget(context, Assets.editPagesRedAdd,
+                                  commonAddBookWidget(
+                                      context,
+                                      Assets.editPagesRedAdd,
                                       MediaQuery.of(context).size.width * 0.30),
                                   commonAddBookWidget(
                                       context,
@@ -216,8 +230,10 @@ class PageUploaderState extends State<PageUploader> {
                                         children: [
                                           GestureDetector(
                                             onTap: () async {
-                                              await _addImage(context,
-                                                  ImageSourceType.gallery, index);
+                                              await _addImage(
+                                                  context,
+                                                  ImageSourceType.gallery,
+                                                  index);
                                             },
                                             child: Image.asset(
                                                 'assets/images/pagepreview_red_page.png'),
@@ -245,7 +261,8 @@ class PageUploaderState extends State<PageUploader> {
                                                       selectedBorderColor:
                                                           Colors.transparent,
                                                       unselectedOpacity: 1.0,
-                                                      selected: _selected[index],
+                                                      selected:
+                                                          _selected[index],
                                                       // selectedValues[index],
                                                       onValueChanged: (value) {
                                                         try {
@@ -253,7 +270,8 @@ class PageUploaderState extends State<PageUploader> {
                                                             _selected[index] =
                                                                 value;
                                                             if (!selectedImages
-                                                                .contains(index)) {
+                                                                .contains(
+                                                                    index)) {
                                                               selectedImages
                                                                   .add(index);
                                                             }
@@ -267,7 +285,8 @@ class PageUploaderState extends State<PageUploader> {
                                                             bottom: 10),
                                                         height: 120,
                                                         width: 75,
-                                                        decoration: BoxDecoration(
+                                                        decoration:
+                                                            BoxDecoration(
                                                           border: Border.all(
                                                               width: 2.5),
                                                           borderRadius:
@@ -276,8 +295,9 @@ class PageUploaderState extends State<PageUploader> {
                                                         ),
                                                         child: ClipRRect(
                                                           borderRadius:
-                                                              BorderRadius.circular(
-                                                                  7.0),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      7.0),
                                                           child: Image.file(
                                                             _images[index],
                                                             fit: BoxFit.contain,
@@ -336,13 +356,21 @@ class PageUploaderState extends State<PageUploader> {
                                   Utils().showToastMessage(
                                       "Book has at least 4 pages.", context);
                                 } else {
+
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AddBackgroundMusic(
-                                            imagesPath: imagesPath,
-                                            images: _images)),
+                                    PageRouteBuilder(
+                                      pageBuilder: (_, __, ___) => RecordAudio(
+                                        imagesPath: imagesPath,
+                                        images: _images,
+                                      ),
+                                      transitionDuration: Duration(milliseconds: 700),
+                                      transitionsBuilder: (_, a, __, c) =>
+                                          FadeTransition(opacity: a, child: c),
+                                    ),
                                   );
+
+
                                 }
                               },
                               child: Stack(
