@@ -34,16 +34,16 @@ class _HomeScreenState extends State<HomeScreen> {
         (context, index) {
           final data = contentController.getItemByIndex(index);
           if (data is GameModel) {
-            log('#GameScreen');
+            log('common #GameScreen');
             return GameScreenWidget(gameModel: data);
           } else if (data is VideoModel) {
-            log('#VideoScreen');
+            log('common #VideoScreen');
             return VideoScreenWidget(videoController: data);
           } else if (data is AudioBookModel) {
-            log('#BookScreen');
+            log('common #BookScreen');
             return BookScreenWidget(bookData: data);
           } else {
-            log('#NoScreen');
+            log('common #NoScreen');
             return SizedBox();
           }
         },

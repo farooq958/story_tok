@@ -51,7 +51,7 @@ class RecordAudioState extends State<RecordAudio>
       body: SafeArea(
         child: Stack(
           children: [
-            backgroundSquare(context),
+            backgrondSquareMethod(context),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -226,7 +226,7 @@ class RecordAudioState extends State<RecordAudio>
           context,
           PageRouteBuilder(
             pageBuilder: (_, __, ___) =>
-                VoiceRecorder(widget.images, widget.imagesPath, 'recordnow'),
+                VoiceRecorder([], [], widget.images, widget.imagesPath, 'recordnow'),
             transitionDuration: Duration(milliseconds: 700),
             transitionsBuilder: (_, a, __, c) =>
                 FadeTransition(opacity: a, child: c),
@@ -243,7 +243,7 @@ class RecordAudioState extends State<RecordAudio>
           context,
           PageRouteBuilder(
             pageBuilder: (_, __, ___) =>
-                VoiceRecorder(widget.images, widget.imagesPath, 'audio'),
+                VoiceRecorder([], [], widget.images, widget.imagesPath, 'audio'),
             transitionDuration: Duration(milliseconds: 700),
             transitionsBuilder: (_, a, __, c) =>
                 FadeTransition(opacity: a, child: c),
@@ -259,7 +259,7 @@ class RecordAudioState extends State<RecordAudio>
             context,
             PageRouteBuilder(
               pageBuilder: (_, __, ___) =>
-                  VoiceRecorder(widget.images, widget.imagesPath, 'press continue'),
+                  VoiceRecorder([], widget.images, widget.imagesPath, 'press continue'),
               transitionDuration: Duration(milliseconds: 700),
               transitionsBuilder: (_, a, __, c) =>
                   FadeTransition(opacity: a, child: c),

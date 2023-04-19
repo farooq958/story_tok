@@ -91,7 +91,7 @@ class UploadBookFormatState extends State<UploadBookFormat>
       body: SafeArea(
         child: Stack(
           children: [
-            backgroundSquare(context),
+            backgrondSquareMethod (context),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

@@ -307,4 +307,10 @@ class Assets {
   static const backgroundTriangle =
       "assets/images/background_triangle.png";
 
+  static const audiouploadRedRecordicon =
+      "assets/images/audioupload_red_recordicon.png";
+
+  static const audiouploadRedStopicon =
+      "assets/images/audioupload_red_stopicon.png";
+
 }

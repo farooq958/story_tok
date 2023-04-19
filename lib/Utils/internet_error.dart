@@ -82,7 +82,7 @@ class InternetError {
   }
 
   addoverlay(OverlayEntry entry, context) async {
-    Overlay.of(context).insert(entry);
+    Overlay.of(context)!.insert(entry);
   }
 
   removeOverlay() {

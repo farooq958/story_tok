@@ -8,6 +8,8 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:storily/components/confirm_book_details.dart';
+import 'package:storily/components/record_audio.dart';
+import 'package:storily/screens/book_upload/book-preview-screen.dart';
 import 'package:storily/utils.dart';
 import '../global/constants/assets.dart';
 import 'common_upload_book_format.dart';
@@ -17,6 +19,7 @@ class AddAuthorDescription extends StatefulWidget {
   final imagesPath;
   final audioPaths;
   final withAudio;
+  final manageFlagList;
 
   const AddAuthorDescription({
     Key? key,
@@ -24,6 +27,7 @@ class AddAuthorDescription extends StatefulWidget {
     this.imagesPath,
     this.audioPaths,
     this.withAudio,
+    this.manageFlagList,
   }) : super(key: key);
 
   @override
@@ -137,7 +141,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
       ),
       body: Stack(
         children: [
-          backgroundSquare(context),
+          backgrondSquareMethod(context),
           SingleChildScrollView(
             child: Stack(
               children: [
@@ -1138,7 +1142,17 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                     ],
                                   ),
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    // code here for update flag
+                                    var route = new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new VoiceRecorder(
+                                              widget.audioPaths,
+                                              widget.manageFlagList,
+                                              widget.images,
+                                              widget.imagesPath,
+                                              'continue'),
+                                    );
+                                    Navigator.pop(context, true);
                                   },
                                 ),
                                 InkWell(
@@ -1169,7 +1183,6 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                           .split(',');
                                     });
                                     if (imagePath != null) {
-                                      saveImages(imagePath, sightingRef);
                                       if (topicSplit.length > max_limit) {
                                         setState(() {
                                           topicErrorText = 'Reached max limit';
@@ -1227,33 +1240,7 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
                                             context);
                                       }
                                       if (!errors) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ConfirmBookDetails(
-                                                    images: widget.images,
-                                                    imagesPath:
-                                                        widget.imagesPath,
-                                                    coverImage: imagePath,
-                                                    title:
-                                                        _titleController.text,
-                                                    authorName:
-                                                        _authorNameController
-                                                            .text,
-                                                    bookDescription:
-                                                        _descriptionController
-                                                            .text,
-                                                    bookGenre: categoryValue,
-                                                    subBookGenre:
-                                                        subCategoryValue,
-                                                    price:
-                                                        _priceController.text,
-                                                    topic: topicSplit,
-                                                  )
-                                              /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
-                                              ),
-                                        );
+                                        saveImages(imagePath, sightingRef);
                                       }
                                     } else {
                                       Utils().showToastMessage(
@@ -1517,6 +1504,8 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
           "page": imageUrl,
           "audio": audioUrl,
         };
+
+
         imagesUrlArray.add(audioImagePair);
       }
     } else {
@@ -1530,63 +1519,98 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
         var upload = await storageReferencePageUrls.putFile(widget.images![i]);
         imageUrl = await upload.ref.getDownloadURL();
 
+        var audioPath =
+        widget.audioPaths![i].values.first.toString().split('/');
+        var storageReference = FirebaseStorage.instance
+            .ref()
+            .child('audios')
+            .child(audioPath[audioPath.length - 1]);
+        var uploadTask = await storageReference
+            .putFile(File(widget.audioPaths![i].values.first));
+        audioUrl = await uploadTask.ref.getDownloadURL();
+
         var audioImagePair = {
           "page": imageUrl,
           "audio": audioUrl,
         };
+
         imagesUrlArray.add(audioImagePair);
       }
     }
 
-    print("Helloo , $bg_music");
-
     var bgAudio;
     var imageSplitPath = _image.path.toString().split('/');
-
     var storageReference = FirebaseStorage.instance
         .ref()
         .child('book_cover')
         .child(imageSplitPath[imageSplitPath.length - 1]);
 
     UploadTask uploadTask = storageReference.putFile(_image);
-    // UploadTask bgTask = storageReference.putString(bgAudio.toString());
+
+    var storeParams;
 
     if (bg_music != null) {
+      var bgUploadTask =
+          await storageReference.putFile(File(bg_music.toString()));
+      var bgUrl = await bgUploadTask.ref.getDownloadURL();
+
       var bgAudioPath = bg_music.toString().split('/');
+
       bgAudio = FirebaseStorage.instance
           .ref()
           .child('bg_music')
           .child(bgAudioPath[bgAudioPath.length - 1]);
 
-      await bgAudio.then((res) {
-        storageReference.getDownloadURL().then((value) async {
-          await uploadTask.then((res) {
-            storageReference.getDownloadURL().then((imageURL) {
-              sightingRef.set({
-                "bg_music_url": value.toString(),
-                "cover_url": imageURL,
-                "audio_doc_id": "",
-                "author_doc_id": "",
-                "category_main": categoryValue.toString(),
-                "category_sub": subCategoryValue.toString(),
-                "pages_url": imagesUrlArray,
-                "title": _titleController.text.toString(),
-                "topic": topicSplit,
-                "book_description": _descriptionController.text.toString(),
-                "author_name": _authorNameController.text.toString(),
-                "contributors": addContributorsData,
-                "keywords": keyBoardTextSplit,
-                "price": _priceController.text.toString(),
-                "publishing_rights": radioButtonValue,
-              });
-            });
-          });
+      var bguploadTask = await bgAudio.putFile(File(bg_music.toString()));
+      bgUrl = await bguploadTask.ref.getDownloadURL();
+
+      print("bgUrl:$bgUrl");
+      await uploadTask.then((res) {
+        storageReference.getDownloadURL().then((imageURL) {
+          storeParams = {
+            "bg_music_url": bgUrl,
+            "cover_url": imageURL,
+            "audio_doc_id": "",
+            "author_doc_id": "",
+            "category_main": categoryValue.toString(),
+            "category_sub": subCategoryValue.toString(),
+            "pages_url": imagesUrlArray,
+            "title": _titleController.text.toString(),
+            "topic": topicSplit,
+            "book_description": _descriptionController.text.toString(),
+            "author_name": _authorNameController.text.toString(),
+            "contributors": addContributorsData,
+            "keywords": keyBoardTextSplit,
+            "price": _priceController.text.toString(),
+            "publishing_rights": radioButtonValue,
+          };
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ConfirmBookDetails(
+                      storeParams: storeParams,
+                      images: widget.images,
+                      imagesPath: widget.imagesPath,
+                      coverImage: imagePath,
+                      title: _titleController.text,
+                      authorName: _authorNameController.text,
+                      bookDescription: _descriptionController.text,
+                      bookGenre: categoryValue,
+                      subBookGenre: subCategoryValue,
+                      price: _priceController.text,
+                      topic: topicSplit,
+                    )
+                /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
+                ),
+          );
+          // sightingRef.set();
         });
       });
     } else {
       await uploadTask.then((res) {
         storageReference.getDownloadURL().then((imageURL) {
-          sightingRef.set({
+          storeParams = {
             "bg_music_url": '',
             "cover_url": imageURL,
             "audio_doc_id": "",
@@ -1602,11 +1626,29 @@ class AddAuthorDescriptionState extends State<AddAuthorDescription> {
             "keywords": keyBoardTextSplit,
             "price": _priceController.text.toString(),
             "publishing_rights": radioButtonValue,
-          });
+          };
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ConfirmBookDetails(
+                      storeParams: storeParams,
+                      images: widget.images,
+                      imagesPath: widget.imagesPath,
+                      coverImage: imagePath,
+                      title: _titleController.text,
+                      authorName: _authorNameController.text,
+                      bookDescription: _descriptionController.text,
+                      bookGenre: categoryValue,
+                      subBookGenre: subCategoryValue,
+                      price: _priceController.text,
+                      topic: topicSplit,
+                    )
+                /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
+                ),
+          );
         });
       });
     }
-
-    await storage.delete(key: 'bg_music');
   }
 }

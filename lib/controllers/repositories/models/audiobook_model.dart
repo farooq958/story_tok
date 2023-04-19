@@ -9,7 +9,7 @@ class AudioBookModel extends CommonDataModel {
   final String? categorySub;
   final String? audioDocId;
   final String? categoryMain;
-  final String? topic;
+  final List? topic;
   final String? title;
   final List<BookPage> pageUrl;
 
@@ -34,15 +34,15 @@ class AudioBookModel extends CommonDataModel {
           map['audio_doc_id'] != null ? map['audio_doc_id'] as String : null,
       categoryMain:
           map['category_main'] != null ? map['category_main'] as String : null,
-      topic: map['topic'] != null ? map['topic'] as String : null,
+      topic: map['topic'] != null ? map['topic'] : null,
       title: map['title'] != null ? map['title'] as String : null,
-      pageUrl: (map['pages_url'] as List<dynamic>)
+      pageUrl: map['pages_url'] != null ? (map['pages_url'] as List<dynamic>)
           .map(
             (pageJson) => BookPage.fromMap(
               Map.from(pageJson),
             ),
           )
-          .toList(),
+          .toList() : [],
     );
   }
 

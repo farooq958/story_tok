@@ -25,14 +25,14 @@ class VideoModel extends CommonDataModel {
       required this.url});
 
   VideoModel.fromJson(Map<dynamic, dynamic> json)
-      : id = json['id'],
-        user = json['user'],
-        userPic = json['user_pic'],
-        videoTitle = json['video_title'],
-        songName = json['song_name'],
-        likes = json['likes'],
-        comments = json['comments'],
-        url = json['url'];
+      : id = json['id'] != null ? json['id'] : '',
+        user = json['user'] != null ? json['user'] : '',
+        userPic = json['user_pic'] != null ? json['user'] : '',
+        videoTitle = json['video_title'] != null ? json['video_title'] : '',
+        songName = json['song_name'] != null ? json['song_name'] : '',
+        likes = json['likes'] != null ? json['likes'] : '',
+        comments = json['comments'] != null ? json['comments'] : '',
+        url = json['url'] != null ? json['url'] : '';
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

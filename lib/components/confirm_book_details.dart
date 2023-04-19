@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -12,6 +13,7 @@ import '../../global/constants/assets.dart';
 const theSource = AudioSource.microphone;
 
 class ConfirmBookDetails extends StatefulWidget {
+  final storeParams;
   final images;
   final imagesPath;
   final coverImage;
@@ -34,7 +36,7 @@ class ConfirmBookDetails extends StatefulWidget {
     this.price,
     this.topic,
     this.bookGenre,
-    this.subBookGenre,
+    this.subBookGenre, this.storeParams,
   }) : super(key: key);
 
   @override
@@ -70,7 +72,7 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
     Widget makeBody() {
       return Stack(
         children: [
-          backgroundSquare(context),
+          backgrondSquareMethod(context),
           SingleChildScrollView(
             child: Stack(
               children: [
@@ -81,8 +83,14 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                     children: [
                       Image.asset(
                         Assets.backgroundCircleDots,
-                        height: MediaQuery.of(context).size.height / 8,
-                        width: MediaQuery.of(context).size.height / 8,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 8,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 8,
                       )
                     ],
                   ),
@@ -104,11 +112,20 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                     Stack(
                       children: [
                         commonAddBookWidget(context, Assets.subMenuRedBox,
-                            MediaQuery.of(context).size.width * 0.90),
+                            MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.90),
                         commonAddBookWidget(context, Assets.subMenuRedText,
-                            MediaQuery.of(context).size.width * 0.90),
+                            MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.90),
                         commonAddBookWidget(context, Assets.subMenuExit,
-                            MediaQuery.of(context).size.width * 0.90),
+                            MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.90),
                       ],
                     ),
                     SizedBox(
@@ -124,7 +141,10 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                             Row(
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width / 6,
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 6,
                                   child: Image.asset(
                                       Assets.backgroundRectangleDots),
                                 ),
@@ -142,7 +162,7 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  MainAxisAlignment.spaceAround,
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
@@ -153,15 +173,21 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                       ),
                                       child: ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(7.0),
+                                          BorderRadius.circular(7.0),
                                           child: Image.file(
                                             widget.coverImage,
                                             fit: BoxFit.cover,
                                           )),
                                       height:
-                                          MediaQuery.of(context).size.height /
-                                              2,
-                                      width: MediaQuery.of(context).size.width /
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height /
+                                          2,
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
                                           1.5,
                                     )
                                   ],
@@ -171,7 +197,7 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  MainAxisAlignment.spaceAround,
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
@@ -182,29 +208,30 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                       ),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         children: [
                                           Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Container(
                                                 margin: EdgeInsets.all(5.0),
                                                 child: Row(
                                                   children: [
                                                     SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
+                                                        width: MediaQuery
+                                                            .of(
+                                                            context)
+                                                            .size
+                                                            .width /
                                                             8,
                                                         child: Text(
                                                           'Genres',
                                                           style: TextStyle(
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                            FontWeight.bold,
                                                           ),
                                                         )),
                                                     SizedBox(
@@ -212,10 +239,11 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                                     ),
                                                     SizedBox(
                                                       width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              5,
+                                                      MediaQuery
+                                                          .of(context)
+                                                          .size
+                                                          .width /
+                                                          5,
                                                       child: Text(
                                                           widget.bookGenre),
                                                     ),
@@ -224,10 +252,11 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                                     ),
                                                     SizedBox(
                                                       width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              5,
+                                                      MediaQuery
+                                                          .of(context)
+                                                          .size
+                                                          .width /
+                                                          5,
                                                       child: Text(
                                                         widget.subBookGenre,
                                                       ),
@@ -243,32 +272,34 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                                 margin: EdgeInsets.all(5.0),
                                                 child: Row(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                  MainAxisAlignment.start,
                                                   children: [
                                                     SizedBox(
                                                       width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              8,
+                                                      MediaQuery
+                                                          .of(context)
+                                                          .size
+                                                          .width /
+                                                          8,
                                                       child: Text(
                                                         'Topics',
                                                         style: TextStyle(
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                            FontWeight
+                                                                .bold),
                                                       ),
                                                     ),
                                                     SingleChildScrollView(
                                                       scrollDirection:
-                                                          Axis.vertical,
+                                                      Axis.vertical,
                                                       child: Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
+                                                        width: MediaQuery
+                                                            .of(
+                                                            context)
+                                                            .size
+                                                            .width /
                                                             2,
                                                         margin: EdgeInsets.only(
                                                             right: 5.0,
@@ -278,24 +309,24 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                                           child: Wrap(
                                                             children: [
                                                               for (int i = 0;
-                                                                  i <
-                                                                      widget
-                                                                          .topic
-                                                                          .length;
-                                                                  i++)
+                                                              i <
+                                                                  widget
+                                                                      .topic
+                                                                      .length;
+                                                              i++)
                                                                 Container(
                                                                   margin: EdgeInsets
                                                                       .only(
-                                                                          right:
-                                                                              3),
+                                                                      right:
+                                                                      3),
                                                                   child: Text(
                                                                     widget
                                                                         .topic[
-                                                                            i]
+                                                                    i]
                                                                         .toString(),
                                                                     overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                     maxLines: 2,
                                                                   ),
                                                                 )
@@ -317,9 +348,15 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                         ],
                                       ),
                                       height:
-                                          MediaQuery.of(context).size.height /
-                                              6,
-                                      width: MediaQuery.of(context).size.width /
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height /
+                                          6,
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
                                           1.2,
                                     )
                                   ],
@@ -329,7 +366,7 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  MainAxisAlignment.spaceAround,
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
@@ -340,19 +377,19 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                       ),
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                             children: [
                                               Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     margin: EdgeInsets.only(
@@ -361,25 +398,26 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                                       widget.title,
                                                       maxLines: 1,
                                                       overflow:
-                                                          TextOverflow.ellipsis,
+                                                      TextOverflow.ellipsis,
                                                       style: TextStyle(
                                                           fontSize: 20.0,
                                                           fontWeight:
-                                                              FontWeight.bold),
+                                                          FontWeight.bold),
                                                     ),
                                                   ),
                                                   Container(
                                                     width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            2,
+                                                    MediaQuery
+                                                        .of(context)
+                                                        .size
+                                                        .width /
+                                                        2,
                                                     margin: EdgeInsets.only(
                                                         left: 5),
                                                     child:
-                                                        SingleChildScrollView(
+                                                    SingleChildScrollView(
                                                       scrollDirection:
-                                                          Axis.horizontal,
+                                                      Axis.horizontal,
                                                       child: Text(
                                                         widget.authorName,
                                                         maxLines: 1,
@@ -388,8 +426,8 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                                         style: TextStyle(
                                                             fontSize: 15.0,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                            FontWeight
+                                                                .bold),
                                                       ),
                                                     ),
                                                   ),
@@ -397,16 +435,16 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                               ),
                                               Container(
                                                 margin:
-                                                    EdgeInsets.only(right: 5),
+                                                EdgeInsets.only(right: 5),
                                                 child: Text(
                                                   "C\$" + widget.price,
                                                   maxLines: 1,
                                                   overflow:
-                                                      TextOverflow.ellipsis,
+                                                  TextOverflow.ellipsis,
                                                   style: TextStyle(
                                                       fontSize: 20.0,
                                                       fontWeight:
-                                                          FontWeight.bold),
+                                                      FontWeight.bold),
                                                 ),
                                               ),
                                             ],
@@ -416,20 +454,22 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                               Container(
                                                 margin: EdgeInsets.only(
                                                     left: 5.0, right: 5.0),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
+                                                width: MediaQuery
+                                                    .of(context)
+                                                    .size
+                                                    .width /
                                                     1.5,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
+                                                height: MediaQuery
+                                                    .of(context)
+                                                    .size
+                                                    .height /
                                                     12,
                                                 child: SingleChildScrollView(
                                                   child: Text(
                                                     widget.bookDescription,
                                                     maxLines: 999999,
                                                     overflow:
-                                                        TextOverflow.ellipsis,
+                                                    TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ),
@@ -438,9 +478,15 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                         ],
                                       ),
                                       height:
-                                          MediaQuery.of(context).size.height /
-                                              4,
-                                      width: MediaQuery.of(context).size.width /
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height /
+                                          4,
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
                                           1.2,
                                     )
                                   ],
@@ -465,15 +511,24 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                   commonAddBookWidget(
                                       context,
                                       Assets.directionalRedDropDownBox,
-                                      MediaQuery.of(context).size.width * 0.30),
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width * 0.30),
                                   commonAddBookWidget(
                                       context,
                                       Assets.directionalRedBox,
-                                      MediaQuery.of(context).size.width * 0.30),
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width * 0.30),
                                   commonAddBookWidget(
                                       context,
                                       Assets.directionalTextBack,
-                                      MediaQuery.of(context).size.width * 0.30),
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width * 0.30),
                                 ],
                               ),
                               onTap: () {
@@ -486,30 +541,47 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
                                   commonAddBookWidget(
                                     context,
                                     Assets.directionalRedDropDownBox,
-                                    MediaQuery.of(context).size.width * 0.30,
+                                    MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * 0.30,
                                   ),
                                   commonAddBookWidget(
                                     context,
                                     Assets.directionalRedBox,
-                                    MediaQuery.of(context).size.width * 0.30,
+                                    MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * 0.30,
                                   ),
                                   commonAddBookWidget(
                                     context,
                                     Assets.directionalTextContinue,
-                                    MediaQuery.of(context).size.width * 0.30,
+                                    MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * 0.30,
                                   ),
                                 ],
                               ),
                               onTap: () {
-                                setState(() {});
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CongratulationsScreen()
+
+                                DocumentReference sightingRef =
+                                FirebaseFirestore.instance.collection(
+                                    'booksentity').doc();
+
+                                print(widget.storeParams);
+                                sightingRef.set(widget.storeParams).then((
+                                    value) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CongratulationsScreen()
                                       /*AudioRecorder(*/ /*images: [imagePath],*/ /*),*/
-                                      ),
-                                );
+                                    ),
+                                  );
+                                });
                               },
                             ),
                           ],
@@ -549,7 +621,7 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
             .child('book_pages')
             .child(childPath[childPath.length - 1]);
         var upload =
-            await storageReferencePageUrls.putFile(_imagesPath![i].keys.first);
+        await storageReferencePageUrls.putFile(_imagesPath![i].keys.first);
         imageUrl = await upload.ref.getDownloadURL();
 
         var audioPath = _imagesPath![i].values.first.toString().split('/');
@@ -558,7 +630,7 @@ class ConfirmBookDetailsState extends State<ConfirmBookDetails> {
             .child('audios')
             .child(audioPath[audioPath.length - 1]);
         var uploadTask =
-            await storageReference.putFile(File(_imagesPath![i].values.first));
+        await storageReference.putFile(File(_imagesPath![i].values.first));
         audioUrl = await uploadTask.ref.getDownloadURL();
 
         var audioImagePair = {
