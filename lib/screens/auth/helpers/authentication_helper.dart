@@ -27,6 +27,32 @@ class AuthenticationHelper {
   String userName = '';
   var currentUser = [];
 
+  Future ResetPassword() async
+  {
+    await FirebaseAuth.instance
+        .sendPasswordResetEmail(email: user.email!);
+  }
+
+  Future SignUpFirst() async
+  {
+    try {
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: authController.signupEmailController.text,
+        password: authController.signuppasswordController.text,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        Get.snackbar("Registration", "User already exists!",
+            backgroundColor: Colors.red.withOpacity(0.5));
+      }
+    } catch (e) {
+      print(e);
+    }
+    await user?.sendEmailVerification();
+  }
+
   Future signupUser(
       {required String signupEmail,
       required String signupPassword,
@@ -168,7 +194,7 @@ class AuthenticationHelper {
     docRef.set(data).then((value) {
       final DocumentReference docRef1 =
           FirebaseFirestore.instance.collection('users').doc(docRef.id);
-      docRef1.update({'uid': docRef.id, 'author_id': signupType == "corpo" || signupType == "author" ? docRef.id : null});
+      docRef1.update({'uid': user.uid, 'author_id': signupType == "corpo" || signupType == "author" ? docRef.id : null});
       uploadAutherUserDataInFireStore(
           docRef.id, imagePath, context, signupType);
       Get.snackbar("Sign Up", "Sign up successfully.",
@@ -196,7 +222,7 @@ class AuthenticationHelper {
       'boigraphy': "",
       'name': getStorage!.read("signup_Name"),
       'books_doc_id': booksDocIdList,
-      'user_id': refID,
+      'user_id': user.uid,
     };
     Future.delayed(const Duration(milliseconds: 2000), () {
       docRef.set(data).then((value) async {
@@ -228,10 +254,23 @@ class AuthenticationHelper {
     log("signup data ==> $signupEmail ==> $signupPassword");
     try {
       Circle().show(context);
-
+      try {
+        final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: signupEmail,
+            password: signupPassword
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          Get.snackbar("Signin", "User doesn't exists!",
+              backgroundColor: Colors.red.withOpacity(0.5));
+        } else if (e.code == 'wrong-password') {
+          Get.snackbar("Signin", "Email password does not match, forgot your password?",
+              backgroundColor: Colors.red.withOpacity(0.5));
+        }
+      }
       var query = FirebaseFirestore.instance
           .collection('users')
-          .where('email', isEqualTo: authController.loginEmailController.text)
+          .where('user_id', isEqualTo: user.uid)
           .limit(1)
           .get();
       // var snapshot = await query.snapshots();
@@ -286,7 +325,7 @@ class AuthenticationHelper {
     Get.snackbar("Log Out", "Log Out successfully.",
         backgroundColor: Colors.green.withOpacity(0.5));
     // FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    _auth.currentUser?.delete();
+    //_auth.currentUser?.delete();
     print('signout');
   }
 
@@ -294,7 +333,8 @@ class AuthenticationHelper {
       String phoneNumber, BuildContext context, bool fromLogin) async {
     Get.snackbar("OTP", "We'll sent the OTP to your number!",
         backgroundColor: Colors.green.withOpacity(0.5));
-
+    final session = await user.multiFactor.getSession();
+    //final auth = FirebaseAuth.instance;
     Circle().show(context);
     log("number ==> $phoneNumber");
     // if(!fromLogin){
@@ -302,7 +342,7 @@ class AuthenticationHelper {
     // }
 
     await _auth.verifyPhoneNumber(
-      timeout: Duration(seconds: 60),
+      multiFactorSession: session,
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
         log("in var complete");

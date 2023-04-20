@@ -33,7 +33,7 @@ class AuthController extends GetxController {
     profileImageFromFireStore.value = await Future.wait(
         result.items.map((Reference ref) => ref.getDownloadURL()));
 
-    //! AVATAR PROFILE IMAGE
+    //! AVATAR PROFILE IMAGE multiFactor
     final Reference storageRefAvatar =
         FirebaseStorage.instance.ref().child('child_avatar_profile');
     final ListResult avatarResult = await storageRefAvatar.listAll();

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scale_button/scale_button.dart';
@@ -21,6 +22,7 @@ class SignUpUIWidget extends StatefulWidget {
 }
 
 AuthController authController = Get.find<AuthController>();
+AuthenticationHelper authenticationHelper = Get.find<AuthenticationHelper>();
 
 GlobalKey<FormState> signupKey = GlobalKey<FormState>();
 
@@ -237,15 +239,16 @@ class _SignUpUIWidgetState extends State<SignUpUIWidget> {
                 // log(getStorage!.read("signup_Name"));
                 if (signupKey.currentState!.validate()) {
                   if(authController.signuppasswordController.text == authController.signupConfirmPasswordController.text) {
-
-                    var query = FirebaseFirestore.instance
+                    await authenticationHelper.SignUpFirst();
+                    await authController.storeSignUpData();
+                   /* var query = FirebaseFirestore.instance
                         .collection('users')
                         .where('email',
                         isEqualTo: authController.signupEmailController.text)
                         .limit(1)
-                        .get();
+                        .get();*/
                     // var snapshot = await query.snapshots();
-                    query.then((value) async {
+                    /*query.then((value) async {
                       print("##### SIZE OF RECORD ${value.size}");
                       if (value.size > 0) {
                         Get.snackbar("Registration", "User already exists!",
@@ -254,7 +257,7 @@ class _SignUpUIWidgetState extends State<SignUpUIWidget> {
 
                         await authController.storeSignUpData();
                       }
-                    });
+                    });*/
                   }else{
                     Get.snackbar("Registration", "Password doesn't match with confirm password!",
                         backgroundColor: Colors.red.withOpacity(0.5));
