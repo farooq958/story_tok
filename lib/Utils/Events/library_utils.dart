@@ -136,7 +136,7 @@ Container reusableButtonLibrary({required String text }) {
 Widget buildBottomSheet(BuildContext context,listState) {
   return Container(
     height: 1.sh/1.4,
-    //color: Colors.black,
+    color: AppColors.primaryColor,
     child: ListView(
         shrinkWrap: true,
         children:[
@@ -253,18 +253,24 @@ Widget buildBottomSheet(BuildContext context,listState) {
                   color: AppColors.primaryColor,child: listState['author_name']==null?Text("No Author name"): Text("${listState['author_name']}",style: GoogleFonts.lexend(fontSize: 15.sp,fontWeight: FontWeight.w500),),),
                 Row(
                   children: [
-                    Container(child: Text("Contributors",style: GoogleFonts.lexend(fontSize: 15.sp,fontWeight: FontWeight.w500),),),
+                    Container(
+
+                      color: AppColors.primaryColor,
+                      child: Text("Contributors",style: GoogleFonts.lexend(fontSize: 15.sp,fontWeight: FontWeight.w500),),),
                     Expanded(
+
                       child: Container(
                         height: 20.sp,
                         width: 200.sp,
                         padding: EdgeInsets.symmetric(horizontal: 12.sp),
-                        color: AppColors.primaryColor,child:  listState['contributors']==null?Text("No Contributors"):ListView.separated(
+                        color: AppColors.primaryColor,child:  listState['contributors']==null?Text("No Contributors"):
+
+                      ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
+                       // shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context,index) {
-                          return FittedBox(child: Text("${listState['contributors'][index]['name']}",style: GoogleFonts.lexend(fontSize: 8.sp),));
+                          return FittedBox(child: Text("${listState['contributors'][index]['name']==null?"C":listState['contributors'][index]['name']}",style: GoogleFonts.lexend(fontSize: 8.sp),));
                         }, separatorBuilder: (BuildContext context, int index) {return SizedBox(width: 2.sp,); }, itemCount: listState['contributors'].length,
                       ),),
                     ),
@@ -309,7 +315,7 @@ Widget buildBottomSheet(BuildContext context,listState) {
                     Expanded(
                       child: Container(height: 30.sp,width:92.sp,decoration: BoxDecoration(color: AppColors.libraryBottomSheetButtonColor2,
                           borderRadius: BorderRadius.circular(20.sp),border: Border.all(color: Colors.black,width: 2)),
-                          child:  FittedBox(child: listState['likes']==null?Text("0 LIKED THIS"):Text("${listState['likes']} LIKED THIS",style: GoogleFonts.lexend(),),)
+                          child:  FittedBox(child: listState['likes']==null?Text("0 USER LIKED THIS"):Text("${listState['likes']} USER LIKED THIS",style: GoogleFonts.lexend(),),)
                       ),
                     )
 

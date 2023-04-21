@@ -340,6 +340,7 @@ var event2 =await data1.get();
     try {
       print("here");
       var cUser=FirebaseAuth.instance.currentUser?.uid;
+      ///pass this
 
       var data =   FirebaseFirestore.instance.collection("users").doc(FakeUserData.fakeKidUserId);
  var data2= FirebaseFirestore.instance.collection("booksentity");
@@ -696,24 +697,25 @@ getRecommendedBooksNotOwned()async
           Map dataBooks = jsonDecode(raww);
 
           print(element.data()['book_id']);
-         // print(i);
-          if (!dto.contains(element.data()['book_id'])) {
-            //
-            if(!temBookId.contains(element.data()['book_id'])) {
-              print("true1");
-              temBookId.add(element.data()['book_id']);
-              Repository.libraryBooksNotOwned.add(dataBooks);
-
+          if(element.data()['book_id']!=null) {
+            // print(i);
+            if (!dto.contains(element.data()['book_id'])) {
+              print("from here");
+              print(element.data()['book_id']);
+              //
+              if (!temBookId.contains(element.data()['book_id'])) {
+                print("true1");
+                temBookId.add(element.data()['book_id']);
+                Repository.libraryBooksNotOwned.add(dataBooks);
+              }
             }
-
-          }
-          else
+          }else
             {
               print("false");
             }
         });
 
-      print("tempbooks"+temBookId.toString());
+      print("tempbooks"+Repository.libraryBooksNotOwned.length.toString());
       Repository.libraryBooksNotOwned =
           Repository.libraryBooksNotOwned.toSet().toList();
       print(Repository.libraryBooksNotOwned);
