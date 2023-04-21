@@ -127,10 +127,12 @@ class _LoginUiWidgetState extends State<LoginUiWidget> {
             ),
             Align(
               alignment: Alignment.center,
-              child: Text(
+              child: InkWell(
+                onTap: ()async {AuthenticationHelper().ResetPassword();},
+                child:Text(
                 "Forgot Password?",
                 style: TextStyle(fontWeight: FontWeight.w900),
-              ),
+              ),)
             ),
             SizedBox(
               height: 10,

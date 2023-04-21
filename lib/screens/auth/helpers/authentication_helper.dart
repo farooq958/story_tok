@@ -29,17 +29,39 @@ class AuthenticationHelper {
 
   Future ResetPassword() async
   {
-    await FirebaseAuth.instance
-        .sendPasswordResetEmail(email: user.email!);
+    if(authController.loginEmailController.text == null || authController.loginEmailController.isBlank! || authController.loginEmailController.text.isEmpty)
+    {
+      Get.snackbar("Registration", "Please enter a valid email address!",
+          backgroundColor: Colors.red.withOpacity(0.5));
+    }
+  else
+    {
+      try {
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(
+            email: authController.loginEmailController.text);
+        Get.snackbar("Registration",
+            "An email has been sent to you if there is an account with the email!",
+            backgroundColor: Colors.red.withOpacity(0.5));
+      }on FirebaseAuthException catch (e) {
+        Get.snackbar("Registration", e.message!,
+            backgroundColor: Colors.red.withOpacity(0.5));
+      }
+
+    }
+
   }
 
   Future SignUpFirst() async
   {
     try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential = await _auth.createUserWithEmailAndPassword(
         email: authController.signupEmailController.text,
         password: authController.signuppasswordController.text,
       );
+      await SendEmailVerification();
+      await authController.storeSignUpData();
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -47,10 +69,26 @@ class AuthenticationHelper {
         Get.snackbar("Registration", "User already exists!",
             backgroundColor: Colors.red.withOpacity(0.5));
       }
-    } catch (e) {
-      print(e);
+      else
+        {
+          Get.snackbar("Registration", e.message!,
+              backgroundColor: Colors.red.withOpacity(0.5));
+        }
     }
-    await user?.sendEmailVerification();
+
+
+
+  }
+
+  Future SendEmailVerification() async {
+    try {
+      await user?.sendEmailVerification();
+      Get.snackbar("Registration", "Email verification sent! You need to verify your email to log in properly",
+          backgroundColor: Colors.green.withOpacity(0.5));
+    } on FirebaseAuthException catch(e) {
+      Get.snackbar("Registration", e.message!,
+          backgroundColor: Colors.red.withOpacity(0.5));
+    }
   }
 
   Future signupUser(
@@ -84,34 +122,7 @@ class AuthenticationHelper {
         await Get.offAll(() => MainHomeScreen(name: userName));
       }
 
-      // final credential = EmailAuthProvider.credential(
-      //     email: signupEmail, password: signupPassword);
-      // if (user != null) {
-      //   await FirebaseAuth.instance.currentUser
-      //       ?.linkWithCredential(credential)
-      //       .then((user_) {
-      //     log("email ==> ${user_.user!.email} ==> ${user_.user!.phoneNumber}");
-      //   }).catchError((error) {
-      //     print("bhumit---" + error.toString());
-      //   });
-      //
-      //   if (imagePath != null) await uploadAuthorsProfile(imagePath, context);
-      //   if (signUpType == "author" || signUpType == "corpo") {
-      //     uploadUserDataInFireStore(signUpType);
-      //     //uploadAutherUserDataInFireStore();
-      //   } else {
-      //     uploadUserDataInFireStore(signUpType);
-      //   }
-      //   Circle().hide(context);
-      //   getStorage!.erase();
-      //   authController.clearAllController();
-      //   if (signUpType == "child") {
-      //     await Get.offAll(() => FeedDashboard());
-      //   } else {
-      //     await Get.offAll(() => MainHomeScreen());
-      //   }
-      // }
-      // Circle().hide(context);
+
       return null;
     } on FirebaseAuthException catch (e) {
       Circle().hide(context);
@@ -157,8 +168,7 @@ class AuthenticationHelper {
 
   uploadUserDataInFireStore(
       String signupType, File? imagePath, BuildContext context) async {
-    // final DocumentReference docRef =
-    //     FirebaseFirestore.instance.collection('users').doc(user.uid);
+
     final DocumentReference docRef =
         FirebaseFirestore.instance.collection('users').doc();
 
@@ -254,12 +264,21 @@ class AuthenticationHelper {
     log("signup data ==> $signupEmail ==> $signupPassword");
     try {
       Circle().show(context);
+      MultiFactorResolver? resolver = null;
       try {
-        final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+
+        final credential = await _auth.signInWithEmailAndPassword(
             email: signupEmail,
             password: signupPassword
         );
-      } on FirebaseAuthException catch (e) {
+        if(!user.emailVerified) {
+            await SendEmailVerification();
+          }
+      } on FirebaseAuthMultiFactorException  catch (e) {
+        Circle().hide(context);
+        // The user is a multi-factor user. Second factor challenge is required
+        resolver = e.resolver;
+
         if (e.code == 'user-not-found') {
           Get.snackbar("Signin", "User doesn't exists!",
               backgroundColor: Colors.red.withOpacity(0.5));
@@ -267,41 +286,13 @@ class AuthenticationHelper {
           Get.snackbar("Signin", "Email password does not match, forgot your password?",
               backgroundColor: Colors.red.withOpacity(0.5));
         }
-      }
-      var query = FirebaseFirestore.instance
-          .collection('users')
-          .where('user_id', isEqualTo: user.uid)
-          .limit(1)
-          .get();
-      // var snapshot = await query.snapshots();
-      query.then((value) async {
-        if (value.size > 0) {
-          currentUser = value.docs.map((doc) => doc.data()).toList();
-          sendOTP(currentUser[0]['phonenumber'], context, true);
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          if(currentUser[0]['type'] == "Author" ){
-            prefs.setString('userType', 'Author');
-          }else{
-            prefs.setString('userType', 'child');
-          }
 
-
-          // authController.clearAllController();
-        } else {
-          Get.snackbar("Signin", "User doesn't exists!",
-              backgroundColor: Colors.red.withOpacity(0.5));
+        final firstHint = resolver?.hints.first;
+        if (firstHint is! PhoneMultiFactorInfo) {
+          return;
         }
-      });
-
-      // await _auth.signInWithEmailAndPassword(
-      //     email: signupEmail, password: signupPassword);
-      // if (user != null) {
-      //   sendOTP(user.phoneNumber!, context, true);
-      //   authController.clearAllController();
-      //   log("user mobile ==> ${user.phoneNumber}");
-      //   // sendOTP(user.phoneNumber!, context);
-      // }
-      // log(user.toString());
+        await sendSignInOTP(resolver, context);
+      }
 
       Circle().hide(context);
       return null;
@@ -329,45 +320,63 @@ class AuthenticationHelper {
     print('signout');
   }
 
-  Future<void> sendOTP(
-      String phoneNumber, BuildContext context, bool fromLogin) async {
-    Get.snackbar("OTP", "We'll sent the OTP to your number!",
-        backgroundColor: Colors.green.withOpacity(0.5));
-    final session = await user.multiFactor.getSession();
-    //final auth = FirebaseAuth.instance;
-    Circle().show(context);
-    log("number ==> $phoneNumber");
-    // if(!fromLogin){
-    //   getStorage!.write("phone", phoneNumber);
-    // }
+  Future<void> EnrollSendOTP(String phoneNumber, BuildContext context) async {
 
-    await _auth.verifyPhoneNumber(
+    final session = await user.multiFactor.getSession();
+    final auth = FirebaseAuth.instance;
+    await auth.verifyPhoneNumber(
       multiFactorSession: session,
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
         log("in var complete");
         String verificationCode = credential.smsCode!;
         log("message $verificationCode");
-        // UserCredential userCredential =
-        //     await _auth.signInWithCredential(credential);
-        // User user = userCredential.user!;
+        },
+      verificationFailed: (FirebaseAuthException e) {
+        log("ERROR FROM OTP  $e");
+        Get.snackbar("Error", e.toString(),
+            backgroundColor: Colors.red.withOpacity(0.5));
+        },
+      codeSent:
+          (String verificationId, int? resendToken) async {
 
-        // // Sign in with email and password
-        // _auth
-        //     .signInWithEmailAndPassword(email: email, password: password)
-        //     .then((UserCredential userCredential) async {
-        //   User user = userCredential.user!;
+            Get.snackbar("OTP", "We've sent the OTP you your number!",
+                backgroundColor: Colors.green.withOpacity(0.5));
 
-        //   // Link phone credential to email credential
-        //   AuthCredential emailCredential = EmailAuthProvider.credential(
-        //     email: email,
-        //     password: password,
-        //   );
-        //   await user.linkWithCredential(emailCredential);
-        //   Get.to(() => ChildAuthorSelectionScreen());
-        // }).catchError((error) {
-        //   // Handle sign-in errors
-        // });
+            await getStorage!.write("otpVerificationID", verificationId);
+            log("--------->> $verificationId ---->>${getStorage!.read("otpVerificationID")} ");
+
+            Get.to(() => OtpVerificationScreen(
+              fromLogin: false,
+            ));
+
+      },
+      codeAutoRetrievalTimeout: (_) {},
+    );
+
+
+  }
+
+  Future<void> sendSignInOTP(
+      MultiFactorResolver resolver, BuildContext context) async {
+    Get.snackbar("OTP", "We'll sent the OTP to your number!",
+        backgroundColor: Colors.green.withOpacity(0.5));
+
+    Circle().show(context);
+
+    final firstHint = resolver.hints.first;
+    if (firstHint is! PhoneMultiFactorInfo) {
+      return;
+    }
+    await _auth.verifyPhoneNumber(
+      multiFactorSession: resolver.session,
+      multiFactorInfo: firstHint,
+
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        log("in var complete");
+        String verificationCode = credential.smsCode!;
+        log("message $verificationCode");
+
       },
       verificationFailed: (FirebaseAuthException e) {
         log("ERROR FROM OTP  $e");
@@ -382,7 +391,8 @@ class AuthenticationHelper {
         log("--------->> $verificationId ---->>${getStorage!.read("otpVerificationID")} ");
 
         Get.to(() => OtpVerificationScreen(
-              fromLogin: fromLogin,
+              fromLogin: true,
+              resolver: resolver,
             ));
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
@@ -391,11 +401,10 @@ class AuthenticationHelper {
   }
 
   AuthCredential? phoneCredentials;
-  Future<void> verifyOTP(
-    String smsCode,
-    BuildContext context,
-    bool fromLogin,
-  ) async {
+  Future<void> verifyEnrollOTP(
+      String smsCode,
+      BuildContext context
+      ) async {
     Circle().show(context);
     log("otp verification data ==> $smsCode ==> ${getStorage!.read("otpVerificationID")}");
 
@@ -404,50 +413,96 @@ class AuthenticationHelper {
         verificationId: getStorage!.read("otpVerificationID"),
         smsCode: smsCode,
       );
+      try {
+        await user.multiFactor.enroll(
+          PhoneMultiFactorGenerator.getAssertion(
+            credential,
+          ),
+        );
+        if (user != null) {
 
-      final UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
-      // final User? user = userCredential.user;
-      // Get.off(() => ChildAuthorSelectionScreen());
-      if (userCredential.user != null) {
-        phoneCredentials = userCredential.credential;
-        if (fromLogin) {
-          var query = FirebaseFirestore.instance
-              .collection('users')
-              .where('email',
-                  isEqualTo: authController.loginEmailController.text)
-              .limit(1)
-              .get();
-          query.then((value) async {
-            if (value.size > 0) {
-              value.docs.forEach((doc) async {
-                if (doc["type"] == 'Author') {
-                  getStorage!.write("authorname", doc["name"]);
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.setString('userName', userName);
-                  authController.otpController.clear();
-                  Get.offAll(() => MainHomeScreen(name: doc["name"]));
-                } else {
-                  authController.otpController.clear();
-                  Get.offAll(() => FeedDashboard());
-                }
-              });
-            }
-          });
-        } else {
           Get.off(() => ChildAuthorSelectionScreen());
+
+        } else {
+          Circle().hide(context);
+          Get.snackbar("Error", "Something wend wrong please try again");
+          // Authentication failed
         }
-        // fromLogin == true
-        //     ? Get.offAll(() => MainHomeScreen())
-        //     : Get.off(() => ChildAuthorSelectionScreen());
-        // The user has been successfully authenticated
-      } else {
+      } on FirebaseAuthException catch (e) {
         Circle().hide(context);
-        Get.snackbar("Error", "Something wend wrong please try again");
-        // Authentication failed
+        Get.snackbar("Error", "Something wend wrong please try again " + e.message!);
+        print(e.message);
       }
+
+
     } catch (e) {
+      Get.snackbar("ERROR", e.toString(),
+          backgroundColor: Colors.red.withOpacity(0.5));
+    }
+
+    Circle().hide(context);
+  }
+
+  Future<void> verifySignInOTP(
+    String smsCode,
+    MultiFactorResolver resolver,
+    BuildContext context,
+  ) async {
+    Circle().show(context);
+    log("otp verification data ==> $smsCode ==> ${getStorage!.read("otpVerificationID")}");
+
+    try {
+      if(smsCode != null) {
+        var credential = PhoneAuthProvider.credential(
+          verificationId: getStorage!.read("otpVerificationID"),
+          smsCode: smsCode,
+        );
+        try {
+          await resolver.resolveSignIn(
+            PhoneMultiFactorGenerator.getAssertion(
+              credential,
+            ),
+          );
+        } on FirebaseAuthException catch (e) {
+          Circle().hide(context);
+          Get.snackbar("ERROR", e.message!,
+              backgroundColor: Colors.red.withOpacity(0.5));
+        }
+      }
+        var query = FirebaseFirestore.instance
+            .collection('users')
+            .where('uid',
+            isEqualTo: user.uid)
+            .limit(1)
+            .get();
+        query.then((value) async {
+          if (value.size > 0) {
+            value.docs.forEach((doc) async {
+              if (doc["type"] == 'Author') {
+                getStorage!.write("authorname", doc["name"]);
+                SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+                prefs.setString('userName', userName);
+                authController.otpController.clear();
+                Get.offAll(() => MainHomeScreen(name: doc["name"]));
+              } else {
+                authController.otpController.clear();
+                Get.offAll(() => FeedDashboard());
+              }
+            });
+          }else {
+            Get.off(() => ChildAuthorSelectionScreen());
+          }
+        });
+
+          // fromLogin == true
+          //     ? Get.offAll(() => MainHomeScreen())
+          //     : Get.off(() => ChildAuthorSelectionScreen());
+          // The user has been successfully authenticated
+
+
+    } catch (e) {
+      Circle().hide(context);
       Get.snackbar("ERROR", e.toString(),
           backgroundColor: Colors.red.withOpacity(0.5));
     }

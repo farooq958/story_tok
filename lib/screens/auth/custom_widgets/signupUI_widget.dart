@@ -22,7 +22,7 @@ class SignUpUIWidget extends StatefulWidget {
 }
 
 AuthController authController = Get.find<AuthController>();
-AuthenticationHelper authenticationHelper = Get.find<AuthenticationHelper>();
+
 
 GlobalKey<FormState> signupKey = GlobalKey<FormState>();
 
@@ -239,8 +239,8 @@ class _SignUpUIWidgetState extends State<SignUpUIWidget> {
                 // log(getStorage!.read("signup_Name"));
                 if (signupKey.currentState!.validate()) {
                   if(authController.signuppasswordController.text == authController.signupConfirmPasswordController.text) {
-                    await authenticationHelper.SignUpFirst();
-                    await authController.storeSignUpData();
+                    await AuthenticationHelper().SignUpFirst();
+                    //await authController.storeSignUpData();
                    /* var query = FirebaseFirestore.instance
                         .collection('users')
                         .where('email',

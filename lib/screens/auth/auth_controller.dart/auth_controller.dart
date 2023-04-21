@@ -293,6 +293,7 @@ class AuthController extends GetxController {
     signupEmailController.clear();
     signupNameController.clear();
     signuppasswordController.clear();
+    signupConfirmPasswordController.clear();
     loginEmailController.clear();
     loginPasswordController.clear();
     mobileController.clear();

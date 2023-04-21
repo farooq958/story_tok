@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -8,10 +9,10 @@ import 'package:storily/screens/auth/helpers/authentication_helper.dart';
 import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  OtpVerificationScreen({Key? key, this.fromLogin}) : super(key: key);
+  OtpVerificationScreen({Key? key, this.fromLogin, this.resolver}) : super(key: key);
 
   bool? fromLogin;
-
+  MultiFactorResolver? resolver;
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
 }
@@ -254,10 +255,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       alignment: Alignment.center,
                       child: GestureDetector(
                         onTap: () {
-                          AuthenticationHelper().sendOTP(
+                          widget.fromLogin! == true?
+                            AuthenticationHelper().sendSignInOTP(
+                              widget.resolver!,
+                              context
+                              )
+                            : AuthenticationHelper().EnrollSendOTP(
                               "+${authController.selectedCountryPhoneCode.value + " " + authController.mobileController.text}",
-                              context,
-                              false);
+                              context);
                         },
                         child: Text(
                           "Resend Otp",
@@ -273,10 +278,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: ScaleButton(
                         onTap: () {
-                          AuthenticationHelper().verifyOTP(
+                          widget.fromLogin! ==true?
+                          AuthenticationHelper().verifySignInOTP(
                               authController.otpController.text,
-                              context,
-                              widget.fromLogin!);
+                              widget.resolver!,
+                              context)
+                          : AuthenticationHelper().verifyEnrollOTP(
+                            authController.otpController.text,
+                            context
+                          );
                         },
                         child: Image.asset(
                             "assets/images/auth_images/standalone_green_continue.png"),

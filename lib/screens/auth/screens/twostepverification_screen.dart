@@ -395,10 +395,9 @@ class _TwoStepVerificationState extends State<TwoStepVerification> {
                                     "+${authController.selectedCountryPhoneCode.value + "" + authController.mobileController.text}"
                                   // authController.mobileController.text
                                 );
-                                AuthenticationHelper().sendOTP(
+                                AuthenticationHelper().EnrollSendOTP(
                                     "+${authController.selectedCountryPhoneCode.value + " " + authController.mobileController.text}",
-                                    context,
-                                    false);
+                                    context);
                               }
                             },
                             child: Image.asset(

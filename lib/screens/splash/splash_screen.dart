@@ -10,6 +10,7 @@ import 'package:storily/screens/auth/auth.dart';
 import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
 import 'package:storily/screens/main_home_screen.dart';
 
+import '../auth/screens/onboard.dart';
 import '../dashboard/feed_dashboard.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
       //                 child: FirebaseSession(),
       //               ),
       //             )));
-      Get.offAll(() => FirebaseSession());
+      Get.offAll(() => OnboardScreen());//FirebaseSession
     } else {
       print("Current User : " + user.uid);
       // Navigator.pushReplacement(
@@ -50,12 +51,14 @@ class _SplashScreenState extends State<SplashScreen> {
       //                 // child: SpotifyHome(),
       //               ),
       //             )));
-      if(prefs.getString('userType') == 'Author') {
+      Get.offAll(() => FirebaseSession());//
+
+      /*if(prefs.getString('userType') == 'Author') {
         Get.offAll(() =>
             MainHomeScreen(name: prefs.getString('userName') ?? ''));
       }else{
         Get.offAll(() => FeedDashboard());
-      }
+      }*/
     }
   }
 
