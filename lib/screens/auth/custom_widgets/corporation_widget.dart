@@ -165,7 +165,7 @@ class _CorporationWidgetState extends State<CorporationWidget> {
                           autofocus: false,
                           controller: authController.postalCodeController,
                           keyboardType: TextInputType.text,
-                          validator: (value) => Validators.validateDigits(
+                          validator: (value) => Validators.validatePostCode(
                               value!, "PostalCode", 6),
                           maxLength: 6,
                           autovalidateMode: AutovalidateMode.onUserInteraction,

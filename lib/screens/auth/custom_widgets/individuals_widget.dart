@@ -166,7 +166,7 @@ class _IndividualsUiWidgetsState extends State<IndividualsUiWidgets> {
                           autofocus: false,
                           controller: authController.postalCodeController,
                           keyboardType: TextInputType.text,
-                          validator: (value) => Validators.validateDigits(
+                          validator: (value) => Validators.validatePostCode(
                             value!,
                             "PostCode",
                             6,
