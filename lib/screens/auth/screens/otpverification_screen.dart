@@ -9,10 +9,11 @@ import 'package:storily/screens/auth/helpers/authentication_helper.dart';
 import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  OtpVerificationScreen({Key? key, this.fromLogin, this.resolver}) : super(key: key);
+  OtpVerificationScreen({Key? key, this.fromLogin, this.resolver,this.signupEmail}) : super(key: key);
 
   bool? fromLogin;
   MultiFactorResolver? resolver;
+  String? signupEmail;
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
 }
@@ -258,7 +259,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           widget.fromLogin! == true?
                             AuthenticationHelper().sendSignInOTP(
                               widget.resolver!,
-                              context
+                              context,
+                                widget.signupEmail!
                               )
                             : AuthenticationHelper().EnrollSendOTP(
                               "+${authController.selectedCountryPhoneCode.value + " " + authController.mobileController.text}",
@@ -282,7 +284,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           AuthenticationHelper().verifySignInOTP(
                               authController.otpController.text,
                               widget.resolver!,
-                              context)
+                              context,
+                              widget.signupEmail!)
                           : AuthenticationHelper().verifyEnrollOTP(
                             authController.otpController.text,
                             context

@@ -8,7 +8,8 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../../auth/helpers/authentication_helper.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  String? uid = '';
+   Home({Key? key,this.uid}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -106,7 +107,7 @@ class _HomeState extends State<Home> {
   Future<List> getAchievmentLevelData() async {
     collectionRefAchievment = FirebaseFirestore.instance
         .collection('achievement_condition_static')
-        .where('uid', isEqualTo: 'JmuMU1mkIIFkFuPjU3vP');
+        .where('uid', isEqualTo: 'DrknGaaPXCf0Aca0SHRF');
 
     // Get docs from collection reference
     querySnapshotAchievment = await collectionRefAchievment.get();
@@ -376,7 +377,7 @@ class _HomeState extends State<Home> {
   Future<void> getUserData() async {
     collectionRefUser = FirebaseFirestore.instance
         .collection('users')
-        .where('uid', isEqualTo: ' JmuMU1mkIIFkFuPjU3vP');
+        .where('uid', isEqualTo: widget.uid);
 
     // Get docs from collection reference
     querySnapshotUser = await collectionRefUser.get();
@@ -391,14 +392,17 @@ class _HomeState extends State<Home> {
 // Logic for earned achievement document
     List<String> docIDS = [];
 
+    print("#### USER LIST ${userLists.toString()}");
+
     for (int i = 0; i < userLists.length; i++) {
       for (int j = 0; j < userLists[i]['earned_achievements'].length; j++) {
         String id = (userLists[i]['earned_achievements'][j]);
         docIDS.add(id.replaceAll(' ', ''));
       }
     }
-
-    getEarnAchievmentLevelData(docIDS, true);
+    if(docIDS.isNotEmpty) {
+      getEarnAchievmentLevelData(docIDS, true);
+    }
 
 //Logic for in progress achievement documents
     List<String> docInProgressIDS = [];
@@ -410,14 +414,37 @@ class _HomeState extends State<Home> {
         docInProgressIDS.add(id.replaceAll(' ', ''));
       }
     }
-    getEarnAchievmentLevelData(docInProgressIDS, false);
+    if(docInProgressIDS.isNotEmpty) {
+      getEarnAchievmentLevelData(docInProgressIDS, false);
+    }
 
     profileUrlKey = userLists.isNotEmpty ? userLists[0]['profile_url'] : '';
     getProfileData();
   }
 
   Future<void> getProfileData() async {
-    collectionAvatar =
+    var collection =
+    FirebaseFirestore.instance.collection('kids_avatar_collection_static');
+    var docSnapshot = await collection.doc('vEHmJgUnjM5nq09wzkU9').get();
+    if (docSnapshot.exists) {
+      avatarLists = [];
+      Map<String, dynamic>? data = docSnapshot.data();
+      avatarLists = data?['avatar_collection']; // <-- The value you want to retrieve.
+      print("#### AVATAR LIST ${avatarLists.toString()}");
+
+      for (int i = 0; i < avatarLists.length; i++) {
+           if(avatarLists[i]['name'] == profileUrlKey){
+             profileUrl = avatarLists[i]['icon'];
+             achievementProfileUrl = avatarLists[i]['wave'];
+           }
+      }
+      setState(() {
+        profileUrl;
+        achievementProfileUrl;
+      });
+    }
+
+    /*  collectionAvatar =
         FirebaseFirestore.instance.collection('kids_avatar_collection_static');
 
     // Get docs from collection reference
@@ -443,7 +470,7 @@ class _HomeState extends State<Home> {
                 Text('$profileUrlKey key not exists in avatar collection'));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
-    }
+    }*/
   }
 
   Future<void> getFavouriteBooksData() async {

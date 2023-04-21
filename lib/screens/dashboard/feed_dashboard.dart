@@ -22,7 +22,8 @@ import 'data/model/video_model.dart';
 
 class FeedDashboard extends StatefulWidget {
   static String id = "/feedDashboard";
-  const FeedDashboard({Key? key}) : super(key: key);
+  String? uid = '';
+   FeedDashboard({Key? key,this.uid}) : super(key: key);
 
   @override
   _FeedScreenState createState() => _FeedScreenState();
@@ -48,7 +49,7 @@ class _FeedScreenState extends State<FeedDashboard> {
       _selectedIndex = index;
     });
     if (_selectedIndex == 0) {
-      Home();
+      Home(uid: widget.uid);
       log("Home");
     }
     if (_selectedIndex == 1) {
@@ -91,7 +92,7 @@ class _FeedScreenState extends State<FeedDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: _selectedIndex == 0 ? Home() : _selectedIndex == 1 ?HomeScreen() :  _selectedIndex == 2 ?LibraryPageView():SizedBox(),
+      body: _selectedIndex == 0 ? Home(uid: widget.uid) : _selectedIndex == 1 ?HomeScreen() :  _selectedIndex == 2 ?LibraryPageView():SizedBox(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber.shade800,

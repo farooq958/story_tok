@@ -116,11 +116,7 @@ class AuthenticationHelper {
       }
       Circle().hide(context);
       authController.clearAllController();
-      if (signUpType == "child") {
-        await Get.offAll(() => FeedDashboard());
-      } else {
-        await Get.offAll(() => MainHomeScreen(name: userName));
-      }
+
 
 
       return null;
@@ -188,6 +184,8 @@ class AuthenticationHelper {
       if (signupType == "author") 'state': getStorage!.read("state"),
       if (signupType == "author") 'postCode': getStorage!.read("postalCode"),
       if (signupType == "author") 'country': getStorage!.read("country"),
+      if (signupType == "child") 'earned_achievements': [],
+      if (signupType == "child") 'in_progress_achievements': [],
       'phonenumber': getStorage!.read("phone"),
       'email': getStorage!.read("signup_Email"),
       'name': getStorage!.read("signup_Name"),
@@ -204,7 +202,7 @@ class AuthenticationHelper {
     docRef.set(data).then((value) {
       final DocumentReference docRef1 =
           FirebaseFirestore.instance.collection('users').doc(docRef.id);
-      docRef1.update({'uid': user.uid, 'author_id': signupType == "corpo" || signupType == "author" ? docRef.id : null});
+      docRef1.update({'uid': docRef.id, 'author_id': signupType == "corpo" || signupType == "author" ? docRef.id : null});
       uploadAutherUserDataInFireStore(
           docRef.id, imagePath, context, signupType);
       Get.snackbar("Sign Up", "Sign up successfully.",
@@ -232,18 +230,24 @@ class AuthenticationHelper {
       'boigraphy': "",
       'name': getStorage!.read("signup_Name"),
       'books_doc_id': booksDocIdList,
-      'user_id': user.uid,
+      'user_id': refID
     };
     Future.delayed(const Duration(milliseconds: 2000), () {
       docRef.set(data).then((value) async {
         final DocumentReference docRef1 =
             FirebaseFirestore.instance.collection('users').doc(refID);
+        print('#### PROFILE NAME ${getStorage!.read("selected_Profile_name")}');
         docRef1.update({
           'profile_url': signupType == "corpo" || signupType == "author"
               ? downloadUrl
-              : getStorage!.read("selected_avtar_Pheer_Profile"),
+              : getStorage!.read("selected_Profile_name"),
         });
         getStorage!.erase();
+        if (signupType == "child") {
+          await Get.offAll(() => FeedDashboard(uid: refID));
+        } else {
+          await Get.offAll(() => MainHomeScreen(name: userName));
+        }
 
         // Get.snackbar("Sign Up", "Sign up successfully.",
         //     backgroundColor: Colors.green.withOpacity(0.5));
@@ -291,7 +295,7 @@ class AuthenticationHelper {
         if (firstHint is! PhoneMultiFactorInfo) {
           return;
         }
-        await sendSignInOTP(resolver, context);
+        await sendSignInOTP(resolver, context,signupEmail);
       }
 
       Circle().hide(context);
@@ -358,7 +362,7 @@ class AuthenticationHelper {
   }
 
   Future<void> sendSignInOTP(
-      MultiFactorResolver resolver, BuildContext context) async {
+      MultiFactorResolver resolver, BuildContext context,String signupEmail) async {
     Get.snackbar("OTP", "We'll sent the OTP to your number!",
         backgroundColor: Colors.green.withOpacity(0.5));
 
@@ -393,6 +397,7 @@ class AuthenticationHelper {
         Get.to(() => OtpVerificationScreen(
               fromLogin: true,
               resolver: resolver,
+               signupEmail: signupEmail,
             ));
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
@@ -447,6 +452,7 @@ class AuthenticationHelper {
     String smsCode,
     MultiFactorResolver resolver,
     BuildContext context,
+    String signupEmail
   ) async {
     Circle().show(context);
     log("otp verification data ==> $smsCode ==> ${getStorage!.read("otpVerificationID")}");
@@ -471,8 +477,8 @@ class AuthenticationHelper {
       }
         var query = FirebaseFirestore.instance
             .collection('users')
-            .where('uid',
-            isEqualTo: user.uid)
+            .where('email',
+            isEqualTo: signupEmail)
             .limit(1)
             .get();
         query.then((value) async {
@@ -487,7 +493,7 @@ class AuthenticationHelper {
                 Get.offAll(() => MainHomeScreen(name: doc["name"]));
               } else {
                 authController.otpController.clear();
-                Get.offAll(() => FeedDashboard());
+                Get.offAll(() => FeedDashboard(uid: doc["uid"]));
               }
             });
           }else {

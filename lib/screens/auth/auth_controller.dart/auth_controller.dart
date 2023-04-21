@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,10 @@ import 'package:storily/main.dart';
 import 'package:storily/screens/auth/screens/twostepverification_screen.dart';
 
 class AuthController extends GetxController {
+  late DocumentReference collectionKidsAvatar;
+  late DocumentSnapshot querySnapshotKidsAvatar;
+  var kidsAvatarLists = [];
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -20,12 +25,14 @@ class AuthController extends GetxController {
 
   RxList profileImageFromFireStore = [].obs;
   RxList profileAvatarImagesFromFireStore = [].obs;
+  var profileName = [];
   RxString selectedCheerCartoon =
       "https://firebasestorage.googleapis.com/v0/b/storily-f38a6.appspot.com/o/child_profile%2Fbanana_cheer.png?alt=media&token=01a8292a-e4dd-4486-85db-a54550f864ca"
           .obs;
   RxInt slectedLevel = 1.obs;
 
   Future getCheerCartoonImages() async {
+    /*
     //! CHEER CARTOON
     final Reference storageRef =
         FirebaseStorage.instance.ref().child('child_profile');
@@ -40,8 +47,29 @@ class AuthController extends GetxController {
 
     profileAvatarImagesFromFireStore.value = await Future.wait(
         avatarResult.items.map((Reference ref) => ref.getDownloadURL()));
+
+   */
+
+    var collection =
+        FirebaseFirestore.instance.collection('kids_avatar_collection_static');
+    var docSnapshot = await collection.doc('vEHmJgUnjM5nq09wzkU9').get();
+    if (docSnapshot.exists) {
+      profileImageFromFireStore = [].obs;
+      profileAvatarImagesFromFireStore = [].obs;
+      Map<String, dynamic>? data = docSnapshot.data();
+      kidsAvatarLists =
+          data?['avatar_collection']; // <-- The value you want to retrieve.
+
+      for (int i = 0; i < kidsAvatarLists.length; i++) {
+        profileImageFromFireStore.add(kidsAvatarLists[i]['wave']);
+        profileAvatarImagesFromFireStore.add(kidsAvatarLists[i]['icon']);
+        profileName.add(kidsAvatarLists[i]['name']);
+      }
+    }
+
     log("STore ref ${profileImageFromFireStore.toString()}");
     log("STore ref av ${profileAvatarImagesFromFireStore.toString()}");
+    log("profile name ${profileName.toString()}");
   }
 
   RxString selectedAuthType = "login".obs;
@@ -55,7 +83,8 @@ class AuthController extends GetxController {
   TextEditingController signupNameController = TextEditingController();
   TextEditingController signupEmailController = TextEditingController();
   TextEditingController signuppasswordController = TextEditingController();
-  TextEditingController signupConfirmPasswordController = TextEditingController();
+  TextEditingController signupConfirmPasswordController =
+      TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController postalCodeController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
