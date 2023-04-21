@@ -25,6 +25,19 @@ class Validators {
     return null;
   }
 
+  static String? validatePostCode(String value, String type, int length) {
+    String patttern = r'(^[a-zA-Z0-9]*$)';
+    RegExp regExp = RegExp(patttern);
+    if (value.isEmpty) {
+      return "$type is Required";
+    } else if (value.length != length) {
+      return "$type must be of $length digits";
+    } else if (!regExp.hasMatch(value)) {
+      return "$type must be a number or letter. Example: 100, 1BF";
+    }
+    return null;
+  }
+
   static String? validateContact(String value) {
     // Pattern pattern = r'^(?:[+0][1-9])?[0-9]{5,20}$';
     // RegExp regExp =  RegExp(pattern);

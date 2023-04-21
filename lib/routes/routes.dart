@@ -8,7 +8,7 @@ var routes = <String, WidgetBuilder>{
   //
   
   SplashScreen.id: (_) =>  SplashScreen(),
-  FeedDashboard.id: (_) => const FeedDashboard(),
+  FeedDashboard.id: (_) => FeedDashboard(),
   
 
 };

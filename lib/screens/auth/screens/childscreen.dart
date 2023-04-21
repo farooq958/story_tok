@@ -29,6 +29,13 @@ class _ChildScreenState extends State<ChildScreen>
     authController.selectedCheerCartoon.value =
         authController.profileImageFromFireStore.first;
     authController.slectedLevel.value = 0;
+
+    // Future.delayed(const Duration(milliseconds: 2000), () {
+    //   authController.selectedCheerCartoon.value =
+    //   authController.profileImageFromFireStore[0]['wave'];
+    //
+    // });
+
   }
 
   @override
@@ -36,6 +43,8 @@ class _ChildScreenState extends State<ChildScreen>
     super.dispose();
     authController.selectedCheerCartoon.value =
         authController.profileImageFromFireStore.first;
+    // authController.selectedCheerCartoon.value =
+    // authController.profileImageFromFireStore[0]['wave'];
   }
 
   @override
@@ -252,11 +261,14 @@ class _ChildScreenState extends State<ChildScreen>
                             onTap: () {
                               authController.selectedCheerCartoon.value =
                                   authController
-                                      .profileAvatarImagesFromFireStore[index];
+                                      .profileImageFromFireStore[index];
                               getStorage!.write(
                                   "selected_avtar_Profile",
                                   authController
                                       .profileAvatarImagesFromFireStore[index]);
+                              getStorage!.write(
+                                  "selected_Profile_name",
+                                  authController.profileName[index]);
                               getStorage!.write("selected_avtar_Pheer_Profile",
                                   authController.selectedCheerCartoon.value);
                               Get.snackbar("Selected",
@@ -351,7 +363,7 @@ class _ChildScreenState extends State<ChildScreen>
                           log("WHEN COMPLETED");
 
                           authController.clearAllController();
-                          getStorage!.erase();
+                         // getStorage!.erase();
                         });
                       },
                       child: Image.asset(
