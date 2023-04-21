@@ -166,7 +166,7 @@ class AuthenticationHelper {
       String signupType, File? imagePath, BuildContext context) async {
 
     final DocumentReference docRef =
-        FirebaseFirestore.instance.collection('users').doc();
+        FirebaseFirestore.instance.collection('users').doc(user.uid);
 
     final Map<String, dynamic> data = {
       // 'author_id':
@@ -202,7 +202,7 @@ class AuthenticationHelper {
     docRef.set(data).then((value) {
       final DocumentReference docRef1 =
           FirebaseFirestore.instance.collection('users').doc(docRef.id);
-      docRef1.update({'uid': docRef.id, 'author_id': signupType == "corpo" || signupType == "author" ? docRef.id : null});
+      docRef1.update({'uid': user.uid, 'author_id': signupType == "corpo" || signupType == "author" ? docRef.id : null});
       uploadAutherUserDataInFireStore(
           docRef.id, imagePath, context, signupType);
       Get.snackbar("Sign Up", "Sign up successfully.",
@@ -230,12 +230,12 @@ class AuthenticationHelper {
       'boigraphy': "",
       'name': getStorage!.read("signup_Name"),
       'books_doc_id': booksDocIdList,
-      'user_id': refID
+      'user_id': user.uid
     };
     Future.delayed(const Duration(milliseconds: 2000), () {
       docRef.set(data).then((value) async {
         final DocumentReference docRef1 =
-            FirebaseFirestore.instance.collection('users').doc(refID);
+            FirebaseFirestore.instance.collection('users').doc(user.uid);
         print('#### PROFILE NAME ${getStorage!.read("selected_Profile_name")}');
         docRef1.update({
           'profile_url': signupType == "corpo" || signupType == "author"
@@ -244,7 +244,7 @@ class AuthenticationHelper {
         });
         getStorage!.erase();
         if (signupType == "child") {
-          await Get.offAll(() => FeedDashboard(uid: refID));
+          await Get.offAll(() => FeedDashboard(uid: user.uid));
         } else {
           await Get.offAll(() => MainHomeScreen(name: userName));
         }
@@ -493,7 +493,7 @@ class AuthenticationHelper {
                 Get.offAll(() => MainHomeScreen(name: doc["name"]));
               } else {
                 authController.otpController.clear();
-                Get.offAll(() => FeedDashboard(uid: doc["uid"]));
+                Get.offAll(() => FeedDashboard(uid: user.uid));
               }
             });
           }else {
