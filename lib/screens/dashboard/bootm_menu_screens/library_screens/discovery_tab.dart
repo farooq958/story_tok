@@ -22,16 +22,26 @@ class DiscoveryTab extends StatelessWidget {
       children: [
         SizedBox(height: 10.sp,),
         ///this month picks
-        Container(height: 250.sp,decoration: BoxDecoration(
-
+        Container(height: 250.sp,
+          width: 1.sw/1.15,
+          padding: EdgeInsets.symmetric(horizontal: 20.sp),
+          decoration: BoxDecoration(
+    //border:Border(right: BorderSide(width: 2.0)),
+   // borderRadius: BorderRadius.only(topRight: Radius.circular(20.sp)),
+    //border: Border.all(color: Colors.black,width: 2.sp),
+   //borderRadius: BorderRadius.circular(20.sp),
           image: DecorationImage(
               fit: BoxFit.fill,
 
+alignment: Alignment.topRight,
+//isAntiAlias: true,
               image: AssetImage("assets/images/kidslibrary_purple_container1.png"))
 
         ),
-        child: ListView(physics: NeverScrollableScrollPhysics(),children: [
-          
+        child: ListView(
+          //shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),children: [
+
            Container(
                padding: EdgeInsets.only(right: 55.sp),
 
@@ -69,9 +79,10 @@ class DiscoveryTab extends StatelessWidget {
           );
   },
 )
-          
+
         ],),
         ),
+
         SizedBox(height: 10.sp,),
         Container(height: 180.sp,decoration: BoxDecoration(
 
@@ -167,6 +178,7 @@ child: Center(child: Text(featureAuthors[index]['name'].toString()),),
     // TODO: implement listener
   },
   builder: (context, notOwnedBooks) {
+    print(notOwnedBooks.length.toString()+"##Not OWned");
     return SizedBox(
               height: 150.sp,
               width: 150.sp,
