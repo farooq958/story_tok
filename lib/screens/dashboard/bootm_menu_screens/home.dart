@@ -476,7 +476,7 @@ class _HomeState extends State<Home> {
   Future<void> getFavouriteBooksData() async {
     collectionRefFavBooks = FirebaseFirestore.instance
         .collection('users')
-        .where('uid', isEqualTo: ' JmuMU1mkIIFkFuPjU3vP');
+        .where('uid', isEqualTo: widget.uid);
 
     // Get docs from collection reference
     querySnapshotFavBooks = await collectionRefFavBooks.get();
