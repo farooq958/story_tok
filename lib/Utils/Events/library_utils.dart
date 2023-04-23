@@ -122,7 +122,7 @@ Container reusableButtonLibrary({required String text }) {
     barrierColor: Colors.transparent,
     isDismissible: false,
     constraints: BoxConstraints(
-      maxWidth:1.sw/1.15,
+      maxWidth:1.sw/1.05,
     ),
 
     useRootNavigator: true,
@@ -136,7 +136,7 @@ Container reusableButtonLibrary({required String text }) {
 Widget buildBottomSheet(BuildContext context,listState) {
   return Container(
     height: 1.sh/1.4,
-    color: AppColors.primaryColor,
+    //color: AppColors.primaryColor,
     child: ListView(
         shrinkWrap: true,
         children:[
@@ -146,7 +146,9 @@ Widget buildBottomSheet(BuildContext context,listState) {
               Container(
                 height: 1.sh/2.sp,
                 // width: 1.sw,
-                decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/bookpreview_textbox4.png"))),
+                decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    image: DecorationImage(image: AssetImage("assets/images/bookpreview_textbox4.png"))),
                 child: Center(child: listState['cover_url']==null?Text("No Image"):Image.network(listState['cover_url'],fit: BoxFit.fill,height: 1.sh/2.7,),),
               ),
               Positioned(
@@ -160,11 +162,12 @@ Widget buildBottomSheet(BuildContext context,listState) {
                       child: Image.asset("assets/images/bookpreview_exit.png",height: 40.sp,)))
             ],
           ),
-          SizedBox(height: 5.sp,),
+          Container(height: 5.sp,color: AppColors.primaryColor,),
           Container(
 
             height: 70.sp,
             decoration: BoxDecoration(
+
                 color: AppColors.primaryColor,borderRadius: BorderRadius.circular(20.sp),border: Border.all(color: Colors.black,width: 2.0.sp)),
             child:
             Row(
@@ -223,11 +226,11 @@ Widget buildBottomSheet(BuildContext context,listState) {
             ),
 
           ),
-          SizedBox(height: 5.sp,),
+          Container(height: 5.sp,color: AppColors.primaryColor,),
           Container(
             height: 300.sp,
             decoration: BoxDecoration(
-
+color: AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(20.sp),border: Border.all(color: Colors.black,width: 2.0.sp)),
 
             child: ListView(shrinkWrap: true,
@@ -294,39 +297,46 @@ Widget buildBottomSheet(BuildContext context,listState) {
                   ,child: Row(
 
                   children: <Widget>[
+                    SizedBox(width: 4.sp,),
                     Expanded(
-                      child: Container(height: 30.sp,width:90.sp,decoration:
-                      BoxDecoration(color: AppColors.libraryBottomSheetButtonColor,borderRadius: BorderRadius.circular(20.sp),border:
+                      child: Container(height: 25.sp,width:90.sp,decoration:
+                      BoxDecoration(color: AppColors.libraryBottomSheetButtonColor,borderRadius: BorderRadius.circular(5.sp),border:
                       Border.all(color: Colors.black,width: 2)),
 
                         child: Center(child: Text("ENGLISH",style: GoogleFonts.lexend(),),),
                       ),
                     ),
-                    SizedBox(width: 2.sp,)
+                    SizedBox(width: 8.sp,)
                     ,
                     Expanded(
-                      child: Container(height: 30.sp,width:90.sp,decoration: BoxDecoration(color: AppColors.libraryBottomSheetButtonColor2,
-                          borderRadius: BorderRadius.circular(20.sp),border: Border.all(color: Colors.black,width: 2)),
-                          child:  Center(child: listState['pages_url']==null?Text("0 pages"):Text("${listState['pages_url'].length} pages",style: GoogleFonts.lexend(),),)
+                      child: Container(height: 25.sp,width:90.sp,decoration: BoxDecoration(color: AppColors.libraryBottomSheetButtonColor2,
+                          borderRadius: BorderRadius.circular(5.sp),border: Border.all(color: Colors.black,width: 2)),
+                          child:  Center(child: listState['pages_url']==null?Text("0 PAGES"):Text("${listState['pages_url'].length} PAGES",style: GoogleFonts.lexend(),),)
                       ),
                     )
-                    ,SizedBox(width: 2.sp,)
+                    ,SizedBox(width: 7.sp,)
                     ,
                     Expanded(
-                      child: Container(height: 30.sp,width:92.sp,decoration: BoxDecoration(color: AppColors.libraryBottomSheetButtonColor2,
-                          borderRadius: BorderRadius.circular(20.sp),border: Border.all(color: Colors.black,width: 2)),
-                          child:  FittedBox(child: listState['likes']==null?Text("0 USER LIKED THIS"):Text("${listState['likes']} USER LIKED THIS",style: GoogleFonts.lexend(),),)
+                      flex:2,
+                      child: Container(height: 25.sp,width:92.sp,decoration: BoxDecoration(color: AppColors.libraryBottomSheetButtonColor2,
+                          borderRadius: BorderRadius.circular(5.sp),border: Border.all(color: Colors.black,width: 2)),
+                          child:  FittedBox(child: listState['likes']==null?Text(" 0 USER LIKED THIS "):Text(" ${listState['likes']} USER LIKED THIS ",style: GoogleFonts.lexend(),),)
                       ),
-                    )
+
+                    ),
+                    SizedBox(width: 4.sp,),
 
                   ],
                 ),)
 
               ],),
           ),
-          SizedBox(height: 10.sp,),
-          TouchableOpacity(child: reusableButtonLibrary(text: "Add To Cart")),
-          SizedBox(height: 70.sp,),
+          Container(height: 10.sp,color: AppColors.primaryColor,),
+          Container(
+              color: AppColors.primaryColor,
+              child: TouchableOpacity(child: reusableButtonLibrary(text: "Add To Cart"))),
+          Container(height: 70.sp,color: Colors.transparent,),
+         // Container(height: 5.sp,color: AppColors.primaryColor,),
 
         ]),
   );
