@@ -484,19 +484,23 @@ class _HomeState extends State<Home> {
     // Get data from docs and convert map to List
     favBooksLists =
         querySnapshotFavBooks.docs.map((doc) => doc.data()).toList();
-
     List<String> favBookId = [];
-    for (int i = 0; i < favBooksLists.length; i++) {
-      for (int j = 0; j < favBooksLists[i]['books_read'].length; j++) {
-        if (favBooksLists[i]['books_read'][j]['reading_duration'] > favBookThreshold) {
-          favBookId.add(
-              favBooksLists[i]['books_read'][j]['book_id'].replaceAll(' ', ''));
+    if(favBooksLists != null) {
+
+      for (int i = 0; i < favBooksLists.length; i++) {
+        for (int j = 0; j < favBooksLists[i]['books_read'].length; j++) {
+          if (favBooksLists[i]['books_read'][j]['reading_duration'] >
+              favBookThreshold) {
+            favBookId.add(
+                favBooksLists[i]['books_read'][j]['book_id'].replaceAll(
+                    ' ', ''));
+          }
         }
       }
-    }
-    print("### FAV BOOK ${favBookId.length}");
+      print("### FAV BOOK ${favBookId.length}");
 
-    getFavouriteBookData(favBookId);
+      getFavouriteBookData(favBookId);
+    }
   }
 
   Future<void> getFavouriteBookData(List<String> docID) async {

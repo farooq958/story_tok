@@ -343,32 +343,31 @@ var event2 =await data1.get();
       ///pass this
 
       var data =   FirebaseFirestore.instance.collection("users").doc(FakeUserData.fakeKidUserId);
- var data2= FirebaseFirestore.instance.collection("booksentity");
+      var data2= FirebaseFirestore.instance.collection("booksentity");
       Repository.libraryListBooksDetails.clear();
       var event=await data.get();
-  var rawDta = jsonEncode(event["books_owned"]);
-  List dto=jsonDecode(rawDta);
-  if(dto.isEmpty)
-    {
-      return "false";
-    }
-  //Repository.libraryBooksOwnedData=dto;
-  else
-  for(var i in dto)
-    {
-var bookdata=await data2.doc(i.toString()).get();
-print("data");
-print(bookdata);
-if(bookdata.data() != null) {
-  var raww = jsonEncode(bookdata.data());
+      var rawDta = jsonEncode(event["books_owned"]);
+      List dto=jsonDecode(rawDta);
+      if(dto.isEmpty)
+      {
+        return "false";
+      }
+      //Repository.libraryBooksOwnedData=dto;
+      else {
+        for (var i in dto) {
+          var bookdata = await data2.doc(i.toString()).get();
+          print("data");
+          print(bookdata);
+          if (bookdata.data() != null) {
+            var raww = jsonEncode(bookdata.data());
 
-  Map dataBooks = jsonDecode(raww);
-//List
-
-  Repository.libraryListBooksDetails.add(dataBooks);
-//print(dataListBooksDetails.length);
-}
-    }
+            Map dataBooks = jsonDecode(raww);
+            //List
+            Repository.libraryListBooksDetails.add(dataBooks);
+            //print(dataListBooksDetails.length);
+          }
+        }
+      }
       //print( Repository.libraryBooksOwnedData.length);
     //  Repository.eventListUpcomingData.clear();
       // Repository.eventMapOfData.clear();
@@ -422,24 +421,24 @@ if(bookdata.data() != null) {
       Repository.favouriteCategory.clear();
       Repository.favouriteSubCategories.clear();
       var event=await data.get();
-//print(event['books_read']);
-List dto=event.data()!['books_read'];
-String readingLevel= event.data()!['reading_level'].toString();
-List bookId=[];
-var monthlyBookData=await data3.get();
+      //print(event['books_read']);
+      List dto=event.data()!['books_read'];
+      String readingLevel= event.data()!['reading_level'].toString();
+      List bookId=[];
+      var monthlyBookData=await data3.get();
 
-monthlyBookData.docs.forEach((element) {
+      monthlyBookData.docs.forEach((element) {
 
-  print(element.data()["books_id"]);
-  if(element.data() !=null)
-    {
-   //   bookId.add();
-  bookId=element.data()["books_id"];
-    }
+        print(element.data()["books_id"]);
+        if(element.data() !=null)
+          {
+         //   bookId.add();
+        bookId=element.data()["books_id"];
+          }
 
-});
-//print("after this");
-//print(bookId);
+      });
+      //print("after this");
+      //print(bookId);
       for(var i in bookId)
       {
         print(i.toString().trimLeft());
@@ -450,23 +449,15 @@ monthlyBookData.docs.forEach((element) {
          // print("che");
           print(raww);
           Map dataBooks = jsonDecode(raww);
-//List
-          //print(i["reading_date"]);
 
     // print(dataBooks['reading_level']+"testingg");
-     if(dataBooks['reading_level']==readingLevel) {
-       Repository.libraryFinalBooks.add(dataBooks);
-      // print("added or not");
-     }
+           if(dataBooks['reading_level']==readingLevel) {
+             Repository.libraryFinalBooks.add(dataBooks);
+            // print("added or not");
+           }
         }
       }
-      //print(readingLevel);
-      //print(Repository.libraryFinalBooks);
-// print(dataaa.length);
-//
-//       var rawDta = jsonEncode(dataaa);
-//       List dto=jsonDecode(rawDta);
-//       print(rawDta);
+
       int ii=0;
       print("length ="+dto.length.toString());
       if(dto.isEmpty)
@@ -510,37 +501,33 @@ monthlyBookData.docs.forEach((element) {
             {
               favouriteTopics.add(j.toString());
             }
-          print(i['category_main']);
-          favouriteCategory.add(i['category_main']);
-          print(i['category_sub']);
-          favouriteSubCategories.add(i['category_sub']);
-          print(i['reading_level']);
+            print(i['category_main']);
+            favouriteCategory.add(i['category_main']);
+            print(i['category_sub']);
+            favouriteSubCategories.add(i['category_sub']);
+            print(i['reading_level']);
         }
         print(favouriteTopics);
         print(favouriteCategory);
         print(favouriteSubCategories);
-favouriteTopics=favouriteTopics.toSet().toList();
-favouriteCategory=favouriteCategory.toSet().toList();
-favouriteSubCategories=favouriteSubCategories.toSet().toList();
+        favouriteTopics=favouriteTopics.toSet().toList();
+        favouriteCategory=favouriteCategory.toSet().toList();
+        favouriteSubCategories=favouriteSubCategories.toSet().toList();
         for(var i in favouriteTopics)
-          {
-            var collectionRef= await data2.where('topic',arrayContains: i).get();
-            collectionRef.docs.forEach((element) {
+        {
+          var collectionRef= await data2.where('topic',arrayContains: i).get();
+          collectionRef.docs.forEach((element) {
 
-              print(element.data());
-              if(element.data() != null)
-                if (!Repository.libraryFinalBooks.contains(element.data())) {
-                  Repository.libraryFinalBooks.add(element.data());
-                }
-
-
-            });
-           //var data= collectionRef.docs.take(3).forEach((element) { print(element.data());});
-//print(data);
-
-
-
+          print(element.data());
+          if(element.data() != null)
+            if (!Repository.libraryFinalBooks.contains(element.data())) {
+              Repository.libraryFinalBooks.add(element.data());
           }
+
+
+          });
+
+        }
         for(var i in favouriteCategory)
         {
           var collectionRef= await data2.where('category_main',isEqualTo: i).limit(3).get();
@@ -591,7 +578,7 @@ favouriteSubCategories=favouriteSubCategories.toSet().toList();
       Set<Map<dynamic, dynamic>> set = Set<Map<dynamic, dynamic>>.from(Repository.libraryFinalBooks);
       print(set.toList().length);
       print("after");
- Repository.libraryFinalBooks=Repository.libraryFinalBooks.toSet().toList();
+      Repository.libraryFinalBooks=Repository.libraryFinalBooks.toSet().toList();
        print(Repository.libraryFinalBooks.length);
       return "true";
     }
@@ -606,90 +593,85 @@ favouriteSubCategories=favouriteSubCategories.toSet().toList();
       {
 //print("here");
         Repository.errorMessage=e.message;
-
         return "No Internet";
       }
 
     }
   }
   static List libraryFeaturedAuthors=[];
-getFeaturedAuthors()async
-{
-  try{
-    var data =   FirebaseFirestore.instance.collection("users").doc(FakeUserData.fakeKidUserId);
-    var data2= FirebaseFirestore.instance.collection("book_authors");
-    var data3= FirebaseFirestore.instance.collection("monthly_picks_authors");
-var dto = await  data3.get();
-List monthlyAuthorsId=[];
-Repository.libraryFeaturedAuthors.clear();
-dto.docs.forEach((element) {
+  getFeaturedAuthors()async
+  {
+    try{
+      var data =   FirebaseFirestore.instance.collection("users").doc(FakeUserData.fakeKidUserId);
+      var data2= FirebaseFirestore.instance.collection("book_authors");
+      var data3= FirebaseFirestore.instance.collection("monthly_picks_authors");
+      var dto = await  data3.get();
+      List monthlyAuthorsId=[];
+      Repository.libraryFeaturedAuthors.clear();
+      dto.docs.forEach((element) {
+        monthlyAuthorsId=element.data()['authors_id'];
+      });
+      print(monthlyAuthorsId);
+      for(var i in monthlyAuthorsId)
+      {
+        print(i.toString().trimLeft());
+        var authorData=await data2.doc(i.toString().trim()).get();
+        if(authorData.data() != null ) {
+          //  print("chcek");
+          var raww = jsonEncode(authorData.data());
+          // print("che");
+          print(raww);
+          Map dataBooks = jsonDecode(raww);
+          print(dataBooks);
+  //List
+          //print(i["reading_date"]);
 
-  monthlyAuthorsId=element.data()['authors_id'];
+          // print(dataBooks['reading_level']+"testingg");
 
-});
-print(monthlyAuthorsId);
-    for(var i in monthlyAuthorsId)
-    {
-      print(i.toString().trimLeft());
-      var authorData=await data2.doc(i.toString().trim()).get();
-      if(authorData.data() != null ) {
-        //  print("chcek");
-        var raww = jsonEncode(authorData.data());
-        // print("che");
-        print(raww);
-        Map dataBooks = jsonDecode(raww);
-        print(dataBooks);
-//List
-        //print(i["reading_date"]);
+            Repository.libraryFeaturedAuthors.add(dataBooks);
+            // print("added or not");
 
-        // print(dataBooks['reading_level']+"testingg");
-
-          Repository.libraryFeaturedAuthors.add(dataBooks);
-          // print("added or not");
-
+        }
       }
-    }
 
-    return "true";
-  }catch(e) {
-    if (e is FirebaseException) {
-      Repository.errorMessage = e.message;
-      print(e.message);
-      return e.message;
-    }
-    if (e is SocketException) {
-//print("here");
-      Repository.errorMessage = e.message;
+      return "true";
+      }catch(e) {
+        if (e is FirebaseException) {
+          Repository.errorMessage = e.message;
+          print(e.message);
+          return e.message;
+        }
+        if (e is SocketException) {
+    //print("here");
+          Repository.errorMessage = e.message;
 
-      return "No Internet";
-    }
+          return "No Internet";
+        }
+      }
   }
-}
-static List libraryBooksNotOwned=[];
-getRecommendedBooksNotOwned()async
-{
-  try{
-    var data =   FirebaseFirestore.instance.collection("users").doc(FakeUserData.fakeKidUserId);
-    var data2=  FirebaseFirestore.instance.collection("booksentity");
 
-    var event=await data.get();
-    var rawDta = jsonEncode(event["books_owned"]);
-    List dto=jsonDecode(rawDta);
-    Repository.libraryBooksNotOwned.clear();
-    if(dto.isEmpty)
-    {
-      return "false";
-    }
-    //Repository.libraryBooksOwnedData=dto;
-    else {
-      var bookdata = await data2.get();
-      List<String> temBookId=[];
+  static List libraryBooksNotOwned=[];
+  getRecommendedBooksNotOwned()async
+  {
+    try{
+      var data =   FirebaseFirestore.instance.collection("users").doc(FakeUserData.fakeKidUserId);
+      var data2=  FirebaseFirestore.instance.collection("booksentity");
+
+      var event=await data.get();
+      var rawDta = jsonEncode(event["books_owned"]);
+      List dto=jsonDecode(rawDta);
+      Repository.libraryBooksNotOwned.clear();
+      if(dto.isEmpty)
+      {
+        return "false";
+      }
+      //Repository.libraryBooksOwnedData=dto;
+      else {
+        var bookdata = await data2.get();
+        List<String> temBookId=[];
 
         //print(i);
-
         print("data2");
-
-
         bookdata.docs.forEach((element) {
           print(element.data());
           var raww = jsonEncode(element.data());
@@ -715,44 +697,40 @@ getRecommendedBooksNotOwned()async
             }
         });
 
-      print("tempbooks"+Repository.libraryBooksNotOwned.length.toString());
-      Repository.libraryBooksNotOwned =
-          Repository.libraryBooksNotOwned.toSet().toList();
-      print(Repository.libraryBooksNotOwned);
-      print("not owned " + Repository.libraryBooksNotOwned.length.toString());
-    return "true";
-    }
-  }catch(e) {
-    if (e is FirebaseException) {
-      Repository.errorMessage = e.message;
-      print(e.message);
-      return e.message;
-    }
-    if (e is SocketException) {
-//print("here");
-      Repository.errorMessage = e.message;
+        print("tempbooks"+Repository.libraryBooksNotOwned.length.toString());
+        Repository.libraryBooksNotOwned =
+            Repository.libraryBooksNotOwned.toSet().toList();
+        print(Repository.libraryBooksNotOwned);
+        print("not owned " + Repository.libraryBooksNotOwned.length.toString());
+        return "true";
+      }
+    }catch(e) {
+      if (e is FirebaseException) {
+        Repository.errorMessage = e.message;
+        print(e.message);
+        return e.message;
+      }
+      if (e is SocketException) {
+  //print("here");
+        Repository.errorMessage = e.message;
 
-      return "No Internet";
+        return "No Internet";
+      }
     }
   }
-}
-static List<String> libraryCategoriesBooks=[];
-getCategories()async{
-  try{
-    var data= await FirebaseFirestore.instance.collection("categories").get();
-    Repository.libraryCategoriesBooks.clear();
-data.docs.forEach((element) {
-  if(!Repository.libraryCategoriesBooks.contains(element.data()['name'].toString())){
-Repository.libraryCategoriesBooks.add(element.data()['name'].toString());
+  static List<String> libraryCategoriesBooks=[];
+  getCategories()async{
+    try{
+      var data= await FirebaseFirestore.instance.collection("categories").get();
+      Repository.libraryCategoriesBooks.clear();
+      data.docs.forEach((element) {
+      if(!Repository.libraryCategoriesBooks.contains(element.data()['name'].toString())){
+        Repository.libraryCategoriesBooks.add(element.data()['name'].toString());
+      }
+  });
 
-
-  }
-
-
-});
-
-print(Repository.libraryCategoriesBooks);
-  }catch(e){
+    print(Repository.libraryCategoriesBooks);
+   }catch(e){
     if (e is FirebaseException) {
       Repository.errorMessage = e.message;
       print(e.message);
