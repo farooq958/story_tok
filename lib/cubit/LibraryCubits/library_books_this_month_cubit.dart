@@ -8,7 +8,7 @@ import '../../repo/repo.dart';
 class LibraryBooksThisMonthCubit extends Cubit<List> {
   LibraryBooksThisMonthCubit() : super([]);
 
-  getLibraryThisMonthBooksData()
+  Future getLibraryThisMonthBooksData()
   async {
   //var t= Repository().getRecommendedBooksNotOwned();
 

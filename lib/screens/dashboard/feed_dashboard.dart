@@ -19,6 +19,11 @@ import '../../controllers/main_content_controller.dart';
 import '../../controllers/repositories/videos_repository.dart';
 import 'bootm_menu_screens/bookshelf.dart';
 import 'data/model/video_model.dart';
+import 'package:storily/cubit/LibraryCubits/library_books_this_month_cubit.dart';
+import 'package:storily/cubit/LibraryCubits/library_featured_authors_cubit.dart';
+import 'package:storily/cubit/LibraryCubits/library_not_owned_books_cubit.dart';
+import '../../repo/repo.dart';
+import 'package:storily/Utils/process_indicator.dart';
 
 class FeedDashboard extends StatefulWidget {
   static String id = "/feedDashboard";
@@ -49,7 +54,7 @@ class _FeedScreenState extends State<FeedDashboard> {
       _selectedIndex = index;
     });
     if (_selectedIndex == 0) {
-      Home(uid: widget.uid);
+      Home(uid: widget.uid!);
       log("Home");
     }
     if (_selectedIndex == 1) {
@@ -65,8 +70,6 @@ class _FeedScreenState extends State<FeedDashboard> {
       //goPage(context, MyBookshelfPage());
       log("Library");
       showToast("Library", context);
-
-      //goPage(context, LibraryPageView());
       LibraryPageView();
 
 
@@ -86,6 +89,18 @@ class _FeedScreenState extends State<FeedDashboard> {
           }
       ),*/
     }
+  }
+
+  Future gotoLib() async {
+    Circle().show(context);
+    await context.read<LibraryBooksCubit>().getLibraryBooksData();
+    await context.read<LibraryBooksThisMonthCubit>().getLibraryThisMonthBooksData();
+    await context.read<LibraryFeaturedAuthorsCubit>().getLibraryFeaturedAuthors();
+    await context.read<LibraryNotOwnedBooksCubit>().getLibraryNotOwnedBooks();
+    await Repository().getCategories();
+    Circle().hide(context);
+    //goPage(context, LibraryPageView());
+    LibraryPageView();
   }
 
   @override

@@ -1,13 +1,12 @@
 import 'package:animated_styled_widget/animated_styled_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:storily/components/home_video_display_screen.dart';
 import 'package:storily/components/my_storily_author_page.dart';
-import 'package:storily/cubit/LibraryCubits/library_books_this_month_cubit.dart';
-import 'package:storily/cubit/LibraryCubits/library_featured_authors_cubit.dart';
-import 'package:storily/cubit/LibraryCubits/library_not_owned_books_cubit.dart';
+
 import 'package:storily/screens/auth/screens/onboard.dart';
 import 'package:storily/screens/main_home_screen.dart';
 import 'package:storily/screens/auth/screens/childauthorselection_screen.dart';
@@ -41,6 +40,7 @@ class FirebaseSession extends StatelessWidget {
 }
 
 class AuthUI extends StatelessWidget {
+  final User? firebaseUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     Style neumorphicStyle = Style(
@@ -304,12 +304,8 @@ class AuthUI extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    goPage(context, FeedDashboard());
-                    context.read<LibraryBooksCubit>().getLibraryBooksData();
-                    context.read<LibraryBooksThisMonthCubit>().getLibraryThisMonthBooksData();
-                    context.read<LibraryFeaturedAuthorsCubit>().getLibraryFeaturedAuthors();
-                    context.read<LibraryNotOwnedBooksCubit>().getLibraryNotOwnedBooks();
-                    Repository().getCategories();
+                    goPage(context, FeedDashboard(uid: firebaseUser!.uid));
+
                   },
                   child: Container(
                     padding: EdgeInsets.all(10.0),

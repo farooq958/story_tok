@@ -2,13 +2,14 @@ import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../auth/helpers/authentication_helper.dart';
 
 class Home extends StatefulWidget {
-  String? uid = '';
+  String? uid =  '';
    Home({Key? key,this.uid}) : super(key: key);
 
   @override
@@ -93,6 +94,8 @@ class _HomeState extends State<Home> {
   var achievementProfileUrl = '';
 
   int favBookThreshold = 0;
+
+  //Function(QueryDocumentSnapshot<Map<String, dynamic>> e) get doc => null;
 
   @override
   void initState() {
@@ -395,9 +398,11 @@ class _HomeState extends State<Home> {
     print("#### USER LIST ${userLists.toString()}");
 
     for (int i = 0; i < userLists.length; i++) {
-      for (int j = 0; j < userLists[i]['earned_achievements'].length; j++) {
-        String id = (userLists[i]['earned_achievements'][j]);
-        docIDS.add(id.replaceAll(' ', ''));
+      if(userLists[i]['earned_achievements'] != null && userLists[i]['earned_achievements'].length > 0) {
+        for (int j = 0; j < userLists[i]['earned_achievements'].length; j++) {
+          String id = (userLists[i]['earned_achievements'][j]);
+          docIDS.add(id.replaceAll(' ', ''));
+        }
       }
     }
     if(docIDS.isNotEmpty) {
@@ -407,11 +412,12 @@ class _HomeState extends State<Home> {
 //Logic for in progress achievement documents
     List<String> docInProgressIDS = [];
     for (int i = 0; i < userLists.length; i++) {
-      for (int j = 0;
-          j < userLists[i]['in_progress_achievements'].length;
-          j++) {
-        String id = (userLists[i]['in_progress_achievements'][j]);
-        docInProgressIDS.add(id.replaceAll(' ', ''));
+      if(userLists[i]['in_progress_achievements'] != null&& userLists[i]['in_progress_achievements'].length > 0) {
+        for (int j = 0; j <
+            userLists[i]['in_progress_achievements'].length; j++) {
+          String id = (userLists[i]['in_progress_achievements'][j]);
+          docInProgressIDS.add(id.replaceAll(' ', ''));
+        }
       }
     }
     if(docInProgressIDS.isNotEmpty) {
@@ -419,23 +425,24 @@ class _HomeState extends State<Home> {
     }
 
     profileUrlKey = userLists.isNotEmpty ? userLists[0]['profile_url'] : '';
-    getProfileData();
+    await getProfileData();
   }
 
   Future<void> getProfileData() async {
     var collection =
     FirebaseFirestore.instance.collection('kids_avatar_collection_static');
-    var docSnapshot = await collection.doc('vEHmJgUnjM5nq09wzkU9').get();
-    if (docSnapshot.exists) {
+    var docSnapshot = await collection.get();
+    if (docSnapshot.docs.length>0 ) {
       avatarLists = [];
-      Map<String, dynamic>? data = docSnapshot.data();
+
+      Map<String, dynamic>? data = docSnapshot.docs.map((doc) => doc.data()).first;
       avatarLists = data?['avatar_collection']; // <-- The value you want to retrieve.
       print("#### AVATAR LIST ${avatarLists.toString()}");
 
       for (int i = 0; i < avatarLists.length; i++) {
            if(avatarLists[i]['name'] == profileUrlKey){
              profileUrl = avatarLists[i]['icon'];
-             achievementProfileUrl = avatarLists[i]['wave'];
+             achievementProfileUrl = avatarLists[i]['thumbup'];
            }
       }
       setState(() {
@@ -488,12 +495,14 @@ class _HomeState extends State<Home> {
     if(favBooksLists != null) {
 
       for (int i = 0; i < favBooksLists.length; i++) {
-        for (int j = 0; j < favBooksLists[i]['books_read'].length; j++) {
-          if (favBooksLists[i]['books_read'][j]['reading_duration'] >
-              favBookThreshold) {
-            favBookId.add(
-                favBooksLists[i]['books_read'][j]['book_id'].replaceAll(
-                    ' ', ''));
+        if(favBooksLists[i]['books_read'] != null && favBooksLists[i]['books_read'].length > 0) {
+          for (int j = 0; j < favBooksLists[i]['books_read'].length; j++) {
+            if (favBooksLists[i]['books_read'][j]['reading_duration'] >
+                favBookThreshold) {
+              favBookId.add(
+                  favBooksLists[i]['books_read'][j]['book_id'].replaceAll(
+                      ' ', ''));
+            }
           }
         }
       }
@@ -2566,24 +2575,30 @@ class _HomeState extends State<Home> {
                         child: Image.asset(
                             'assets/images/home/achievements_textbox.png'),
                       ),
+
                       Positioned(
                         left: 10, //MediaQuery.of(context).size.width / 2 - 130,
                         top: 7,
+
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Way to go!",
+                            Text(earnAchievedLists.length > 0? "Way to go!" : "Hi There!",
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 22.0,
                                 )),
-                            Text("Look at all your achievements!",
+
+                        FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(earnAchievedLists.length > 0? "Look at all your achievements!":"Complete activities to unlock Achievements!",
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18.0,
-                                ))
+                                )
+                            ))
                           ],
                         ),
                       )

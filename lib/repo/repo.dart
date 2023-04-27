@@ -342,7 +342,7 @@ var event2 =await data1.get();
       var cUser=FirebaseAuth.instance.currentUser?.uid;
       ///pass this
 
-      var data =   FirebaseFirestore.instance.collection("users").doc(FakeUserData.fakeKidUserId);
+      var data =   FirebaseFirestore.instance.collection("users").doc(cUser);//FakeUserData.fakeKidUserId
       var data2= FirebaseFirestore.instance.collection("booksentity");
       Repository.libraryListBooksDetails.clear();
       var event=await data.get();
@@ -411,7 +411,7 @@ var event2 =await data1.get();
       //print("chek");
       var cUser=FirebaseAuth.instance.currentUser?.uid;
 
-      var data =   FirebaseFirestore.instance.collection("users").doc(FakeUserData.fakeKidUserId);
+      var data =   FirebaseFirestore.instance.collection("users").doc(cUser);//FakeUserData.fakeKidUserId
       var data2= FirebaseFirestore.instance.collection("booksentity");
       var data3= FirebaseFirestore.instance.collection("monthly_picks_books");
 
@@ -601,8 +601,9 @@ var event2 =await data1.get();
   static List libraryFeaturedAuthors=[];
   getFeaturedAuthors()async
   {
+    var cUser=FirebaseAuth.instance.currentUser?.uid;
     try{
-      var data =   FirebaseFirestore.instance.collection("users").doc(FakeUserData.fakeKidUserId);
+      var data =   FirebaseFirestore.instance.collection("users").doc(cUser);//FakeUserData.fakeKidUserId
       var data2= FirebaseFirestore.instance.collection("book_authors");
       var data3= FirebaseFirestore.instance.collection("monthly_picks_authors");
       var dto = await  data3.get();
@@ -653,8 +654,9 @@ var event2 =await data1.get();
   static List libraryBooksNotOwned=[];
   getRecommendedBooksNotOwned()async
   {
+    var cUser=FirebaseAuth.instance.currentUser?.uid;
     try{
-      var data =   FirebaseFirestore.instance.collection("users").doc(FakeUserData.fakeKidUserId);
+      var data =   FirebaseFirestore.instance.collection("users").doc(cUser);//FakeUserData.fakeKidUserId
       var data2=  FirebaseFirestore.instance.collection("booksentity");
 
       var event=await data.get();
@@ -719,7 +721,7 @@ var event2 =await data1.get();
     }
   }
   static List<String> libraryCategoriesBooks=[];
-  getCategories()async{
+  Future getCategories()async{
     try{
       var data= await FirebaseFirestore.instance.collection("categories").get();
       Repository.libraryCategoriesBooks.clear();

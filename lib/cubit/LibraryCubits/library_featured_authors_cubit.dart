@@ -8,7 +8,7 @@ import '../../repo/repo.dart';
 class LibraryFeaturedAuthorsCubit extends Cubit<List> {
   LibraryFeaturedAuthorsCubit() : super([]);
 
-  getLibraryFeaturedAuthors()
+  Future getLibraryFeaturedAuthors()
   async {
     //var t= Repository().getRecommendedBooksNotOwned();
 

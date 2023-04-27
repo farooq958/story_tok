@@ -6,7 +6,7 @@ import 'package:storily/repo/repo.dart';
 
 class LibraryBooksCubit extends Cubit<List> {
   LibraryBooksCubit() : super([]);
-  getLibraryBooksData()
+  Future getLibraryBooksData()
   async {
 
     //print(test);
