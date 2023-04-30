@@ -770,7 +770,7 @@ class UpcomingWidget2 extends StatelessWidget {
             itemBuilder: (context,index) {
               return Container(
 
-                  margin: EdgeInsets.only(left: 20.sp,right: 20.sp),
+                  margin: EdgeInsets.only(left: 20.01.sp,right: 20.01.sp),
                   child: Stack(
                     children: [
                       Image.asset("assets/images/eventticket_yellow_base.png",fit: BoxFit.fitWidth,),
@@ -788,16 +788,16 @@ class UpcomingWidget2 extends StatelessWidget {
                         child: UnconstrainedBox(
 
                           child: SizedBox(
-                            height: 100.sp,
-                            width: 200.sp,
+                            height: 100.01.sp,
+                            width: 200.01.sp,
                             child: Center(
                               child: ListView(
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 children: <Widget>[
 
-                                  Text(sEvents[index].eventTitle,style: GoogleFonts.lexend(fontSize:20.sp,fontWeight: FontWeight.w600),),
-                                  Text(sEvents[index].createdDate,style: GoogleFonts.lexend(fontSize:15.sp,fontWeight: FontWeight.w600),),
+                                  Text(sEvents[index].eventTitle,style: GoogleFonts.lexend(fontSize:20.01.sp,fontWeight: FontWeight.w600),),
+                                  Text(sEvents[index].createdDate,style: GoogleFonts.lexend(fontSize:15.01.sp,fontWeight: FontWeight.w600),),
                                   Text("${sEvents[index].fromTime}-${sEvents[index].toTime} ",style: GoogleFonts.lexend(fontSize:14.sp,fontWeight: FontWeight.w600),),
 
                                 ],
@@ -836,7 +836,7 @@ class UpcomingWidget2 extends StatelessWidget {
     List<DateTime> dates = events.map((event) => DateTime.parse(event.createdDate)).toList();
     ///sorting dates quick sort dart algo
     dates.sort((a, b) => a.compareTo(b));
-    print(dates[0]);
+   // print(dates[0]);
     //print(currentDateTime);
     List<EventFlowModel> streamedUpcomingEvents=[];
     ///currently sorted events logic

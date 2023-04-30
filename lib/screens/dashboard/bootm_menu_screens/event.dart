@@ -30,19 +30,19 @@ class MyEventPage extends StatelessWidget {
               // left: 20.sp,
                 top: 120.sp,
                 left: 0,
-                child: Image.asset("assets/images/dotEventScreen.png",width: 80.sp,
+                child: Image.asset("assets/images/dotEventScreen.png",width: 81.sp,
                   height: 8.sp,)),
             Positioned(
               // left: 20.sp,
-                top: 190.sp,
+                top: 191.sp,
                 right: 0,
-                child: Image.asset("assets/images/background_circledots.png",width: 100.sp,
+                child: Image.asset("assets/images/background_circledots.png",width: 101.sp,
                   height: 130.sp,)),
             Positioned(
                 top: 170.sp,
                 right: 80.sp,child:  Container(
                 color: Colors.transparent
-                ,child: Image.asset("assets/images/background_kids_squiggle1.png",height: 30.sp,width: 30.sp,)))
+                ,child: Image.asset("assets/images/background_kids_squiggle1.png",height: 31.sp,width: 31.sp,)))
          ,
             Positioned(
                 top: 160.sp,
@@ -93,30 +93,30 @@ class MyEventPage extends StatelessWidget {
               //padding:  EdgeInsets.symmetric(horizontal: 20.sp)
               children: [
 
-              SizedBox(height: 40.sp,),
+              Container(height: 40.sp,),
               ///My Event Text - Title Text
-              Container(margin: EdgeInsets.symmetric(horizontal:1.sw/4.5),
+              Container(margin: EdgeInsets.symmetric(horizontal:1.sw/4.55),
               color: AppColors.primaryColor,
 
-              child: Center(child: Text("   MY\nEVENTS",style: GoogleFonts.lexend(fontSize: 40.sp,fontWeight: FontWeight.w700),)),
+              child: Center(child: Text("   MY\nEVENTS",style: GoogleFonts.lexend(fontSize: 40.2.sp,fontWeight: FontWeight.w700),)),
               ),
-                SizedBox(height: 20.sp,),
+                Container(height: 20.sp,),
                 ///Currently streaming text
                 Container(
                     color: Color(0xffEEF0F2),
                     margin: EdgeInsets.only(left: 20.sp,right: 1.sw/4),
-                    child: Text("CURRENTLY STREAMING ",style: GoogleFonts.lexend(fontSize:17.sp ,fontWeight: FontWeight.w600,decoration:TextDecoration.underline ,decorationThickness: 2,  decorationColor: Color(0xfff6c33f)),)),
+                    child: Text("CURRENTLY STREAMING  ",style: GoogleFonts.lexend(fontSize:17.1.sp ,fontWeight: FontWeight.w600,decoration:TextDecoration.underline ,decorationThickness: 2,  decorationColor: Color(0xfff6c33f)),)),
                 SizedBox(height: 10.sp,),
 ///Current Streaming Widget
                 StreamingCurrentEventWidget(),
-                SizedBox(height: 20.sp,),
+                Container(height: 20.sp,),
               ///upcoming Text
                 Container(
 
                   color: Color(0xffEEF0F2),
-                    margin: EdgeInsets.only(left: 20.sp,right: 1.sw/2.9),
-                    child: Text("UPCOMING",style: GoogleFonts.lexend(fontSize:20.sp ,fontWeight: FontWeight.w600,decoration:TextDecoration.underline ,decorationThickness: 2,  decorationColor: Color(0xfff6c33f)),)),
-                SizedBox(height: 10.sp,),
+                    margin: EdgeInsets.only(left: 20.01.sp,right: 1.sw/2.9),
+                    child: Text("UPCOMING",style: GoogleFonts.lexend(fontSize:20.02.sp ,fontWeight: FontWeight.w600,decoration:TextDecoration.underline ,decorationThickness: 2,  decorationColor: Color(0xfff6c33f)),)),
+                Container(height: 10.01.sp,),
                 ///Upcoming Widget
                 // Container(
                 //    // margin: EdgeInsets.only(right: 20.sp),
@@ -136,8 +136,8 @@ class MyEventPage extends StatelessWidget {
 ///recommended widget
                  BlocBuilder<LoadRecommendedEventsCubit, List<EventFlowModel>>(
   builder: (context, state) {
-    print("fromstate");
-    print(state.length);
+   // print("fromstate");
+    //print(state.length);
     return SizedBox(
                    height: 300.sp,
 

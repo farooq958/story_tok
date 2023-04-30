@@ -76,7 +76,7 @@ class _FeedScreenState extends State<FeedDashboard> {
       //Get.to(()=>MyBookshelfPage());
     }
     if (_selectedIndex == 3) {
-      goPage(context, MyEventPage());
+      // goPage(context, MyEventPage());
       context.read<LoadMainDataCubit>().getEventData();
       context.read<LoadUpcomingDataCubit>().getUpcomingEventData();
       context.read<LoadRecommendedEventsCubit>().getRecommendedEventData(readingLevel: 6);
@@ -107,7 +107,7 @@ class _FeedScreenState extends State<FeedDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: _selectedIndex == 0 ? Home(uid: widget.uid) : _selectedIndex == 1 ?HomeScreen() :  _selectedIndex == 2 ?LibraryPageView():SizedBox(),
+      body: _selectedIndex == 0 ? Home(uid: widget.uid) : _selectedIndex == 1 ?HomeScreen() :  _selectedIndex == 2 ?LibraryPageView():_selectedIndex==3?MyEventPage():SizedBox(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber.shade800,

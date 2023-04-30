@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -128,8 +129,9 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
   }
 
   Future<List> getEventData() async {
+    var cUser=FirebaseAuth.instance.currentUser?.uid;
     collectionRefEvent = FirebaseFirestore.instance
-        .collection('streaming_events')
+        .collection('streaming_events').where('user_id',isEqualTo:cUser)
         .orderBy('createdDate', descending: false);
 
     // Get docs from collection reference
@@ -697,6 +699,7 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
     return FutureBuilder(
         future: getEventData(),
         builder: (BuildContext context, snapshot) {
+          if(snapshot.hasData)
           return ListView.builder(
             itemCount: eventLists.length,
             shrinkWrap: true,
@@ -853,6 +856,14 @@ class _AuthorLibraryScreenState extends State<AuthorLibraryScreen> {
               );
             },
           );
+          else
+            {
+              return Center(child: Container(
+                  height: 20.sp,
+                  margin: EdgeInsets.symmetric(vertical: 100.sp),
+                  //color: Colors.black,
+                  child: Text("No Event Data")),);
+            }
         });
   }
 
